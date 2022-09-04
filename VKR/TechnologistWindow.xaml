@@ -114,6 +114,7 @@
                 <RowDefinition Height="30" />
                 <RowDefinition />
             </Grid.RowDefinitions>
+            
 
             <Border Grid.Row="0" Grid.Column="0" Background="{StaticResource Style3}">
                 <hc:Divider Content="Результат анализа изображения" Margin="0 5" FontSize="17"/>
