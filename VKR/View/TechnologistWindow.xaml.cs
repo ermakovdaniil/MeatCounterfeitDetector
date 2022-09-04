@@ -11,6 +11,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using VKR.ViewModel;
 
 namespace VKR
 {
@@ -22,6 +23,8 @@ namespace VKR
         public TechnologistWindow()
         {
             InitializeComponent();
+            var vm = new TechnologistWindowVM();
+            DataContext = vm;
         }
     }
 }

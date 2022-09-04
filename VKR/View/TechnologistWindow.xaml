@@ -4,8 +4,9 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:VKR"
+        xmlns:vm="clr-namespace:VKR.ViewModel"
         mc:Ignorable="d"
+        d:DataContext="{d:DesignInstance vm:TechnologistWindowVM}"
         Title="Программный комплекс для анализа изображения на наличие фальсификата" MinWidth="1300" MinHeight="700">
     <Grid x:Name="MainGrid">
         <Grid.RowDefinitions>
@@ -23,7 +24,7 @@
                 </StackPanel>
             </Button>
 
-            <Button Background="{StaticResource Style3}" Width="60" Height="50" ToolTip="Загрузить изображение">
+            <Button Background="{StaticResource Style3}" Width="60" Height="50" ToolTip="Загрузить изображение" Command="{Binding ChangePathImageCommand}">
                 <StackPanel Orientation="Horizontal">
                     <Image Source="pack://application:,,,/resources/icons/open.png"
                                        RenderOptions.BitmapScalingMode="HighQuality"  />
@@ -100,7 +101,7 @@
             </Grid.ColumnDefinitions>
 
             <Border Grid.Column="0" BorderThickness="1" Margin="10" BorderBrush="#FF000000" Background="{StaticResource Style3}">
-                <Image/>
+                <Image Source="{Binding DisplayedImagePath}"/>
             </Border>
 
             <Border Grid.Column="1" BorderThickness="1" Margin="10" BorderBrush="#FF000000" Background="{StaticResource Style3}">
@@ -129,8 +130,8 @@
                                                 HorizontalAlignment="Stretch" />-->
             <hc:TextBox hc:InfoElement.Title="Результат анализа изображения"
                         hc:InfoElement.TitleWidth="270" HorizontalAlignment="Stretch" FontSize="16"
-                        BorderBrush="Black" Margin="10 0 10 10" IsReadOnly="True" Background="{StaticResource Style3}"         
-                        Text="{Binding MathClass.Results.T, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"/>
+                        BorderBrush="Black" Margin="10 0 10 10" IsReadOnly="True" Background="{StaticResource Style3}" />       
+                        <!--Text="{Binding MathClass.Results.T, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"-->
             <!--</Grid>-->
         </Grid>
     </Grid>
