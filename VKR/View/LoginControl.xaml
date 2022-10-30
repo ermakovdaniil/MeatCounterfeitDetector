@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="VKR.View.LoginWindow"
+﻿<UserControl x:Class="VKR.View.LoginControl"
              xmlns:hc="https://handyorg.github.io/handycontrol"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
