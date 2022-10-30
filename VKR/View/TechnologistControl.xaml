@@ -1,26 +1,32 @@
-﻿<Window x:Class="VKR.TechnologistWindow"
-        xmlns:hc="https://handyorg.github.io/handycontrol"
-        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:vm="clr-namespace:VKR.ViewModel"
-        mc:Ignorable="d"
-        d:DataContext="{d:DesignInstance vm:TechnologistWindowVM}"
-        Title="Программный комплекс для анализа изображения на наличие фальсификата" MinWidth="1300" MinHeight="700">
-    <Grid x:Name="MainGrid">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="60" />
-            <RowDefinition />
-            <RowDefinition Height="90" />
-        </Grid.RowDefinitions>
+﻿<UserControl x:Class="VKR.View.TechnologistControl"
+             xmlns:hc="https://handyorg.github.io/handycontrol"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="clr-namespace:VKR.ViewModel"
 
-        <hc:UniformSpacingPanel  Grid.Row="0" Spacing="10" Background="{StaticResource Style4}">
-            <Button Background="{StaticResource Style3}" Width="60" Height="50" Margin="10 0 0 0" ToolTip="Сменить пользователя">
+             mc:Ignorable="d"
+             d:DataContext="{d:DesignInstance vm:TechnologistControlVM}">
+
+    <!--Title="Программный комплекс для анализа изображения на наличие фальсификата" MinWidth="1300" MinHeight="700"-->
+
+    <UserControl.Resources>
+        <Style x:Key="TextBoxInError" BasedOn="{StaticResource {x:Type hc:TextBox}}" TargetType="{x:Type hc:TextBox}">
+            <Style.Triggers>
+                <Trigger Property="Validation.HasError" Value="true">
+                    <Setter Property="ToolTip"
+                            Value="{Binding RelativeSource={x:Static RelativeSource.Self},
+                              Path=(Validation.Errors)[0].ErrorContent}" />
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+        <!--<hc:UniformSpacingPanel  Grid.Row="0" Spacing="10" Background="{StaticResource Style4}">
+            <Button Background="{StaticResource Style3}" Width="60" Height="50" Margin="10 0 0 0" ToolTip="Сменить пользователя" Command="{Binding ChangeUser}">
                 <StackPanel Orientation="Horizontal">
                     <Image Source="pack://application:,,,/resources/icons/user.png"
                                        RenderOptions.BitmapScalingMode="HighQuality"  />
-                    <!--<TextBlock Text="Загрузить" FontSize="15" />-->
+                    --><!--<TextBlock Text="Загрузить" FontSize="15" />--><!--
                 </StackPanel>
             </Button>
 
@@ -28,7 +34,7 @@
                 <StackPanel Orientation="Horizontal">
                     <Image Source="pack://application:,,,/resources/icons/open.png"
                                        RenderOptions.BitmapScalingMode="HighQuality"  />
-                    <!--<TextBlock Text="Загрузить" FontSize="15" />-->
+                    --><!--<TextBlock Text="Загрузить" FontSize="15" />--><!--
                 </StackPanel>
             </Button>
 
@@ -36,7 +42,7 @@
                 <StackPanel Orientation="Horizontal">
                     <Image Source="pack://application:,,,/resources/icons/save.png"
                                        RenderOptions.BitmapScalingMode="HighQuality"  />
-                    <!--<TextBlock Text="Загрузить" FontSize="15" />-->
+                    --><!--<TextBlock Text="Загрузить" FontSize="15" />--><!--
                 </StackPanel>
             </Button>
 
@@ -44,18 +50,26 @@
                 <StackPanel Orientation="Horizontal">
                     <Image Source="pack://application:,,,/resources/icons/scanning.png"
                                        RenderOptions.BitmapScalingMode="HighQuality" Height="40" Width="38" />
-                    <!--<TextBlock Text="Загрузить" FontSize="15" />-->
+                    --><!--<TextBlock Text="Загрузить" FontSize="15" />--><!--
                 </StackPanel>
             </Button>
 
-            <Button Background="{StaticResource Style3}" Width="60" Height="50" Margin="0 0 0 0" ToolTip="Справка">
+            <Button Background="{StaticResource Style3}" Width="60" Height="50" Margin="0 0 0 0" ToolTip="Справка" Command="{Binding ShowInfo}">
                 <StackPanel Orientation="Horizontal">
                     <Image Source="pack://application:,,,/resources/icons/info.png"
                                        RenderOptions.BitmapScalingMode="HighQuality" />
-                    <!--<TextBlock Text="Рассчитать" FontSize="15" />-->
+                    --><!--<TextBlock Text="Рассчитать" FontSize="15" />--><!--
                 </StackPanel>
             </Button>
-        </hc:UniformSpacingPanel>
+        </hc:UniformSpacingPanel>-->
+    </UserControl.Resources>
+    
+    <Grid x:Name="MainGrid">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="60" />
+            <RowDefinition />
+            <RowDefinition Height="90" />
+        </Grid.RowDefinitions>
 
         <!--<Grid Grid.Row="0">
             <Grid Background="{StaticResource Style2}">
@@ -135,4 +149,4 @@
             <!--</Grid>-->
         </Grid>
     </Grid>
-</Window>
+</UserControl>

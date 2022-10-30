@@ -32,6 +32,7 @@
     <PackageReference Include="HandyControl" Version="3.3.0" />
     <PackageReference Include="HandyControls.Lang.ru" Version="3.4.1" />
     <PackageReference Include="itext7" Version="7.2.3" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.10" />
   </ItemGroup>
 
   <ItemGroup>
@@ -80,10 +81,6 @@
     <Resource Include="resources\icons\user.png">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Data\" />
   </ItemGroup>
 
 </Project>
