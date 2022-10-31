@@ -33,6 +33,7 @@
     <PackageReference Include="HandyControls.Lang.ru" Version="3.4.1" />
     <PackageReference Include="itext7" Version="7.2.3" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.10" />
+    <PackageReference Include="PropertyChanged.Fody" Version="4.0.5" />
   </ItemGroup>
 
   <ItemGroup>

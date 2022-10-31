@@ -21,12 +21,13 @@
                 </Trigger>
             </Style.Triggers>
         </Style>
-        <!--<hc:UniformSpacingPanel  Grid.Row="0" Spacing="10" Background="{StaticResource Style4}">
+
+        <hc:UniformSpacingPanel x:Key="Menu" Spacing="10" Grid.Row="0" Background="{Binding NonClientAreaBackground,RelativeSource={RelativeSource FindAncestor,AncestorType=Window}}" Grid.ColumnSpan="3">
             <Button Background="{StaticResource Style3}" Width="60" Height="50" Margin="10 0 0 0" ToolTip="Сменить пользователя" Command="{Binding ChangeUser}">
                 <StackPanel Orientation="Horizontal">
                     <Image Source="pack://application:,,,/resources/icons/user.png"
                                        RenderOptions.BitmapScalingMode="HighQuality"  />
-                    --><!--<TextBlock Text="Загрузить" FontSize="15" />--><!--
+                    <TextBlock Text="Сменить пользователя" FontSize="15" />
                 </StackPanel>
             </Button>
 
@@ -34,7 +35,7 @@
                 <StackPanel Orientation="Horizontal">
                     <Image Source="pack://application:,,,/resources/icons/open.png"
                                        RenderOptions.BitmapScalingMode="HighQuality"  />
-                    --><!--<TextBlock Text="Загрузить" FontSize="15" />--><!--
+                    <TextBlock Text="Загрузить" FontSize="15" />
                 </StackPanel>
             </Button>
 
@@ -42,7 +43,7 @@
                 <StackPanel Orientation="Horizontal">
                     <Image Source="pack://application:,,,/resources/icons/save.png"
                                        RenderOptions.BitmapScalingMode="HighQuality"  />
-                    --><!--<TextBlock Text="Загрузить" FontSize="15" />--><!--
+                    <TextBlock Text="Создать отчёт" FontSize="15" />
                 </StackPanel>
             </Button>
 
@@ -50,7 +51,7 @@
                 <StackPanel Orientation="Horizontal">
                     <Image Source="pack://application:,,,/resources/icons/scanning.png"
                                        RenderOptions.BitmapScalingMode="HighQuality" Height="40" Width="38" />
-                    --><!--<TextBlock Text="Загрузить" FontSize="15" />--><!--
+                    <TextBlock Text="Анализ изображения" FontSize="15" />
                 </StackPanel>
             </Button>
 
@@ -58,20 +59,20 @@
                 <StackPanel Orientation="Horizontal">
                     <Image Source="pack://application:,,,/resources/icons/info.png"
                                        RenderOptions.BitmapScalingMode="HighQuality" />
-                    --><!--<TextBlock Text="Рассчитать" FontSize="15" />--><!--
+                    <TextBlock Text="Справка" FontSize="15" />
                 </StackPanel>
             </Button>
-        </hc:UniformSpacingPanel>-->
+        </hc:UniformSpacingPanel>
     </UserControl.Resources>
     
     <Grid x:Name="MainGrid">
         <Grid.RowDefinitions>
-            <RowDefinition Height="60" />
+            <!--<RowDefinition Height="60" />-->
             <RowDefinition />
             <RowDefinition Height="90" />
         </Grid.RowDefinitions>
 
-        <Grid Grid.Row="1" Background="{StaticResource Style2}">
+        <Grid Grid.Row="0" Background="{StaticResource Style2}">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition />
                 <ColumnDefinition/>
@@ -87,7 +88,7 @@
 
         </Grid>
 
-        <Grid Grid.Row="2" Background="{StaticResource Style2}">
+        <Grid Grid.Row="1" Background="{StaticResource Style2}">
             <!--<Grid.RowDefinitions>
                 <RowDefinition Height="30" />
                 <RowDefinition />

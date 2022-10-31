@@ -88,9 +88,6 @@ namespace VKR.View
             {
                 MessageBox.Show("Не удалось загрузить базу данных", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
             }
-
-
-
         }
     }
 }

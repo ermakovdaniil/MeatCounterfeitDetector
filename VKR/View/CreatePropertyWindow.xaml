@@ -1,0 +1,59 @@
+﻿<hc:Window x:Class="VKR.View.CreatePropertyWindow"
+           xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+           xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+           xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+           xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+           xmlns:vm1="clr-namespace:VKR.ViewModel"
+           xmlns:hc="https://handyorg.github.io/handycontrol"
+           mc:Ignorable="d"
+           Title="Добавление свойства" Height="220" Width="463"
+           d:DataContext="{d:DesignInstance vm1:CreatePropertyVM}"
+           NonClientAreaBackground="{StaticResource Style4}"
+           ShowTitle="False"
+           WindowStartupLocation="CenterScreen">
+    <hc:Window.NonClientAreaContent>
+        <StackPanel Orientation="Horizontal">
+            <Image Source="pack://application:,,,/resources/icons/logo.png" Height="20" Margin="3"
+                   RenderOptions.BitmapScalingMode="HighQuality" />
+            <TextBlock Text="{Binding Title,RelativeSource={RelativeSource FindAncestor,AncestorType=Window}}"
+                       Background="{Binding NonClientAreaBackground,RelativeSource={RelativeSource FindAncestor,AncestorType=Window}}"
+                       Margin="5" FontSize="14" VerticalAlignment="Stretch" />
+        </StackPanel>
+
+    </hc:Window.NonClientAreaContent>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition />
+            <RowDefinition Height="50" />
+        </Grid.RowDefinitions>
+        <StackPanel Background="{StaticResource Style2}">
+            <hc:TextBox Text="{Binding TempProperty.PropertyName, UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}"
+                        hc:InfoElement.Title="Название свойства" Margin="10,0,10,10"
+                        Background="{StaticResource Style3}" />
+            <hc:ComboBox hc:InfoElement.Title="Единица измерения" DisplayMemberPath="UnitName"
+                         ItemsSource="{Binding AllUnits, Mode=OneWay}"
+                         SelectedItem="{Binding TempProperty.Unit, Mode=TwoWay}" Margin="10,0,10,10"
+                         Background="{StaticResource Style3}" />
+        </StackPanel>
+        <Grid Row="1" Background="{StaticResource Style1}">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+
+                <Button x:Name="AddButton" Content="{StaticResource ApplyButton}" Width="100" Margin="5" hc:BorderElement.CornerRadius="10"
+                        Command="{Binding SaveProperty}"
+                        Background="{StaticResource Style3}"/>
+                <Button x:Name="ExitButton" Width="100" Margin="5" hc:BorderElement.CornerRadius="10"
+                        Command="{Binding CloseWindow}"
+                        Background="{StaticResource Style3}" Content="{StaticResource CancelButton}"/>
+                <Button  Background="{StaticResource Style3}" hc:BorderElement.CornerRadius="10"
+                         Command="{Binding AddMeasureUnit}">
+                    <StackPanel Orientation="Horizontal">
+                        <Image Source="pack://application:,,,/resources/icons/plus.png"
+                               RenderOptions.BitmapScalingMode="HighQuality" Width="8" Height="8"
+                               Margin="0,4,5,0" />
+                        <TextBlock Text="Добавить единицу измерения" />
+                    </StackPanel>
+                </Button>
+            </StackPanel>
+        </Grid>
+    </Grid>
+</hc:Window>
