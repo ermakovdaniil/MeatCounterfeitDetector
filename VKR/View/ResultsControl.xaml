@@ -1,0 +1,43 @@
+﻿<UserControl x:Class="VKR.View.ResultsControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:vm="clr-namespace:VKR.ViewModel"
+             xmlns:hc="https://handyorg.github.io/handycontrol"
+             mc:Ignorable="d"
+             d:DataContext="{d:DesignInstance vm:ResultsControlVM}"
+             d:DesignHeight="450">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition />
+            <RowDefinition Height="50" />
+        </Grid.RowDefinitions>
+        <DataGrid AutoGenerateColumns="False" ItemsSource="{Binding Materials}" CanUserAddRows="False"
+                  IsReadOnly="True"
+                  SelectionMode="Single"
+                  SelectedItem="{Binding SelectedMemObject}" Background="{StaticResource Style3}">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="ID" Binding="{Binding ObId}" />
+                <DataGridTextColumn Header="Имя" Binding="{Binding ObName}" />
+                <DataGridTextColumn Header="Тип" Binding="{Binding Type.TypeName}" />
+
+            </DataGrid.Columns>
+        </DataGrid>
+        <Grid Row="1" Background="{StaticResource Style2}">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                <Button x:Name="AddButton" Width="100" hc:BorderElement.CornerRadius="10"
+                        Command="{Binding AddNewMemObject }" Content="{StaticResource AddButton}"
+                        Margin="0,0,10,0" Background="{StaticResource Style3}">
+                </Button>
+                <Button x:Name="EditButton" Width="100" hc:BorderElement.CornerRadius="10"
+                        Command="{Binding EditMemObject }"
+                        Background="{StaticResource Style3}" Content="{StaticResource EditButton}"/>
+                <Button x:Name="ExitButton" Width="100" hc:BorderElement.CornerRadius="10"
+                        Margin="10,0,0,0"
+                        Command="{Binding DeleteMemObject}"
+                        Background="{StaticResource Style3}" Content="{StaticResource DeleteButton}"/>
+            </StackPanel>
+        </Grid>
+    </Grid>
+</UserControl>

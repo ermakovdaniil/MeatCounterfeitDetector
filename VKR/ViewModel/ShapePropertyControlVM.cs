@@ -11,14 +11,14 @@ using MessageBox = HandyControl.Controls.MessageBox;
 
 namespace VKR.ViewModel
 {
-    internal class UserExplorerControlVM : ViewModelBase
+    internal class ShapePropertyControlVM : ViewModelBase
 
     {
         #region Functions
 
         #region Constructors
 
-        public UserExplorerControlVM()
+        public ShapePropertyControlVM()
         {
             _db = DbContextSingleton.GetInstance();
             Users = _db.Users.Local.ToObservableCollection();
@@ -85,13 +85,13 @@ namespace VKR.ViewModel
             {
                 return _deleteUser ??= new RelayCommand(o =>
                 {
-                    if (MessageBox.Show($"Вы действительно хотите удалить пользователя {SelectedUser.UserName}?",
-                                        "Удаление пользователя", MessageBoxButton.YesNo, MessageBoxImage.Warning) ==
-                        MessageBoxResult.Yes)
-                    {
-                        _db.Users.Remove(SelectedUser);
-                        _db.SaveChanges();
-                    }
+                    //if (MessageBox.Show($"Вы действительно хотите удалить пользователя {SelectedUser.UserName}?",
+                    //                    "Удаление пользователя", MessageBoxButton.YesNo, MessageBoxImage.Warning) ==
+                    //    MessageBoxResult.Yes)
+                    //{
+                    //    _db.Users.Remove(SelectedUser);
+                    //    _db.SaveChanges();
+                    //}
                 }, _ => SelectedUser != null);
             }
         }

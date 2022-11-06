@@ -76,7 +76,6 @@ namespace VKR.View
             var of = new OpenFileDialog();
             of.Filter = "Файлы базы данных(*.db)|*.db|All files(*.*)|*.*";
 
-
             if ((bool)of.ShowDialog())
             {
                 File.Copy(of.FileName, $"{Environment.CurrentDirectory}/Membrane.db", true);

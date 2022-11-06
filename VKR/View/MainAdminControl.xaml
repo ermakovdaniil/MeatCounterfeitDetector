@@ -39,9 +39,12 @@
             <TabItem Header="Редактирование свойств фальсифкатов" Background="{StaticResource Style2}">
                 <view:PropertiesControl />
             </TabItem>
-            <!--<TabItem Header="Редактирование типов мясной продукции" Background="{StaticResource Style2}">
-                <view:MeatExplorerControl />
-            </TabItem>-->
+            <TabItem Header="Редактирование журнала результатов" Background="{StaticResource Style2}">
+                <view:ResultsControl />
+            </TabItem>
+            <TabItem Header="Редактирование предприятий" Background="{StaticResource Style2}">
+                <view:CompaniesControl />
+            </TabItem>
             <TabItem Header="Редактирование пользователей" Background="{StaticResource Style2}">
                 <view:UserExplorerControl />
             </TabItem>

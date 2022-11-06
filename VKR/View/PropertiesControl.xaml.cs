@@ -12,8 +12,6 @@ namespace VKR.View
         public PropertiesControl()
         {
             InitializeComponent();
-            var vm = new PropertiesControlVM();
-            DataContext = vm;
         }
     }
 }

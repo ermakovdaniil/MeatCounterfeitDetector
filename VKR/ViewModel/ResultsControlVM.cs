@@ -11,14 +11,14 @@ using MessageBox = HandyControl.Controls.MessageBox;
 
 namespace VKR.ViewModel
 {
-    internal class UserExplorerControlVM : ViewModelBase
+    internal class ResultsControlVM : ViewModelBase
 
     {
         #region Functions
 
         #region Constructors
 
-        public UserExplorerControlVM()
+        public ResultsControlVM()
         {
             _db = DbContextSingleton.GetInstance();
             Users = _db.Users.Local.ToObservableCollection();
@@ -53,7 +53,7 @@ namespace VKR.ViewModel
             {
                 return _addNewUser ??= new RelayCommand(o =>
                 {
-                    ShowChildWindow(new ShapePropertyWindow(new User()));
+                    ShowChildWindow(new ResultEditWindow(new User()));
                 });
             }
         }
@@ -69,7 +69,7 @@ namespace VKR.ViewModel
             {
                 return _editUser ??= new RelayCommand(o =>
                 {
-                    ShowChildWindow(new ShapePropertyWindow(SelectedUser));
+                    ShowChildWindow(new ResultEditWindow(SelectedUser));
                 }, _ => SelectedUser != null);
             }
         }
@@ -85,13 +85,13 @@ namespace VKR.ViewModel
             {
                 return _deleteUser ??= new RelayCommand(o =>
                 {
-                    if (MessageBox.Show($"Вы действительно хотите удалить пользователя {SelectedUser.UserName}?",
-                                        "Удаление пользователя", MessageBoxButton.YesNo, MessageBoxImage.Warning) ==
-                        MessageBoxResult.Yes)
-                    {
-                        _db.Users.Remove(SelectedUser);
-                        _db.SaveChanges();
-                    }
+                    //if (MessageBox.Show($"Вы действительно хотите удалить пользователя {SelectedUser.UserName}?",
+                    //                    "Удаление пользователя", MessageBoxButton.YesNo, MessageBoxImage.Warning) ==
+                    //    MessageBoxResult.Yes)
+                    //{
+                    //    _db.Users.Remove(SelectedUser);
+                    //    _db.SaveChanges();
+                    //}
                 }, _ => SelectedUser != null);
             }
         }

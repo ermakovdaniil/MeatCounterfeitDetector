@@ -6,9 +6,9 @@ namespace VKR.View
     /// <summary>
     ///     Логика взаимодействия для UserEditWindow.xaml
     /// </summary>
-    public partial class UserEditWindow
+    public partial class ShapePropertyWindow
     {
-        public UserEditWindow(User user)
+        public ShapePropertyWindow(User user)
         {
             InitializeComponent();
             var vm = new UserEditVM(user);

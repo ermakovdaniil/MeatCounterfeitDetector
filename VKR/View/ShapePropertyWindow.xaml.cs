@@ -15,11 +15,11 @@ using System.Windows.Shapes;
 namespace VKR.View
 {
     /// <summary>
-    /// Логика взаимодействия для CreatePropertyWindow.xaml
+    /// Логика взаимодействия для ShapePropertyWindow.xaml
     /// </summary>
-    public partial class CreatePropertyWindow : Window
+    public partial class ShapePropertyWindow : Window
     {
-        public CreatePropertyWindow()
+        public ShapePropertyWindow()
         {
             InitializeComponent();
         }
