@@ -1,4 +1,4 @@
-﻿<hc:Window x:Class="VKR.View.ShapePropertyWindow"
+﻿<hc:Window x:Class="VKR.View.UserEditWindow"
            xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
            xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
            xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -7,7 +7,7 @@
            xmlns:vm="clr-namespace:VKR.ViewModel"
            mc:Ignorable="d"
            Title="Пользователь" Height="320" Width="285"
-           d:DataContext="{d:DesignInstance vm:UserEditVM}"
+           d:DataContext="{d:DesignInstance vm:UserEditWindowVM}"
            NonClientAreaBackground="{StaticResource Style4}"
            ShowTitle="False"
            WindowStartupLocation="CenterScreen">
@@ -29,15 +29,15 @@
         <StackPanel Background="{StaticResource Style2}">
             <hc:TextBox hc:InfoElement.Title="Имя пользователя"
                         hc:InfoElement.TitlePlacement="Top" Margin="10 5"
-                        Text="{Binding TempUser.UserName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                        Text="{Binding TempUser.Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                         Background="{StaticResource Style3}" HorizontalAlignment="Stretch" />
             <hc:TextBox hc:InfoElement.Title="Пароль"
                         hc:InfoElement.TitlePlacement="Top" Margin="10 5"
-                        Text="{Binding TempUser.UserPassword, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                        Text="{Binding TempUser.Password, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                         Background="{StaticResource Style3}" HorizontalAlignment="Stretch" />
             <hc:ComboBox hc:InfoElement.Title="Тип пользователя" ItemsSource="{Binding UserTypes}"
                          hc:InfoElement.TitlePlacement="Top" Margin="10 5"
-                         SelectedItem="{Binding TempUser.UserType}"
+                         SelectedItem="{Binding TempUser.Type}"
                          DisplayMemberPath="UserTypeName"
                          Background="{StaticResource Style3}" HorizontalAlignment="Stretch" />
         </StackPanel>

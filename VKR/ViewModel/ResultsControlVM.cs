@@ -1,8 +1,8 @@
 ﻿using System.Collections.ObjectModel;
 using System.Windows;
 
-using VKR.Data;
-using VKR.Models;
+//using VKR.Data;
+//using VKR.Models;
 using VKR.Utils;
 using VKR.View;
 
@@ -12,90 +12,89 @@ using MessageBox = HandyControl.Controls.MessageBox;
 namespace VKR.ViewModel
 {
     internal class ResultsControlVM : ViewModelBase
-
     {
-        #region Functions
+        //#region Functions
 
-        #region Constructors
+        //#region Constructors
 
-        public ResultsControlVM()
-        {
-            _db = DbContextSingleton.GetInstance();
-            Users = _db.Users.Local.ToObservableCollection();
-            UserTypes = _db.UserTypes.Local.ToObservableCollection();
-        }
+        //public ResultsControlVM()
+        //{
+        //    _db = DbContextSingleton.GetInstance();
+        //    Users = _db.Users.Local.ToObservableCollection();
+        //    UserTypes = _db.UserTypes.Local.ToObservableCollection();
+        //}
 
-        #endregion
+        //#endregion
 
-        #endregion
-
-
-        #region Properties
-
-        private readonly MembraneContext _db;
-        public User SelectedUser { get; set; }
-        public ObservableCollection<User> Users { get; set; }
-        public ObservableCollection<UserType> UserTypes { get; set; }
-
-        #endregion
+        //#endregion
 
 
-        #region Commands
+        //#region Properties
 
-        private RelayCommand _addNewUser;
+        //private readonly MembraneContext _db;
+        //public User SelectedUser { get; set; }
+        //public ObservableCollection<User> Users { get; set; }
+        //public ObservableCollection<UserType> UserTypes { get; set; }
 
-        /// <summary>
-        ///     Команда, открывающая окно создания пользователя
-        /// </summary>
-        public RelayCommand AddNewUser
-        {
-            get
-            {
-                return _addNewUser ??= new RelayCommand(o =>
-                {
-                    ShowChildWindow(new ResultEditWindow(new User()));
-                });
-            }
-        }
+        //#endregion
 
-        private RelayCommand _editUser;
 
-        /// <summary>
-        ///     Команда, открывающая окно редактирования пользователя
-        /// </summary>
-        public RelayCommand EditUser
-        {
-            get
-            {
-                return _editUser ??= new RelayCommand(o =>
-                {
-                    ShowChildWindow(new ResultEditWindow(SelectedUser));
-                }, _ => SelectedUser != null);
-            }
-        }
+        //#region Commands
 
-        private RelayCommand _deleteUser;
+        //private RelayCommand _addNewUser;
 
-        /// <summary>
-        ///     Команда, удаляющая пользователя
-        /// </summary>
-        public RelayCommand DeleteUser
-        {
-            get
-            {
-                return _deleteUser ??= new RelayCommand(o =>
-                {
-                    //if (MessageBox.Show($"Вы действительно хотите удалить пользователя {SelectedUser.UserName}?",
-                    //                    "Удаление пользователя", MessageBoxButton.YesNo, MessageBoxImage.Warning) ==
-                    //    MessageBoxResult.Yes)
-                    //{
-                    //    _db.Users.Remove(SelectedUser);
-                    //    _db.SaveChanges();
-                    //}
-                }, _ => SelectedUser != null);
-            }
-        }
+        ///// <summary>
+        /////     Команда, открывающая окно создания пользователя
+        ///// </summary>
+        //public RelayCommand AddNewUser
+        //{
+        //    get
+        //    {
+        //        return _addNewUser ??= new RelayCommand(o =>
+        //        {
+        //            ShowChildWindow(new ResultEditWindow(new User()));
+        //        });
+        //    }
+        //}
 
-        #endregion
+        //private RelayCommand _editUser;
+
+        ///// <summary>
+        /////     Команда, открывающая окно редактирования пользователя
+        ///// </summary>
+        //public RelayCommand EditUser
+        //{
+        //    get
+        //    {
+        //        return _editUser ??= new RelayCommand(o =>
+        //        {
+        //            ShowChildWindow(new ResultEditWindow(SelectedUser));
+        //        }, _ => SelectedUser != null);
+        //    }
+        //}
+
+        //private RelayCommand _deleteUser;
+
+        ///// <summary>
+        /////     Команда, удаляющая пользователя
+        ///// </summary>
+        //public RelayCommand DeleteUser
+        //{
+        //    get
+        //    {
+        //        return _deleteUser ??= new RelayCommand(o =>
+        //        {
+        //            //if (MessageBox.Show($"Вы действительно хотите удалить пользователя {SelectedUser.UserName}?",
+        //            //                    "Удаление пользователя", MessageBoxButton.YesNo, MessageBoxImage.Warning) ==
+        //            //    MessageBoxResult.Yes)
+        //            //{
+        //            //    _db.Users.Remove(SelectedUser);
+        //            //    _db.SaveChanges();
+        //            //}
+        //        }, _ => SelectedUser != null);
+        //    }
+        //}
+
+        //#endregion
     }
 }

@@ -1,17 +1,17 @@
-﻿using VKR.Models;
+﻿using DataAccess.Models;
 using VKR.ViewModel;
 
 namespace VKR.View
 {
     /// <summary>
-    ///     Логика взаимодействия для MaterialEditWindow.xaml
+    ///     Логика взаимодействия для CounterfeitEditWindow.xaml
     /// </summary>
     public partial class CounterfeitEditWindow
     {
-        public CounterfeitEditWindow(MembraneObject material)
+        public CounterfeitEditWindow(Counterfeit counterfeit)
         {
             InitializeComponent();
-            var vm = new CounterfeitEditWindowVM(material);
+            var vm = new CounterfeitEditWindowVM(counterfeit);
             DataContext = vm;
             vm.ClosingRequest += (sender, e) => Close();
         }

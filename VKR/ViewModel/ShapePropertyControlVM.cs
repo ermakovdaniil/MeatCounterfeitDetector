@@ -1,8 +1,8 @@
 ﻿using System.Collections.ObjectModel;
 using System.Windows;
 
-using VKR.Data;
-using VKR.Models;
+using DataAccess.Data;
+using DataAccess.Models;
 using VKR.Utils;
 using VKR.View;
 
@@ -12,7 +12,6 @@ using MessageBox = HandyControl.Controls.MessageBox;
 namespace VKR.ViewModel
 {
     internal class ShapePropertyControlVM : ViewModelBase
-
     {
         #region Functions
 
@@ -20,9 +19,8 @@ namespace VKR.ViewModel
 
         public ShapePropertyControlVM()
         {
-            _db = DbContextSingleton.GetInstance();
-            Users = _db.Users.Local.ToObservableCollection();
-            UserTypes = _db.UserTypes.Local.ToObservableCollection();
+            _db = new CounterfeitKBContext();
+            Shapes = _db.Shapes.Local.ToObservableCollection();
         }
 
         #endregion
@@ -32,67 +30,66 @@ namespace VKR.ViewModel
 
         #region Properties
 
-        private readonly MembraneContext _db;
-        public User SelectedUser { get; set; }
-        public ObservableCollection<User> Users { get; set; }
-        public ObservableCollection<UserType> UserTypes { get; set; }
+        private readonly CounterfeitKBContext _db;
+        public Shape SelectedShape { get; set; }
+        public ObservableCollection<Shape> Shapes { get; set; }
 
         #endregion
 
 
         #region Commands
 
-        private RelayCommand _addNewUser;
+        private RelayCommand _addShape;
 
         /// <summary>
-        ///     Команда, открывающая окно создания пользователя
+        ///     Команда, открывающая окно создания формы
         /// </summary>
-        public RelayCommand AddNewUser
+        public RelayCommand AddShape
         {
             get
             {
-                return _addNewUser ??= new RelayCommand(o =>
+                return _addShape ??= new RelayCommand(o =>
                 {
-                    ShowChildWindow(new ShapePropertyWindow(new User()));
+                    ShowChildWindow(new ShapePropertyEditWindow(new Shape()));
                 });
             }
         }
 
-        private RelayCommand _editUser;
+        private RelayCommand _editShape;
 
         /// <summary>
-        ///     Команда, открывающая окно редактирования пользователя
+        ///     Команда, открывающая окно редактирования формы
         /// </summary>
-        public RelayCommand EditUser
+        public RelayCommand EditShape
         {
             get
             {
-                return _editUser ??= new RelayCommand(o =>
+                return _editShape ??= new RelayCommand(o =>
                 {
-                    ShowChildWindow(new ShapePropertyWindow(SelectedUser));
-                }, _ => SelectedUser != null);
+                    ShowChildWindow(new ShapePropertyEditWindow(SelectedShape));
+                }, _ => SelectedShape != null);
             }
         }
 
-        private RelayCommand _deleteUser;
+        private RelayCommand _deleteShape;
 
         /// <summary>
-        ///     Команда, удаляющая пользователя
+        ///     Команда, удаляющая форму
         /// </summary>
-        public RelayCommand DeleteUser
+        public RelayCommand DeleteShape
         {
             get
             {
-                return _deleteUser ??= new RelayCommand(o =>
+                return _deleteShape ??= new RelayCommand(o =>
                 {
-                    //if (MessageBox.Show($"Вы действительно хотите удалить пользователя {SelectedUser.UserName}?",
-                    //                    "Удаление пользователя", MessageBoxButton.YesNo, MessageBoxImage.Warning) ==
-                    //    MessageBoxResult.Yes)
-                    //{
-                    //    _db.Users.Remove(SelectedUser);
-                    //    _db.SaveChanges();
-                    //}
-                }, _ => SelectedUser != null);
+                    if (MessageBox.Show($"Вы действительно хотите удалить форму: \"{SelectedShape.Name}\"?",
+                                        "Удаление формы", MessageBoxButton.YesNo, MessageBoxImage.Warning) ==
+                        MessageBoxResult.Yes)
+                    {
+                        _db.Shapes.Remove(SelectedShape);
+                        _db.SaveChanges();
+                    }
+                }, _ => SelectedShape != null);
             }
         }
 

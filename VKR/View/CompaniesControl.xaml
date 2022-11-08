@@ -13,29 +13,27 @@
             <RowDefinition />
             <RowDefinition Height="50" />
         </Grid.RowDefinitions>
-        <DataGrid AutoGenerateColumns="False" ItemsSource="{Binding Materials}" CanUserAddRows="False"
+        <DataGrid AutoGenerateColumns="False" ItemsSource="{Binding Companies}" CanUserAddRows="False"
                   IsReadOnly="True"
                   SelectionMode="Single"
-                  SelectedItem="{Binding SelectedMemObject}" Background="{StaticResource Style3}">
+                  SelectedItem="{Binding SelectedCompany}" Background="{StaticResource Style3}">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="ID" Binding="{Binding ObId}" />
-                <DataGridTextColumn Header="Имя" Binding="{Binding ObName}" />
-                <DataGridTextColumn Header="Тип" Binding="{Binding Type.TypeName}" />
-
+                <DataGridTextColumn Header="ID" Binding="{Binding Id}" />
+                <DataGridTextColumn Header="Наименование" Binding="{Binding Name}" />
             </DataGrid.Columns>
         </DataGrid>
         <Grid Row="1" Background="{StaticResource Style2}">
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                 <Button x:Name="AddButton" Width="100" hc:BorderElement.CornerRadius="10"
-                        Command="{Binding AddNewMemObject }" Content="{StaticResource AddButton}"
+                        Command="{Binding AddCompany }" Content="{StaticResource AddButton}"
                         Margin="0,0,10,0" Background="{StaticResource Style3}">
                 </Button>
                 <Button x:Name="EditButton" Width="100" hc:BorderElement.CornerRadius="10"
-                        Command="{Binding EditMemObject }"
+                        Command="{Binding EditCompany }"
                         Background="{StaticResource Style3}" Content="{StaticResource EditButton}"/>
                 <Button x:Name="ExitButton" Width="100" hc:BorderElement.CornerRadius="10"
                         Margin="10,0,0,0"
-                        Command="{Binding DeleteMemObject}"
+                        Command="{Binding DeleteCompany }"
                         Background="{StaticResource Style3}" Content="{StaticResource DeleteButton}"/>
             </StackPanel>
         </Grid>

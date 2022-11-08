@@ -7,14 +7,14 @@ using VKR.ViewModel;
 namespace VKR.View
 {
     /// <summary>
-    ///     Логика взаимодействия для CompanyEditWindow.xaml
+    ///     Логика взаимодействия для ColorPropertyWindow.xaml
     /// </summary>
-    public partial class CompanyEditWindow
+    public partial class ColorPropertyEditWindow
     {
-        public CompanyEditWindow(Company compnay)
+        public ColorPropertyEditWindow(DataAccess.Models.Color color)
         {
             InitializeComponent();
-            var vm = new CompanyEditWindowVM(company);
+            var vm = new ColorPropertyEditWindowVM(color);
             DataContext = vm;
             vm.ClosingRequest += (sender, e) => Close();
         }

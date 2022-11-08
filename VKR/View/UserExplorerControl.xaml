@@ -23,11 +23,11 @@
 
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="ID"
-                                        Binding="{Binding UserId}" />
+                                        Binding="{Binding Id}" />
                     <DataGridTextColumn Header="Имя пользователя"
-                                        Binding="{Binding UserName}" />
+                                        Binding="{Binding Name}" />
                     <DataGridTextColumn Header="Пароль"
-                                        Binding="{Binding UserPassword}" />
+                                        Binding="{Binding Password}" />
                     <DataGridTextColumn Header="Тип пользователя"
                                         Binding="{Binding UserType.UserTypeName}" />
                 </DataGrid.Columns>
@@ -35,7 +35,7 @@
             <Grid Row="1" Background="{StaticResource Style2}">
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                     <Button Width="100" Margin="5" hc:BorderElement.CornerRadius="10"
-                            Command="{Binding AddNewUser}" Background="{StaticResource Style3}" Content="{StaticResource AddButton}"/>
+                            Command="{Binding AddUser}" Background="{StaticResource Style3}" Content="{StaticResource AddButton}"/>
                     <Button Width="100" Margin="5" hc:BorderElement.CornerRadius="10"
                             Command="{Binding EditUser}" Background="{StaticResource Style3}" Content="{StaticResource EditButton}"/>
                     <Button Width="100" Margin="5" hc:BorderElement.CornerRadius="10" Content="{StaticResource DeleteButton}"

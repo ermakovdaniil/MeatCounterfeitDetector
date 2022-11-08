@@ -1,7 +1,7 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
 
-using VKR.Models;
+using DataAccess.Models;
 
 using VKR.ViewModel;
 
@@ -9,7 +9,7 @@ using VKR.ViewModel;
 namespace VKR.View
 {
     /// <summary>
-    ///     Логика взаимодействия для MaterialExplorerControl.xaml
+    ///     Логика взаимодействия для CounterfeitExplorerControl.xaml
     /// </summary>
     public partial class CounterfeitExplorerControl : UserControl
     {
@@ -22,14 +22,14 @@ namespace VKR.View
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            var win = new CounterfeitEditWindow((DataContext as CounterfeitExplorerControlVM).SelectedMemObject);
+            var win = new CounterfeitEditWindow((DataContext as CounterfeitExplorerControlVM).SelectedCounterfeit);
             win.ShowDialog();
         }
 
 
         private void AddButton_Click(object sender, RoutedEventArgs e)
         {
-            var win = new CounterfeitEditWindow(new MembraneObject());
+            var win = new CounterfeitEditWindow(new Counterfeit());
             win.ShowDialog();
         }
     }

@@ -1,8 +1,8 @@
 ﻿using System.Collections.ObjectModel;
 using System.Windows;
 
-using VKR.Data;
-using VKR.Models;
+using DataAccess.Data;
+using DataAccess.Models;
 using VKR.Utils;
 using VKR.View;
 
@@ -12,7 +12,6 @@ using MessageBox = HandyControl.Controls.MessageBox;
 namespace VKR.ViewModel
 {
     internal class CompaniesControlVM : ViewModelBase
-
     {
         #region Functions
 
@@ -20,9 +19,8 @@ namespace VKR.ViewModel
 
         public CompaniesControlVM()
         {
-            _db = DbContextSingleton.GetInstance();
-            Users = _db.Users.Local.ToObservableCollection();
-            UserTypes = _db.UserTypes.Local.ToObservableCollection();
+            _db = new ResultDBContext();
+            Companies = _db.Companies.Local.ToObservableCollection();
         }
 
         #endregion
@@ -32,67 +30,66 @@ namespace VKR.ViewModel
 
         #region Properties
 
-        private readonly MembraneContext _db;
-        public User SelectedUser { get; set; }
-        public ObservableCollection<User> Users { get; set; }
-        public ObservableCollection<UserType> UserTypes { get; set; }
+        private readonly ResultDBContext _db;
+        public Company SelectedCompany { get; set; }
+        public ObservableCollection<Company> Companies { get; set; }
 
         #endregion
 
 
         #region Commands
 
-        private RelayCommand _addNewUser;
+        private RelayCommand _addCompany;
 
         /// <summary>
-        ///     Команда, открывающая окно создания пользователя
+        ///     Команда, открывающая окно создания цвета
         /// </summary>
-        public RelayCommand AddNewUser
+        public RelayCommand AddCompany
         {
             get
             {
-                return _addNewUser ??= new RelayCommand(o =>
+                return _addCompany ??= new RelayCommand(o =>
                 {
-                    ShowChildWindow(new CompanyEditWindow(new User()));
+                    ShowChildWindow(new CompanyEditWindow(new Company()));
                 });
             }
         }
 
-        private RelayCommand _editUser;
+        private RelayCommand _editCompany;
 
         /// <summary>
-        ///     Команда, открывающая окно редактирования пользователя
+        ///     Команда, открывающая окно редактирования цвета
         /// </summary>
-        public RelayCommand EditUser
+        public RelayCommand EditCompany
         {
             get
             {
-                return _editUser ??= new RelayCommand(o =>
+                return _editCompany ??= new RelayCommand(o =>
                 {
-                    ShowChildWindow(new CompanyEditWindow(SelectedUser));
-                }, _ => SelectedUser != null);
+                    ShowChildWindow(new CompanyEditWindow(SelectedCompany));
+                }, _ => SelectedCompany != null);
             }
         }
 
-        private RelayCommand _deleteUser;
+        private RelayCommand _deleteCompany;
 
         /// <summary>
-        ///     Команда, удаляющая пользователя
+        ///     Команда, удаляющая цвет
         /// </summary>
-        public RelayCommand DeleteUser
+        public RelayCommand DeleteCompany
         {
             get
             {
-                return _deleteUser ??= new RelayCommand(o =>
+                return _deleteCompany ??= new RelayCommand(o =>
                 {
-                    //if (MessageBox.Show($"Вы действительно хотите удалить пользователя {SelectedUser.UserName}?",
-                    //                    "Удаление пользователя", MessageBoxButton.YesNo, MessageBoxImage.Warning) ==
-                    //    MessageBoxResult.Yes)
-                    //{
-                    //    _db.Users.Remove(SelectedUser);
-                    //    _db.SaveChanges();
-                    //}
-                }, _ => SelectedUser != null);
+                    if (MessageBox.Show($"Вы действительно хотите удалить предприятие: \"{SelectedCompany.Name}\"?",
+                                        "Удаление предприятия", MessageBoxButton.YesNo, MessageBoxImage.Warning) ==
+                        MessageBoxResult.Yes)
+                    {
+                        _db.Companies.Remove(SelectedCompany);
+                        _db.SaveChanges();
+                    }
+                }, _ => SelectedCompany != null);
             }
         }
 

@@ -1,8 +1,8 @@
 ﻿using System.Collections.ObjectModel;
 using System.Windows;
 
-using VKR.Data;
-using VKR.Models;
+using DataAccess.Data;
+using DataAccess.Models;
 using VKR.Utils;
 using VKR.View;
 
@@ -12,7 +12,6 @@ using MessageBox = HandyControl.Controls.MessageBox;
 namespace VKR.ViewModel
 {
     internal class ColorPropertyControlVM : ViewModelBase
-
     {
         #region Functions
 
@@ -20,9 +19,8 @@ namespace VKR.ViewModel
 
         public ColorPropertyControlVM()
         {
-            _db = DbContextSingleton.GetInstance();
-            Users = _db.Users.Local.ToObservableCollection();
-            UserTypes = _db.UserTypes.Local.ToObservableCollection();
+            _db = new CounterfeitKBContext();
+            Colors = _db.Colors.Local.ToObservableCollection();
         }
 
         #endregion
@@ -32,67 +30,66 @@ namespace VKR.ViewModel
 
         #region Properties
 
-        private readonly MembraneContext _db;
-        public User SelectedUser { get; set; }
-        public ObservableCollection<User> Users { get; set; }
-        public ObservableCollection<UserType> UserTypes { get; set; }
+        private readonly CounterfeitKBContext _db;
+        public Color SelectedColor { get; set; }
+        public ObservableCollection<Color> Colors { get; set; }
 
         #endregion
 
 
         #region Commands
 
-        private RelayCommand _addNewUser;
+        private RelayCommand _addColor;
 
         /// <summary>
-        ///     Команда, открывающая окно создания пользователя
+        ///     Команда, открывающая окно создания цвета
         /// </summary>
-        public RelayCommand AddNewUser
+        public RelayCommand AddColor
         {
             get
             {
-                return _addNewUser ??= new RelayCommand(o =>
+                return _addColor ??= new RelayCommand(o =>
                 {
-                    ShowChildWindow(new ColorPropertyWindow(new User()));
+                    ShowChildWindow(new ColorPropertyEditWindow(new Color()));
                 });
             }
         }
 
-        private RelayCommand _editUser;
+        private RelayCommand _editColor;
 
         /// <summary>
-        ///     Команда, открывающая окно редактирования пользователя
+        ///     Команда, открывающая окно редактирования цвета
         /// </summary>
-        public RelayCommand EditUser
+        public RelayCommand EditColor
         {
             get
             {
-                return _editUser ??= new RelayCommand(o =>
+                return _editColor ??= new RelayCommand(o =>
                 {
-                    ShowChildWindow(new ColorPropertyWindow(SelectedUser));
-                }, _ => SelectedUser != null);
+                    ShowChildWindow(new ColorPropertyEditWindow(SelectedColor));
+                }, _ => SelectedColor != null);
             }
         }
 
-        private RelayCommand _deleteUser;
+        private RelayCommand _deleteColor;
 
         /// <summary>
-        ///     Команда, удаляющая пользователя
+        ///     Команда, удаляющая цвет
         /// </summary>
-        public RelayCommand DeleteUser
+        public RelayCommand DeleteColor
         {
             get
             {
-                return _deleteUser ??= new RelayCommand(o =>
+                return _deleteColor ??= new RelayCommand(o =>
                 {
-                    //if (MessageBox.Show($"Вы действительно хотите удалить цвет:  {SelectedUser.UserName}?",
-                    //                    "Удаление пользователя", MessageBoxButton.YesNo, MessageBoxImage.Warning) ==
-                    //    MessageBoxResult.Yes)
-                    //{
-                    //    _db.Users.Remove(SelectedUser);
-                    //    _db.SaveChanges();
-                    //}
-                }, _ => SelectedUser != null);
+                    if (MessageBox.Show($"Вы действительно хотите удалить цвет: \"{SelectedColor.Name}\"?",
+                                        "Удаление цвета", MessageBoxButton.YesNo, MessageBoxImage.Warning) ==
+                        MessageBoxResult.Yes)
+                    {
+                        _db.Colors.Remove(SelectedColor);
+                        _db.SaveChanges();
+                    }
+                }, _ => SelectedColor != null);
             }
         }
 

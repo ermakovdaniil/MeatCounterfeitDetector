@@ -7,14 +7,14 @@ using VKR.ViewModel;
 namespace VKR.View
 {
     /// <summary>
-    ///     Логика взаимодействия для CompanyEditWindow.xaml
+    ///     Логика взаимодействия для ShapePropertyWindow.xaml
     /// </summary>
-    public partial class CompanyEditWindow
+    public partial class ShapePropertyEditWindow
     {
-        public CompanyEditWindow(Company compnay)
+        public ShapePropertyEditWindow(DataAccess.Models.Shape shape)
         {
             InitializeComponent();
-            var vm = new CompanyEditWindowVM(company);
+            var vm = new ShapePropertyEditWindowVM(shape);
             DataContext = vm;
             vm.ClosingRequest += (sender, e) => Close();
         }

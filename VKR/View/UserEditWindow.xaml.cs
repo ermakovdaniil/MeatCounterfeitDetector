@@ -1,4 +1,4 @@
-﻿using VKR.Models;
+﻿using DataAccess.Models;
 using VKR.ViewModel;
 
 namespace VKR.View
@@ -6,12 +6,12 @@ namespace VKR.View
     /// <summary>
     ///     Логика взаимодействия для UserEditWindow.xaml
     /// </summary>
-    public partial class ShapePropertyWindow
+    public partial class UserEditWindow
     {
-        public ShapePropertyWindow(User user)
+        public UserEditWindow(User user)
         {
             InitializeComponent();
-            var vm = new UserEditVM(user);
+            var vm = new UserEditWindowVM(user);
             DataContext = vm;
             vm.ClosingRequest += (sender, e) => Close();
         }

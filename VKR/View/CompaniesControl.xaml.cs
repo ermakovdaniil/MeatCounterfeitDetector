@@ -5,7 +5,7 @@ using VKR.ViewModel;
 namespace VKR.View
 {
     /// <summary>
-    /// Логика взаимодействия для ColorPropertyControl.xaml
+    /// Логика взаимодействия для CompaniesControl.xaml
     /// </summary>
     public partial class CompaniesControl : UserControl
     {

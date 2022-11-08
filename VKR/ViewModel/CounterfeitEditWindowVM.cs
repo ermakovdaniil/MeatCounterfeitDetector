@@ -1,7 +1,7 @@
 ﻿using System.Collections.ObjectModel;
 
-using VKR.Data;
-using VKR.Models;
+using DataAccess.Data;
+using DataAccess.Models;
 using VKR.Utils;
 
 namespace VKR.ViewModel
@@ -12,10 +12,10 @@ namespace VKR.ViewModel
 
         #region Constructors
 
-        public CounterfeitEditWindowVM(MembraneObject material)
+        public CounterfeitEditWindowVM(Counterfeit counterfeit)
         {
-            Material = material;
-            Values = Material.Values;
+            Counterfeit = counterfeit;
+            Values = Counterfeit.Values;
         }
 
         #endregion
@@ -26,7 +26,7 @@ namespace VKR.ViewModel
         #region Properties
 
         public ObservableCollection<Value> Values { get; set; }
-        public MembraneObject Material { get; set; }
+        public Counterfeit Counterfeit { get; set; }
 
         #endregion
 
@@ -36,7 +36,7 @@ namespace VKR.ViewModel
         private RelayCommand _saveChanges;
 
         /// <summary>
-        ///     Команда, сохраняющая резульаьы редактирования в базу данных
+        ///     Команда, сохраняющая результаты редактирования в базу данных
         /// </summary>
         public RelayCommand SaveChanges
         {
@@ -44,7 +44,8 @@ namespace VKR.ViewModel
             {
                 return _saveChanges ?? (_saveChanges = new RelayCommand(o =>
                 {
-                    DbContextSingleton.GetInstance().SaveChanges();
+                    //DbContextSingleton.GetInstance().SaveChanges();
+                    Db.SaveChanges();
                     OnClosingRequest();
                 }));
             }

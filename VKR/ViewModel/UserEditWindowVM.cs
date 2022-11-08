@@ -1,33 +1,32 @@
 ﻿using System.Collections.ObjectModel;
 using System.Linq;
 
-using VKR.Data;
-using VKR.Models;
+using DataAccess.Data;
+using DataAccess.Models;
 
 using VKR.Utils;
 
 
 namespace VKR.ViewModel
 {
-    internal class UserEditVM : ViewModelBase
-
+    internal class UserEditWindowVM : ViewModelBase
     {
         #region Functions
 
         #region Constructors
 
-        public UserEditVM(User tempUser)
+        public UserEditWindowVM(User tempUser)
         {
             TempUser = new User
             {
-                UserId = tempUser.UserId,
-                UserName = tempUser.UserName,
-                UserPassword = tempUser.UserPassword,
-                UserType = tempUser.UserType,
+                Id = tempUser.Id,
+                Name = tempUser.Name,
+                Password = tempUser.Password,
+                Type = tempUser.Type,
             };
 
             EditingUser = tempUser;
-            Db = DbContextSingleton.GetInstance();
+            Db = new UserDBContext();
             UserTypes = Db.UserTypes.Local.ToObservableCollection();
         }
 
@@ -42,7 +41,7 @@ namespace VKR.ViewModel
         public User TempUser { get; set; }
         public User EditingUser { get; set; }
 
-        private MembraneContext Db { get; }
+        private UserDBContext Db { get; }
 
         #endregion
 
@@ -60,10 +59,10 @@ namespace VKR.ViewModel
             {
                 return _saveUser ??= new RelayCommand(o =>
                 {
-                    EditingUser.UserId = TempUser.UserId;
-                    EditingUser.UserName = TempUser.UserName;
-                    EditingUser.UserPassword = TempUser.UserPassword;
-                    EditingUser.UserType = TempUser.UserType;
+                    EditingUser.Id = TempUser.Id;
+                    EditingUser.Name = TempUser.Name;
+                    EditingUser.Password = TempUser.Password;
+                    EditingUser.Type = TempUser.Type;
 
                     if (!Db.Users.Contains(EditingUser))
                     {

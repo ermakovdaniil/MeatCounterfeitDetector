@@ -14,29 +14,33 @@
             <RowDefinition Height="50" />
         </Grid.RowDefinitions>
 
-        <DataGrid ItemsSource="{Binding MembraneObjectTypes}"
+        <DataGrid ItemsSource="{Binding Colors}"
                   IsReadOnly="True"
-                  SelectedItem="{Binding SelectedType}"
+                  SelectedItem="{Binding SelectedColor}"
                   SelectionMode="Single"
                   AutoGenerateColumns="False"
                   Background="{StaticResource Style3}">
 
             <DataGrid.Columns>
-                <DataGridTextColumn Header="ID"
-                                    Binding="{Binding TypeId}" />
-                <DataGridTextColumn Header="Название типа объекта"
-                                    Binding="{Binding TypeName}" />
+                <DataGridTextColumn Header="ID" 
+                                    Binding="{Binding Id}" />
+                <DataGridTextColumn Header="Цвет" 
+                                    Binding="{Binding Name}" />
+                <DataGridTextColumn Header="Нижняя цветовая граница" 
+                                    Binding="{Binding BotLine}" />
+                <DataGridTextColumn Header="Верхняя цветовая граница" 
+                                    Binding="{Binding UpLine}" />
             </DataGrid.Columns>
         </DataGrid>
         
         <Grid Row="1" Background="{StaticResource Style2}">
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                 <Button Width="100" Margin="5" hc:BorderElement.CornerRadius="10"
-                        Command="{Binding AddObjectType}" Background="{StaticResource Style3}" Content="{StaticResource AddButton}"/>
+                        Command="{Binding AddColor}" Background="{StaticResource Style3}" Content="{StaticResource AddButton}"/>
                 <Button Width="100" Margin="5" hc:BorderElement.CornerRadius="10" Content="{StaticResource EditButton}"
-                        Command="{Binding EditObjectType}" Background="{StaticResource Style3}"/>
+                        Command="{Binding EditColor}" Background="{StaticResource Style3}"/>
                 <Button Width="100" Margin="5" hc:BorderElement.CornerRadius="10" Content="{StaticResource DeleteButton}"
-                        Command="{Binding DeleteObjectType}" Background="{StaticResource Style3}"/>
+                        Command="{Binding DeleteColor}" Background="{StaticResource Style3}"/>
             </StackPanel>
         </Grid>
     </Grid>

@@ -5,10 +5,9 @@
            xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
            xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
            xmlns:vm="clr-namespace:VKR.ViewModel"
-
            mc:Ignorable="d"
-           Title="Изменение материала" Height="450" Width="800"
-           d:DataContext="{d:DesignInstance vm:MaterialEditWindowVm}"
+           Title="Изменение фальсификата" Height="450" Width="800"
+           d:DataContext="{d:DesignInstance vm:CounterfeitEditWindowVM}"
            NonClientAreaBackground="{StaticResource Style4}"
            ShowTitle="False"
            WindowStartupLocation="CenterScreen">
@@ -34,8 +33,8 @@
                 <RowDefinition />
             </Grid.RowDefinitions>
             <StackPanel Orientation="Horizontal">
-                <hc:TextBox Margin="5" hc:InfoElement.Title="Имя материала" hc:InfoElement.TitlePlacement="Left"
-                            Text="{Binding Path=Material.ObName, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                <hc:TextBox Margin="5" hc:InfoElement.Title="Наименование" hc:InfoElement.TitlePlacement="Left"
+                            Text="{Binding Path=Counterfeit.Name, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
                             MinWidth="100" Background="{StaticResource Style3}" />
             </StackPanel>
             <ListBox Grid.Row="1" x:Name="listBox"

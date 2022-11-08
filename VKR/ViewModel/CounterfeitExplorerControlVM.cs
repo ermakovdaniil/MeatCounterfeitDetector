@@ -1,8 +1,8 @@
 ﻿using System.Collections.ObjectModel;
 using System.Windows;
 
-using VKR.Data;
-using VKR.Models;
+using DataAccess.Data;
+using DataAccess.Models;
 
 using VKR.Utils;
 using VKR.View;
@@ -25,9 +25,8 @@ namespace VKR.ViewModel
                 OnPropertyChanged(nameof(Materials));
             };
 
-
-            //var db = DbContextSingleton.GetInstance();
-            Materials = _db.MembraneObjects.Local.ToObservableCollection();
+            _db = new CounterfeitKBContext();
+            Counterfeits = _db.Counterfeits.Local.ToObservableCollection();
         }
 
         #endregion
@@ -37,28 +36,27 @@ namespace VKR.ViewModel
 
         #region Properties
 
-        private readonly MembraneContext _db = DbContextSingleton.GetInstance();
-        public ObservableCollection<MembraneObject> Materials { get; set; }
-
-        public MembraneObject SelectedMemObject { get; set; }
+        private readonly CounterfeitKBContext _db;
+        public ObservableCollection<Counterfeit> Counterfeits { get; set; }
+        public Counterfeit SelectedCounterfeit { get; set; }
 
         #endregion
 
 
         #region Commands
 
-        private RelayCommand _addNewMemObject;
+        private RelayCommand _addNewCounterfeit;
 
         /// <summary>
-        ///     Команда, открывающая окно создания нового объекта
+        ///     Команда, открывающая окно создания нового фальсификата
         /// </summary>
-        public RelayCommand AddNewMemObject
+        public RelayCommand AddNewCounterfeit
         {
             get
             {
-                return _addNewMemObject ??= new RelayCommand(o =>
+                return _addNewCounterfeit ??= new RelayCommand(o =>
                 {
-                    ShowChildWindow(new CreateMaterialWindow()); // TODO: ТУТ ТОЖЕ CounterfeitEditWindow
+                    ShowChildWindow(new CounterfeitEditWindow(new Counterfeit()));
                 });
             }
         }
@@ -66,7 +64,7 @@ namespace VKR.ViewModel
         private RelayCommand _editMemObject;
 
         /// <summary>
-        ///     Команда, открывающая окно редактирования нового объекта
+        ///     Команда, открывающая окно редактирования нового фальсификата
         /// </summary>
         public RelayCommand EditMemObject
         {
@@ -74,16 +72,16 @@ namespace VKR.ViewModel
             {
                 return _editMemObject ??= new RelayCommand(o =>
                 {
-                    ShowChildWindow(new CounterfeitEditWindow(SelectedMemObject));
+                    ShowChildWindow(new CounterfeitEditWindow(SelectedCounterfeit));
                 },
-                                                           c => SelectedMemObject != null);
+                                                           c => SelectedCounterfeit != null);
             }
         }
 
         private RelayCommand _deleteMemObject;
 
         /// <summary>
-        ///     Команда, удаляющая объект
+        ///     Команда, удаляющая фальсификат
         /// </summary>
         public RelayCommand DeleteMemObject
         {
@@ -91,7 +89,7 @@ namespace VKR.ViewModel
             {
                 return _deleteMemObject ??= new RelayCommand(o =>
                 {
-                    if (MessageBox.Show($"Вы действительно хотите удалить объект {SelectedMemObject.ObName}?",
+                    if (MessageBox.Show($"Вы действительно хотите удалить фальсификат \"{SelectedCounterfeit.Name}\"?",
                                         "Удаление объекта", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
                     {
                         foreach (var value in SelectedMemObject.Values)
@@ -99,10 +97,10 @@ namespace VKR.ViewModel
                             _db.Values.Remove(value);
                         }
 
-                        _db.MembraneObjects.Remove(SelectedMemObject);
+                        _db.Counterfeits.Remove(SelectedCounterfeit);
                         _db.SaveChanges();
                     }
-                }, c => SelectedMemObject != null);
+                }, c => SelectedCounterfeit != null);
             }
         }
 

@@ -9,7 +9,7 @@ using HandyControl.Controls;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Win32;
 
-using VKR.Data;
+//using VKR.Data;
 using VKR.ViewModel;
 
 using MessageBox = HandyControl.Controls.MessageBox;

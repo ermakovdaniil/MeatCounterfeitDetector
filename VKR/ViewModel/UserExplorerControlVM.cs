@@ -1,8 +1,9 @@
 ﻿using System.Collections.ObjectModel;
 using System.Windows;
 
-using VKR.Data;
-using VKR.Models;
+using DataAccess.Data;
+using DataAccess.Models;
+
 using VKR.Utils;
 using VKR.View;
 
@@ -12,7 +13,6 @@ using MessageBox = HandyControl.Controls.MessageBox;
 namespace VKR.ViewModel
 {
     internal class UserExplorerControlVM : ViewModelBase
-
     {
         #region Functions
 
@@ -20,9 +20,8 @@ namespace VKR.ViewModel
 
         public UserExplorerControlVM()
         {
-            _db = DbContextSingleton.GetInstance();
+            _db = new UserDBContext();
             Users = _db.Users.Local.ToObservableCollection();
-            UserTypes = _db.UserTypes.Local.ToObservableCollection();
         }
 
         #endregion
@@ -32,7 +31,7 @@ namespace VKR.ViewModel
 
         #region Properties
 
-        private readonly MembraneContext _db;
+        private readonly UserDBContext _db;
         public User SelectedUser { get; set; }
         public ObservableCollection<User> Users { get; set; }
         public ObservableCollection<UserType> UserTypes { get; set; }
@@ -42,18 +41,18 @@ namespace VKR.ViewModel
 
         #region Commands
 
-        private RelayCommand _addNewUser;
+        private RelayCommand _addUser;
 
         /// <summary>
         ///     Команда, открывающая окно создания пользователя
         /// </summary>
-        public RelayCommand AddNewUser
+        public RelayCommand AddUser
         {
             get
             {
-                return _addNewUser ??= new RelayCommand(o =>
+                return _addUser ??= new RelayCommand(o =>
                 {
-                    ShowChildWindow(new ShapePropertyWindow(new User()));
+                    ShowChildWindow(new UserEditWindow(new User()));
                 });
             }
         }
@@ -69,7 +68,7 @@ namespace VKR.ViewModel
             {
                 return _editUser ??= new RelayCommand(o =>
                 {
-                    ShowChildWindow(new ShapePropertyWindow(SelectedUser));
+                    ShowChildWindow(new UserEditWindow(SelectedUser));
                 }, _ => SelectedUser != null);
             }
         }
@@ -85,7 +84,7 @@ namespace VKR.ViewModel
             {
                 return _deleteUser ??= new RelayCommand(o =>
                 {
-                    if (MessageBox.Show($"Вы действительно хотите удалить пользователя {SelectedUser.UserName}?",
+                    if (MessageBox.Show($"Вы действительно хотите удалить пользователя: \"{SelectedUser.Name}\"?",
                                         "Удаление пользователя", MessageBoxButton.YesNo, MessageBoxImage.Warning) ==
                         MessageBoxResult.Yes)
                     {
