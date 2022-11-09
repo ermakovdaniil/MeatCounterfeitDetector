@@ -15,6 +15,7 @@ namespace DataAccess.Data
         public CounterfeitKBContext(DbContextOptions<CounterfeitKBContext> options)
             : base(options)
         {
+            Database.EnsureCreated();
         }
 
         public virtual DbSet<Color> Colors { get; set; } = null!;

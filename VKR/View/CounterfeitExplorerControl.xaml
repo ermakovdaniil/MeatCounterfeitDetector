@@ -20,9 +20,9 @@
             <DataGrid.Columns>
                 <DataGridTextColumn Header="ID" Binding="{Binding Id}" />
                 <DataGridTextColumn Header="Наименование" Binding="{Binding Name}" />
-                <!--<DataGridTextColumn Header="Форма" Binding="{Binding Shape}" />
-                <DataGridTextColumn Header="Размер" Binding="{Binding Size}" />
-                <DataGridTextColumn Header="Цвет" Binding="{Binding Color}" />-->
+                <DataGridTextColumn Header="Форма" Binding="{Binding Shape}" />
+                <DataGridTextColumn Header="Размер, мкм" Binding="{Binding Size}" />
+                <DataGridTextColumn Header="Цвет" Binding="{Binding Color}" />
             </DataGrid.Columns>
         </DataGrid>
         <Grid Row="1" Background="{StaticResource Style2}">

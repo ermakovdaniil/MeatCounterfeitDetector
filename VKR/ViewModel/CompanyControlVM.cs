@@ -11,13 +11,13 @@ using MessageBox = HandyControl.Controls.MessageBox;
 
 namespace VKR.ViewModel
 {
-    internal class CompaniesControlVM : ViewModelBase
+    internal class CompanyControlVM : ViewModelBase
     {
         #region Functions
 
         #region Constructors
 
-        public CompaniesControlVM()
+        public CompanyControlVM()
         {
             _db = new ResultDBContext();
             Companies = _db.Companies.Local.ToObservableCollection();
@@ -82,7 +82,7 @@ namespace VKR.ViewModel
             {
                 return _deleteCompany ??= new RelayCommand(o =>
                 {
-                    if (MessageBox.Show($"Вы действительно хотите удалить предприятие: \"{SelectedCompany.Name}\"?",
+                    if (MessageBox.Show($"Вы действительно хотите удалить предприятие: \"{SelectedCompany.Name}\" и все записи связанные с ним?",
                                         "Удаление предприятия", MessageBoxButton.YesNo, MessageBoxImage.Warning) ==
                         MessageBoxResult.Yes)
                     {

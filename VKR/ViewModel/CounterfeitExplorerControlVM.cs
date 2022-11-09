@@ -22,7 +22,7 @@ namespace VKR.ViewModel
         {
             _db.SavedChanges += (sender, args) =>
             {
-                OnPropertyChanged(nameof(Materials));
+                OnPropertyChanged(nameof(Counterfeits));
             };
 
             _db = new CounterfeitKBContext();
@@ -45,32 +45,32 @@ namespace VKR.ViewModel
 
         #region Commands
 
-        private RelayCommand _addNewCounterfeit;
+        private RelayCommand _addCounterfeit;
 
         /// <summary>
         ///     Команда, открывающая окно создания нового фальсификата
         /// </summary>
-        public RelayCommand AddNewCounterfeit
+        public RelayCommand AddCounterfeit
         {
             get
             {
-                return _addNewCounterfeit ??= new RelayCommand(o =>
+                return _addCounterfeit ??= new RelayCommand(o =>
                 {
                     ShowChildWindow(new CounterfeitEditWindow(new Counterfeit()));
                 });
             }
         }
 
-        private RelayCommand _editMemObject;
+        private RelayCommand _editCounterfeitObject;
 
         /// <summary>
         ///     Команда, открывающая окно редактирования нового фальсификата
         /// </summary>
-        public RelayCommand EditMemObject
+        public RelayCommand EditCounterfeit
         {
             get
             {
-                return _editMemObject ??= new RelayCommand(o =>
+                return _editCounterfeitObject ??= new RelayCommand(o =>
                 {
                     ShowChildWindow(new CounterfeitEditWindow(SelectedCounterfeit));
                 },
@@ -78,25 +78,20 @@ namespace VKR.ViewModel
             }
         }
 
-        private RelayCommand _deleteMemObject;
+        private RelayCommand _deleteCounterfeit;
 
         /// <summary>
         ///     Команда, удаляющая фальсификат
         /// </summary>
-        public RelayCommand DeleteMemObject
+        public RelayCommand DeleteCounterfeit
         {
             get
             {
-                return _deleteMemObject ??= new RelayCommand(o =>
+                return _deleteCounterfeit ??= new RelayCommand(o =>
                 {
-                    if (MessageBox.Show($"Вы действительно хотите удалить фальсификат \"{SelectedCounterfeit.Name}\"?",
+                    if (MessageBox.Show($"Вы действительно хотите удалить фальсификат: \"{SelectedCounterfeit.Name}\"?",
                                         "Удаление объекта", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
                     {
-                        foreach (var value in SelectedMemObject.Values)
-                        {
-                            _db.Values.Remove(value);
-                        }
-
                         _db.Counterfeits.Remove(SelectedCounterfeit);
                         _db.SaveChanges();
                     }

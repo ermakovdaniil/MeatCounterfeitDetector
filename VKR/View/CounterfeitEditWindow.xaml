@@ -1,16 +1,17 @@
-﻿ <hc:Window x:Class="VKR.View.CounterfeitEditWindow"
-           xmlns:hc="https://handyorg.github.io/handycontrol"
+﻿<hc:Window x:Class="VKR.View.CounterfeitEditWindow"
            xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
            xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
            xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
            xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+           xmlns:hc="https://handyorg.github.io/handycontrol"
            xmlns:vm="clr-namespace:VKR.ViewModel"
            mc:Ignorable="d"
-           Title="Изменение фальсификата" Height="450" Width="800"
+           Title="Изменение цвета" Height="320" Width="285"
            d:DataContext="{d:DesignInstance vm:CounterfeitEditWindowVM}"
            NonClientAreaBackground="{StaticResource Style4}"
            ShowTitle="False"
            WindowStartupLocation="CenterScreen">
+    
     <hc:Window.NonClientAreaContent>
         <StackPanel Orientation="Horizontal">
             <Image Source="pack://application:,,,/resources/icons/logo.png" Height="20" Margin="3"
@@ -21,81 +22,41 @@
         </StackPanel>
 
     </hc:Window.NonClientAreaContent>
-
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition />
             <RowDefinition Height="60" />
         </Grid.RowDefinitions>
-        <Grid Background="{StaticResource Style2}">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="40" />
-                <RowDefinition />
-            </Grid.RowDefinitions>
-            <StackPanel Orientation="Horizontal">
-                <hc:TextBox Margin="5" hc:InfoElement.Title="Наименование" hc:InfoElement.TitlePlacement="Left"
-                            Text="{Binding Path=Counterfeit.Name, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
-                            MinWidth="100" Background="{StaticResource Style3}" />
-            </StackPanel>
-            <ListBox Grid.Row="1" x:Name="listBox"
-                     ItemsSource="{Binding Path=Values, UpdateSourceTrigger=PropertyChanged}"
-                     Background="{StaticResource Style2}">
-                <ListBox.ItemContainerStyle>
-                    <Style TargetType="ListBoxItem">
-                        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
-                    </Style>
-                </ListBox.ItemContainerStyle>
-                <ListBox.ItemTemplate>
-                    <DataTemplate>
-
-                        <!--<hc:ElementGroup Orientation="Horizontal" Margin="5" Height="40"
-                                         Background="{StaticResource Style2}" HorizontalAlignment="Stretch"
-                                         VerticalAlignment="Stretch">
-
-                            <Label Content="{Binding Path=Prop.PropertyName, UpdateSourceTrigger=PropertyChanged}"
-                                   HorizontalContentAlignment="Left"
-                                   Height="30" Width="500" Background="{StaticResource Style3}" />
-
-                            <hc:NumericUpDown
-                                Value="{Binding Path=Value1, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
-                                Height="30" Width="120" Background="{StaticResource Style3}" />
-                            <Label Content="{Binding Path=Prop.Unit.UnitName, UpdateSourceTrigger=PropertyChanged}"
-                                   Height="30" Width="90" Background="{StaticResource Style3}" />
-                            
-                        </hc:ElementGroup>-->
-
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="15*" />
-                                <ColumnDefinition Width="4*" />
-                                <ColumnDefinition Width="3*" />
-                            </Grid.ColumnDefinitions>
-
-                            <Label Grid.Column="0"
-                                   Content="{Binding Path=Prop.PropertyName, UpdateSourceTrigger=PropertyChanged}"
-                                   HorizontalAlignment="Stretch" HorizontalContentAlignment="Left"
-                                   Height="30" Margin="-2 5" Background="{StaticResource Style3}" />
-
-                            <hc:NumericUpDown
-                                Grid.Column="1"
-                                Value="{Binding Path=Value1, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
-                                Height="30" Margin="-2 5" Background="{StaticResource Style3}" />
-
-                            <Label Grid.Column="2"
-                                   Content="{Binding Path=Prop.Unit.UnitName, UpdateSourceTrigger=PropertyChanged}"
-                                   HorizontalAlignment="Stretch" HorizontalContentAlignment="Center"
-                                   Height="30" Margin="-2 5" Background="{StaticResource Style3}" />
-
-                        </Grid>
-                    </DataTemplate>
-                </ListBox.ItemTemplate>
-            </ListBox>
-        </Grid>
-
+        <StackPanel Background="{StaticResource Style2}">
+            <hc:TextBox hc:InfoElement.Title="Наименование фальсификата"
+                        hc:InfoElement.TitlePlacement="Top" Margin="10 5"
+                        Text="{Binding TempCounterfeit.Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                        Background="{StaticResource Style3}" HorizontalAlignment="Stretch" />
+            <hc:ComboBox hc:InfoElement.Title="Форма" ItemsSource="{Binding Shapes}"
+                         hc:InfoElement.TitlePlacement="Top" Margin="10 5"
+                         SelectedItem="{Binding TempCounterfeit.ShapeId}"
+                         DisplayMemberPath="Name"
+                         Background="{StaticResource Style3}" HorizontalAlignment="Stretch" />
+            <hc:TextBox hc:InfoElement.Title="Нижняя граница размера, мкм"
+                        hc:InfoElement.TitlePlacement="Top" Margin="10 5"
+                        Text="{Binding TempCounterfeit.BotLineSize, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                        Background="{StaticResource Style3}" HorizontalAlignment="Stretch" />
+            <hc:TextBox hc:InfoElement.Title="Верхняя граница размера, мкм"
+                        hc:InfoElement.TitlePlacement="Top" Margin="10 5"
+                        Text="{Binding TempCounterfeit.UpLineSize, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                        Background="{StaticResource Style3}" HorizontalAlignment="Stretch" />
+            <hc:ComboBox hc:InfoElement.Title="Цвет" ItemsSource="{Binding Colors}"
+                         hc:InfoElement.TitlePlacement="Top" Margin="10 5"
+                         SelectedItem="{Binding TempCounterfeit.ColorId}"
+                         DisplayMemberPath="Name"
+                         Background="{StaticResource Style3}" HorizontalAlignment="Stretch" />
+        </StackPanel>
         <Grid Row="1" Background="{StaticResource Style1}">
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                <Button Width="140" Content="{StaticResource ApplyButton}" Command="{Binding SaveChanges}" hc:BorderElement.CornerRadius="10"
-                        Margin="0,0,5,0" Background="{StaticResource Style3}"/>
+                <Button hc:BorderElement.CornerRadius="10" Width="100" Margin="5" Command="{Binding SaveCounterfeit}"
+                        Background="{StaticResource Style3}" Content="{StaticResource ApplyButton}"/>
+                <Button Width="100" Margin="5" Content="{StaticResource CancelButton}" hc:BorderElement.CornerRadius="10" Command="{Binding CloseWindow}"
+                        Background="{StaticResource Style3}"/>
             </StackPanel>
         </Grid>
     </Grid>

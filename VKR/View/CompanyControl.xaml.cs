@@ -12,7 +12,7 @@ namespace VKR.View
         public CompaniesControl()
         {
             InitializeComponent();
-            DataContext = new CompaniesControlVM();
+            DataContext = new CompanyControlVM();
         }
     }
 }

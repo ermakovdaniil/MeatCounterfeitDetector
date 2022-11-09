@@ -1,8 +1,11 @@
 ﻿using System.Collections.ObjectModel;
+using System.Linq;
 using System.Windows;
+using System.Data.Entity;
 
 using DataAccess.Data;
 using DataAccess.Models;
+
 using VKR.Utils;
 using VKR.View;
 
@@ -82,7 +85,8 @@ namespace VKR.ViewModel
             {
                 return _deleteShape ??= new RelayCommand(o =>
                 {
-                    if (MessageBox.Show($"Вы действительно хотите удалить форму: \"{SelectedShape.Name}\"?",
+                    if (MessageBox.Show($"Вы действительно хотите удалить форму: \"{SelectedShape.Name}\" и все фальсификаты связанные с ней?" +
+                                        $"\nСвязанные фальсфикаты:\n{string.Join("\n", _db.Counterfeits.Where(c => c.ShapeId == SelectedShape.Id).Include(c => c.Shape).Select(c => c.Name))}",
                                         "Удаление формы", MessageBoxButton.YesNo, MessageBoxImage.Warning) ==
                         MessageBoxResult.Yes)
                     {

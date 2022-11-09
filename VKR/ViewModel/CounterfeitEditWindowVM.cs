@@ -1,21 +1,37 @@
 ﻿using System.Collections.ObjectModel;
+using System.Linq;
 
 using DataAccess.Data;
 using DataAccess.Models;
+
 using VKR.Utils;
+
 
 namespace VKR.ViewModel
 {
-    public class CounterfeitEditWindowVM : ViewModelBase
+    internal class CounterfeitEditWindowVM : ViewModelBase
+
     {
         #region Functions
 
         #region Constructors
 
-        public CounterfeitEditWindowVM(Counterfeit counterfeit)
+        public CounterfeitEditWindowVM(Counterfeit tempCounterfeit)
         {
-            Counterfeit = counterfeit;
-            Values = Counterfeit.Values;
+            TempCounterfeit = new Counterfeit
+            {
+                Id = tempCounterfeit.Id,
+                Name = tempCounterfeit.Name,
+                ShapeId = tempCounterfeit.ShapeId,
+                BotLineSize = tempCounterfeit.BotLineSize,
+                UpLineSize = tempCounterfeit.UpLineSize,
+                ColorId = tempCounterfeit.ColorId
+            };
+
+            EditingCounterfeit = tempCounterfeit;
+            Db = new CounterfeitKBContext();
+            Colors = Db.Colors.Local.ToObservableCollection();
+            Shapes = Db.Shapes.Local.ToObservableCollection();
         }
 
         #endregion
@@ -25,29 +41,45 @@ namespace VKR.ViewModel
 
         #region Properties
 
-        public ObservableCollection<Value> Values { get; set; }
-        public Counterfeit Counterfeit { get; set; }
+        public ObservableCollection<Color> Colors { get; set; }
+        public ObservableCollection<Shape> Shapes { get; set; }
+        public ObservableCollection<Counterfeit> Counterfeits { get; set; }
+        public Counterfeit TempCounterfeit { get; set; }
+        public Counterfeit EditingCounterfeit { get; set; }
+
+        private CounterfeitKBContext Db { get; }
 
         #endregion
 
 
         #region Commands
 
-        private RelayCommand _saveChanges;
+        private RelayCommand _saveCounterfeit;
 
         /// <summary>
-        ///     Команда, сохраняющая результаты редактирования в базу данных
+        ///     Команда сохраняющая изменение данных о цвете в базе данных
         /// </summary>
-        public RelayCommand SaveChanges
+        public RelayCommand SaveCounterfeit
         {
             get
             {
-                return _saveChanges ?? (_saveChanges = new RelayCommand(o =>
+                return _saveCounterfeit ??= new RelayCommand(o =>
                 {
-                    //DbContextSingleton.GetInstance().SaveChanges();
+                    EditingCounterfeit.Id = TempCounterfeit.Id;
+                    EditingCounterfeit.Name = TempCounterfeit.Name;
+                    EditingCounterfeit.ShapeId = TempCounterfeit.ShapeId;
+                    EditingCounterfeit.BotLineSize = TempCounterfeit.BotLineSize;
+                    EditingCounterfeit.UpLineSize = TempCounterfeit.UpLineSize;
+                    EditingCounterfeit.ColorId = TempCounterfeit.ColorId;
+
+                    if (!Db.Counterfeits.Contains(EditingCounterfeit))
+                    {
+                        Db.Counterfeits.Add(EditingCounterfeit);
+                    }
+
                     Db.SaveChanges();
                     OnClosingRequest();
-                }));
+                });
             }
         }
 

@@ -10,6 +10,16 @@ namespace DataAccess.Models
         public long ShapeId { get; set; }
         public long BotLineSize { get; set; }
         public long UpLineSize { get; set; }
+        public string Size { 
+            get
+            {
+                return $"{BotLineSize}-{UpLineSize}";
+            } 
+            set
+            {
+                throw new NotImplementedException();
+            }
+        }
         public long ColorId { get; set; }
 
         public virtual Color Color { get; set; } = null!;
