@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="VKR.View.PropertiesControl"
+﻿<UserControl x:Class="VKR.View.PropertyExplorerControl"
              xmlns:hc="https://handyorg.github.io/handycontrol"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -16,7 +16,7 @@
                 <view:ColorPropertyControl />
             </TabItem>
 
-            <TabItem Header="Форма фальсифкатов" Background="{StaticResource Style2}">
+            <TabItem Header="Формы фальсифкатов" Background="{StaticResource Style2}">
                 <view:ShapePropertyControl />
             </TabItem>
         </TabControl>

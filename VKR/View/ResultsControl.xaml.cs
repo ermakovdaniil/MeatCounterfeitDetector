@@ -7,12 +7,12 @@ namespace VKR.View
     /// <summary>
     /// Логика взаимодействия для ColorPropertyControl.xaml
     /// </summary>
-    public partial class ResultsControl : UserControl
+    public partial class ResultControl : UserControl
     {
-        public ResultsControl()
+        public ResultControl()
         {
             InitializeComponent();
-            DataContext = new ResultsControlVM();
+            DataContext = new ResultControlVM();
         }
     }
 }

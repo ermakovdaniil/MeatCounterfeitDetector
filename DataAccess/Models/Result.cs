@@ -8,7 +8,7 @@ namespace DataAccess.Models
         public long Id { get; set; }
         public byte[] Date { get; set; } = null!;
         public long CompanyId { get; set; }
-        public string Result1 { get; set; } = null!;
+        public string AnRes { get; set; } = null!;
         public long OrigPathId { get; set; }
         public long ResPathId { get; set; }
 

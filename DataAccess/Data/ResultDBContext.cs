@@ -76,7 +76,7 @@ namespace DataAccess.Data
 
                 entity.Property(e => e.ResPathId).HasColumnName("resPathId");
 
-                entity.Property(e => e.Result1).HasColumnName("result");
+                entity.Property(e => e.AnRes).HasColumnName("result");
 
                 entity.HasOne(d => d.Company)
                     .WithMany(p => p.Results)

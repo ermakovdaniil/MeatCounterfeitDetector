@@ -37,13 +37,13 @@
                 <view:CounterfeitExplorerControl />
             </TabItem>
             <TabItem Header="Редактирование свойств фальсифкатов" Background="{StaticResource Style2}">
-                <view:PropertiesControl />
+                <view:PropertyExplorerControl />
             </TabItem>
             <TabItem Header="Редактирование журнала результатов" Background="{StaticResource Style2}">
-                <view:ResultsControl />
+                <view:ResultControl />
             </TabItem>
             <TabItem Header="Редактирование предприятий" Background="{StaticResource Style2}">
-                <view:CompaniesControl />
+                <view:CompanyControl />
             </TabItem>
             <TabItem Header="Редактирование пользователей" Background="{StaticResource Style2}">
                 <view:UserExplorerControl />

@@ -64,12 +64,11 @@
             </Button>
         </hc:UniformSpacingPanel>
     </UserControl.Resources>
-    
+
     <Grid x:Name="MainGrid">
         <Grid.RowDefinitions>
-            <!--<RowDefinition Height="60" />-->
             <RowDefinition />
-            <RowDefinition Height="90" />
+            <RowDefinition  />
         </Grid.RowDefinitions>
 
         <Grid Grid.Row="0" Background="{StaticResource Style2}">
@@ -89,28 +88,20 @@
         </Grid>
 
         <Grid Grid.Row="1" Background="{StaticResource Style2}">
-            <!--<Grid.RowDefinitions>
+            <Grid.RowDefinitions>
                 <RowDefinition Height="30" />
                 <RowDefinition />
             </Grid.RowDefinitions>
-            
 
             <Border Grid.Row="0" Grid.Column="0" Background="{StaticResource Style3}">
                 <hc:Divider Content="Результат анализа изображения" Margin="0 5" FontSize="17"/>
             </Border>
 
-            <Grid Grid.Row="1">-->
-            <!--<hc:TextBox hc:InfoElement.Title="Температура продукта, °С"
-                                                IsReadOnly="True"
-                                                hc:InfoElement.TitlePlacement="Left" Margin="10 5"
-                                                hc:InfoElement.TitleWidth="270"
-                                                Text="{Binding MathClass.Results.T, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
-                                                HorizontalAlignment="Stretch" />-->
-            <hc:TextBox hc:InfoElement.Title="Результат анализа изображения"
-                        hc:InfoElement.TitleWidth="270" HorizontalAlignment="Stretch" FontSize="16"
-                        BorderBrush="Black" Margin="10 0 10 10" IsReadOnly="True" Background="{StaticResource Style3}" 
-                        Text="{Binding ResultMessage, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"/>
-            <!--</Grid>-->
+            <hc:TextBox Grid.Row="1"
+                        IsReadOnly="True"
+                        Text="{Binding Res, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                        HorizontalAlignment="Stretch" />
+
         </Grid>
     </Grid>
 </UserControl>

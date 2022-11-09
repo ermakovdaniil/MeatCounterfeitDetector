@@ -11,7 +11,7 @@ namespace VKR.View
     /// </summary>
     public partial class CompanyEditWindow
     {
-        public CompanyEditWindow(Company compnay)
+        public CompanyEditWindow(Company company)
         {
             InitializeComponent();
             var vm = new CompanyEditWindowVM(company);

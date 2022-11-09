@@ -20,11 +20,6 @@ namespace VKR.ViewModel
 
         public CounterfeitExplorerControlVM()
         {
-            _db.SavedChanges += (sender, args) =>
-            {
-                OnPropertyChanged(nameof(Counterfeits));
-            };
-
             _db = new CounterfeitKBContext();
             Counterfeits = _db.Counterfeits.Local.ToObservableCollection();
         }

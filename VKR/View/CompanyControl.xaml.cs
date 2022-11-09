@@ -5,11 +5,11 @@ using VKR.ViewModel;
 namespace VKR.View
 {
     /// <summary>
-    /// Логика взаимодействия для CompaniesControl.xaml
+    /// Логика взаимодействия для CompanyControl.xaml
     /// </summary>
-    public partial class CompaniesControl : UserControl
+    public partial class CompanyControl : UserControl
     {
-        public CompaniesControl()
+        public CompanyControl()
         {
             InitializeComponent();
             DataContext = new CompanyControlVM();
