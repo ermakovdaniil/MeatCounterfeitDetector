@@ -9,63 +9,45 @@
              d:DesignHeight="450" d:DesignWidth="800">
     
     <UserControl.Resources>
-        <!-- <hc:UniformSpacingPanel  Grid.Row="0" Spacing="10" Background="{StaticResource Style4}"> -->
-        <!--     <Button Background="{StaticResource Style3}" Width="60" Height="50" Margin="10 0 0 0" ToolTip="Сменить пользователя" Command="{Binding ChangeUser}"> -->
-        <!--         <StackPanel Orientation="Horizontal"> -->
-        <!--             <Image Source="pack://application:,,,/resources/icons/user.png" -->
-        <!--                                RenderOptions.BitmapScalingMode="HighQuality"  /> -->
-        <!--             ~1~<TextBlock Text="Загрузить" FontSize="15" />@1@ -->
-        <!--         </StackPanel> -->
-        <!--     </Button> -->
-        <!-- -->
-        <!--     <Button Background="{StaticResource Style3}" Width="60" Height="50" ToolTip="Загрузить изображение" Command="{Binding ChangePathImageCommand}"> -->
-        <!--         <StackPanel Orientation="Horizontal"> -->
-        <!--             <Image Source="pack://application:,,,/resources/icons/open.png" -->
-        <!--                                RenderOptions.BitmapScalingMode="HighQuality"  /> -->
-        <!--             ~1~<TextBlock Text="Загрузить" FontSize="15" />@1@ -->
-        <!--         </StackPanel> -->
-        <!--     </Button> -->
-        <!-- -->
-        <!--     <Button Background="{StaticResource Style3}" Width="60" Height="50" ToolTip="Создать отчёт"> -->
-        <!--         <StackPanel Orientation="Horizontal"> -->
-        <!--             <Image Source="pack://application:,,,/resources/icons/save.png" -->
-        <!--                                RenderOptions.BitmapScalingMode="HighQuality"  /> -->
-        <!--             ~1~<TextBlock Text="Загрузить" FontSize="15" />@1@ -->
-        <!--         </StackPanel> -->
-        <!--     </Button> -->
-        <!-- -->
-        <!--     <Button Background="{StaticResource Style3}" Width="60" Height="50" ToolTip="Анализ изображения"> -->
-        <!--         <StackPanel Orientation="Horizontal"> -->
-        <!--             <Image Source="pack://application:,,,/resources/icons/scanning.png" -->
-        <!--                                RenderOptions.BitmapScalingMode="HighQuality" Height="40" Width="38" /> -->
-        <!--             ~1~<TextBlock Text="Загрузить" FontSize="15" />@1@ -->
-        <!--         </StackPanel> -->
-        <!--     </Button> -->
-        <!-- -->
-        <!--     <Button Background="{StaticResource Style3}" Width="60" Height="50" Margin="0 0 0 0" ToolTip="Справка" Command="{Binding ShowInfo}"> -->
-        <!--         <StackPanel Orientation="Horizontal"> -->
-        <!--             <Image Source="pack://application:,,,/resources/icons/info.png" -->
-        <!--                                RenderOptions.BitmapScalingMode="HighQuality" /> -->
-        <!--             ~1~<TextBlock Text="Рассчитать" FontSize="15" />@1@ -->
-        <!--         </StackPanel> -->
-        <!--     </Button> -->
-        <!-- </hc:UniformSpacingPanel> -->
+        <hc:UniformSpacingPanel x:Key="Menu" Spacing="10" Grid.Row="0" Background="{Binding NonClientAreaBackground,RelativeSource={RelativeSource FindAncestor,AncestorType=Window}}" Grid.ColumnSpan="3">
+            <Button Background="{StaticResource Style3}" Width="60" Height="50" Margin="10 0 0 0" ToolTip="Сменить пользователя" Command="{Binding ChangeUser}">
+                <StackPanel Orientation="Horizontal">
+                    <Image Source="pack://application:,,,/resources/icons/user.png"
+                                       RenderOptions.BitmapScalingMode="HighQuality"  />
+                    <TextBlock Text="Сменить пользователя" FontSize="15" />
+                </StackPanel>
+            </Button>
+
+            <Button Background="{StaticResource Style3}" Width="60" Height="50" Margin="0 0 0 0" ToolTip="Справка" Command="{Binding ShowInfo}">
+                <StackPanel Orientation="Horizontal">
+                    <Image Source="pack://application:,,,/resources/icons/info.png"
+                                       RenderOptions.BitmapScalingMode="HighQuality" />
+                    <TextBlock Text="Справка" FontSize="15" />
+                </StackPanel>
+            </Button>
+        </hc:UniformSpacingPanel>
     </UserControl.Resources>
     
     <Grid>
-        <!--<TabControl x:Name="tabs"
+        <TabControl x:Name="tabs"
                     Visibility="{Binding TabControlVisibility, UpdateSourceTrigger=PropertyChanged}"
                     Style="{StaticResource TabControlInLine}"
                     Background="{StaticResource Style3}">
-            <TabItem Header="Редактирование объектов" Background="{StaticResource Style2}">
-                <view:MaterialExplorerControl />
+            <TabItem Header="Редактирование фальсифкатов" Background="{StaticResource Style2}">
+                <view:CounterfeitExplorerControl />
+            </TabItem>
+            <TabItem Header="Редактирование свойств фальсифкатов" Background="{StaticResource Style2}">
+                <view:PropertyExplorerControl />
+            </TabItem>
+            <TabItem Header="Редактирование журнала результатов" Background="{StaticResource Style2}">
+                <view:ResultControl />
+            </TabItem>
+            <TabItem Header="Редактирование предприятий" Background="{StaticResource Style2}">
+                <view:CompanyControl />
             </TabItem>
             <TabItem Header="Редактирование пользователей" Background="{StaticResource Style2}">
                 <view:UserExplorerControl />
             </TabItem>
-            <TabItem Header="Редактирование типов объектов" Background="{StaticResource Style2}">
-                <view:ObjectPropertiesControl />
-            </TabItem>
-        </TabControl>-->
+        </TabControl>
     </Grid>
 </UserControl>

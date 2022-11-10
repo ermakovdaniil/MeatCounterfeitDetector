@@ -1,0 +1,41 @@
+﻿<UserControl x:Class="VKR.View.CompanyControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:vm="clr-namespace:VKR.ViewModel"
+             xmlns:hc="https://handyorg.github.io/handycontrol"
+             mc:Ignorable="d"
+             d:DataContext="{d:DesignInstance vm:CompanyControlVM}"
+             d:DesignHeight="450">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition />
+            <RowDefinition Height="50" />
+        </Grid.RowDefinitions>
+        <DataGrid AutoGenerateColumns="False" ItemsSource="{Binding Companies}" CanUserAddRows="False"
+                  IsReadOnly="True"
+                  SelectionMode="Single"
+                  SelectedItem="{Binding SelectedCompany}" Background="{StaticResource Style3}">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="ID" Binding="{Binding Id}" />
+                <DataGridTextColumn Header="Наименование" Binding="{Binding Name}" />
+            </DataGrid.Columns>
+        </DataGrid>
+        <Grid Row="1" Background="{StaticResource Style2}">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                <Button x:Name="AddButton" Width="100" hc:BorderElement.CornerRadius="10"
+                        Command="{Binding AddCompany }" Content="{StaticResource AddButton}"
+                        Margin="0,0,10,0" Background="{StaticResource Style3}">
+                </Button>
+                <Button x:Name="EditButton" Width="100" hc:BorderElement.CornerRadius="10"
+                        Command="{Binding EditCompany }"
+                        Background="{StaticResource Style3}" Content="{StaticResource EditButton}"/>
+                <Button x:Name="ExitButton" Width="100" hc:BorderElement.CornerRadius="10"
+                        Margin="10,0,0,0"
+                        Command="{Binding DeleteCompany }"
+                        Background="{StaticResource Style3}" Content="{StaticResource DeleteButton}"/>
+            </StackPanel>
+        </Grid>
+    </Grid>
+</UserControl>

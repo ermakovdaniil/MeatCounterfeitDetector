@@ -9,7 +9,7 @@ using HandyControl.Controls;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Win32;
 
-using VKR.Data;
+//using VKR.Data;
 using VKR.ViewModel;
 
 using MessageBox = HandyControl.Controls.MessageBox;
@@ -76,7 +76,6 @@ namespace VKR.View
             var of = new OpenFileDialog();
             of.Filter = "Файлы базы данных(*.db)|*.db|All files(*.*)|*.*";
 
-
             if ((bool)of.ShowDialog())
             {
                 File.Copy(of.FileName, $"{Environment.CurrentDirectory}/Membrane.db", true);
@@ -88,9 +87,6 @@ namespace VKR.View
             {
                 MessageBox.Show("Не удалось загрузить базу данных", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
             }
-
-
-
         }
     }
 }

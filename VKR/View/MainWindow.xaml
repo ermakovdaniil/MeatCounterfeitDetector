@@ -21,7 +21,6 @@
 
     </hc:Window.NonClientAreaContent>
     <Grid>
-        <ContentControl x:Name="content" />
-
+        <ContentControl Content="{Binding ContentWindow}"/>
     </Grid>
 </hc:Window>
