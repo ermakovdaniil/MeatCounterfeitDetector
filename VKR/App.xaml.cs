@@ -1,16 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Data;
-using System.Globalization;
-using System.Linq;
+﻿using System.Globalization;
 using System.Threading;
-using System.Threading.Tasks;
 using System.Windows;
 using Autofac;
-using DataAccess.Models;
 using DataAccess.Data;
+
 using VKR.View;
+using VKR.ViewModel;
 
 namespace FlowModelDesktop
 {
@@ -19,30 +14,45 @@ namespace FlowModelDesktop
     /// </summary>
     public partial class App : Application
     {
+        public IContainer Container { get; set; }
 
         protected override void OnStartup(StartupEventArgs e)
         {
+            base.OnStartup(e);
             CultureInfo.DefaultThreadCurrentUICulture = CultureInfo.InvariantCulture;
             Thread.CurrentThread.CurrentCulture = CultureInfo.DefaultThreadCurrentUICulture;
             var builder = new ContainerBuilder();
-            //builder.RegisterType<MainWindowVM>().AsSelf(); // TODO: LoginControlVM ИЛИ MainWindowVM?
             builder.RegisterType<CounterfeitKBContext>().AsSelf();
             builder.RegisterType<ResultDBContext>().AsSelf();
             builder.RegisterType<UserDBContext>().AsSelf();
+            builder.RegisterType<LoginControl>().AsSelf();
+            builder.RegisterType<LoginControlVM>().AsSelf();
+            builder.RegisterType<MainWindowVM>().AsSelf();
+            Container = builder.Build();
+            // TODO: Сервис работы с окнами (открытие, закрытие)
 
-            builder.RegisterType<IdentityFlowModelContext>().AsSelf();
-            builder.RegisterType<EFMaterialRepository>().As<IRepository<Material>>();
-            builder.RegisterType<EFMeasureRepository>().As<IRepository<Measure>>();
-            builder.RegisterType<EFParameterRepository>().As<IRepository<Parameter>>();
-            builder.RegisterType<EFParameterValueRepository>().As<IParameterValueRepository>();
-            builder.RegisterType<EFTypeParameterRepository>().As<IRepository<TypeParameter>>();
-            builder.RegisterType<EFUserRepository>().As<IUserRepository>();
+            //builder.AddFormFactory<ColorPropertyEditWindow>();
+            //builder.AddFormFactory<CompanyEditWindow>();
+            //builder.AddFormFactory<CounterfeitEditWindow>();
+            //builder.AddFormFactory<ShapePropertyEditWindow>();
+            //builder.AddFormFactory<UserEditWindow>();
 
-            var container = builder.Build();
-            var mainWindowVM = container.Resolve<MainWindowVM>();
-            var mainWindow = new MainWindow { DataContext = mainWindowVM };
-            mainWindow.Show();
+            //using var container = builder.Build();
+
+            //using var scope = container.BeginLifetimeScope();
+            //var createHolding = scope.Resolve<A.Factory>();
         }
 
+        public void AppStartUp(object sender, StartupEventArgs e)
+        {
+            var mainWindow = new MainWindow();
+            var vm = Container.Resolve<MainWindowVM>();
+            MainWindow.DataContext = vm;
+            var loginControl = Container.Resolve<LoginControl>();
+            var loginControlVM = Container.Resolve<LoginControlVM>();
+            loginControl.DataContext = loginControlVM;
+            vm.SetNewContent(loginControl);
+            mainWindow.Show();
+        }
     }
 }

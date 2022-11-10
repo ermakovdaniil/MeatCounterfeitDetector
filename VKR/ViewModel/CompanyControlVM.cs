@@ -4,7 +4,6 @@ using System.Windows;
 using DataAccess.Data;
 using DataAccess.Models;
 
-using VKR.Interfaces;
 using VKR.Utils;
 using VKR.View;
 
@@ -13,7 +12,7 @@ using MessageBox = HandyControl.Controls.MessageBox;
 
 namespace VKR.ViewModel
 {
-    internal class CompanyControlVM : ViewModelBase, IControlVM
+    internal class CompanyControlVM : ViewModelBase
     {
         #region Functions
 

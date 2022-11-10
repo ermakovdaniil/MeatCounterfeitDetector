@@ -14,6 +14,7 @@ namespace VKR.ViewModel
     {
         private RelayCommand _closeWindow;
 
+        // TODO: убрать
         /// <summary>
         ///     Команда, закрывающая текущее окно
         /// </summary>
@@ -28,8 +29,7 @@ namespace VKR.ViewModel
             }
         }
 
-        public event PropertyChangedEventHandler PropertyChanged;
-
+        // TODO: убрать
         /// <summary>
         ///     Команда, открывающая новое окно
         /// </summary>
@@ -41,6 +41,7 @@ namespace VKR.ViewModel
 
         public event EventHandler ClosingRequest;
 
+        // TODO: убрать
         /// <summary>
         ///     Функция, закрывающая текущее окно
         /// </summary>
@@ -48,6 +49,8 @@ namespace VKR.ViewModel
         {
             ClosingRequest?.Invoke(this, EventArgs.Empty);
         }
+
+        public event PropertyChangedEventHandler PropertyChanged;
 
         /// <summary>
         ///     Обработчик изменения свойств
