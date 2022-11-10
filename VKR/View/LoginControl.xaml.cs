@@ -3,7 +3,7 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 
-//using VKR.Data;
+using DataAccess.Data;
 
 using VKR.ViewModel;
 
@@ -34,37 +34,37 @@ namespace VKR.View
         }
 
 
-        private void EnterButtonClick(object sender, RoutedEventArgs e) //todo убрать заглушку
+        private void EnterButtonClick(object sender, RoutedEventArgs e)
         {
-            //var con = DbContextSingleton.GetInstance(); // TODO: УБРАТЬ?
-            //var userName = UserNameTextbox.Text;
-            //var password = PasswordTextBox.Password;
+            var con = DbContextSingleton.GetInstance();
+            var userName = UserNameTextbox.Text;
+            var password = PasswordTextBox.Password;
 
-            //if (string.IsNullOrEmpty(userName) || string.IsNullOrEmpty(password))
-            //{
-            //    MessageBox.Show("Введите имя пользователя и пароль!", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
-            //    return;
-            //}
+            if (string.IsNullOrEmpty(userName) || string.IsNullOrEmpty(password))
+            {
+                MessageBox.Show("Введите имя пользователя и пароль!", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
 
-            //try
-            //{
-            //    var user = con.Users.First(u => u.UserName == userName && u.UserPassword == password);
-            //    if (user.UserType.UserTypeName == "Администратор")
-            //    {
-            //        OnChangingRequest(new MainAdminControl());
-            //    }
+            try
+            {
+                var user = con.Users.First(u => u.UserName == userName && u.UserPassword == password);
+                if (user.UserType.UserTypeName == "Администратор")
+                {
+                    OnChangingRequest(new MainAdminControl());
+                }
 
-            //    if (user.UserType.UserTypeName == "Исследователь")
-            //    {
-            //        OnChangingRequest(new TechnologistControl());
-            //    }
-            //}
-            //catch (Exception exception)
-            //{
+                if (user.UserType.UserTypeName == "Исследователь")
+                {
+                    OnChangingRequest(new TechnologistControl());
+                }
+            }
+            catch (Exception exception)
+            {
 
-            //    MessageBox.Show("Неверное имя пользователя или пароль! Повторите попытку.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show("Неверное имя пользователя или пароль! Повторите попытку.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
 
-            //}
+            }
         }
 
         private void ButtonBase_OnClick(object sender, RoutedEventArgs e)

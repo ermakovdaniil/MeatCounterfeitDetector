@@ -40,16 +40,16 @@ namespace VKR.ViewModel
 
         #region Commands
 
-        private RelayCommand _deleteUser;
+        private RelayCommand _deleteResult;
 
         /// <summary>
         ///     Команда, удаляющая запись с результатами
         /// </summary>
-        public RelayCommand DeleteUser
+        public RelayCommand DeleteResult
         {
             get
             {
-                return _deleteUser ??= new RelayCommand(o =>
+                return _deleteResult ??= new RelayCommand(o =>
                 {
                     if (MessageBox.Show($"Вы действительно хотите удалить запись?",
                                         "Удаление записи", MessageBoxButton.YesNo, MessageBoxImage.Warning) ==

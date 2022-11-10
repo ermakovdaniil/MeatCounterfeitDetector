@@ -3,6 +3,8 @@ using System.Windows;
 
 using DataAccess.Data;
 using DataAccess.Models;
+
+using VKR.Interfaces;
 using VKR.Utils;
 using VKR.View;
 
@@ -11,7 +13,7 @@ using MessageBox = HandyControl.Controls.MessageBox;
 
 namespace VKR.ViewModel
 {
-    internal class CompanyControlVM : ViewModelBase
+    internal class CompanyControlVM : ViewModelBase, IControlVM
     {
         #region Functions
 
@@ -44,7 +46,7 @@ namespace VKR.ViewModel
         /// <summary>
         ///     Команда, открывающая окно создания цвета
         /// </summary>
-        public RelayCommand AddCompany
+        public RelayCommand Add
         {
             get
             {
@@ -60,7 +62,7 @@ namespace VKR.ViewModel
         /// <summary>
         ///     Команда, открывающая окно редактирования цвета
         /// </summary>
-        public RelayCommand EditCompany
+        public RelayCommand Edit
         {
             get
             {
@@ -76,7 +78,7 @@ namespace VKR.ViewModel
         /// <summary>
         ///     Команда, удаляющая цвет
         /// </summary>
-        public RelayCommand DeleteCompany
+        public RelayCommand Delete
         {
             get
             {
