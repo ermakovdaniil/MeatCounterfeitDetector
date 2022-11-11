@@ -23,16 +23,15 @@ namespace VKR.ViewModel
 
         public LoginControlVM(MainWindowVM mainModel, UserDBContext context)
         {
-            _db = context;
-
-            this._mainModel = mainModel;
+            _context = context;
+            _mainModel = mainModel;
             OpenUsersCommand = new RelayCommand(OpenUsers, CanOpenUsers);
         }
 
         private void OpenUsers(object _param)
         {
-            LoginControlVM upmodel = new LoginControlVM(_mainModel, _db);
-            LoginControl up = new LoginControl();
+            LoginControlVM upmodel = new LoginControlVM(_mainModel, _context);
+            LoginControl up = new LoginControl(upmodel);
             up.DataContext = upmodel;
             _mainModel.SetNewContent(up);
         }
@@ -54,7 +53,7 @@ namespace VKR.ViewModel
 
             try
             {
-                var user = _db.Users.First(u => u.Name == UserName && u.Password == Password);
+                var user = _context.Users.First(u => u.Name == UserName && u.Password == Password);
                 if (user.Type.Type == "Администратор")
                 {
                     OnChangingRequest(new MainAdminControl());
@@ -67,9 +66,7 @@ namespace VKR.ViewModel
             }
             catch (Exception exception)
             {
-
                 MessageBox.Show("Неверное имя пользователя или пароль! Повторите попытку.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
-
             }
         }
 
@@ -85,7 +82,7 @@ namespace VKR.ViewModel
 
         MainWindowVM _mainModel;
 
-        private readonly UserDBContext _db;
+        private readonly UserDBContext _context;
 
         public string UserName;
 
