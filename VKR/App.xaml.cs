@@ -7,6 +7,7 @@ using DataAccess.Data;
 using VKR.View;
 using VKR.ViewModel;
 
+
 namespace VKR
 {
     /// <summary>
@@ -25,44 +26,21 @@ namespace VKR
             builder.RegisterType<CounterfeitKBContext>().AsSelf();
             builder.RegisterType<ResultDBContext>().AsSelf();
             builder.RegisterType<UserDBContext>().AsSelf();
-            builder.RegisterType<LoginControl>().AsSelf();
-            builder.RegisterType<LoginControlVM>().AsSelf();
-            builder.RegisterType<MainWindow>().AsSelf();
-            builder.RegisterType<MainWindowVM>().AsSelf();
-            builder.RegisterType<ColorPropertyControl>().AsSelf();
-            builder.RegisterType<ColorPropertyControlVM>().AsSelf();
-            builder.RegisterType<ColorPropertyEditWindow>().AsSelf();
-            builder.RegisterType<ColorPropertyEditWindowVM>().AsSelf();
-            builder.RegisterType<CompanyControl>().AsSelf();
-            builder.RegisterType<CompanyControlVM>().AsSelf();
-            builder.RegisterType<CompanyEditWindow>().AsSelf();
-            builder.RegisterType<CompanyEditWindowVM>().AsSelf();
-            builder.RegisterType<CounterfeitEditWindow>().AsSelf();
-            builder.RegisterType<CounterfeitEditWindowVM>().AsSelf();
-            builder.RegisterType<CounterfeitExplorerControl>().AsSelf();
-            builder.RegisterType<CounterfeitExplorerControlVM>().AsSelf();
-            builder.RegisterType<MainAdminControl>().AsSelf();
-            builder.RegisterType<PropertyExplorerControl>().AsSelf();
-            builder.RegisterType<ResultControl>().AsSelf();
-            builder.RegisterType<ResultControlVM>().AsSelf();
-            builder.RegisterType<ShapePropertyControl>().AsSelf();
-            builder.RegisterType<ShapePropertyControlVM>().AsSelf();
-            builder.RegisterType<ShapePropertyEditWindow>().AsSelf();
-            builder.RegisterType<ShapePropertyEditWindowVM>().AsSelf();
-            builder.RegisterType<TechnologistControl>().AsSelf();
-            builder.RegisterType<TechnologistControlVM>().AsSelf();
-            builder.RegisterType<UserEditWindow>().AsSelf();
-            builder.RegisterType<UserEditWindowVM>().AsSelf();
-            builder.RegisterType<UserExplorerControl>().AsSelf();
-            builder.RegisterType<UserExplorerControlVM>().AsSelf();
+            
+            builder.RegisterAssemblyTypes(typeof(App).Assembly)
+                   .Where(t => t.Name.EndsWith("VM"))
+                   .AsSelf();
+            builder.RegisterAssemblyTypes(typeof(App).Assembly)
+                   .Where(t => t.Name.EndsWith("Control"))
+                   .AsSelf();
+            builder.RegisterAssemblyTypes(typeof(App).Assembly)
+                   .Where(t => t.Name.EndsWith("Window"))
+                   .AsSelf();
+            
+            builder.RegisterType<MainWindow>().AsSelf().SingleInstance();
+            builder.RegisterType<MainWindowVM>().AsSelf().SingleInstance();
             builder.RegisterType<UserControlFactory>().As<IUserControlFactory>();
 
-            // builder.RegisterAssemblyTypes(typeof(App).Assembly)
-            //        .Where(t => t.Name.EndsWith("VM"))
-            //        .AsSelf();
-            // builder.RegisterAssemblyTypes(typeof(App).Assembly)
-            //        .Where(t => t.Name.EndsWith("Control"))
-            //        .AsSelf();
             Container = builder.Build();
             
             var mainWindow = Container.Resolve<MainWindow>();
