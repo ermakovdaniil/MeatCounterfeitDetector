@@ -7,27 +7,10 @@
              xmlns:view="clr-namespace:VKR.View"
              mc:Ignorable="d"
              d:DesignHeight="450" d:DesignWidth="800">
-    
-    <UserControl.Resources>
-        <hc:UniformSpacingPanel x:Key="Menu" Spacing="10" Grid.Row="0" Background="{Binding NonClientAreaBackground,RelativeSource={RelativeSource FindAncestor,AncestorType=Window}}" Grid.ColumnSpan="3">
-            <Button Background="{StaticResource Style3}" Width="60" Height="50" Margin="10 0 0 0" ToolTip="Сменить пользователя" Command="{Binding ChangeUser}">
-                <StackPanel Orientation="Horizontal">
-                    <Image Source="pack://application:,,,/resources/icons/user.png"
-                                       RenderOptions.BitmapScalingMode="HighQuality"  />
-                    <TextBlock Text="Сменить пользователя" FontSize="15" />
-                </StackPanel>
-            </Button>
 
-            <Button Background="{StaticResource Style3}" Width="60" Height="50" Margin="0 0 0 0" ToolTip="Справка" Command="{Binding ShowInfo}">
-                <StackPanel Orientation="Horizontal">
-                    <Image Source="pack://application:,,,/resources/icons/info.png"
-                                       RenderOptions.BitmapScalingMode="HighQuality" />
-                    <TextBlock Text="Справка" FontSize="15" />
-                </StackPanel>
-            </Button>
-        </hc:UniformSpacingPanel>
+    <UserControl.Resources>
     </UserControl.Resources>
-    
+
     <Grid>
         <TabControl x:Name="tabs"
                     Visibility="{Binding TabControlVisibility, UpdateSourceTrigger=PropertyChanged}"

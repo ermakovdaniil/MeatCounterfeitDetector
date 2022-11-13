@@ -26,15 +26,14 @@
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                 <Button x:Name="AddButton" Width="100" hc:BorderElement.CornerRadius="10"
                         Command="{Binding AddCompany }" Content="{StaticResource AddButton}"
-                        Margin="0,0,10,0" Background="{StaticResource Style3}">
-                </Button>
+                        Margin="0,0,10,0" Background="{StaticResource Style3}" />
                 <Button x:Name="EditButton" Width="100" hc:BorderElement.CornerRadius="10"
                         Command="{Binding EditCompany }"
-                        Background="{StaticResource Style3}" Content="{StaticResource EditButton}"/>
+                        Background="{StaticResource Style3}" Content="{StaticResource EditButton}" />
                 <Button x:Name="ExitButton" Width="100" hc:BorderElement.CornerRadius="10"
                         Margin="10,0,0,0"
                         Command="{Binding DeleteCompany }"
-                        Background="{StaticResource Style3}" Content="{StaticResource DeleteButton}"/>
+                        Background="{StaticResource Style3}" Content="{StaticResource DeleteButton}" />
             </StackPanel>
         </Grid>
     </Grid>

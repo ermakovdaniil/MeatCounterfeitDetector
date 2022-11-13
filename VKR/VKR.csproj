@@ -1,102 +1,102 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <OutputType>WinExe</OutputType>
-    <TargetFramework>net6.0-windows</TargetFramework>
-    <Nullable>enable</Nullable>
-    <UseWPF>true</UseWPF>
-  </PropertyGroup>
+    <PropertyGroup>
+        <OutputType>WinExe</OutputType>
+        <TargetFramework>net6.0-windows</TargetFramework>
+        <Nullable>enable</Nullable>
+        <UseWPF>true</UseWPF>
+    </PropertyGroup>
 
-  <ItemGroup>
-    <None Remove="resources\icons\cancel.png" />
-    <None Remove="resources\icons\delete.png" />
-    <None Remove="resources\icons\editing.png" />
-    <None Remove="resources\icons\enter.png" />
-    <None Remove="resources\icons\exit.png" />
-    <None Remove="resources\icons\file.png" />
-    <None Remove="resources\icons\graph.png" />
-    <None Remove="resources\icons\image-analysis.png" />
-    <None Remove="resources\icons\image.png" />
-    <None Remove="resources\icons\info.png" />
-    <None Remove="resources\icons\logo.png" />
-    <None Remove="resources\icons\ok.png" />
-    <None Remove="resources\icons\open.png" />
-    <None Remove="resources\icons\plus.png" />
-    <None Remove="resources\icons\save.png" />
-    <None Remove="resources\icons\scanning.png" />
-    <None Remove="resources\icons\upload.png" />
-    <None Remove="resources\icons\user.png" />
-  </ItemGroup>
+    <ItemGroup>
+        <None Remove="resources\icons\cancel.png"/>
+        <None Remove="resources\icons\delete.png"/>
+        <None Remove="resources\icons\editing.png"/>
+        <None Remove="resources\icons\enter.png"/>
+        <None Remove="resources\icons\exit.png"/>
+        <None Remove="resources\icons\file.png"/>
+        <None Remove="resources\icons\graph.png"/>
+        <None Remove="resources\icons\image-analysis.png"/>
+        <None Remove="resources\icons\image.png"/>
+        <None Remove="resources\icons\info.png"/>
+        <None Remove="resources\icons\logo.png"/>
+        <None Remove="resources\icons\ok.png"/>
+        <None Remove="resources\icons\open.png"/>
+        <None Remove="resources\icons\plus.png"/>
+        <None Remove="resources\icons\save.png"/>
+        <None Remove="resources\icons\scanning.png"/>
+        <None Remove="resources\icons\upload.png"/>
+        <None Remove="resources\icons\user.png"/>
+    </ItemGroup>
 
-  <ItemGroup>
-    <PackageReference Include="Autofac" Version="6.4.0" />
-    <PackageReference Include="HandyControl" Version="3.3.0" />
-    <PackageReference Include="HandyControls.Lang.ru" Version="3.4.1" />
-    <PackageReference Include="itext7" Version="7.2.3" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.10" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="6.0.10">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="6.0.10" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite.Core" Version="6.0.10" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="6.0.10">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
-    <PackageReference Include="PropertyChanged.Fody" Version="4.0.5" />
-  </ItemGroup>
+    <ItemGroup>
+        <PackageReference Include="Autofac" Version="6.4.0"/>
+        <PackageReference Include="HandyControl" Version="3.3.0"/>
+        <PackageReference Include="HandyControls.Lang.ru" Version="3.4.1"/>
+        <PackageReference Include="itext7" Version="7.2.3"/>
+        <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.10"/>
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="6.0.10">
+            <PrivateAssets>all</PrivateAssets>
+            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        </PackageReference>
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="6.0.10"/>
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite.Core" Version="6.0.10"/>
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="6.0.10">
+            <PrivateAssets>all</PrivateAssets>
+            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        </PackageReference>
+        <PackageReference Include="PropertyChanged.Fody" Version="4.0.5"/>
+    </ItemGroup>
 
-  <ItemGroup>
-    <Resource Include="resources\icons\cancel.png">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="resources\icons\delete.png">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="resources\icons\editing.png">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="resources\icons\enter.png">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="resources\icons\exit.png">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="resources\icons\file.png">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="resources\icons\image-analysis.png">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="resources\icons\image.png">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="resources\icons\info.png">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="resources\icons\ok.png">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="resources\icons\open.png">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="resources\icons\plus.png">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="resources\icons\save.png">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="resources\icons\scanning.png">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="resources\icons\user.png">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </Resource>
-  </ItemGroup>
+    <ItemGroup>
+        <Resource Include="resources\icons\cancel.png">
+            <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+        </Resource>
+        <Resource Include="resources\icons\delete.png">
+            <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+        </Resource>
+        <Resource Include="resources\icons\editing.png">
+            <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+        </Resource>
+        <Resource Include="resources\icons\enter.png">
+            <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+        </Resource>
+        <Resource Include="resources\icons\exit.png">
+            <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+        </Resource>
+        <Resource Include="resources\icons\file.png">
+            <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+        </Resource>
+        <Resource Include="resources\icons\image-analysis.png">
+            <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+        </Resource>
+        <Resource Include="resources\icons\image.png">
+            <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+        </Resource>
+        <Resource Include="resources\icons\info.png">
+            <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+        </Resource>
+        <Resource Include="resources\icons\ok.png">
+            <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+        </Resource>
+        <Resource Include="resources\icons\open.png">
+            <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+        </Resource>
+        <Resource Include="resources\icons\plus.png">
+            <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+        </Resource>
+        <Resource Include="resources\icons\save.png">
+            <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+        </Resource>
+        <Resource Include="resources\icons\scanning.png">
+            <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+        </Resource>
+        <Resource Include="resources\icons\user.png">
+            <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+        </Resource>
+    </ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\DataAccess\DataAccess.csproj" />
-  </ItemGroup>
+    <ItemGroup>
+        <ProjectReference Include="..\DataAccess\DataAccess.csproj"/>
+    </ItemGroup>
 
 </Project>

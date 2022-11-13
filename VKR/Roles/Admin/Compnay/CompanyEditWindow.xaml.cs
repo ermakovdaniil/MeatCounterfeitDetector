@@ -1,22 +1,21 @@
-﻿using System.Windows;
+﻿using DataAccess.Models;
 
-using DataAccess.Data;
-using DataAccess.Models;
 using VKR.ViewModel;
 
-namespace VKR.View
+
+namespace VKR.View;
+
+/// <summary>
+///     Логика взаимодействия для CompanyEditWindow.xaml
+/// </summary>
+public partial class CompanyEditWindow
 {
-    /// <summary>
-    ///     Логика взаимодействия для CompanyEditWindow.xaml
-    /// </summary>
-    public partial class CompanyEditWindow
+    public CompanyEditWindow(Company company)
     {
-        public CompanyEditWindow(Company company)
-        {
-            InitializeComponent();
-            var vm = new CompanyEditWindowVM(company);
-            DataContext = vm;
-            //vm.ClosingRequest += (sender, e) => Close();
-        }
+        InitializeComponent();
+        var vm = new CompanyEditWindowVM(company);
+        DataContext = vm;
+
+        //vm.ClosingRequest += (sender, e) => Close();
     }
 }

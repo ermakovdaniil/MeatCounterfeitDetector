@@ -1,19 +1,19 @@
 ﻿using System;
 
-namespace VKR.Utils
+
+namespace VKR.Utils;
+
+public class AbstractFactory<T> : IAbstractFactory<T>
 {
-    public class AbstractFactory<T> : IAbstractFactory<T>
+    private readonly Func<T> _factory;
+
+    public AbstractFactory(Func<T> factory)
     {
-        private readonly Func<T> _factory;
+        _factory = factory;
+    }
 
-        public AbstractFactory(Func<T> factory)
-        {
-            _factory = factory;
-        }
-
-        public T Create()
-        {
-            return _factory();
-        }
+    public T Create()
+    {
+        return _factory();
     }
 }

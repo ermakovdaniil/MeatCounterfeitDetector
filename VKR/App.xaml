@@ -1,7 +1,6 @@
 ﻿<Application x:Class="VKR.App"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             >
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     <Application.Resources>
         <ResourceDictionary>
 
@@ -10,7 +9,7 @@
                 <ResourceDictionary Source="pack://application:,,,/HandyControl;component/Themes/Theme.xaml" />
             </ResourceDictionary.MergedDictionaries>
 
-            <StackPanel x:Shared="False"  x:Key="CancelButton" Orientation="Horizontal">
+            <StackPanel x:Shared="False" x:Key="CancelButton" Orientation="Horizontal">
                 <Image Source="pack://application:,,,/resources/icons/cancel.png"
                        RenderOptions.BitmapScalingMode="HighQuality" Width="8" Height="8" Margin="0,2,5,0" />
                 <TextBlock Text="Отмена" />

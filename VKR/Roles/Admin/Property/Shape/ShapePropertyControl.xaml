@@ -22,11 +22,11 @@
                   Background="{StaticResource Style3}">
 
             <DataGrid.Columns>
-                <DataGridTextColumn Header="ID" 
+                <DataGridTextColumn Header="ID"
                                     Binding="{Binding Id}" />
-                <DataGridTextColumn Header="Форма" 
+                <DataGridTextColumn Header="Форма"
                                     Binding="{Binding Name}" />
-                <DataGridTextColumn Header="Формула расчёта" 
+                <DataGridTextColumn Header="Формула расчёта"
                                     Binding="{Binding Formula}" />
             </DataGrid.Columns>
         </DataGrid>
@@ -34,11 +34,13 @@
         <Grid Row="1" Background="{StaticResource Style2}">
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                 <Button Width="100" Margin="5" hc:BorderElement.CornerRadius="10"
-                        Command="{Binding AddShape}" Background="{StaticResource Style3}" Content="{StaticResource AddButton}"/>
+                        Command="{Binding AddShape}" Background="{StaticResource Style3}"
+                        Content="{StaticResource AddButton}" />
                 <Button Width="100" Margin="5" hc:BorderElement.CornerRadius="10" Content="{StaticResource EditButton}"
-                        Command="{Binding EditShape}" Background="{StaticResource Style3}"/>
-                <Button Width="100" Margin="5" hc:BorderElement.CornerRadius="10" Content="{StaticResource DeleteButton}"
-                        Command="{Binding DeleteShape}" Background="{StaticResource Style3}"/>
+                        Command="{Binding EditShape}" Background="{StaticResource Style3}" />
+                <Button Width="100" Margin="5" hc:BorderElement.CornerRadius="10"
+                        Content="{StaticResource DeleteButton}"
+                        Command="{Binding DeleteShape}" Background="{StaticResource Style3}" />
             </StackPanel>
         </Grid>
     </Grid>

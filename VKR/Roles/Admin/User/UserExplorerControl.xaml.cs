@@ -2,17 +2,17 @@
 
 using VKR.ViewModel;
 
-namespace VKR.View
+
+namespace VKR.View;
+
+/// <summary>
+///     Логика взаимодействия для UserExplorerControl.xaml
+/// </summary>
+public partial class UserExplorerControl : UserControl
 {
-    /// <summary>
-    ///     Логика взаимодействия для UserExplorerControl.xaml
-    /// </summary>
-    public partial class UserExplorerControl : UserControl
+    public UserExplorerControl()
     {
-        public UserExplorerControl()
-        {
-            InitializeComponent();
-            DataContext = new UserExplorerControlVM();
-        }
+        InitializeComponent();
+        DataContext = new UserExplorerControlVM();
     }
 }

@@ -12,77 +12,29 @@
     <!--Title="Программный комплекс для анализа изображения на наличие фальсификата" MinWidth="1300" MinHeight="700"-->
 
     <UserControl.Resources>
-        <Style x:Key="TextBoxInError" BasedOn="{StaticResource {x:Type hc:TextBox}}" TargetType="{x:Type hc:TextBox}">
-            <Style.Triggers>
-                <Trigger Property="Validation.HasError" Value="true">
-                    <Setter Property="ToolTip"
-                            Value="{Binding RelativeSource={x:Static RelativeSource.Self},
-                              Path=(Validation.Errors)[0].ErrorContent}" />
-                </Trigger>
-            </Style.Triggers>
-        </Style>
 
-        <hc:UniformSpacingPanel x:Key="Menu" Spacing="10" Grid.Row="0" Background="{Binding NonClientAreaBackground,RelativeSource={RelativeSource FindAncestor,AncestorType=Window}}" Grid.ColumnSpan="3">
-            <Button Background="{StaticResource Style3}" Width="60" Height="50" Margin="10 0 0 0" ToolTip="Сменить пользователя" Command="{Binding ChangeUser}">
-                <StackPanel Orientation="Horizontal">
-                    <Image Source="pack://application:,,,/resources/icons/user.png"
-                                       RenderOptions.BitmapScalingMode="HighQuality"  />
-                    <TextBlock Text="Сменить пользователя" FontSize="15" />
-                </StackPanel>
-            </Button>
-
-            <Button Background="{StaticResource Style3}" Width="60" Height="50" ToolTip="Загрузить изображение" Command="{Binding ChangePathImageCommand}">
-                <StackPanel Orientation="Horizontal">
-                    <Image Source="pack://application:,,,/resources/icons/open.png"
-                                       RenderOptions.BitmapScalingMode="HighQuality"  />
-                    <TextBlock Text="Загрузить" FontSize="15" />
-                </StackPanel>
-            </Button>
-
-            <Button Background="{StaticResource Style3}" Width="60" Height="50" ToolTip="Создать отчёт">
-                <StackPanel Orientation="Horizontal">
-                    <Image Source="pack://application:,,,/resources/icons/save.png"
-                                       RenderOptions.BitmapScalingMode="HighQuality"  />
-                    <TextBlock Text="Создать отчёт" FontSize="15" />
-                </StackPanel>
-            </Button>
-
-            <Button Background="{StaticResource Style3}" Width="60" Height="50" ToolTip="Анализ изображения">
-                <StackPanel Orientation="Horizontal">
-                    <Image Source="pack://application:,,,/resources/icons/scanning.png"
-                                       RenderOptions.BitmapScalingMode="HighQuality" Height="40" Width="38" />
-                    <TextBlock Text="Анализ изображения" FontSize="15" />
-                </StackPanel>
-            </Button>
-
-            <Button Background="{StaticResource Style3}" Width="60" Height="50" Margin="0 0 0 0" ToolTip="Справка" Command="{Binding ShowInfo}">
-                <StackPanel Orientation="Horizontal">
-                    <Image Source="pack://application:,,,/resources/icons/info.png"
-                                       RenderOptions.BitmapScalingMode="HighQuality" />
-                    <TextBlock Text="Справка" FontSize="15" />
-                </StackPanel>
-            </Button>
-        </hc:UniformSpacingPanel>
     </UserControl.Resources>
 
     <Grid x:Name="MainGrid">
         <Grid.RowDefinitions>
             <RowDefinition />
-            <RowDefinition  />
+            <RowDefinition />
         </Grid.RowDefinitions>
 
         <Grid Grid.Row="0" Background="{StaticResource Style2}">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition />
-                <ColumnDefinition/>
+                <ColumnDefinition />
             </Grid.ColumnDefinitions>
 
-            <Border Grid.Column="0" BorderThickness="1" Margin="10" BorderBrush="#FF000000" Background="{StaticResource Style3}">
-                <Image Source="{Binding OriginalImagePath}"/>
+            <Border Grid.Column="0" BorderThickness="1" Margin="10" BorderBrush="#FF000000"
+                    Background="{StaticResource Style3}">
+                <Image Source="{Binding OriginalImagePath}" />
             </Border>
 
-            <Border Grid.Column="1" BorderThickness="1" Margin="10" BorderBrush="#FF000000" Background="{StaticResource Style3}">
-                <Image Source="{Binding ResultImagePath}"/>
+            <Border Grid.Column="1" BorderThickness="1" Margin="10" BorderBrush="#FF000000"
+                    Background="{StaticResource Style3}">
+                <Image Source="{Binding ResultImagePath}" />
             </Border>
 
         </Grid>
@@ -94,7 +46,7 @@
             </Grid.RowDefinitions>
 
             <Border Grid.Row="0" Grid.Column="0" Background="{StaticResource Style3}">
-                <hc:Divider Content="Результат анализа изображения" Margin="0 5" FontSize="17"/>
+                <hc:Divider Content="Результат анализа изображения" Margin="0 5" FontSize="17" />
             </Border>
 
             <hc:TextBox Grid.Row="1"

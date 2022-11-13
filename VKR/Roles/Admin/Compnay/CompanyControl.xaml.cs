@@ -2,17 +2,17 @@
 
 using VKR.ViewModel;
 
-namespace VKR.View
+
+namespace VKR.View;
+
+/// <summary>
+///     Логика взаимодействия для CompanyControl.xaml
+/// </summary>
+public partial class CompanyControl : UserControl
 {
-    /// <summary>
-    /// Логика взаимодействия для CompanyControl.xaml
-    /// </summary>
-    public partial class CompanyControl : UserControl
+    public CompanyControl()
     {
-        public CompanyControl()
-        {
-            InitializeComponent();
-            DataContext = new CompanyControlVM();
-        }
+        InitializeComponent();
+        DataContext = new CompanyControlVM();
     }
 }

@@ -2,17 +2,17 @@
 
 using VKR.ViewModel;
 
-namespace VKR.View
+
+namespace VKR.View;
+
+/// <summary>
+///     Логика взаимодействия для ShapePropertyControl.xaml
+/// </summary>
+public partial class ShapePropertyControl : UserControl
 {
-    /// <summary>
-    /// Логика взаимодействия для ShapePropertyControl.xaml
-    /// </summary>
-    public partial class ShapePropertyControl : UserControl
+    public ShapePropertyControl()
     {
-        public ShapePropertyControl()
-        {
-            InitializeComponent();
-            DataContext = new ShapePropertyControlVM();
-        }
+        InitializeComponent();
+        DataContext = new ShapePropertyControlVM();
     }
 }

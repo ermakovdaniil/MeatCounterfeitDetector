@@ -1,16 +1,9 @@
-﻿using System;
-using System.Windows.Controls;
-
-using Autofac;
-
-using DataAccess.Models;
-
-using VKR.Utils;
+﻿using System.Windows.Controls;
 
 
 namespace VKR.ViewModel;
 
-public class ControlViewModel: ViewModelBase
+public class ControlViewModel : ViewModelBase
 {
     private readonly IUserControlFactory _factory;
     protected MainWindowVM _mainWindowVm;
@@ -20,11 +13,10 @@ public class ControlViewModel: ViewModelBase
         _factory = factory;
         _mainWindowVm = mainWindowVm;
     }
-    
-    protected void changeControl<T>(object param) where T: UserControl
+
+    protected void changeControl<T>(object param) where T : UserControl
     {
-        UserControl control = _factory.CreateUserControl<T>(null);
+        var control = _factory.CreateUserControl<T>(null);
         _mainWindowVm.SetNewContent(control);
     }
-    
 }

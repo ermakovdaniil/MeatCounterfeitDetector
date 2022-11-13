@@ -2,18 +2,17 @@
 
 using VKR.ViewModel;
 
-namespace VKR.View
+
+namespace VKR.View;
+
+/// <summary>
+///     Логика взаимодействия для ColorPropertyControl.xaml
+/// </summary>
+public partial class ResultControl : UserControl
 {
-    /// <summary>
-    /// Логика взаимодействия для ColorPropertyControl.xaml
-    /// </summary>
-    public partial class ResultControl : UserControl
+    public ResultControl()
     {
-        public ResultControl()
-        {
-            InitializeComponent();
-            DataContext = new ResultControlVM();
-        }
+        InitializeComponent();
+        DataContext = new ResultControlVM();
     }
 }
-

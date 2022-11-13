@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-           xmlns:vm="clr-namespace:VKR.ViewModel"
+             xmlns:vm="clr-namespace:VKR.ViewModel"
              xmlns:hc="https://handyorg.github.io/handycontrol"
              mc:Ignorable="d"
              d:DataContext="{d:DesignInstance vm:UserExplorerControlVM}"
@@ -35,11 +35,14 @@
             <Grid Row="1" Background="{StaticResource Style2}">
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                     <Button Width="100" Margin="5" hc:BorderElement.CornerRadius="10"
-                            Command="{Binding AddUser}" Background="{StaticResource Style3}" Content="{StaticResource AddButton}"/>
+                            Command="{Binding AddUser}" Background="{StaticResource Style3}"
+                            Content="{StaticResource AddButton}" />
                     <Button Width="100" Margin="5" hc:BorderElement.CornerRadius="10"
-                            Command="{Binding EditUser}" Background="{StaticResource Style3}" Content="{StaticResource EditButton}"/>
-                    <Button Width="100" Margin="5" hc:BorderElement.CornerRadius="10" Content="{StaticResource DeleteButton}"
-                            Command="{Binding DeleteUser}" Background="{StaticResource Style3}"/>
+                            Command="{Binding EditUser}" Background="{StaticResource Style3}"
+                            Content="{StaticResource EditButton}" />
+                    <Button Width="100" Margin="5" hc:BorderElement.CornerRadius="10"
+                            Content="{StaticResource DeleteButton}"
+                            Command="{Binding DeleteUser}" Background="{StaticResource Style3}" />
                 </StackPanel>
             </Grid>
         </Grid>

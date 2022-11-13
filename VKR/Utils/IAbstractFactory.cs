@@ -1,7 +1,6 @@
-﻿namespace VKR.Utils
+﻿namespace VKR.Utils;
+
+public interface IAbstractFactory<T>
 {
-    public interface IAbstractFactory<T>
-    {
-        T Create();
-    }
+    T Create();
 }

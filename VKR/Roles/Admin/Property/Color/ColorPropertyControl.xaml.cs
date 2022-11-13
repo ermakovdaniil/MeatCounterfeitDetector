@@ -1,26 +1,27 @@
 ﻿using System.Windows.Controls;
+
 using Autofac;
 
 using VKR.ViewModel;
 
-namespace VKR.View
+
+namespace VKR.View;
+
+/// <summary>
+///     Логика взаимодействия для ColorPropertyControl.xaml
+/// </summary>
+public partial class ColorPropertyControl : UserControl
 {
-    /// <summary>
-    ///     Логика взаимодействия для ColorPropertyControl.xaml
-    /// </summary>
-    public partial class ColorPropertyControl : UserControl
+    private ColorPropertyControlVM _viewModel;
+
+    public ColorPropertyControl(ColorPropertyControlVM vm)
     {
-        public IContainer Container { get; set; }
+        InitializeComponent();
+        DataContext = vm;
+        _viewModel = vm;
 
-        private ColorPropertyControlVM _viewModel;
-
-        public ColorPropertyControl(ColorPropertyControlVM vm)
-        {
-            InitializeComponent();
-            DataContext = vm;
-            _viewModel = vm;
-
-            //_viewModel = Container.Resolve<ColorPropertyControlVM>();
-        }
+        //_viewModel = Container.Resolve<ColorPropertyControlVM>();
     }
+
+    public IContainer Container { get; set; }
 }

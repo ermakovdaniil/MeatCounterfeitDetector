@@ -1,19 +1,19 @@
 ﻿using System.Windows.Controls;
 
 using Autofac;
-using Autofac.Core;
 
 
 public interface IUserControlFactory
 {
-    UserControl CreateUserControl<T>(object param)where T: UserControl;
+    UserControl CreateUserControl<T>(object param) where T : UserControl;
 }
+
 
 public class UserControlFactory : IUserControlFactory
 {
-    private IComponentContext container;
+    private readonly IComponentContext container;
 
-    public UserControlFactory(IComponentContext  container)
+    public UserControlFactory(IComponentContext container)
     {
         this.container = container;
     }

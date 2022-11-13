@@ -35,9 +35,10 @@
         <Grid Row="1" Background="{StaticResource Style1}">
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                 <Button hc:BorderElement.CornerRadius="10" Width="100" Margin="5" Command="{Binding SaveCompany}"
-                        Background="{StaticResource Style3}" Content="{StaticResource ApplyButton}"/>
-                <Button Width="100" Margin="5" Content="{StaticResource CancelButton}" hc:BorderElement.CornerRadius="10" Command="{Binding CloseWindow}"
-                        Background="{StaticResource Style3}"/>
+                        Background="{StaticResource Style3}" Content="{StaticResource ApplyButton}" />
+                <Button Width="100" Margin="5" Content="{StaticResource CancelButton}"
+                        hc:BorderElement.CornerRadius="10" Command="{Binding CloseWindow}"
+                        Background="{StaticResource Style3}" />
             </StackPanel>
         </Grid>
     </Grid>
