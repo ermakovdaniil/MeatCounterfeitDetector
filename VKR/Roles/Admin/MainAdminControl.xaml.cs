@@ -20,7 +20,7 @@ namespace VKR.View
     /// <summary>
     ///     Логика взаимодействия для MainAdminControl.xaml
     /// </summary>
-    public partial class MainAdminControl : UserControl, IСhangeableControl
+    public partial class MainAdminControl : UserControl
     {
         public MainAdminControl()
         {
@@ -35,11 +35,11 @@ namespace VKR.View
         public string WindowTitle { get; set; } = "Панель администратора";
         public double? PreferedHeight { get; set; }
         public double? PreferedWidth { get; set; }
-        public event IСhangeableControl.ChangingRequestHandler ChangingRequest;
+
 
         public void OnChangingRequest(UserControl newControl)
         {
-            ChangingRequest.Invoke(this, newControl);
+            //ChangingRequest.Invoke(this, newControl);
         }
 
         private static void NotifyDbUpdated(object? sender, SavedChangesEventArgs savedChangesEventArgs)

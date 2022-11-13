@@ -20,7 +20,7 @@ namespace VKR.View
     /// <summary>
     ///     Логика взаимодействия для ResearcherControl.xaml
     /// </summary>
-    public partial class TechnologistControl : UserControl, IСhangeableControl
+    public partial class TechnologistControl : UserControl
     {
         public TechnologistControl()
         {
@@ -34,11 +34,11 @@ namespace VKR.View
         public string WindowTitle { get; set; } = "Программный комплекс для исследования неизотермического течения аномально-вязких материалов";
         public double? PreferedHeight { get; set; }
         public double? PreferedWidth { get; set; }
-        public event IСhangeableControl.ChangingRequestHandler ChangingRequest;
+        //public event IСhangeableControl.ChangingRequestHandler ChangingRequest;
 
         public void OnChangingRequest(UserControl newControl)
         {
-            ChangingRequest?.Invoke(this, newControl);
+            //ChangingRequest?.Invoke(this, newControl);
         }
 
         //private void MenuItem_OnClick(object sender, RoutedEventArgs e)

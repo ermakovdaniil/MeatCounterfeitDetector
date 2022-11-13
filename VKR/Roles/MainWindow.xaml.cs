@@ -10,11 +10,11 @@ namespace VKR.View
     /// </summary>
     public partial class MainWindow
     {
-        public MainWindowVM VM;
+        public MainWindowVM _viewModel;
         public MainWindow(MainWindowVM vm)
         {
             InitializeComponent();
-            VM = vm;
+            _viewModel = vm;
             DataContext = vm;
         }
     }
