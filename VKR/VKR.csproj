@@ -8,43 +8,43 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <None Remove="resources\icons\cancel.png"/>
-        <None Remove="resources\icons\delete.png"/>
-        <None Remove="resources\icons\editing.png"/>
-        <None Remove="resources\icons\enter.png"/>
-        <None Remove="resources\icons\exit.png"/>
-        <None Remove="resources\icons\file.png"/>
-        <None Remove="resources\icons\graph.png"/>
-        <None Remove="resources\icons\image-analysis.png"/>
-        <None Remove="resources\icons\image.png"/>
-        <None Remove="resources\icons\info.png"/>
-        <None Remove="resources\icons\logo.png"/>
-        <None Remove="resources\icons\ok.png"/>
-        <None Remove="resources\icons\open.png"/>
-        <None Remove="resources\icons\plus.png"/>
-        <None Remove="resources\icons\save.png"/>
-        <None Remove="resources\icons\scanning.png"/>
-        <None Remove="resources\icons\upload.png"/>
-        <None Remove="resources\icons\user.png"/>
+        <None Remove="resources\icons\cancel.png" />
+        <None Remove="resources\icons\delete.png" />
+        <None Remove="resources\icons\editing.png" />
+        <None Remove="resources\icons\enter.png" />
+        <None Remove="resources\icons\exit.png" />
+        <None Remove="resources\icons\file.png" />
+        <None Remove="resources\icons\graph.png" />
+        <None Remove="resources\icons\image-analysis.png" />
+        <None Remove="resources\icons\image.png" />
+        <None Remove="resources\icons\info.png" />
+        <None Remove="resources\icons\logo.png" />
+        <None Remove="resources\icons\ok.png" />
+        <None Remove="resources\icons\open.png" />
+        <None Remove="resources\icons\plus.png" />
+        <None Remove="resources\icons\save.png" />
+        <None Remove="resources\icons\scanning.png" />
+        <None Remove="resources\icons\upload.png" />
+        <None Remove="resources\icons\user.png" />
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="Autofac" Version="6.4.0"/>
-        <PackageReference Include="HandyControl" Version="3.3.0"/>
-        <PackageReference Include="HandyControls.Lang.ru" Version="3.4.1"/>
-        <PackageReference Include="itext7" Version="7.2.3"/>
-        <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.10"/>
+        <PackageReference Include="Autofac" Version="6.4.0" />
+        <PackageReference Include="HandyControl" Version="3.3.0" />
+        <PackageReference Include="HandyControls.Lang.ru" Version="3.4.1" />
+        <PackageReference Include="itext7" Version="7.2.3" />
+        <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.10" />
         <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="6.0.10">
             <PrivateAssets>all</PrivateAssets>
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
-        <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="6.0.10"/>
-        <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite.Core" Version="6.0.10"/>
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="6.0.10" />
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite.Core" Version="6.0.10" />
         <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="6.0.10">
             <PrivateAssets>all</PrivateAssets>
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
-        <PackageReference Include="PropertyChanged.Fody" Version="4.0.5"/>
+        <PackageReference Include="PropertyChanged.Fody" Version="4.0.5" />
     </ItemGroup>
 
     <ItemGroup>
@@ -96,7 +96,7 @@
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\DataAccess\DataAccess.csproj"/>
+        <ProjectReference Include="..\DataAccess\DataAccess.csproj" />
     </ItemGroup>
 
 </Project>

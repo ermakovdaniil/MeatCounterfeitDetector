@@ -13,9 +13,9 @@ namespace VKR.ViewModel;
 
 internal class UserExplorerControlVM : ViewModelBase
 {
-#region Functions
+    #region Functions
 
-#region Constructors
+    #region Constructors
 
     public UserExplorerControlVM()
     {
@@ -23,22 +23,22 @@ internal class UserExplorerControlVM : ViewModelBase
         Users = _db.Users.Local.ToObservableCollection();
     }
 
-#endregion
+    #endregion
 
-#endregion
+    #endregion
 
 
-#region Properties
+    #region Properties
 
     private readonly UserDBContext _db;
     public User SelectedUser { get; set; }
     public ObservableCollection<User> Users { get; set; }
     public ObservableCollection<UserType> UserTypes { get; set; }
 
-#endregion
+    #endregion
 
 
-#region Commands
+    #region Commands
 
     private RelayCommand _addUser;
 
@@ -94,5 +94,5 @@ internal class UserExplorerControlVM : ViewModelBase
         }
     }
 
-#endregion
+    #endregion
 }
