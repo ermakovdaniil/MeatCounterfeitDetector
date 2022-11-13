@@ -10,12 +10,12 @@ namespace VKR.View;
 /// </summary>
 public partial class CompanyEditWindow
 {
-    public CompanyEditWindow(Company company)
+    private CompanyEditWindowVM _viewModel;
+
+    public CompanyEditWindow(Company company, CompanyEditWindowVM vm)
     {
         InitializeComponent();
-        var vm = new CompanyEditWindowVM(company);
         DataContext = vm;
-
-        //vm.ClosingRequest += (sender, e) => Close();
+        _viewModel = vm;
     }
 }

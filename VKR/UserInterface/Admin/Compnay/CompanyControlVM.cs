@@ -11,33 +11,33 @@ using MessageBox = HandyControl.Controls.MessageBox;
 
 namespace VKR.ViewModel;
 
-internal class CompanyControlVM : ViewModelBase
+public class CompanyControlVM : ViewModelBase
 {
-#region Functions
+    #region Functions
 
-#region Constructors
+    #region Constructors
 
-    public CompanyControlVM()
+    public CompanyControlVM(ResultDBContext context)
     {
-        _db = new ResultDBContext();
-        Companies = _db.Companies.Local.ToObservableCollection();
+        _context = context;
+        Companies = _context.Companies.Local.ToObservableCollection();
     }
 
-#endregion
+    #endregion
 
-#endregion
+    #endregion
 
 
-#region Properties
+    #region Properties
 
-    private readonly ResultDBContext _db;
+    private readonly ResultDBContext _context;
     public Company SelectedCompany { get; set; }
     public ObservableCollection<Company> Companies { get; set; }
 
-#endregion
+    #endregion
 
 
-#region Commands
+    #region Commands
 
     private RelayCommand _addCompany;
 
@@ -86,12 +86,12 @@ internal class CompanyControlVM : ViewModelBase
                                     "Удаление предприятия", MessageBoxButton.YesNo, MessageBoxImage.Warning) ==
                     MessageBoxResult.Yes)
                 {
-                    _db.Companies.Remove(SelectedCompany);
-                    _db.SaveChanges();
+                    _context.Companies.Remove(SelectedCompany);
+                    _context.SaveChanges();
                 }
             }, _ => SelectedCompany != null);
         }
     }
 
-#endregion
+    #endregion
 }

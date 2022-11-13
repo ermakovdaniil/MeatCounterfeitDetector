@@ -11,9 +11,9 @@ namespace VKR.ViewModel;
 
 internal class UserEditWindowVM : ViewModelBase
 {
-#region Functions
+    #region Functions
 
-#region Constructors
+    #region Constructors
 
     public UserEditWindowVM(User tempUser)
     {
@@ -30,12 +30,12 @@ internal class UserEditWindowVM : ViewModelBase
         UserTypes = Db.UserTypes.Local.ToObservableCollection();
     }
 
-#endregion
+    #endregion
 
-#endregion
+    #endregion
 
 
-#region Properties
+    #region Properties
 
     public ObservableCollection<UserType> UserTypes { get; set; }
     public User TempUser { get; set; }
@@ -43,10 +43,10 @@ internal class UserEditWindowVM : ViewModelBase
 
     private UserDBContext Db { get; }
 
-#endregion
+    #endregion
 
 
-#region Commands
+    #region Commands
 
     private RelayCommand _saveUser;
 
@@ -76,5 +76,5 @@ internal class UserEditWindowVM : ViewModelBase
         }
     }
 
-#endregion
+    #endregion
 }

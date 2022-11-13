@@ -4,11 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace VKR.UserInterface.Abstract
+namespace VKR.UserInterface.Admin
 {
-    public interface IParent
+    internal class MainAdminControlVM
     {
-        public bool IsChild();
-        public void ChangeContent();
     }
 }

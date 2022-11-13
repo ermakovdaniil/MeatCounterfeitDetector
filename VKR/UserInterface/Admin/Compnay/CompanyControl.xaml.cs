@@ -1,4 +1,6 @@
-﻿using System.Windows.Controls;
+﻿using DataAccess.Data;
+
+using System.Windows.Controls;
 
 using VKR.ViewModel;
 
@@ -10,9 +12,14 @@ namespace VKR.View;
 /// </summary>
 public partial class CompanyControl : UserControl
 {
-    public CompanyControl()
+    private readonly ResultDBContext _context;
+
+    private CompanyControlVM _viewModel;
+
+    public CompanyControl(CompanyControlVM vm)
     {
         InitializeComponent();
-        DataContext = new CompanyControlVM();
+        DataContext = vm;
+        _viewModel = vm;
     }
 }

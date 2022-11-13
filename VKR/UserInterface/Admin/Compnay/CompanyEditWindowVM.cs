@@ -9,14 +9,13 @@ using VKR.Utils;
 
 namespace VKR.ViewModel;
 
-internal class CompanyEditWindowVM : ViewModelBase
-
+public class CompanyEditWindowVM : ViewModelBase
 {
-#region Functions
+    #region Functions
 
-#region Constructors
+    #region Constructors
 
-    public CompanyEditWindowVM(Company tempCompany)
+    public CompanyEditWindowVM(Company tempCompany, ResultDBContext context)
     {
         TempCompany = new Company
         {
@@ -25,27 +24,26 @@ internal class CompanyEditWindowVM : ViewModelBase
         };
 
         EditingCompany = tempCompany;
-        Db = new ResultDBContext();
-        Companies = Db.Companies.Local.ToObservableCollection();
+        _context = context;
+        Companies = _context.Companies.Local.ToObservableCollection();
     }
 
-#endregion
+    #endregion
 
-#endregion
+    #endregion
 
 
-#region Properties
+    #region Properties
 
     public ObservableCollection<Company> Companies { get; set; }
     public Company TempCompany { get; set; }
     public Company EditingCompany { get; set; }
 
-    private ResultDBContext Db { get; }
+    private ResultDBContext _context { get; }
 
-#endregion
+    #endregion
 
-
-#region Commands
+    #region Commands
 
     private RelayCommand _saveCompany;
 
@@ -61,17 +59,15 @@ internal class CompanyEditWindowVM : ViewModelBase
                 EditingCompany.Id = TempCompany.Id;
                 EditingCompany.Name = TempCompany.Name;
 
-                if (!Db.Companies.Contains(EditingCompany))
+                if (!_context.Companies.Contains(EditingCompany))
                 {
-                    Db.Companies.Add(EditingCompany);
+                    _context.Companies.Add(EditingCompany);
                 }
 
-                Db.SaveChanges();
-
-                //OnClosingRequest();
+                _context.SaveChanges();
             });
         }
     }
 
-#endregion
+    #endregion
 }
