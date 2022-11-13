@@ -13,7 +13,7 @@ namespace VKR.View
             InitializeComponent();
             var vm = new CounterfeitEditWindowVM(counterfeit);
             DataContext = vm;
-            vm.ClosingRequest += (sender, e) => Close();
+            //vm.ClosingRequest += (sender, e) => Close();
         }
     }
 }

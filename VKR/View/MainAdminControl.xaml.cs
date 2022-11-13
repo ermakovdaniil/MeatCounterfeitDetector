@@ -49,7 +49,7 @@ namespace VKR.View
 
         private void ChangeUser(object sender, RoutedEventArgs e)
         {
-            OnChangingRequest(new LoginControl());
+            //OnChangingRequest(new LoginControl());
         }
 
         private void SaveDB(object sender, RoutedEventArgs e)

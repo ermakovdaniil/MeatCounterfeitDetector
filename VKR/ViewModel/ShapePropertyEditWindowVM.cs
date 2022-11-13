@@ -69,7 +69,7 @@ namespace VKR.ViewModel
                     }
 
                     Db.SaveChanges();
-                    OnClosingRequest();
+                    //OnClosingRequest();
                 });
             }
         }

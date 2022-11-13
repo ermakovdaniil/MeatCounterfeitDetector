@@ -54,7 +54,7 @@ namespace VKR.ViewModel
             {
                 return _addColor ??= new RelayCommand(o =>
                 {
-                    ShowChildWindow(new ColorPropertyEditWindow(new Color()));
+                    //ShowChildWindow(new ColorPropertyEditWindow(new Color()));
                 });
             }
         }

@@ -21,6 +21,6 @@
 
     </hc:Window.NonClientAreaContent>
     <Grid>
-        <ContentControl Content="{Binding ContentWindow}"/>
+        <ContentControl Content="{Binding ContentWindow, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
     </Grid>
 </hc:Window>

@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -9,15 +11,18 @@ namespace VKR.ViewModel
 {
     public class MainWindowVM : ViewModelBase
     {
-        private UserControl _content;
-
-        public MainWindowVM() { }
-
-        internal void SetNewContent(UserControl _content)
+        
+        internal void SetNewContent(UserControl content)
         {
-            ContentWindow = _content;
+            Debug.WriteLine($"#######################################################################33");
+            Debug.WriteLine(ContentWindow);
+            ContentWindow = content;
+            Debug.WriteLine(ContentWindow);
+            
         }
-
+        
+        
+        private UserControl _content;
         public UserControl ContentWindow
         {
             get { return _content; }

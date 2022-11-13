@@ -53,7 +53,7 @@ namespace VKR.ViewModel
             {
                 return _addShape ??= new RelayCommand(o =>
                 {
-                    ShowChildWindow(new ShapePropertyEditWindow(new Shape()));
+                    //ShowChildWindow(new ShapePropertyEditWindow(new Shape()));
                 });
             }
         }
@@ -69,7 +69,7 @@ namespace VKR.ViewModel
             {
                 return _editShape ??= new RelayCommand(o =>
                 {
-                    ShowChildWindow(new ShapePropertyEditWindow(SelectedShape));
+                    //ShowChildWindow(new ShapePropertyEditWindow(SelectedShape));
                 }, _ => SelectedShape != null);
             }
         }

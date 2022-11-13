@@ -18,7 +18,9 @@ namespace VKR.View
         {
             InitializeComponent();
             DataContext = vm;
-            _viewModel = Container.Resolve<ColorPropertyControlVM>();
+            _viewModel = vm;
+
+            //_viewModel = Container.Resolve<ColorPropertyControlVM>();
         }
     }
 }

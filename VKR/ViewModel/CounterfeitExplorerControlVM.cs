@@ -51,7 +51,7 @@ namespace VKR.ViewModel
             {
                 return _addCounterfeit ??= new RelayCommand(o =>
                 {
-                    ShowChildWindow(new CounterfeitEditWindow(new Counterfeit()));
+                    //ShowChildWindow(new CounterfeitEditWindow(new Counterfeit()));
                 });
             }
         }
@@ -67,7 +67,7 @@ namespace VKR.ViewModel
             {
                 return _editCounterfeitObject ??= new RelayCommand(o =>
                 {
-                    ShowChildWindow(new CounterfeitEditWindow(SelectedCounterfeit));
+                    //ShowChildWindow(new CounterfeitEditWindow(SelectedCounterfeit));
                 },
                                                            c => SelectedCounterfeit != null);
             }

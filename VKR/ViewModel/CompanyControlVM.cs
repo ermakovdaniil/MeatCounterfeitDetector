@@ -51,7 +51,7 @@ namespace VKR.ViewModel
             {
                 return _addCompany ??= new RelayCommand(o =>
                 {
-                    ShowChildWindow(new CompanyEditWindow(new Company()));
+                    //ShowChildWindow(new CompanyEditWindow(new Company()));
                 });
             }
         }
@@ -67,7 +67,7 @@ namespace VKR.ViewModel
             {
                 return _editCompany ??= new RelayCommand(o =>
                 {
-                    ShowChildWindow(new CompanyEditWindow(SelectedCompany));
+                   //ShowChildWindow(new CompanyEditWindow(SelectedCompany));
                 }, _ => SelectedCompany != null);
             }
         }

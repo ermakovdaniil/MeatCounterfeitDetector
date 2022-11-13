@@ -19,7 +19,7 @@
                             Background="{StaticResource Style3}" />
                 <hc:PasswordBox  x:Name="PasswordTextBox" hc:InfoElement.Title="Пароль" Margin="10,0,10,10" Background="{StaticResource Style3}" />
                 <Button x:Name="EnterButton" Width="100" hc:BorderElement.CornerRadius="10" 
-                        Command="{Binding OpenUsersCommand }" Content="{StaticResource EnterButton}"
+                        Command="{Binding OpenColorProperty }" Content="{StaticResource EnterButton}"
                         Margin="0,0,10,0" Background="{StaticResource Style3}"/>
             </StackPanel>
 

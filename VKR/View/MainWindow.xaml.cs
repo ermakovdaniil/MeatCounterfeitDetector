@@ -10,39 +10,12 @@ namespace VKR.View
     /// </summary>
     public partial class MainWindow
     {
-        //private UserControl _control;
-
-        public MainWindow()
+        public MainWindowVM VM;
+        public MainWindow(MainWindowVM vm)
         {
             InitializeComponent();
-            //ChangeContent(null, new LoginControl());
-
-            MainWindowVM mainModel = new MainWindowVM();
-
-            //MenuVM viewmodel = new MenuVM(mainModel);
-            //ButtonsMenu bm = new ButtonsMenu(); // <!-- We load a default UserControl when we run the program -->
-            //bm.DataContext = viewmodel;
-            //mainModel.ContentWindow = bm;
-            //this.DataContext = mainModel;
+            VM = vm;
+            DataContext = vm;
         }
-
-        //private void ChangeContent(object sender, UserControl control)
-        //{
-        //    _control = control;
-        //    ((IСhangeableControl)_control).ChangingRequest -= ChangeContent;
-        //    ((IСhangeableControl)_control).ChangingRequest += ChangeContent;
-        //    content.Content = _control;
-        //    WindowState = ((IСhangeableControl)_control).PreferedWindowState;
-
-        //    if (WindowState != WindowState.Maximized)
-        //    {
-        //        Height = (double)((IСhangeableControl)_control).PreferedHeight;
-        //        Width = (double)((IСhangeableControl)_control).PreferedWidth;
-        //    }
-
-        //    Title = ((IСhangeableControl)_control).WindowTitle;
-
-        //    MenuControl.Content = control.TryFindResource("Menu") as Menu;
-        //}
     }
 }

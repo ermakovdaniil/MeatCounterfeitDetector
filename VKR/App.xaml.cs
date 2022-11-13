@@ -27,28 +27,24 @@ namespace VKR
             builder.RegisterType<UserDBContext>().AsSelf();
             builder.RegisterType<LoginControl>().AsSelf();
             builder.RegisterType<LoginControlVM>().AsSelf();
-            builder.RegisterType<MainWindowVM>().AsSelf();
+            builder.RegisterType<MainWindowVM>().AsSelf().SingleInstance();
+            builder.RegisterType<MainWindow>().AsSelf().SingleInstance();
             builder.RegisterType<ColorPropertyControlVM>().AsSelf();
+            builder.RegisterType<UserControlFactory>().As<IUserControlFactory>();
             
+            builder.RegisterType<ColorPropertyControl>().AsSelf();
+
+            // builder.RegisterAssemblyTypes(typeof(App).Assembly)
+            //        .Where(t => t.Name.EndsWith("VM"))
+            //        .AsSelf();
+            // builder.RegisterAssemblyTypes(typeof(App).Assembly)
+            //        .Where(t => t.Name.EndsWith("Control"))
+            //        .AsSelf();
             Container = builder.Build();
-            // TODO: Сервис работы с окнами (открытие, закрытие)
-
-            //builder.AddFormFactory<ColorPropertyEditWindow>();
-            //builder.AddFormFactory<CompanyEditWindow>();
-            //builder.AddFormFactory<CounterfeitEditWindow>();
-            //builder.AddFormFactory<ShapePropertyEditWindow>();
-            //builder.AddFormFactory<UserEditWindow>();
-
-            //using var container = builder.Build();
-
-            //using var scope = container.BeginLifetimeScope();
-            //var createHolding = scope.Resolve<A.Factory>();
-            var vm = Container.Resolve<MainWindowVM>();
+            
+            var mainWindow = Container.Resolve<MainWindow>();
             var loginControl = Container.Resolve<LoginControl>();
-            var loginControlVM = Container.Resolve<LoginControlVM>();
-            loginControl.DataContext = loginControlVM;
-            vm.SetNewContent(loginControl);
-            var mainWindow = new MainWindow() { DataContext = vm };
+            mainWindow.VM.SetNewContent(loginControl);
             mainWindow.Show();
         }
     }

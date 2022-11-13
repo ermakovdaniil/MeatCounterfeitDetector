@@ -10,15 +10,13 @@ namespace VKR.View
     /// </summary>
     public partial class LoginControl : UserControl
     {
-        public IContainer Container { get; set; }
-
         private LoginControlVM _viewModel;
 
         public LoginControl(LoginControlVM vm)
         {
             InitializeComponent();
             DataContext = vm;
-            _viewModel = Container.Resolve<LoginControlVM>();
+            _viewModel = vm;
         }
     }
 }

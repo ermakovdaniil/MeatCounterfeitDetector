@@ -16,7 +16,7 @@ namespace VKR.View
             InitializeComponent();
             var vm = new ColorPropertyEditWindowVM(color);
             DataContext = vm;
-            vm.ClosingRequest += (sender, e) => Close();
+            //vm.ClosingRequest += (sender, e) => Close();
         }
     }
 }

@@ -52,7 +52,7 @@ namespace VKR.ViewModel
             {
                 return _addUser ??= new RelayCommand(o =>
                 {
-                    ShowChildWindow(new UserEditWindow(new User()));
+                    //ShowChildWindow(new UserEditWindow(new User()));
                 });
             }
         }
@@ -68,7 +68,7 @@ namespace VKR.ViewModel
             {
                 return _editUser ??= new RelayCommand(o =>
                 {
-                    ShowChildWindow(new UserEditWindow(SelectedUser));
+                    //ShowChildWindow(new UserEditWindow(SelectedUser));
                 }, _ => SelectedUser != null);
             }
         }

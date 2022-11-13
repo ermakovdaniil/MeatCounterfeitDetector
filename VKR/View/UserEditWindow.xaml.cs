@@ -13,7 +13,7 @@ namespace VKR.View
             InitializeComponent();
             var vm = new UserEditWindowVM(user);
             DataContext = vm;
-            vm.ClosingRequest += (sender, e) => Close();
+            //vm.ClosingRequest += (sender, e) => Close();
         }
     }
 }
