@@ -35,14 +35,13 @@ namespace VKR.ViewModel
 
         #endregion
 
-
         #region Properties
 
         public ObservableCollection<Color> Colors { get; set; }
         public Color TempColor { get; set; }
         public Color EditingColor { get; set; }
 
-        private CounterfeitKBContext Db { get; }
+        private readonly CounterfeitKBContext Db;
 
         #endregion
 
