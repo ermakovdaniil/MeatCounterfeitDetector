@@ -7,6 +7,7 @@ using DataAccess.Data;
 using DataAccess.Models;
 
 using VKR.Utils;
+using VKR.Utils.Dialog.Abstract;
 
 using MessageBox = HandyControl.Controls.MessageBox;
 

@@ -1,11 +1,17 @@
 ﻿using System.Globalization;
 using System.Threading;
+using System.Threading.Tasks;
 using System.Windows;
 
 using Autofac;
 
 using DataAccess.Data;
+using DataAccess.Models;
 
+using VKR.Utils;
+using VKR.Utils.Dialog;
+using VKR.Utils.FrameworkFactory;
+using VKR.Utils.MainWindowControlChanger;
 using VKR.View;
 using VKR.ViewModel;
 
@@ -43,13 +49,23 @@ public partial class App : Application
 
         builder.RegisterType<MainWindow>().AsSelf().SingleInstance();
         builder.RegisterType<MainWindowVM>().AsSelf().SingleInstance();
-        builder.RegisterType<UserControlFactory>().As<IUserControlFactory>();
-
+        builder.RegisterType<FrameworkElementFactory>().As<IFrameworkElementFactory>();
+        builder.RegisterType<NavigationManager>().AsSelf().SingleInstance();
+        builder.RegisterType<UserControlFactory>().AsSelf();
+        builder.RegisterType<DialogService>().AsSelf();
         Container = builder.Build();
 
         var mainWindow = Container.Resolve<MainWindow>();
-        var loginControl = Container.Resolve<LoginControl>();
-        mainWindow._viewModel.SetNewContent(loginControl);
         mainWindow.Show();
+        var navigator = Container.Resolve<NavigationManager>();
+        navigator.Navigate<LoginControl>();
+        
+        var ds = Container.Resolve<DialogService>();
+        ds.ShowDialog<ColorPropertyEditControl>(data: new Color()
+        {
+            Name = "name",
+            UpLine = "upline",
+            BotLine = "botline",
+        });
     }
 }

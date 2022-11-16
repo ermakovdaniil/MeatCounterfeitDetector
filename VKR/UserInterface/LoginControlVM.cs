@@ -6,20 +6,17 @@ using VKR.View;
 
 namespace VKR.ViewModel;
 
-public class LoginControlVM : ControlViewModel
+public class LoginControlVM : ViewModelBase
 {
     private readonly UserDBContext _context;
-    private readonly MainWindowVM _mainModel;
-
 
     #region Functions
 
     #region Constructors
 
-    public LoginControlVM(MainWindowVM mainModel, UserDBContext context, IUserControlFactory fac) : base(fac, mainModel)
+    public LoginControlVM(UserDBContext context)
     {
         _context = context;
-        _mainModel = mainModel;
     }
 
     #endregion
@@ -42,7 +39,8 @@ public class LoginControlVM : ControlViewModel
         {
             return _openColorProperty ??= new RelayCommand(o =>
             {
-                changeControl<ColorPropertyControl>(null);
+                //todo invoke navigation manager
+                //changeControl<ColorPropertyControl>(null);
             });
         }
     }

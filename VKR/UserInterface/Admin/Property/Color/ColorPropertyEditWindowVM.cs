@@ -1,33 +1,26 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.ObjectModel;
 using System.Linq;
 
 using DataAccess.Data;
 using DataAccess.Models;
 
 using VKR.Utils;
+using VKR.Utils.Dialog.Abstract;
 
 
 namespace VKR.ViewModel;
 
-internal class ColorPropertyEditWindowVM : ViewModelBase
+internal class ColorPropertyEditWindowVM : ViewModelBase, IDataHolder,IResultHolder,IInteractionAware
 {
     #region Functions
 
     #region Constructors
 
-    public ColorPropertyEditWindowVM(Color tempColor)
+    public ColorPropertyEditWindowVM()
     {
-        TempColor = new Color
-        {
-            Id = tempColor.Id,
-            Name = tempColor.Name,
-            BotLine = tempColor.BotLine,
-            UpLine = tempColor.UpLine,
-        };
-
-        EditingColor = tempColor;
         Db = new CounterfeitKBContext();
-        Colors = Db.Colors.Local.ToObservableCollection();
+        //Colors = Db.Colors.Local.ToObservableCollection();
     }
 
     #endregion
@@ -37,9 +30,24 @@ internal class ColorPropertyEditWindowVM : ViewModelBase
 
     #region Properties
 
-    public ObservableCollection<Color> Colors { get; set; }
-    public Color TempColor { get; set; }
-    public Color EditingColor { get; set; }
+    //public ObservableCollection<Color> Colors { get; set; }
+    private Color _tempColor;
+
+    public Color TempColor
+    {
+        get
+        {
+            return _tempColor;
+        }
+        set
+        {
+            _tempColor = value;
+            OnPropertyChanged();
+        }
+    }
+    // public Color TempColor { get; set; }
+
+    public Color EditingColor => (Color) Data;
 
     private readonly CounterfeitKBContext Db;
 
@@ -70,11 +78,48 @@ internal class ColorPropertyEditWindowVM : ViewModelBase
                 }
 
                 Db.SaveChanges();
-
+                FinishInteraction();
                 //OnClosingRequest();
             });
         }
     }
 
+    private RelayCommand _closeCommand;
+
+    public RelayCommand CloseCommand
+    {
+        get
+        {
+            return _closeCommand ??= new RelayCommand(o =>
+            {
+                FinishInteraction();
+            });
+        }
+    }
+
     #endregion
+
+
+        private object _data;
+        public object Data
+        {
+            get => _data;
+            set
+            {
+                _data = value;
+                TempColor = new Color()
+                {
+                    BotLine = EditingColor.BotLine,
+                    Counterfeits = EditingColor.Counterfeits,
+                    Name = EditingColor.Name,
+                    UpLine = EditingColor.UpLine,
+                };
+                OnPropertyChanged(nameof(TempColor));
+            }
+        }
+
+        public object? Result { get; }
+        public Action FinishInteraction { get; set; }
+
+        
 }

@@ -8,12 +8,12 @@ namespace VKR.View;
 /// <summary>
 ///     Логика взаимодействия для ColorPropertyWindow.xaml
 /// </summary>
-public partial class ColorPropertyEditWindow
+public partial class ColorPropertyEditControl
 {
-    public ColorPropertyEditWindow(Color color)
+    public ColorPropertyEditControl()
     {
         InitializeComponent();
-        var vm = new ColorPropertyEditWindowVM(color);
+        var vm = new ColorPropertyEditWindowVM();
         DataContext = vm;
 
         //vm.ClosingRequest += (sender, e) => Close();
