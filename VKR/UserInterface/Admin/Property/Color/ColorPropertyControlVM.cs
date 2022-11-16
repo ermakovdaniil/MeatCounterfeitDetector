@@ -15,9 +15,9 @@ namespace VKR.ViewModel;
 
 public class ColorPropertyControlVM : ViewModelBase
 {
-#region Functions
+    #region Functions
 
-#region Constructors
+    #region Constructors
 
     public ColorPropertyControlVM(CounterfeitKBContext context)
     {
@@ -29,21 +29,21 @@ public class ColorPropertyControlVM : ViewModelBase
         }, obj => false);
     }
 
-#endregion
+    #endregion
 
-#endregion
+    #endregion
 
 
-#region Properties
+    #region Properties
 
     private readonly CounterfeitKBContext _context;
     public Color SelectedColor { get; set; }
     public ObservableCollection<Color> Colors { get; set; }
 
-#endregion
+    #endregion
 
 
-#region Commands
+    #region Commands
 
     private RelayCommand _addColor;
 
@@ -101,5 +101,5 @@ public class ColorPropertyControlVM : ViewModelBase
         }
     }
 
-#endregion
+    #endregion
 }

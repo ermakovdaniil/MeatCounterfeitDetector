@@ -2,12 +2,10 @@
 
 using Autofac;
 
-
 public interface IUserControlFactory
 {
     UserControl CreateUserControl<T>(object param) where T : UserControl;
 }
-
 
 public class UserControlFactory : IUserControlFactory
 {

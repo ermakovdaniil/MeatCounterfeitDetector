@@ -10,11 +10,10 @@ using VKR.Utils;
 namespace VKR.ViewModel;
 
 internal class ColorPropertyEditWindowVM : ViewModelBase
-
 {
-#region Functions
+    #region Functions
 
-#region Constructors
+    #region Constructors
 
     public ColorPropertyEditWindowVM(Color tempColor)
     {
@@ -31,12 +30,12 @@ internal class ColorPropertyEditWindowVM : ViewModelBase
         Colors = Db.Colors.Local.ToObservableCollection();
     }
 
-#endregion
+    #endregion
 
-#endregion
+    #endregion
 
 
-#region Properties
+    #region Properties
 
     public ObservableCollection<Color> Colors { get; set; }
     public Color TempColor { get; set; }
@@ -44,10 +43,10 @@ internal class ColorPropertyEditWindowVM : ViewModelBase
 
     private readonly CounterfeitKBContext Db;
 
-#endregion
+    #endregion
 
 
-#region Commands
+    #region Commands
 
     private RelayCommand _saveColor;
 
@@ -77,5 +76,5 @@ internal class ColorPropertyEditWindowVM : ViewModelBase
         }
     }
 
-#endregion
+    #endregion
 }
