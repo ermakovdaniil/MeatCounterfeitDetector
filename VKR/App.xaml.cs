@@ -65,6 +65,11 @@ public partial class App : Application
         VMLocator.Register<ShapePropertyControl, ShapePropertyControlVM>();
         VMLocator.Register<CounterfeitExplorerControl, CounterfeitExplorerControlVM>();
         VMLocator.Register<CompanyControl, CompanyControlVM>();
+        VMLocator.Register<UserEditControl, UserEditControlVM>();
+        VMLocator.Register<ColorPropertyEditControl, ColorPropertyEditControlVM>();
+        VMLocator.Register<ShapePropertyEditControl, ShapePropertyEditControlVM>();
+        VMLocator.Register<CounterfeitEditControl, CounterfeitEditControlVM>();
+        VMLocator.Register<CompanyEditControl, CompanyEditControlVM>();
 
         var mainWindow = Container.Resolve<MainWindow>();
         mainWindow.Show();
