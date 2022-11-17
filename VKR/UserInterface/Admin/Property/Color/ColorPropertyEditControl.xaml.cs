@@ -2,6 +2,9 @@
 
 using Autofac;
 
+using DataAccess.Data;
+
+using VKR.Utils;
 using VKR.ViewModel;
 
 
@@ -14,13 +17,11 @@ public partial class ColorPropertyEditControl
 {
     private ColorPropertyEditControlVM _viewModel;
 
-    public ColorPropertyEditControl(ColorPropertyEditControlVM vm)
+    public ColorPropertyEditControl()
     {
         InitializeComponent();
-        DataContext = vm;
-        _viewModel = vm;
-
-        //_viewModel = Container.Resolve<ColorPropertyControlVM>();
+        _viewModel = (ColorPropertyEditControlVM?)VMLocator.Resolve<ColorPropertyEditControl>();
+        DataContext = _viewModel;
     }
 
     public IContainer Container { get; set; }

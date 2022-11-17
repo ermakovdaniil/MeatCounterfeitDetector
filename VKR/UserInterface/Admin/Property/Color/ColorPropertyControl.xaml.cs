@@ -2,6 +2,9 @@
 
 using Autofac;
 
+using DataAccess.Data;
+
+using VKR.Utils;
 using VKR.ViewModel;
 
 
@@ -14,13 +17,11 @@ public partial class ColorPropertyControl : UserControl
 {
     private ColorPropertyControlVM _viewModel;
 
-    public ColorPropertyControl(ColorPropertyControlVM vm)
+    public ColorPropertyControl()
     {
         InitializeComponent();
-        DataContext = vm;
-        _viewModel = vm;
-
-        //_viewModel = Container.Resolve<ColorPropertyControlVM>();
+        _viewModel = (ColorPropertyControlVM?)VMLocator.Resolve<ColorPropertyControl>();
+        DataContext = _viewModel;
     }
 
     public IContainer Container { get; set; }

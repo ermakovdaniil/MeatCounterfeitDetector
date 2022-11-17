@@ -1,11 +1,14 @@
 ﻿using System.Collections.ObjectModel;
 using System.Windows;
 
+using Autofac;
+
 using DataAccess.Data;
 using DataAccess.Models;
 
 using VKR.Utils;
-
+using VKR.Utils.Dialog;
+using VKR.View;
 using MessageBox = HandyControl.Controls.MessageBox;
 
 namespace VKR.ViewModel;
@@ -16,10 +19,11 @@ public class CounterfeitExplorerControlVM : ViewModelBase
 
     #region Constructors
 
-    public CounterfeitExplorerControlVM(CounterfeitKBContext context)
+    public CounterfeitExplorerControlVM(CounterfeitKBContext context, DialogService ds)
     {
         _context = context;
         Counterfeits = _context.Counterfeits.Local.ToObservableCollection();
+        _ds = ds;
     }
 
     #endregion
@@ -28,6 +32,8 @@ public class CounterfeitExplorerControlVM : ViewModelBase
 
 
     #region Properties
+    
+    private DialogService _ds;
 
     private readonly CounterfeitKBContext _context;
     public Counterfeit SelectedCounterfeit { get; set; }
@@ -49,7 +55,13 @@ public class CounterfeitExplorerControlVM : ViewModelBase
         {
             return _addCounterfeit ??= new RelayCommand(o =>
             {
-                //ShowChildWindow(new CounterfeitEditWindow(new Counterfeit()));
+                _ds.ShowDialog<CounterfeitExplorerControl>(
+                windowParameters: new WindowParameters
+                {
+                    Height = 700,
+                    Width = 300,
+                    Title = "Добавление фальсификата"
+                });
             });
         }
     }
@@ -65,7 +77,21 @@ public class CounterfeitExplorerControlVM : ViewModelBase
         {
             return _editCounterfeitObject ??= new RelayCommand(o =>
             {
-                //ShowChildWindow(new ColorPropertyEditWindow(SelectedCounterfeit));
+                _ds.ShowDialog<CounterfeitExplorerControl>(
+                windowParameters: new WindowParameters
+                {
+                    Height = 700,
+                    Width = 300,
+                    Title = "Добавление фальсификата"
+                },
+                data: new Counterfeit()
+                {
+                    Name = SelectedCounterfeit.Name,
+                    ShapeId = SelectedCounterfeit.ShapeId,
+                    BotLineSize = SelectedCounterfeit.BotLineSize,
+                    UpLineSize = SelectedCounterfeit.UpLineSize,
+                    ColorId = SelectedCounterfeit.ColorId,
+                });
             }, _ => SelectedCounterfeit != null);
         }
     }

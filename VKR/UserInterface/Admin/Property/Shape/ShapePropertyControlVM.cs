@@ -7,6 +7,8 @@ using DataAccess.Data;
 using DataAccess.Models;
 
 using VKR.Utils;
+using VKR.Utils.Dialog;
+using VKR.View;
 
 using MessageBox = HandyControl.Controls.MessageBox;
 
@@ -19,10 +21,11 @@ public class ShapePropertyControlVM : ViewModelBase
 
     #region Constructors
 
-    public ShapePropertyControlVM(CounterfeitKBContext context)
+    public ShapePropertyControlVM(CounterfeitKBContext context, DialogService ds)
     {
         _context = context;
         Shapes = _context.Shapes.Local.ToObservableCollection();
+        _ds = ds;
     }
 
     #endregion
@@ -31,6 +34,8 @@ public class ShapePropertyControlVM : ViewModelBase
 
 
     #region Properties
+
+    private DialogService _ds;
 
     private readonly CounterfeitKBContext _context;
     public Shape SelectedShape { get; set; }
@@ -52,7 +57,13 @@ public class ShapePropertyControlVM : ViewModelBase
         {
             return _addShape ??= new RelayCommand(o =>
             {
-                //ShowChildWindow(new ShapePropertyEditWindow(new Shape()));
+                _ds.ShowDialog<ShapePropertyControl>(
+                windowParameters: new WindowParameters
+                {
+                    Height = 400,
+                    Width = 300,
+                    Title = "Добавление формы"
+                });
             });
         }
     }
@@ -68,7 +79,18 @@ public class ShapePropertyControlVM : ViewModelBase
         {
             return _editShape ??= new RelayCommand(o =>
             {
-                //ShowChildWindow(new ShapePropertyEditWindow(SelectedShape));
+                _ds.ShowDialog<ShapePropertyControl>(
+                windowParameters: new WindowParameters
+                {
+                    Height = 400,
+                    Width = 300,
+                    Title = "Добавление формы"
+                },
+                data: new Shape
+                {
+                    Name = SelectedShape.Name,
+                    Formula = SelectedShape.Formula,
+                });
             }, _ => SelectedShape != null);
         }
     }

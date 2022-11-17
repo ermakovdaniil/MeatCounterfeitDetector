@@ -16,13 +16,13 @@ public class DialogService
         _userControlFactory = userControlFactory;
     }
 
-    public object? ShowDialog<UC>(object dataContext = null,object data = null) where UC: UserControl
+    public object? ShowDialog<UC>(object dataContext = null, object data = null) where UC: UserControl
     {
         var wp = new WindowParameters();
         return ShowDialog<UC>(wp, dataContext, data);
     }
     
-    public object? ShowDialog<UC>(WindowParameters windowParameters,object datacontext = null, object data = null) where UC: UserControl
+    public object? ShowDialog<UC>(WindowParameters windowParameters, object datacontext = null, object data = null) where UC: UserControl
     {
         var window = new Window()
         {
@@ -54,5 +54,4 @@ public class DialogService
         }
         return null;
     }
-    
 }

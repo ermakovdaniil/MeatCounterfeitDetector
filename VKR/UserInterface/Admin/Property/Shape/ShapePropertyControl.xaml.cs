@@ -2,6 +2,9 @@
 
 using Autofac;
 
+using DataAccess.Data;
+
+using VKR.Utils;
 using VKR.ViewModel;
 
 
@@ -14,11 +17,11 @@ public partial class ShapePropertyControl : UserControl
 {
     private ShapePropertyControlVM _viewModel;
     
-    public ShapePropertyControl(ShapePropertyControlVM vm)
+    public ShapePropertyControl()
     {
         InitializeComponent();
-        DataContext = vm;
-        _viewModel = vm;
+        _viewModel = (ShapePropertyControlVM?)VMLocator.Resolve<ShapePropertyControl>();
+        DataContext = _viewModel;
     }
 
     public IContainer Container { get; set; }

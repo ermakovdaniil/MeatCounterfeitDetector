@@ -7,7 +7,8 @@ using DataAccess.Data;
 using DataAccess.Models;
 
 using VKR.Utils;
-using VKR.Utils.Dialog.Abstract;
+using VKR.Utils.Dialog;
+using VKR.View;
 
 using MessageBox = HandyControl.Controls.MessageBox;
 
@@ -19,10 +20,11 @@ public class CompanyControlVM : ViewModelBase
 
     #region Constructors
 
-    public CompanyControlVM(ResultDBContext context)
+    public CompanyControlVM(ResultDBContext context, DialogService ds)
     {
         _context = context;
         Companies = _context.Companies.Local.ToObservableCollection();
+        _ds = ds;
     }
 
     #endregion
@@ -31,6 +33,8 @@ public class CompanyControlVM : ViewModelBase
 
 
     #region Properties
+
+    private DialogService _ds;
 
     private readonly ResultDBContext _context;
     public Company SelectedCompany { get; set; }
@@ -44,7 +48,7 @@ public class CompanyControlVM : ViewModelBase
     private RelayCommand _addCompany;
 
     /// <summary>
-    ///     Команда, открывающая окно создания цвета
+    ///     Команда, открывающая окно создания предприятия
     /// </summary>
     public RelayCommand Add
     {
@@ -52,7 +56,13 @@ public class CompanyControlVM : ViewModelBase
         {
             return _addCompany ??= new RelayCommand(o =>
             {
-                //ShowChildWindow(new CompanyEditWindow(new Company()));
+                _ds.ShowDialog<CompanyControl>(
+                windowParameters: new WindowParameters
+                {
+                    Height = 100,
+                    Width = 300,
+                    Title = "Добавление предприятия"
+                });
             });
         }
     }
@@ -60,7 +70,7 @@ public class CompanyControlVM : ViewModelBase
     private RelayCommand _editCompany;
 
     /// <summary>
-    ///     Команда, открывающая окно редактирования цвета
+    ///     Команда, открывающая окно редактирования предприятия
     /// </summary>
     public RelayCommand Edit
     {
@@ -68,7 +78,17 @@ public class CompanyControlVM : ViewModelBase
         {
             return _editCompany ??= new RelayCommand(o =>
             {
-                //ShowChildWindow(new CompanyEditWindow(SelectedCompany));
+                _ds.ShowDialog<CompanyControl>(
+                windowParameters: new WindowParameters
+                {
+                    Height = 100,
+                    Width = 300,
+                    Title = "Добавление предприятия"
+                },
+                data: new Company()
+                {
+                    Name = SelectedCompany.Name,
+                });
             }, _ => SelectedCompany != null);
         }
     }

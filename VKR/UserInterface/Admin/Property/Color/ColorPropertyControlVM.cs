@@ -7,8 +7,11 @@ using DataAccess.Data;
 using DataAccess.Models;
 
 using VKR.Utils;
+using VKR.Utils.Dialog;
+using VKR.View;
 
 using MessageBox = HandyControl.Controls.MessageBox;
+
 
 namespace VKR.ViewModel;
 
@@ -18,10 +21,11 @@ public class ColorPropertyControlVM : ViewModelBase
 
     #region Constructors
 
-    public ColorPropertyControlVM(CounterfeitKBContext context)
+    public ColorPropertyControlVM(CounterfeitKBContext context, DialogService ds)
     {
         _context = context;
         Colors = _context.Colors.Local.ToObservableCollection();
+        _ds = ds;
     }
 
     #endregion
@@ -30,6 +34,8 @@ public class ColorPropertyControlVM : ViewModelBase
 
 
     #region Properties
+
+    private DialogService _ds;
 
     private readonly CounterfeitKBContext _context;
     public Color SelectedColor { get; set; }
@@ -52,6 +58,13 @@ public class ColorPropertyControlVM : ViewModelBase
             return _addColor ??= new RelayCommand(o =>
             {
                 //ShowChildWindow(new ColorPropertyEditWindow(new Color()));
+                _ds.ShowDialog<ColorPropertyControl>(
+                windowParameters: new WindowParameters
+                {
+                    Height = 200,
+                    Width = 300,
+                    Title = "Добавление цвета"
+                });
             });
         }
     }
@@ -67,7 +80,19 @@ public class ColorPropertyControlVM : ViewModelBase
         {
             return _editColor ??= new RelayCommand(o =>
             {
-                //ShowChildWindow(new ColorPropertyEditWindow(SelectedColor));
+                _ds.ShowDialog<ColorPropertyControl>(
+                windowParameters: new WindowParameters
+                {
+                    Height = 200,
+                    Width = 300,
+                    Title = "Добавление цвета"
+                },
+                data: new Color()
+                {
+                    Name = SelectedColor.Name,
+                    UpLine = SelectedColor.UpLine,
+                    BotLine = SelectedColor.BotLine,
+                });
             }, _ => SelectedColor != null);
         }
     }

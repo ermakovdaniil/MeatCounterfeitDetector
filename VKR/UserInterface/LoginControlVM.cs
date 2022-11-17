@@ -1,6 +1,13 @@
-﻿using DataAccess.Data;
+﻿using System;
+using System.Linq;
+using System.Windows;
+using Autofac;
+
+using DataAccess.Data;
+using DataAccess.Models;
 
 using VKR.Utils;
+using VKR.Utils.MainWindowControlChanger;
 using VKR.View;
 
 
@@ -8,7 +15,6 @@ namespace VKR.ViewModel;
 
 public class LoginControlVM : ViewModelBase
 {
-    private readonly UserDBContext _context;
 
     #region Functions
 
@@ -26,57 +32,54 @@ public class LoginControlVM : ViewModelBase
 
     #region Properties
 
+    public IContainer Container { get; set; }
+
+    public User SelectedUser { get; set; }
+
+    private readonly UserDBContext _context;
+
     #endregion
 
 
     #region Commands
 
-    private RelayCommand _openColorProperty;
+    private RelayCommand _enterCommand;
 
-    public RelayCommand OpenColorProperty
+    public RelayCommand EnterCommand
     {
         get
         {
-            return _openColorProperty ??= new RelayCommand(o =>
+            return _enterCommand ??= new RelayCommand(o =>
             {
-                // TODO: invoke navigation manager
-                //changeControl<ColorPropertyControl>(null);
+                if (string.IsNullOrEmpty(SelectedUser.Name) || string.IsNullOrEmpty(SelectedUser.Password))
+                {
+                    MessageBox.Show("Введите имя пользователя и пароль!", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                    return;
+                }
+
+                try
+                {
+                    var user = _context.Users.First(u => u.Name == SelectedUser.Name && u.Password == SelectedUser.Password);
+                    if (user.Type.Type == "Администратор")
+                    {
+                        var navigator = Container.Resolve<NavigationManager>();
+                        navigator.Navigate<MainAdminControl>();
+                    }
+
+                    if (user.Type.Type == "Исследователь")
+                    {
+                        var navigator = Container.Resolve<NavigationManager>();
+                        navigator.Navigate<TechnologistControl>();
+                    }
+                }
+                catch (Exception exception)
+                {
+                    MessageBox.Show("Неверное имя пользователя или пароль! Повторите попытку.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
             });
         }
+
     }
 
     #endregion
 }
-
-//private void EnterButtonClick(object sender, RoutedEventArgs e)
-//{
-//    var con = DbContextSingleton.GetInstance();
-//    var userName = UserNameTextbox.Text;
-//    var password = PasswordTextBox.Password;
-
-//    if (string.IsNullOrEmpty(userName) || string.IsNullOrEmpty(password))
-//    {
-//        MessageBox.Show("Введите имя пользователя и пароль!", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
-//        return;
-//    }
-
-//    try
-//    {
-//        var user = con.Users.First(u => u.UserName == userName && u.UserPassword == password);
-//        if (user.UserType.UserTypeName == "Администратор")
-//        {
-//            OnChangingRequest(new MainAdminControl());
-//        }
-
-//        if (user.UserType.UserTypeName == "Исследователь")
-//        {
-//            OnChangingRequest(new TechnologistControl());
-//        }
-//    }
-//    catch (Exception exception)
-//    {
-
-//        MessageBox.Show("Неверное имя пользователя или пароль! Повторите попытку.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
-
-//    }
-//}

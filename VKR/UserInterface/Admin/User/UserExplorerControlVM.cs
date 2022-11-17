@@ -7,7 +7,8 @@ using DataAccess.Data;
 using DataAccess.Models;
 
 using VKR.Utils;
-using VKR.Utils.Dialog.Abstract;
+using VKR.Utils.Dialog;
+using VKR.View;
 
 using MessageBox = HandyControl.Controls.MessageBox;
 
@@ -19,11 +20,12 @@ public class UserExplorerControlVM : ViewModelBase
 
     #region Constructors
 
-    public UserExplorerControlVM(UserDBContext context)
+    public UserExplorerControlVM(UserDBContext context, DialogService ds)
     {
         _context = context;
         Users = _context.Users.Local.ToObservableCollection();
         UserTypes = _context.UserTypes.Local.ToObservableCollection();
+        _ds = ds;
     }
 
     #endregion
@@ -32,6 +34,8 @@ public class UserExplorerControlVM : ViewModelBase
 
 
     #region Properties
+
+    private DialogService _ds;
 
     private readonly UserDBContext _context;
     public User SelectedUser { get; set; }
@@ -54,7 +58,13 @@ public class UserExplorerControlVM : ViewModelBase
         {
             return _addUser ??= new RelayCommand(o =>
             {
-                //ShowChildWindow(new UserEditWindow(new User()));
+                _ds.ShowDialog<UserExplorerControl>(
+                windowParameters: new WindowParameters
+                {
+                    Height = 300,
+                    Width = 300,
+                    Title = "Добавление пользователя"
+                });
             });
         }
     }
@@ -70,7 +80,19 @@ public class UserExplorerControlVM : ViewModelBase
         {
             return _editUser ??= new RelayCommand(o =>
             {
-                //ShowChildWindow(new UserEditWindow(SelectedUser));
+                _ds.ShowDialog<UserExplorerControl>(
+                windowParameters: new WindowParameters
+                {
+                    Height = 400,
+                    Width = 300,
+                    Title = "Добавление цвета"
+                },
+                data: new User()
+                {
+                    Name = SelectedUser.Name,
+                    Password = SelectedUser.Password,
+                    TypeId = SelectedUser.TypeId,
+                });
             }, _ => SelectedUser != null);
         }
     }

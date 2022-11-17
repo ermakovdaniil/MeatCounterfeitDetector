@@ -2,6 +2,9 @@
 
 using Autofac;
 
+using DataAccess.Data;
+
+using VKR.Utils;
 using VKR.ViewModel;
 
 
@@ -14,11 +17,11 @@ public partial class CounterfeitEditControl
 {
     private CounterfeitEditControlVM _viewModel;
 
-    public CounterfeitEditControl(CounterfeitEditControlVM vm)
+    public CounterfeitEditControl()
     {
         InitializeComponent();
-        DataContext = vm;
-        _viewModel = vm;
+        _viewModel = (CounterfeitEditControlVM?)VMLocator.Resolve<CounterfeitEditControl>();
+        DataContext = _viewModel;
     }
 
     public IContainer Container { get; set; }

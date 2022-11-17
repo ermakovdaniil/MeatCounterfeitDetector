@@ -2,6 +2,11 @@
 using System.Windows;
 using System.Windows.Controls;
 
+using Autofac;
+
+using VKR.Utils;
+using VKR.ViewModel;
+
 using MessageBox = HandyControl.Controls.MessageBox;
 
 
@@ -12,14 +17,16 @@ namespace VKR.View;
 /// </summary>
 public partial class TechnologistControl : UserControl
 {
+    private TechnologistControlVM _viewModel;
+
     public TechnologistControl()
     {
         InitializeComponent();
-        var vm = new TechnologistControl();
-        DataContext = vm;
-
-        //vm.ClosingRequest += (sender, e) => Close();
+        _viewModel = (TechnologistControlVM?)VMLocator.Resolve<TechnologistControl>();
+        DataContext = _viewModel;
     }
+
+    public IContainer Container { get; set; }
 
     public WindowState PreferedWindowState { get; set; } = WindowState.Maximized;
     public string WindowTitle { get; set; } = "Программный комплекс для исследования неизотермического течения аномально-вязких материалов";

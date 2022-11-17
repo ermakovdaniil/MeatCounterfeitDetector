@@ -54,14 +54,26 @@ public partial class App : Application
         
         Container = builder.Build();
 
+        VMLocator.Container = Container;
+
+        VMLocator.Register<MainWindow, MainWindowVM>();
+        VMLocator.Register<LoginControl, LoginControlVM>();
+        VMLocator.Register<TechnologistControl, TechnologistControlVM>();
+        VMLocator.Register<UserExplorerControl, UserExplorerControlVM>();
+        VMLocator.Register<ResultControl, ResultControlVM>();
+        VMLocator.Register<ColorPropertyControl, ColorPropertyControlVM>(); 
+        VMLocator.Register<ShapePropertyControl, ShapePropertyControlVM>();
+        VMLocator.Register<CounterfeitExplorerControl, CounterfeitExplorerControlVM>();
+        VMLocator.Register<CompanyControl, CompanyControlVM>();
+
         var mainWindow = Container.Resolve<MainWindow>();
         mainWindow.Show();
+
         var navigator = Container.Resolve<NavigationManager>();
         navigator.Navigate<LoginControl>();
         
         var ds = Container.Resolve<DialogService>();
 
-        // TODO: запостить во vm 
         //ds.ShowDialog<ColorPropertyEditControl>(data: new Color()
         //{
         //    Name = "name",

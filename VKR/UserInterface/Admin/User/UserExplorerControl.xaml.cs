@@ -2,6 +2,9 @@
 
 using Autofac;
 
+using DataAccess.Data;
+
+using VKR.Utils;
 using VKR.ViewModel;
 
 
@@ -14,11 +17,11 @@ public partial class UserExplorerControl : UserControl
 {
     private UserExplorerControlVM _viewModel;
 
-    public UserExplorerControl(UserExplorerControlVM vm)
+    public UserExplorerControl()
     {
         InitializeComponent();
-        DataContext = vm;
-        _viewModel = vm;
+        _viewModel = (UserExplorerControlVM?)VMLocator.Resolve<UserExplorerControl>();
+        DataContext = _viewModel;
     }
 
     public IContainer Container { get; set; }

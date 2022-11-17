@@ -2,8 +2,10 @@
 
 using Autofac;
 
-using VKR.ViewModel;
+using DataAccess.Data;
 
+using VKR.Utils;
+using VKR.ViewModel;
 
 namespace VKR.View;
 
@@ -14,13 +16,12 @@ public partial class UserEditControl
 {
     private UserEditControlVM _viewModel;
 
-    public UserEditControl(UserEditControlVM vm)
+    public UserEditControl()
     {
         InitializeComponent();
-        DataContext = vm;
-        _viewModel = vm;
+        _viewModel = (UserEditControlVM?)VMLocator.Resolve<UserEditControl>();
+        DataContext = _viewModel;
     }
 
     public IContainer Container { get; set; }
-
 }

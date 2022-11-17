@@ -2,6 +2,9 @@
 
 using Autofac;
 
+using DataAccess.Data;
+
+using VKR.Utils;
 using VKR.ViewModel;
 
 
@@ -14,11 +17,11 @@ public partial class CompanyEditControl
 {
     private CompanyEditControlVM _viewModel;
 
-    public CompanyEditControl(CompanyEditControlVM vm)
+    public CompanyEditControl()
     {
         InitializeComponent();
-        DataContext = vm;
-        _viewModel = vm;
+        _viewModel = (CompanyEditControlVM?)VMLocator.Resolve<CompanyEditControl>();
+        DataContext = _viewModel;
     }
 
     public IContainer Container { get; set; }

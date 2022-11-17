@@ -5,7 +5,6 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d">
-
     <Grid Background="{StaticResource Style2}">
         <Grid.RowDefinitions>
             <RowDefinition Height="40" />
@@ -13,17 +12,15 @@
             <RowDefinition Height="40" />
         </Grid.RowDefinitions>
         <Grid Row="1" Width="180">
-            <StackPanel Orientation="Vertical" HorizontalAlignment="Center"
-                        Width="180">
-                <hc:TextBox x:Name="UserNameTextbox" hc:InfoElement.Title="Имя пользователя" Margin="10,0,10,10"
-                            Background="{StaticResource Style3}" />
-                <hc:PasswordBox x:Name="PasswordTextBox" hc:InfoElement.Title="Пароль" Margin="10,0,10,10"
-                                Background="{StaticResource Style3}" />
+            <StackPanel Orientation="Vertical" HorizontalAlignment="Center" Width="180">
+                <hc:TextBox hc:InfoElement.Title="Имя пользователя" Margin="10,0,10,10" Background="{StaticResource Style3}" 
+                            Text="{Binding SelectedUser.Name, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" />
+                <hc:PasswordBox hc:InfoElement.Title="Пароль" Margin="10,0,10,10" Background="{StaticResource Style3}" 
+                                 />
                 <Button x:Name="EnterButton" Width="100" hc:BorderElement.CornerRadius="10"
-                        Command="{Binding OpenColorProperty }" Content="{StaticResource EnterButton}"
+                        Command="{Binding EnterCommand }" Content="{StaticResource EnterButton}"
                         Margin="0,0,10,0" Background="{StaticResource Style3}" />
             </StackPanel>
-
         </Grid>
     </Grid>
 </UserControl>

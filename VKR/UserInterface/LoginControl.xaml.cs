@@ -1,5 +1,5 @@
 ﻿using System.Windows.Controls;
-
+using VKR.Utils;
 using VKR.ViewModel;
 
 
@@ -12,10 +12,10 @@ public partial class LoginControl : UserControl
 {
     private LoginControlVM _viewModel;
 
-    public LoginControl(LoginControlVM vm)
+    public LoginControl()
     {
         InitializeComponent();
-        DataContext = vm;
-        _viewModel = vm;
+        _viewModel = (LoginControlVM?)VMLocator.Resolve<LoginControl>();
+        DataContext = _viewModel;
     }
 }
