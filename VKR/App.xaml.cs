@@ -34,7 +34,6 @@ public partial class App : Application
         builder.RegisterType<CounterfeitKBContext>().AsSelf();
         builder.RegisterType<ResultDBContext>().AsSelf();
         builder.RegisterType<UserDBContext>().AsSelf();
-
         builder.RegisterAssemblyTypes(typeof(App).Assembly)
                .Where(t => t.Name.EndsWith("VM"))
                .AsSelf();
@@ -46,13 +45,13 @@ public partial class App : Application
         builder.RegisterAssemblyTypes(typeof(App).Assembly)
                .Where(t => t.Name.EndsWith("Window"))
                .AsSelf();
-
         builder.RegisterType<MainWindow>().AsSelf().SingleInstance();
         builder.RegisterType<MainWindowVM>().AsSelf().SingleInstance();
         builder.RegisterType<FrameworkElementFactory>().As<IFrameworkElementFactory>();
         builder.RegisterType<NavigationManager>().AsSelf().SingleInstance();
         builder.RegisterType<UserControlFactory>().AsSelf();
         builder.RegisterType<DialogService>().AsSelf();
+        
         Container = builder.Build();
 
         var mainWindow = Container.Resolve<MainWindow>();
@@ -61,11 +60,13 @@ public partial class App : Application
         navigator.Navigate<LoginControl>();
         
         var ds = Container.Resolve<DialogService>();
-        ds.ShowDialog<ColorPropertyEditControl>(data: new Color()
-        {
-            Name = "name",
-            UpLine = "upline",
-            BotLine = "botline",
-        });
+
+        // TODO: запостить во vm 
+        //ds.ShowDialog<ColorPropertyEditControl>(data: new Color()
+        //{
+        //    Name = "name",
+        //    UpLine = "upline",
+        //    BotLine = "botline",
+        //});
     }
 }

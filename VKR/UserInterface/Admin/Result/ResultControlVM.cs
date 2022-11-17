@@ -11,33 +11,33 @@ using MessageBox = HandyControl.Controls.MessageBox;
 
 namespace VKR.ViewModel;
 
-internal class ResultControlVM : ViewModelBase
+public class ResultControlVM : ViewModelBase
 {
-#region Functions
+    #region Functions
 
-#region Constructors
+    #region Constructors
 
-    public ResultControlVM()
+    public ResultControlVM(ResultDBContext context)
     {
-        _db = new ResultDBContext();
-        Results = _db.Results.Local.ToObservableCollection();
+        _context = context;
+        Results = _context.Results.Local.ToObservableCollection();
     }
 
-#endregion
+    #endregion
 
-#endregion
+    #endregion
 
 
-#region Properties
+    #region Properties
 
-    private readonly ResultDBContext _db;
+    private readonly ResultDBContext _context;
     public Result SelectedResult { get; set; }
     public ObservableCollection<Result> Results { get; set; }
 
-#endregion
+    #endregion
 
 
-#region Commands
+    #region Commands
 
     private RelayCommand _deleteResult;
 
@@ -54,12 +54,12 @@ internal class ResultControlVM : ViewModelBase
                                     "Удаление записи", MessageBoxButton.YesNo, MessageBoxImage.Warning) ==
                     MessageBoxResult.Yes)
                 {
-                    _db.Results.Remove(SelectedResult);
-                    _db.SaveChanges();
+                    _context.Results.Remove(SelectedResult);
+                    _context.SaveChanges();
                 }
             }, _ => SelectedResult != null);
         }
     }
 
-#endregion
+    #endregion
 }

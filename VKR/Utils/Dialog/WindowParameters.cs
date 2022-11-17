@@ -1,8 +1,6 @@
 ﻿using System.Windows;
 
-
 namespace VKR.Utils.Dialog;
-
 public record WindowParameters
 {
     public int Height { get; init; } = 200;

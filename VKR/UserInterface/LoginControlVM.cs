@@ -39,7 +39,7 @@ public class LoginControlVM : ViewModelBase
         {
             return _openColorProperty ??= new RelayCommand(o =>
             {
-                //todo invoke navigation manager
+                // TODO: invoke navigation manager
                 //changeControl<ColorPropertyControl>(null);
             });
         }

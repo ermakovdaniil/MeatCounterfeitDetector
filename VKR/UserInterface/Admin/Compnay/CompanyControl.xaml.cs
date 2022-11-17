@@ -1,6 +1,6 @@
-﻿using DataAccess.Data;
+﻿using System.Windows.Controls;
 
-using System.Windows.Controls;
+using Autofac;
 
 using VKR.ViewModel;
 
@@ -12,8 +12,6 @@ namespace VKR.View;
 /// </summary>
 public partial class CompanyControl : UserControl
 {
-    private readonly ResultDBContext _context;
-
     private CompanyControlVM _viewModel;
 
     public CompanyControl(CompanyControlVM vm)
@@ -21,5 +19,9 @@ public partial class CompanyControl : UserControl
         InitializeComponent();
         DataContext = vm;
         _viewModel = vm;
+
+        //_viewModel = Container.Resolve<ColorPropertyControlVM>();
     }
+
+    public IContainer Container { get; set; }
 }

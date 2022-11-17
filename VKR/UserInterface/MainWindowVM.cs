@@ -1,7 +1,6 @@
 ﻿using System.Diagnostics;
 using System.Windows.Controls;
 
-
 namespace VKR.ViewModel;
 
 public class MainWindowVM : ViewModelBase
@@ -20,9 +19,6 @@ public class MainWindowVM : ViewModelBase
 
     internal void SetNewContent(UserControl content)
     {
-        Debug.WriteLine("#######################################################################33");
-        Debug.WriteLine(ContentWindow);
         ContentWindow = content;
-        Debug.WriteLine(ContentWindow);
     }
 }

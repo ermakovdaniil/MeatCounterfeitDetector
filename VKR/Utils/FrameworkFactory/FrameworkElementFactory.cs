@@ -3,7 +3,6 @@ using System.Windows.Controls;
 
 using Autofac;
 
-
 public class FrameworkElementFactory : IFrameworkElementFactory
 {
     private readonly IComponentContext container;

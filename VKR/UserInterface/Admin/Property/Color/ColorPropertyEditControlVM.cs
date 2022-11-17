@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.ObjectModel;
 using System.Linq;
 
 using DataAccess.Data;
@@ -8,18 +7,17 @@ using DataAccess.Models;
 using VKR.Utils;
 using VKR.Utils.Dialog.Abstract;
 
-
 namespace VKR.ViewModel;
 
-internal class ColorPropertyEditWindowVM : ViewModelBase, IDataHolder,IResultHolder,IInteractionAware
+public class ColorPropertyEditControlVM : ViewModelBase, IDataHolder, IResultHolder, IInteractionAware
 {
     #region Functions
 
     #region Constructors
 
-    public ColorPropertyEditWindowVM()
+    public ColorPropertyEditControlVM(CounterfeitKBContext context)
     {
-        Db = new CounterfeitKBContext();
+        _context = context;
         //Colors = Db.Colors.Local.ToObservableCollection();
     }
 
@@ -47,9 +45,9 @@ internal class ColorPropertyEditWindowVM : ViewModelBase, IDataHolder,IResultHol
     }
     // public Color TempColor { get; set; }
 
-    public Color EditingColor => (Color) Data;
+    public Color EditingColor => (Color)Data;
 
-    private readonly CounterfeitKBContext Db;
+    private readonly CounterfeitKBContext _context;
 
     #endregion
 
@@ -72,12 +70,12 @@ internal class ColorPropertyEditWindowVM : ViewModelBase, IDataHolder,IResultHol
                 EditingColor.BotLine = TempColor.BotLine;
                 EditingColor.UpLine = TempColor.UpLine;
 
-                if (!Db.Colors.Contains(EditingColor))
+                if (!_context.Colors.Contains(EditingColor))
                 {
-                    Db.Colors.Add(EditingColor);
+                    _context.Colors.Add(EditingColor);
                 }
 
-                Db.SaveChanges();
+                _context.SaveChanges();
                 FinishInteraction();
                 //OnClosingRequest();
             });
@@ -100,26 +98,24 @@ internal class ColorPropertyEditWindowVM : ViewModelBase, IDataHolder,IResultHol
     #endregion
 
 
-        private object _data;
-        public object Data
+    private object _data;
+    public object Data
+    {
+        get => _data;
+        set
         {
-            get => _data;
-            set
+            _data = value;
+            TempColor = new Color()
             {
-                _data = value;
-                TempColor = new Color()
-                {
-                    BotLine = EditingColor.BotLine,
-                    Counterfeits = EditingColor.Counterfeits,
-                    Name = EditingColor.Name,
-                    UpLine = EditingColor.UpLine,
-                };
-                OnPropertyChanged(nameof(TempColor));
-            }
+                BotLine = EditingColor.BotLine,
+                Counterfeits = EditingColor.Counterfeits,
+                Name = EditingColor.Name,
+                UpLine = EditingColor.UpLine,
+            };
+            OnPropertyChanged(nameof(TempColor));
         }
+    }
 
-        public object? Result { get; }
-        public Action FinishInteraction { get; set; }
-
-        
+    public object? Result { get; }
+    public Action FinishInteraction { get; set; }
 }

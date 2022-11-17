@@ -1,4 +1,6 @@
-﻿using DataAccess.Models;
+﻿using System.Windows.Controls;
+
+using Autofac;
 
 using VKR.ViewModel;
 
@@ -6,16 +8,20 @@ using VKR.ViewModel;
 namespace VKR.View;
 
 /// <summary>
-///     Логика взаимодействия для ColorPropertyWindow.xaml
+///     Логика взаимодействия для ColorPropertyEditControl.xaml
 /// </summary>
 public partial class ColorPropertyEditControl
 {
-    public ColorPropertyEditControl()
+    private ColorPropertyEditControlVM _viewModel;
+
+    public ColorPropertyEditControl(ColorPropertyEditControlVM vm)
     {
         InitializeComponent();
-        var vm = new ColorPropertyEditWindowVM();
         DataContext = vm;
+        _viewModel = vm;
 
-        //vm.ClosingRequest += (sender, e) => Close();
+        //_viewModel = Container.Resolve<ColorPropertyControlVM>();
     }
+
+    public IContainer Container { get; set; }
 }

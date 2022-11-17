@@ -1,6 +1,5 @@
 ﻿using System;
 
-
 namespace VKR.Utils.Dialog.Abstract;
 
 public interface IInteractionAware

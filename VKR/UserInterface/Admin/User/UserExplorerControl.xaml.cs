@@ -1,5 +1,7 @@
 ﻿using System.Windows.Controls;
 
+using Autofac;
+
 using VKR.ViewModel;
 
 
@@ -10,9 +12,14 @@ namespace VKR.View;
 /// </summary>
 public partial class UserExplorerControl : UserControl
 {
-    public UserExplorerControl()
+    private UserExplorerControlVM _viewModel;
+
+    public UserExplorerControl(UserExplorerControlVM vm)
     {
         InitializeComponent();
-        DataContext = new UserExplorerControlVM();
+        DataContext = vm;
+        _viewModel = vm;
     }
+
+    public IContainer Container { get; set; }
 }

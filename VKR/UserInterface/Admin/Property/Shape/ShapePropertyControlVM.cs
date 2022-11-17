@@ -13,33 +13,33 @@ using MessageBox = HandyControl.Controls.MessageBox;
 
 namespace VKR.ViewModel;
 
-internal class ShapePropertyControlVM : ViewModelBase
+public class ShapePropertyControlVM : ViewModelBase
 {
-#region Functions
+    #region Functions
 
-#region Constructors
+    #region Constructors
 
-    public ShapePropertyControlVM()
+    public ShapePropertyControlVM(CounterfeitKBContext context)
     {
-        _db = new CounterfeitKBContext();
-        Shapes = _db.Shapes.Local.ToObservableCollection();
+        _context = context;
+        Shapes = _context.Shapes.Local.ToObservableCollection();
     }
 
-#endregion
+    #endregion
 
-#endregion
+    #endregion
 
 
-#region Properties
+    #region Properties
 
-    private readonly CounterfeitKBContext _db;
+    private readonly CounterfeitKBContext _context;
     public Shape SelectedShape { get; set; }
     public ObservableCollection<Shape> Shapes { get; set; }
 
-#endregion
+    #endregion
 
 
-#region Commands
+    #region Commands
 
     private RelayCommand _addShape;
 
@@ -85,16 +85,16 @@ internal class ShapePropertyControlVM : ViewModelBase
             return _deleteShape ??= new RelayCommand(o =>
             {
                 if (MessageBox.Show($"Вы действительно хотите удалить форму: \"{SelectedShape.Name}\" и все фальсификаты связанные с ней?" +
-                                    $"\nСвязанные фальсфикаты:\n{string.Join("\n", _db.Counterfeits.Where(c => c.ShapeId == SelectedShape.Id).Include(c => c.Shape).Select(c => c.Name))}",
+                                    $"\nСвязанные фальсфикаты:\n{string.Join("\n", _context.Counterfeits.Where(c => c.ShapeId == SelectedShape.Id).Include(c => c.Shape).Select(c => c.Name))}",
                                     "Удаление формы", MessageBoxButton.YesNo, MessageBoxImage.Warning) ==
                     MessageBoxResult.Yes)
                 {
-                    _db.Shapes.Remove(SelectedShape);
-                    _db.SaveChanges();
+                    _context.Shapes.Remove(SelectedShape);
+                    _context.SaveChanges();
                 }
             }, _ => SelectedShape != null);
         }
     }
 
-#endregion
+    #endregion
 }

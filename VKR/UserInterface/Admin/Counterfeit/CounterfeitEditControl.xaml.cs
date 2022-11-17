@@ -8,13 +8,13 @@ using VKR.ViewModel;
 namespace VKR.View;
 
 /// <summary>
-///     Логика взаимодействия для ShapePropertyControl.xaml
+///     Логика взаимодействия для CounterfeitEditControl.xaml
 /// </summary>
-public partial class ShapePropertyControl : UserControl
+public partial class CounterfeitEditControl
 {
-    private ShapePropertyControlVM _viewModel;
-    
-    public ShapePropertyControl(ShapePropertyControlVM vm)
+    private CounterfeitEditControlVM _viewModel;
+
+    public CounterfeitEditControl(CounterfeitEditControlVM vm)
     {
         InitializeComponent();
         DataContext = vm;
@@ -22,4 +22,5 @@ public partial class ShapePropertyControl : UserControl
     }
 
     public IContainer Container { get; set; }
+
 }

@@ -6,10 +6,7 @@
            xmlns:hc="https://handyorg.github.io/handycontrol"
            xmlns:vm="clr-namespace:VKR.ViewModel"
            mc:Ignorable="d"
-           d:DataContext="{d:DesignInstance vm:ColorPropertyEditWindowVM}"
-           
-           
-           >
+           d:DataContext="{d:DesignInstance vm:ColorPropertyEditControlVM}">
     <!-- <hc:Window.NonClientAreaContent> -->
     <!--     <StackPanel Orientation="Horizontal"> -->
     <!--         <Image Source="pack://application:,,,/resources/icons/logo.png" Height="20" Margin="3" -->
@@ -44,7 +41,7 @@
                 <Button hc:BorderElement.CornerRadius="10" Width="100" Margin="5" Command="{Binding SaveColor}"
                         Background="{StaticResource Style3}" Content="{StaticResource ApplyButton}" />
                 <Button Width="100" Margin="5" Content="{StaticResource CancelButton}"
-                        hc:BorderElement.CornerRadius="10" Command="{Binding CloseWindow}"
+                        hc:BorderElement.CornerRadius="10" Command="{Binding CloseCommand}"
                         Background="{StaticResource Style3}" />
             </StackPanel>
         </Grid>

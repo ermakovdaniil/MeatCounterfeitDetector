@@ -1,5 +1,9 @@
 ﻿using System.Windows.Controls;
 
+using Autofac;
+
+using VKR.ViewModel;
+
 
 namespace VKR.View;
 
@@ -7,10 +11,15 @@ namespace VKR.View;
 ///     Логика взаимодействия для CounterfeitExplorerControl.xaml
 /// </summary>
 public partial class CounterfeitExplorerControl : UserControl
-{
-    public CounterfeitExplorerControl()
+{ 
+    private CounterfeitExplorerControlVM _viewModel;
+
+    public CounterfeitExplorerControl(CounterfeitExplorerControlVM vm)
     {
         InitializeComponent();
-        DataContext = new CounterfeitExplorerControl();
+        DataContext = vm;
+        _viewModel = vm;
     }
+
+    public IContainer Container { get; set; }
 }

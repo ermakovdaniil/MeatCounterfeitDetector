@@ -7,10 +7,8 @@ using DataAccess.Data;
 using DataAccess.Models;
 
 using VKR.Utils;
-using VKR.Utils.Dialog.Abstract;
 
 using MessageBox = HandyControl.Controls.MessageBox;
-
 
 namespace VKR.ViewModel;
 
@@ -24,10 +22,6 @@ public class ColorPropertyControlVM : ViewModelBase
     {
         _context = context;
         Colors = _context.Colors.Local.ToObservableCollection();
-
-        EditColor = new RelayCommand(obj =>
-        {
-        }, obj => false);
     }
 
     #endregion
@@ -67,17 +61,16 @@ public class ColorPropertyControlVM : ViewModelBase
     /// <summary>
     ///     Команда, открывающая окно редактирования цвета
     /// </summary>
-    public RelayCommand EditColor { get; set; }
-
-    //{
-    //    get
-    //    {
-    //        return _editColor ??= new RelayCommand(o =>
-    //        {
-    //            ShowChildWindow(new ColorPropertyEditWindow(SelectedColor));
-    //        }, _ => SelectedColor != null);
-    //    }
-    //}
+    public RelayCommand EditColor
+    {
+        get
+        {
+            return _editColor ??= new RelayCommand(o =>
+            {
+                //ShowChildWindow(new ColorPropertyEditWindow(SelectedColor));
+            }, _ => SelectedColor != null);
+        }
+    }
 
     private RelayCommand _deleteColor;
 

@@ -1,4 +1,4 @@
-﻿<hc:Window x:Class="VKR.View.CompanyEditWindow"
+﻿<UserControl x:Class="VKR.View.CompanyEditControl"
            xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
            xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
            xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -6,21 +6,7 @@
            xmlns:hc="https://handyorg.github.io/handycontrol"
            xmlns:vm="clr-namespace:VKR.ViewModel"
            mc:Ignorable="d"
-           Title="Изменение компании" Height="320" Width="285"
-           d:DataContext="{d:DesignInstance vm:CompanyEditWindowVM}"
-           NonClientAreaBackground="{StaticResource Style4}"
-           ShowTitle="False"
-           WindowStartupLocation="CenterScreen">
-    <hc:Window.NonClientAreaContent>
-        <StackPanel Orientation="Horizontal">
-            <Image Source="pack://application:,,,/resources/icons/logo.png" Height="20" Margin="3"
-                   RenderOptions.BitmapScalingMode="HighQuality" />
-            <TextBlock Text="{Binding Title,RelativeSource={RelativeSource FindAncestor,AncestorType=Window}}"
-                       Background="{Binding NonClientAreaBackground,RelativeSource={RelativeSource FindAncestor,AncestorType=Window}}"
-                       Margin="5" FontSize="14" VerticalAlignment="Stretch" />
-        </StackPanel>
-
-    </hc:Window.NonClientAreaContent>
+           d:DataContext="{d:DesignInstance vm:CompanyEditControlVM}">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition />
@@ -37,9 +23,9 @@
                 <Button hc:BorderElement.CornerRadius="10" Width="100" Margin="5" Command="{Binding SaveCompany}"
                         Background="{StaticResource Style3}" Content="{StaticResource ApplyButton}" />
                 <Button Width="100" Margin="5" Content="{StaticResource CancelButton}"
-                        hc:BorderElement.CornerRadius="10" Command="{Binding CloseWindow}"
+                        hc:BorderElement.CornerRadius="10" Command="{Binding CloseCommand}"
                         Background="{StaticResource Style3}" />
             </StackPanel>
         </Grid>
     </Grid>
-</hc:Window>
+</UserControl>

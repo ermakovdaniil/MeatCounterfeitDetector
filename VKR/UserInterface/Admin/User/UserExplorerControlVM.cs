@@ -1,26 +1,29 @@
 ﻿using System.Collections.ObjectModel;
+using System.Data.Entity;
+using System.Linq;
 using System.Windows;
 
 using DataAccess.Data;
 using DataAccess.Models;
 
 using VKR.Utils;
+using VKR.Utils.Dialog.Abstract;
 
 using MessageBox = HandyControl.Controls.MessageBox;
 
-
 namespace VKR.ViewModel;
 
-internal class UserExplorerControlVM : ViewModelBase
+public class UserExplorerControlVM : ViewModelBase
 {
     #region Functions
 
     #region Constructors
 
-    public UserExplorerControlVM()
+    public UserExplorerControlVM(UserDBContext context)
     {
-        _db = new UserDBContext();
-        Users = _db.Users.Local.ToObservableCollection();
+        _context = context;
+        Users = _context.Users.Local.ToObservableCollection();
+        UserTypes = _context.UserTypes.Local.ToObservableCollection();
     }
 
     #endregion
@@ -30,7 +33,7 @@ internal class UserExplorerControlVM : ViewModelBase
 
     #region Properties
 
-    private readonly UserDBContext _db;
+    private readonly UserDBContext _context;
     public User SelectedUser { get; set; }
     public ObservableCollection<User> Users { get; set; }
     public ObservableCollection<UserType> UserTypes { get; set; }
@@ -87,8 +90,8 @@ internal class UserExplorerControlVM : ViewModelBase
                                     "Удаление пользователя", MessageBoxButton.YesNo, MessageBoxImage.Warning) ==
                     MessageBoxResult.Yes)
                 {
-                    _db.Users.Remove(SelectedUser);
-                    _db.SaveChanges();
+                    _context.Users.Remove(SelectedUser);
+                    _context.SaveChanges();
                 }
             }, _ => SelectedUser != null);
         }

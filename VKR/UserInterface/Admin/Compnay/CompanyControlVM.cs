@@ -1,13 +1,15 @@
 ﻿using System.Collections.ObjectModel;
+using System.Data.Entity;
+using System.Linq;
 using System.Windows;
 
 using DataAccess.Data;
 using DataAccess.Models;
 
 using VKR.Utils;
+using VKR.Utils.Dialog.Abstract;
 
 using MessageBox = HandyControl.Controls.MessageBox;
-
 
 namespace VKR.ViewModel;
 

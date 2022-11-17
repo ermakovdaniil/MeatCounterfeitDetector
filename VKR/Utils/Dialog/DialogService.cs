@@ -5,7 +5,6 @@ using HandyControl.Controls;
 using VKR.Utils.Dialog.Abstract;
 using VKR.Utils.FrameworkFactory;
 
-
 namespace VKR.Utils.Dialog;
 
 public class DialogService

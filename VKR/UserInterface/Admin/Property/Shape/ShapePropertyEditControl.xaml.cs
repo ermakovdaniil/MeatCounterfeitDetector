@@ -8,13 +8,13 @@ using VKR.ViewModel;
 namespace VKR.View;
 
 /// <summary>
-///     Логика взаимодействия для ShapePropertyControl.xaml
+///     Логика взаимодействия для ShapePropertyEditControl.xaml
 /// </summary>
-public partial class ShapePropertyControl : UserControl
+public partial class ShapePropertyEditControl
 {
-    private ShapePropertyControlVM _viewModel;
-    
-    public ShapePropertyControl(ShapePropertyControlVM vm)
+    private ShapePropertyEditControlVM _viewModel;
+
+    public ShapePropertyEditControl(ShapePropertyEditControlVM vm)
     {
         InitializeComponent();
         DataContext = vm;

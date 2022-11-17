@@ -8,36 +8,35 @@ using VKR.Utils;
 
 using MessageBox = HandyControl.Controls.MessageBox;
 
-
 namespace VKR.ViewModel;
 
 public class CounterfeitExplorerControlVM : ViewModelBase
 {
-#region Functions
+    #region Functions
 
-#region Constructors
+    #region Constructors
 
-    public CounterfeitExplorerControlVM()
+    public CounterfeitExplorerControlVM(CounterfeitKBContext context)
     {
-        _db = new CounterfeitKBContext();
-        Counterfeits = _db.Counterfeits.Local.ToObservableCollection();
+        _context = context;
+        Counterfeits = _context.Counterfeits.Local.ToObservableCollection();
     }
 
-#endregion
+    #endregion
 
-#endregion
+    #endregion
 
 
-#region Properties
+    #region Properties
 
-    private readonly CounterfeitKBContext _db;
-    public ObservableCollection<Counterfeit> Counterfeits { get; set; }
+    private readonly CounterfeitKBContext _context;
     public Counterfeit SelectedCounterfeit { get; set; }
+    public ObservableCollection<Counterfeit> Counterfeits { get; set; }
 
-#endregion
+    #endregion
 
 
-#region Commands
+    #region Commands
 
     private RelayCommand _addCounterfeit;
 
@@ -65,10 +64,9 @@ public class CounterfeitExplorerControlVM : ViewModelBase
         get
         {
             return _editCounterfeitObject ??= new RelayCommand(o =>
-                                                               {
-                                                                   //ShowChildWindow(new CounterfeitEditWindow(SelectedCounterfeit));
-                                                               },
-                                                               c => SelectedCounterfeit != null);
+            {
+                //ShowChildWindow(new ColorPropertyEditWindow(SelectedCounterfeit));
+            }, _ => SelectedCounterfeit != null);
         }
     }
 
@@ -86,12 +84,12 @@ public class CounterfeitExplorerControlVM : ViewModelBase
                 if (MessageBox.Show($"Вы действительно хотите удалить фальсификат: \"{SelectedCounterfeit.Name}\"?",
                                     "Удаление объекта", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
                 {
-                    _db.Counterfeits.Remove(SelectedCounterfeit);
-                    _db.SaveChanges();
+                    _context.Counterfeits.Remove(SelectedCounterfeit);
+                    _context.SaveChanges();
                 }
             }, c => SelectedCounterfeit != null);
         }
     }
 
-#endregion
+    #endregion
 }

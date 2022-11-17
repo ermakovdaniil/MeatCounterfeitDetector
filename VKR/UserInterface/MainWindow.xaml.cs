@@ -1,6 +1,5 @@
 ﻿using VKR.ViewModel;
 
-
 namespace VKR.View;
 
 /// <summary>
