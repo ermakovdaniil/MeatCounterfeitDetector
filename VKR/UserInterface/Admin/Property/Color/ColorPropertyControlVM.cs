@@ -64,6 +64,10 @@ public class ColorPropertyControlVM : ViewModelBase
                     Height = 200,
                     Width = 300,
                     Title = "Добавление цвета"
+                },
+                data: new Color()
+                {
+
                 });
             });
         }
@@ -87,12 +91,7 @@ public class ColorPropertyControlVM : ViewModelBase
                     Width = 300,
                     Title = "Добавление цвета"
                 },
-                data: new Color()
-                {
-                    Name = SelectedColor.Name,
-                    UpLine = SelectedColor.UpLine,
-                    BotLine = SelectedColor.BotLine,
-                });
+                data: SelectedColor);
             }, _ => SelectedColor != null);
         }
     }

@@ -63,6 +63,10 @@ public class ShapePropertyControlVM : ViewModelBase
                     Height = 400,
                     Width = 300,
                     Title = "Добавление формы"
+                },
+                data: new Shape
+                {
+
                 });
             });
         }
@@ -86,11 +90,7 @@ public class ShapePropertyControlVM : ViewModelBase
                     Width = 300,
                     Title = "Добавление формы"
                 },
-                data: new Shape
-                {
-                    Name = SelectedShape.Name,
-                    Formula = SelectedShape.Formula,
-                });
+                data: SelectedShape);
             }, _ => SelectedShape != null);
         }
     }

@@ -62,6 +62,10 @@ public class CompanyControlVM : ViewModelBase
                     Height = 100,
                     Width = 300,
                     Title = "Добавление предприятия"
+                },
+                data: new Company()
+                {
+
                 });
             });
         }
@@ -85,10 +89,7 @@ public class CompanyControlVM : ViewModelBase
                     Width = 300,
                     Title = "Добавление предприятия"
                 },
-                data: new Company()
-                {
-                    Name = SelectedCompany.Name,
-                });
+                data: SelectedCompany);
             }, _ => SelectedCompany != null);
         }
     }

@@ -64,6 +64,10 @@ public class UserExplorerControlVM : ViewModelBase
                     Height = 300,
                     Width = 300,
                     Title = "Добавление пользователя"
+                },
+                data: new User()
+                {
+
                 });
             });
         }
@@ -87,12 +91,8 @@ public class UserExplorerControlVM : ViewModelBase
                     Width = 300,
                     Title = "Добавление цвета"
                 },
-                data: new User()
-                {
-                    Name = SelectedUser.Name,
-                    Password = SelectedUser.Password,
-                    TypeId = SelectedUser.TypeId,
-                });
+                data: SelectedUser
+                );
             }, _ => SelectedUser != null);
         }
     }

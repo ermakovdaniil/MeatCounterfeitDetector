@@ -20,7 +20,6 @@
                       SelectionMode="Single"
                       AutoGenerateColumns="False"
                       Background="{StaticResource Style3}">
-
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="ID"
                                         Binding="{Binding Id}" />

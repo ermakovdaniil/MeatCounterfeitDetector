@@ -15,7 +15,6 @@ namespace VKR.ViewModel;
 
 public class LoginControlVM : ViewModelBase
 {
-
     #region Functions
 
     #region Constructors

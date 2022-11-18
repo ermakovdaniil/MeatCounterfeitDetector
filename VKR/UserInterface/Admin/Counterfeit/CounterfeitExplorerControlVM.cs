@@ -61,6 +61,10 @@ public class CounterfeitExplorerControlVM : ViewModelBase
                     Height = 700,
                     Width = 300,
                     Title = "Добавление фальсификата"
+                },
+                data: new Counterfeit()
+                {
+
                 });
             });
         }
@@ -84,14 +88,7 @@ public class CounterfeitExplorerControlVM : ViewModelBase
                     Width = 300,
                     Title = "Добавление фальсификата"
                 },
-                data: new Counterfeit()
-                {
-                    Name = SelectedCounterfeit.Name,
-                    ShapeId = SelectedCounterfeit.ShapeId,
-                    BotLineSize = SelectedCounterfeit.BotLineSize,
-                    UpLineSize = SelectedCounterfeit.UpLineSize,
-                    ColorId = SelectedCounterfeit.ColorId,
-                });
+                data: SelectedCounterfeit);
             }, _ => SelectedCounterfeit != null);
         }
     }
