@@ -62,12 +62,12 @@ namespace DataAccess.Data
                 entity.HasIndex(e => e.Id, "IX_userType_id")
                     .IsUnique();
 
-                entity.HasIndex(e => e.Type, "IX_userType_type")
+                entity.HasIndex(e => e.Name, "IX_userType_name")
                     .IsUnique();
 
                 entity.Property(e => e.Id).HasColumnName("id");
 
-                entity.Property(e => e.Type).HasColumnName("type");
+                entity.Property(e => e.Name).HasColumnName("name");
             });
 
             OnModelCreatingPartial(modelBuilder);

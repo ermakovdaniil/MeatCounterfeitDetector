@@ -61,13 +61,13 @@ public class LoginControlVM : ViewModelBase
                 try
                 {
                     var user = _context.Users.Include(u => u.Type).First(u => u.Name == User.Name && u.Password == User.Password);
-                    if (user.Type.Type == "Администратор")
+                    if (user.Type.Name == "Администратор")
                     {
                         var navigator = Container.Resolve<NavigationManager>();
                         navigator.Navigate<MainAdminControl>();
                     }
 
-                    if (user.Type.Type == "Исследователь")
+                    if (user.Type.Name == "Исследователь")
                     {
                         var navigator = Container.Resolve<NavigationManager>();
                         navigator.Navigate<TechnologistControl>();
