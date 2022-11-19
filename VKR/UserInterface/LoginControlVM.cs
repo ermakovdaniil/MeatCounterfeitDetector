@@ -37,6 +37,15 @@ public class LoginControlVM : ViewModelBase
 
     private readonly UserDBContext _context;
 
+    public string Password
+    {
+        get
+        {
+            IPasswordSupplier passwordSupplier = container.Resolve<IPasswordSupplier>();
+            return passwordSupplier.GetPassword();
+        }
+    }
+
     #endregion
 
 
