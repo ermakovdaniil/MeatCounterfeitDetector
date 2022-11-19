@@ -9,7 +9,7 @@ namespace VKR.View;
 /// <summary>
 ///     Логика взаимодействия для ColorPropertyControl.xaml
 /// </summary>
-public partial class LoginControl : UserControl, IPasswordSupplier
+public partial class LoginControl : UserControl
 {
     private LoginControlVM _viewModel;
 
@@ -18,10 +18,5 @@ public partial class LoginControl : UserControl, IPasswordSupplier
         InitializeComponent();
         _viewModel = (LoginControlVM?)VMLocator.Resolve<LoginControl>();
         DataContext = _viewModel;
-    }
-
-    public string GetPassword()
-    {
-        return pwdBox.Password;
     }
 }

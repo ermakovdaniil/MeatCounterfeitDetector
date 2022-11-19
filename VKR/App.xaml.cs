@@ -51,7 +51,7 @@ public partial class App : Application
         builder.RegisterType<NavigationManager>().AsSelf().SingleInstance();
         builder.RegisterType<UserControlFactory>().AsSelf();
         builder.RegisterType<DialogService>().AsSelf();
-        
+
         Container = builder.Build();
 
         VMLocator.Container = Container;

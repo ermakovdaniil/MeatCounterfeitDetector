@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Data.Entity;
 using System.Linq;
 using System.Windows;
 using Autofac;
@@ -22,6 +23,7 @@ public class LoginControlVM : ViewModelBase
     public LoginControlVM(UserDBContext context)
     {
         _context = context;
+        User = new User();
     }
 
     #endregion
@@ -33,18 +35,9 @@ public class LoginControlVM : ViewModelBase
 
     public IContainer Container { get; set; }
 
-    public User SelectedUser { get; set; }
+    public User User { get; set; }
 
     private readonly UserDBContext _context;
-
-    public string Password
-    {
-        get
-        {
-            IPasswordSupplier passwordSupplier = container.Resolve<IPasswordSupplier>();
-            return passwordSupplier.GetPassword();
-        }
-    }
 
     #endregion
 
@@ -59,7 +52,7 @@ public class LoginControlVM : ViewModelBase
         {
             return _enterCommand ??= new RelayCommand(o =>
             {
-                if (string.IsNullOrEmpty(SelectedUser.Name) || string.IsNullOrEmpty(SelectedUser.Password))
+                if (string.IsNullOrEmpty(User.Name) || string.IsNullOrEmpty(User.Password))
                 {
                     MessageBox.Show("Введите имя пользователя и пароль!", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
                     return;
@@ -67,7 +60,7 @@ public class LoginControlVM : ViewModelBase
 
                 try
                 {
-                    var user = _context.Users.First(u => u.Name == SelectedUser.Name && u.Password == SelectedUser.Password);
+                    var user = _context.Users.Include(u => u.Type).First(u => u.Name == User.Name && u.Password == User.Password);
                     if (user.Type.Type == "Администратор")
                     {
                         var navigator = Container.Resolve<NavigationManager>();

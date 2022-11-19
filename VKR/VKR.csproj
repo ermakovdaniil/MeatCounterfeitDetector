@@ -8,6 +8,13 @@
     </PropertyGroup>
 
     <ItemGroup>
+      <Compile Remove="Utils\WindowFactory\**" />
+      <EmbeddedResource Remove="Utils\WindowFactory\**" />
+      <None Remove="Utils\WindowFactory\**" />
+      <Page Remove="Utils\WindowFactory\**" />
+    </ItemGroup>
+
+    <ItemGroup>
         <None Remove="resources\icons\cancel.png" />
         <None Remove="resources\icons\delete.png" />
         <None Remove="resources\icons\editing.png" />
@@ -100,7 +107,15 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Utils\WindowFactory" />
+      <None Update="CounterfeitKB.db">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
+      <None Update="ResultDB.db">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
+      <None Update="UserDB.db">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
     </ItemGroup>
 
 </Project>

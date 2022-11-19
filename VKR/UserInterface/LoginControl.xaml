@@ -14,9 +14,9 @@
         <Grid Row="1" Width="180">
             <StackPanel Orientation="Vertical" HorizontalAlignment="Center" Width="180">
                 <hc:TextBox hc:InfoElement.Title="Имя пользователя" Margin="10,0,10,10" Background="{StaticResource Style3}" 
-                            Text="{Binding SelectedUser.Name, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" />
+                            Text="{Binding User.Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                 <hc:PasswordBox hc:InfoElement.Title="Пароль" Margin="10,0,10,10" Background="{StaticResource Style3}" 
-                                Name="pwdBox" />
+                                IsSafeEnabled="false" UnsafePassword="{Binding User.Password, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                 <Button x:Name="EnterButton" Width="100" hc:BorderElement.CornerRadius="10"
                         Command="{Binding EnterCommand }" Content="{StaticResource EnterButton}"
                         Margin="0,0,10,0" Background="{StaticResource Style3}" />

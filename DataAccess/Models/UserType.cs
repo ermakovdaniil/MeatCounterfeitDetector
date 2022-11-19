@@ -1,17 +1,18 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.Generic;
 
-
-namespace DataAccess.Models;
-
-public class UserType
+namespace DataAccess.Models
 {
-    public UserType()
+    public partial class UserType
     {
-        Users = new ObservableCollection<User>();
+        public UserType()
+        {
+            Users = new HashSet<User>();
+        }
+
+        public long Id { get; set; }
+        public string Type { get; set; } = null!;
+
+        public virtual ICollection<User> Users { get; set; }
     }
-
-    public long Id { get; set; }
-    public string Type { get; set; } = null!;
-
-    public virtual ObservableCollection<User> Users { get; set; }
 }
