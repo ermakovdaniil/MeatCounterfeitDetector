@@ -10,11 +10,16 @@ namespace DataAccess.Data
     {
         public UserDBContext()
         {
+           // Users.Load();
+            //UserTypes.Load();
+
         }
 
         public UserDBContext(DbContextOptions<UserDBContext> options)
             : base(options)
         {
+           // UserTypes.Load();
+            //Users.Load();
         }
 
         public virtual DbSet<User> Users { get; set; } = null!;

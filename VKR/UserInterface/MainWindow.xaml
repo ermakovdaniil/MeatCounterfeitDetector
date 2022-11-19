@@ -4,10 +4,15 @@
            xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
            xmlns:hc="https://handyorg.github.io/handycontrol"
            xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+           xmlns:viewModel="clr-namespace:VKR.ViewModel"
            mc:Ignorable="d"
            NonClientAreaBackground="{StaticResource Style4}"
-           Title="MainWindow" Height="450" Width="800"
+           Title="{Binding Parameters.Title,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+           Width="{Binding Parameters.Width,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+           Height="{Binding Parameters.Height, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+           WindowState="{Binding Parameters.WindowState}"
            ShowTitle="False"
+           d:DataContext="{d:DesignInstance viewModel:MainWindowVM}"
            WindowStartupLocation="CenterScreen">
     <hc:Window.NonClientAreaContent>
         <StackPanel Orientation="Horizontal">

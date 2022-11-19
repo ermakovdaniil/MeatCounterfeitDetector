@@ -75,7 +75,12 @@ public partial class App : Application
         mainWindow.Show();
 
         var navigator = Container.Resolve<NavigationManager>();
-        navigator.Navigate<LoginControl>();
+        navigator.Navigate<LoginControl>(new WindowParameters()
+        {
+            Height = 300,
+            Width = 300,
+            Title = "Вход в систему"
+        });
         
         var ds = Container.Resolve<DialogService>();
 

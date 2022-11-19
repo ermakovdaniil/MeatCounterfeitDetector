@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Data.Entity;
+
 using System.Linq;
 using System.Windows;
 using Autofac;
@@ -7,7 +7,10 @@ using Autofac;
 using DataAccess.Data;
 using DataAccess.Models;
 
+using Microsoft.EntityFrameworkCore;
+
 using VKR.Utils;
+using VKR.Utils.Dialog;
 using VKR.Utils.MainWindowControlChanger;
 using VKR.View;
 
@@ -20,9 +23,10 @@ public class LoginControlVM : ViewModelBase
 
     #region Constructors
 
-    public LoginControlVM(UserDBContext context)
+    public LoginControlVM(UserDBContext context, NavigationManager navigationManager)
     {
         _context = context;
+        _navigationManager = navigationManager;
         User = new User();
     }
 
@@ -38,8 +42,9 @@ public class LoginControlVM : ViewModelBase
     public User User { get; set; }
 
     private readonly UserDBContext _context;
+    private readonly NavigationManager _navigationManager;
 
-    #endregion
+#endregion
 
 
     #region Commands
@@ -50,6 +55,7 @@ public class LoginControlVM : ViewModelBase
     {
         get
         {
+            // ReSharper disable once ConstantNullCoalescingCondition
             return _enterCommand ??= new RelayCommand(o =>
             {
                 if (string.IsNullOrEmpty(User.Name) || string.IsNullOrEmpty(User.Password))
@@ -60,20 +66,26 @@ public class LoginControlVM : ViewModelBase
 
                 try
                 {
-                    var user = _context.Users.Include(u => u.Type).First(u => u.Name == User.Name && u.Password == User.Password);
+                    var user = _context.Users.Include(u=> u.Type).First(u => u.Name == User.Name && u.Password == User.Password);
                     if (user.Type.Name == "Администратор")
                     {
-                        var navigator = Container.Resolve<NavigationManager>();
-                        navigator.Navigate<MainAdminControl>();
+                        _navigationManager.Navigate<MainAdminControl>(new WindowParameters()
+                        {
+                            WindowState = WindowState.Maximized,
+                            Title = "Панель администратора"
+                        });
                     }
 
                     if (user.Type.Name == "Исследователь")
                     {
-                        var navigator = Container.Resolve<NavigationManager>();
-                        navigator.Navigate<TechnologistControl>();
+                        _navigationManager.Navigate<TechnologistControl>(new WindowParameters()
+                        {
+                            WindowState = WindowState.Maximized,
+                            Title = "Панель исследователя"
+                        });
                     }
                 }
-                catch (Exception exception)
+                catch (DivideByZeroException )
                 {
                     MessageBox.Show("Неверное имя пользователя или пароль! Повторите попытку.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
