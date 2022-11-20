@@ -1,10 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 
 using DataAccess.Data;
 using DataAccess.Models;
-
+using Microsoft.EntityFrameworkCore;
 using VKR.Utils;
 using VKR.Utils.Dialog.Abstract;
 
@@ -20,9 +21,11 @@ public class CounterfeitEditControlVM : ViewModelBase, IDataHolder, IResultHolde
     public CounterfeitEditControlVM(CounterfeitKBContext context)
     {
         _context = context;
-        Colors = new ObservableCollection<Color>(_context.Colors.ToList());
-        Shapes = new ObservableCollection<Shape>(_context.Shapes.ToList());
-        Counterfeits = new ObservableCollection<Counterfeit>(_context.Counterfeits.ToList());
+        _context.Shapes.Load();
+        _context.Colors.Load();
+        //Colors = new ObservableCollection<Color>(_context.Colors.ToList());
+        //Shapes = new ObservableCollection<Shape>(_context.Shapes.ToList());
+        //Counterfeits = new ObservableCollection<Counterfeit>(_context.Counterfeits.ToList());
     }
 
     #endregion
@@ -51,9 +54,23 @@ public class CounterfeitEditControlVM : ViewModelBase, IDataHolder, IResultHolde
 
     private readonly CounterfeitKBContext _context;
 
-    public ObservableCollection<Color> Colors { get; set; }
-    public ObservableCollection<Shape> Shapes { get; set; }
-    public ObservableCollection<Counterfeit> Counterfeits { get; set; }
+    public List<Shape> Shapes
+    {
+        get => _context.Shapes.ToList();
+    }
+
+    public List<Color> Colors
+    {
+        get => _context.Colors.ToList();
+    }
+
+    public List<Counterfeit> Counterfeits
+    {
+        get => _context.Counterfeits.ToList();
+    }
+    //public ObservableCollection<Color> Colors { get; set; }
+    //public ObservableCollection<Shape> Shapes { get; set; }
+    //public ObservableCollection<Counterfeit> Counterfeits { get; set; }
 
     #endregion
 
