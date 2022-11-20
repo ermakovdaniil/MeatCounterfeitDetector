@@ -5,6 +5,8 @@ using System.Linq;
 using DataAccess.Data;
 using DataAccess.Models;
 
+using HandyControl.Collections;
+
 using VKR.Utils;
 using VKR.Utils.Dialog.Abstract;
 
@@ -20,7 +22,7 @@ public class UserEditControlVM : ViewModelBase, IDataHolder, IResultHolder, IInt
     public UserEditControlVM(UserDBContext context)
     {
         _context = context;
-        UserTypes = _context.UserTypes.Local.ToObservableCollection();
+        UserTypes = new ObservableCollection<UserType>(_context.UserTypes.ToList());
     }
 
     #endregion

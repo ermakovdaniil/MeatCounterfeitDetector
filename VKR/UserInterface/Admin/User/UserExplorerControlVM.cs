@@ -1,9 +1,14 @@
-﻿using System.Collections.ObjectModel;
+﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Documents;
 
 using DataAccess.Data;
 using DataAccess.Models;
+
+using Microsoft.EntityFrameworkCore;
 
 using VKR.Utils;
 using VKR.Utils.Dialog;
@@ -22,8 +27,7 @@ public class UserExplorerControlVM : ViewModelBase
     public UserExplorerControlVM(UserDBContext context, DialogService ds)
     {
         _context = context;
-        Users = _context.Users.Local.ToObservableCollection();
-        UserTypes = _context.UserTypes.Local.ToObservableCollection();
+        _context.UserTypes.Load();
         _ds = ds;
     }
 
@@ -38,8 +42,10 @@ public class UserExplorerControlVM : ViewModelBase
 
     private readonly UserDBContext _context;
     public User SelectedUser { get; set; }
-    public ObservableCollection<User> Users { get; set; }
-    public ObservableCollection<UserType> UserTypes { get; set; }
+    public List<User> Users
+    {
+        get => _context.Users.ToList();
+    }
 
     #endregion
 
@@ -57,7 +63,7 @@ public class UserExplorerControlVM : ViewModelBase
         {
             return _addUser ??= new RelayCommand(o =>
             {
-                _ds.ShowDialog<UserExplorerControl>(
+                _ds.ShowDialog<UserEditControl>(
                 windowParameters: new WindowParameters
                 {
                     Height = 300,
@@ -68,6 +74,7 @@ public class UserExplorerControlVM : ViewModelBase
                 {
 
                 });
+                OnPropertyChanged(nameof(Users));
             });
         }
     }
@@ -83,15 +90,17 @@ public class UserExplorerControlVM : ViewModelBase
         {
             return _editUser ??= new RelayCommand(o =>
             {
-                _ds.ShowDialog<UserExplorerControl>(
-                windowParameters: new WindowParameters
-                {
-                    Height = 400,
-                    Width = 300,
-                    Title = "Добавление цвета"
-                },
-                data: SelectedUser
-                );
+                _ds.ShowDialog<UserEditControl>(
+                                                windowParameters: new WindowParameters
+                                                {
+                                                    Height = 400,
+                                                    Width = 300,
+                                                    Title = "Добавление пользователя"
+                                                },
+                                                data: SelectedUser
+                                               );
+                OnPropertyChanged(nameof(Users));
+
             }, _ => SelectedUser != null);
         }
     }
@@ -114,6 +123,8 @@ public class UserExplorerControlVM : ViewModelBase
                     _context.Users.Remove(SelectedUser);
                     _context.SaveChanges();
                 }
+                OnPropertyChanged(nameof(Users));
+
             }, _ => SelectedUser != null);
         }
     }

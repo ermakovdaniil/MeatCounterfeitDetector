@@ -36,11 +36,7 @@ public class LoginControlVM : ViewModelBase
 
 
     #region Properties
-
-    public IContainer Container { get; set; }
-
     public User User { get; set; }
-
     private readonly UserDBContext _context;
     private readonly NavigationManager _navigationManager;
 

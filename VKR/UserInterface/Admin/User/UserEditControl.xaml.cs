@@ -22,6 +22,4 @@ public partial class UserEditControl
         _viewModel = (UserEditControlVM?)VMLocator.Resolve<UserEditControl>();
         DataContext = _viewModel;
     }
-
-    public IContainer Container { get; set; }
 }

@@ -28,7 +28,7 @@
                     <DataGridTextColumn Header="Пароль"
                                         Binding="{Binding Password}" />
                     <DataGridTextColumn Header="Тип пользователя"
-                                        Binding="{Binding UserType.UserTypeName}" />
+                                        Binding="{Binding Type.Name}" />
                 </DataGrid.Columns>
             </DataGrid>
             <Grid Row="1" Background="{StaticResource Style2}">

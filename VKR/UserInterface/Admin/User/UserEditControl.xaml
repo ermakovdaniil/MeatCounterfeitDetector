@@ -21,10 +21,11 @@
                         hc:InfoElement.TitlePlacement="Top" Margin="10 5"
                         Text="{Binding TempUser.Password, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                         Background="{StaticResource Style3}" HorizontalAlignment="Stretch" />
-            <hc:ComboBox hc:InfoElement.Title="Тип пользователя" ItemsSource="{Binding UserTypes}"
+            <hc:ComboBox hc:InfoElement.Title="Тип пользователя"
+                         ItemsSource="{Binding UserTypes}"
                          hc:InfoElement.TitlePlacement="Top" Margin="10 5"
                          SelectedItem="{Binding TempUser.Type}"
-                         DisplayMemberPath="UserTypeName"
+                         DisplayMemberPath="Name"
                          Background="{StaticResource Style3}" HorizontalAlignment="Stretch" />
         </StackPanel>
         <Grid Row="1" Background="{StaticResource Style1}">

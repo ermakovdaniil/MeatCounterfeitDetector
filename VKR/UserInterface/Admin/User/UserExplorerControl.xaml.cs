@@ -23,6 +23,4 @@ public partial class UserExplorerControl : UserControl
         _viewModel = (UserExplorerControlVM?)VMLocator.Resolve<UserExplorerControl>();
         DataContext = _viewModel;
     }
-
-    public IContainer Container { get; set; }
 }
