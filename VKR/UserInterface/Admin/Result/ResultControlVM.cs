@@ -25,7 +25,9 @@ public class ResultControlVM : ViewModelBase
     public ResultControlVM(ResultDBContext context)
     {
         _context = context;
-        _context.Results.Load();
+        _context.Companies.Load();
+        _context.OriginalPaths.Load();
+        _context.ResultPaths.Load();
     }
 
     #endregion

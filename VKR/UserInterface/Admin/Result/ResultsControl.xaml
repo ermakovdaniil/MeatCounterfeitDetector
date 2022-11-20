@@ -20,10 +20,10 @@
             <DataGrid.Columns>
                 <DataGridTextColumn Header="ID" Binding="{Binding Id}" />
                 <DataGridTextColumn Header="Дата" Binding="{Binding Date}" />
-                <DataGridTextColumn Header="Предприятие" Binding="{Binding Company}" />
+                <DataGridTextColumn Header="Предприятие" Binding="{Binding Company.Name}" />
                 <DataGridTextColumn Header="Результат анализа" Binding="{Binding AnRes}" />
-                <DataGridTextColumn Header="Путь к оригинальному изображению" Binding="{Binding OrigPat}" />
-                <DataGridTextColumn Header="Путь к обработанному изображению" Binding="{Binding ResPath}" />
+                <DataGridTextColumn Header="Путь к оригинальному изображению" Binding="{Binding OrigPath.Path}" />
+                <DataGridTextColumn Header="Путь к обработанному изображению" Binding="{Binding ResPath.Path}" />
             </DataGrid.Columns>
         </DataGrid>
         <Grid Row="1" Background="{StaticResource Style2}">
