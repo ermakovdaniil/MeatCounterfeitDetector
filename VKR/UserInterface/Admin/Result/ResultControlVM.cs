@@ -1,10 +1,15 @@
-﻿using System.Collections.ObjectModel;
+﻿using System.Linq;
 using System.Windows;
+using System.Collections.Generic;
 
 using DataAccess.Data;
 using DataAccess.Models;
 
+using Microsoft.EntityFrameworkCore;
+
 using VKR.Utils;
+using VKR.Utils.Dialog;
+using VKR.View;
 
 using MessageBox = HandyControl.Controls.MessageBox;
 
@@ -20,7 +25,7 @@ public class ResultControlVM : ViewModelBase
     public ResultControlVM(ResultDBContext context)
     {
         _context = context;
-        Results = _context.Results.Local.ToObservableCollection();
+        _context.Results.Load();
     }
 
     #endregion
@@ -32,7 +37,10 @@ public class ResultControlVM : ViewModelBase
 
     private readonly ResultDBContext _context;
     public Result SelectedResult { get; set; }
-    public ObservableCollection<Result> Results { get; set; }
+    public List<Result> Results
+    {
+        get => _context.Results.ToList();
+    }
 
     #endregion
 
@@ -57,6 +65,7 @@ public class ResultControlVM : ViewModelBase
                     _context.Results.Remove(SelectedResult);
                     _context.SaveChanges();
                 }
+                OnPropertyChanged(nameof(Results));
             }, _ => SelectedResult != null);
         }
     }

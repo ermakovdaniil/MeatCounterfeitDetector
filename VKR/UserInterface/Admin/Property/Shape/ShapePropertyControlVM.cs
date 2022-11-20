@@ -1,6 +1,6 @@
-﻿using System.Collections.ObjectModel;
-using System.Linq;
+﻿using System.Linq;
 using System.Windows;
+using System.Collections.Generic;
 
 using DataAccess.Data;
 using DataAccess.Models;
@@ -25,7 +25,7 @@ public class ShapePropertyControlVM : ViewModelBase
     public ShapePropertyControlVM(CounterfeitKBContext context, DialogService ds)
     {
         _context = context;
-        Shapes = _context.Shapes.Local.ToObservableCollection();
+        //_context.Shapes.Load();
         _ds = ds;
     }
 
@@ -40,7 +40,10 @@ public class ShapePropertyControlVM : ViewModelBase
 
     private readonly CounterfeitKBContext _context;
     public Shape SelectedShape { get; set; }
-    public ObservableCollection<Shape> Shapes { get; set; }
+    public List<Shape> Shapes
+    {
+        get => _context.Shapes.ToList();
+    }
 
     #endregion
 
@@ -58,10 +61,10 @@ public class ShapePropertyControlVM : ViewModelBase
         {
             return _addShape ??= new RelayCommand(o =>
             {
-                _ds.ShowDialog<ShapePropertyControl>(
+                _ds.ShowDialog<ShapePropertyEditControl>(
                 windowParameters: new WindowParameters
                 {
-                    Height = 400,
+                    Height = 250,
                     Width = 300,
                     Title = "Добавление формы"
                 },
@@ -69,6 +72,7 @@ public class ShapePropertyControlVM : ViewModelBase
                 {
 
                 });
+                OnPropertyChanged(nameof(Shapes));
             });
         }
     }
@@ -84,14 +88,15 @@ public class ShapePropertyControlVM : ViewModelBase
         {
             return _editShape ??= new RelayCommand(o =>
             {
-                _ds.ShowDialog<ShapePropertyControl>(
+                _ds.ShowDialog<ShapePropertyEditControl>(
                 windowParameters: new WindowParameters
                 {
-                    Height = 400,
+                    Height = 250,
                     Width = 300,
                     Title = "Добавление формы"
                 },
                 data: SelectedShape);
+                OnPropertyChanged(nameof(Shapes));
             }, _ => SelectedShape != null);
         }
     }
@@ -115,6 +120,7 @@ public class ShapePropertyControlVM : ViewModelBase
                     _context.Shapes.Remove(SelectedShape);
                     _context.SaveChanges();
                 }
+                OnPropertyChanged(nameof(Shapes));
             }, _ => SelectedShape != null);
         }
     }

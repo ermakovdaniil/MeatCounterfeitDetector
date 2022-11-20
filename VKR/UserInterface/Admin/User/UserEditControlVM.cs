@@ -5,8 +5,6 @@ using System.Linq;
 using DataAccess.Data;
 using DataAccess.Models;
 
-using HandyControl.Collections;
-
 using VKR.Utils;
 using VKR.Utils.Dialog.Abstract;
 

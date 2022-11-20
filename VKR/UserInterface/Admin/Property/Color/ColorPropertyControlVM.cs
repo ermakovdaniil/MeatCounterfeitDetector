@@ -1,6 +1,6 @@
-﻿using System.Collections.ObjectModel;
-using System.Linq;
+﻿using System.Linq;
 using System.Windows;
+using System.Collections.Generic;
 
 using DataAccess.Data;
 using DataAccess.Models;
@@ -25,7 +25,7 @@ public class ColorPropertyControlVM : ViewModelBase
     public ColorPropertyControlVM(CounterfeitKBContext context, DialogService ds)
     {
         _context = context;
-        Colors = _context.Colors.Local.ToObservableCollection();
+        //_context.Colors.Load();
         _ds = ds;
     }
 
@@ -40,7 +40,10 @@ public class ColorPropertyControlVM : ViewModelBase
 
     private readonly CounterfeitKBContext _context;
     public Color SelectedColor { get; set; }
-    public ObservableCollection<Color> Colors { get; set; }
+    public List<Color> Colors
+    {
+        get => _context.Colors.ToList();
+    }
 
     #endregion
 
@@ -58,11 +61,10 @@ public class ColorPropertyControlVM : ViewModelBase
         {
             return _addColor ??= new RelayCommand(o =>
             {
-                //ShowChildWindow(new ColorPropertyEditWindow(new Color()));
-                _ds.ShowDialog<ColorPropertyControl>(
+                _ds.ShowDialog<ColorPropertyEditControl>(
                 windowParameters: new WindowParameters
                 {
-                    Height = 200,
+                    Height = 300,
                     Width = 300,
                     Title = "Добавление цвета"
                 },
@@ -70,6 +72,7 @@ public class ColorPropertyControlVM : ViewModelBase
                 {
 
                 });
+                OnPropertyChanged(nameof(Colors));
             });
         }
     }
@@ -85,14 +88,15 @@ public class ColorPropertyControlVM : ViewModelBase
         {
             return _editColor ??= new RelayCommand(o =>
             {
-                _ds.ShowDialog<ColorPropertyControl>(
+                _ds.ShowDialog<ColorPropertyEditControl>(
                 windowParameters: new WindowParameters
                 {
-                    Height = 200,
+                    Height = 300,
                     Width = 300,
                     Title = "Добавление цвета"
                 },
                 data: SelectedColor);
+                OnPropertyChanged(nameof(Colors));
             }, _ => SelectedColor != null);
         }
     }
@@ -116,6 +120,7 @@ public class ColorPropertyControlVM : ViewModelBase
                     _context.Colors.Remove(SelectedColor);
                     _context.SaveChanges();
                 }
+                OnPropertyChanged(nameof(Colors));
             }, _ => SelectedColor != null);
         }
     }

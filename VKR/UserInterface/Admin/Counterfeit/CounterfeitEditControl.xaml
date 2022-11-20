@@ -19,7 +19,7 @@
                         Background="{StaticResource Style3}" HorizontalAlignment="Stretch" />
             <hc:ComboBox hc:InfoElement.Title="Форма" ItemsSource="{Binding Shapes}"
                          hc:InfoElement.TitlePlacement="Top" Margin="10 5"
-                         SelectedItem="{Binding TempCounterfeit.ShapeId}"
+                         SelectedItem="{Binding TempCounterfeit.Shape.Name}"
                          DisplayMemberPath="Name"
                          Background="{StaticResource Style3}" HorizontalAlignment="Stretch" />
             <hc:TextBox hc:InfoElement.Title="Нижняя граница размера, мкм"
@@ -32,7 +32,7 @@
                         Background="{StaticResource Style3}" HorizontalAlignment="Stretch" />
             <hc:ComboBox hc:InfoElement.Title="Цвет" ItemsSource="{Binding Colors}"
                          hc:InfoElement.TitlePlacement="Top" Margin="10 5"
-                         SelectedItem="{Binding TempCounterfeit.ColorId}"
+                         SelectedItem="{Binding TempCounterfeit.Color.Name}"
                          DisplayMemberPath="Name"
                          Background="{StaticResource Style3}" HorizontalAlignment="Stretch" />
         </StackPanel>

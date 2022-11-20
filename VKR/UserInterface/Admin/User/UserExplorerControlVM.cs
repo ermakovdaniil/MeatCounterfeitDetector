@@ -1,9 +1,6 @@
-﻿using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
+﻿using System.Linq;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Documents;
+using System.Collections.Generic;
 
 using DataAccess.Data;
 using DataAccess.Models;
@@ -15,6 +12,7 @@ using VKR.Utils.Dialog;
 using VKR.View;
 
 using MessageBox = HandyControl.Controls.MessageBox;
+
 
 namespace VKR.ViewModel;
 
@@ -66,7 +64,7 @@ public class UserExplorerControlVM : ViewModelBase
                 _ds.ShowDialog<UserEditControl>(
                 windowParameters: new WindowParameters
                 {
-                    Height = 300,
+                    Height = 380,
                     Width = 300,
                     Title = "Добавление пользователя"
                 },
@@ -91,16 +89,14 @@ public class UserExplorerControlVM : ViewModelBase
             return _editUser ??= new RelayCommand(o =>
             {
                 _ds.ShowDialog<UserEditControl>(
-                                                windowParameters: new WindowParameters
-                                                {
-                                                    Height = 400,
-                                                    Width = 300,
-                                                    Title = "Добавление пользователя"
-                                                },
-                                                data: SelectedUser
-                                               );
+                windowParameters: new WindowParameters
+                {
+                    Height = 380,
+                    Width = 300,
+                    Title = "Добавление пользователя"
+                },
+                data: SelectedUser);
                 OnPropertyChanged(nameof(Users));
-
             }, _ => SelectedUser != null);
         }
     }
@@ -124,7 +120,6 @@ public class UserExplorerControlVM : ViewModelBase
                     _context.SaveChanges();
                 }
                 OnPropertyChanged(nameof(Users));
-
             }, _ => SelectedUser != null);
         }
     }

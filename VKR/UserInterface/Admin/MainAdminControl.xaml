@@ -7,10 +7,8 @@
              xmlns:view="clr-namespace:VKR.View"
              mc:Ignorable="d"
              d:DesignHeight="450" d:DesignWidth="1000">
-
     <UserControl.Resources>
     </UserControl.Resources>
-
     <Grid>
         <TabControl x:Name="tabs"
                     Visibility="{Binding TabControlVisibility, UpdateSourceTrigger=PropertyChanged}"

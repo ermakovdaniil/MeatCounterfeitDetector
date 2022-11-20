@@ -8,8 +8,8 @@ using DataAccess.Models;
 using VKR.Utils;
 using VKR.Utils.Dialog.Abstract;
 
-namespace VKR.ViewModel;
 
+namespace VKR.ViewModel;
 
 public class CounterfeitEditControlVM : ViewModelBase, IDataHolder, IResultHolder, IInteractionAware
 {
@@ -20,9 +20,9 @@ public class CounterfeitEditControlVM : ViewModelBase, IDataHolder, IResultHolde
     public CounterfeitEditControlVM(CounterfeitKBContext context)
     {
         _context = context;
-        Colors = _context.Colors.Local.ToObservableCollection();
-        Shapes = _context.Shapes.Local.ToObservableCollection();
-        Counterfeits = _context.Counterfeits.Local.ToObservableCollection();
+        Colors = new ObservableCollection<Color>(_context.Colors.ToList());
+        Shapes = new ObservableCollection<Shape>(_context.Shapes.ToList());
+        Counterfeits = new ObservableCollection<Counterfeit>(_context.Counterfeits.ToList());
     }
 
     #endregion

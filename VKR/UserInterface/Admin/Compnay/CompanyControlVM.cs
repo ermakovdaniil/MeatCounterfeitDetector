@@ -1,16 +1,18 @@
-﻿using System.Collections.ObjectModel;
-
-using System.Linq;
+﻿using System.Linq;
 using System.Windows;
+using System.Collections.Generic;
 
 using DataAccess.Data;
 using DataAccess.Models;
+
+using Microsoft.EntityFrameworkCore;
 
 using VKR.Utils;
 using VKR.Utils.Dialog;
 using VKR.View;
 
 using MessageBox = HandyControl.Controls.MessageBox;
+
 
 namespace VKR.ViewModel;
 
@@ -23,7 +25,7 @@ public class CompanyControlVM : ViewModelBase
     public CompanyControlVM(ResultDBContext context, DialogService ds)
     {
         _context = context;
-        Companies = _context.Companies.Local.ToObservableCollection();
+        //_context.Companies.Load();
         _ds = ds;
     }
 
@@ -38,7 +40,10 @@ public class CompanyControlVM : ViewModelBase
 
     private readonly ResultDBContext _context;
     public Company SelectedCompany { get; set; }
-    public ObservableCollection<Company> Companies { get; set; }
+    public List<Company> Companies
+    {
+        get => _context.Companies.ToList();
+    }
 
     #endregion
 
@@ -50,16 +55,16 @@ public class CompanyControlVM : ViewModelBase
     /// <summary>
     ///     Команда, открывающая окно создания предприятия
     /// </summary>
-    public RelayCommand Add
+    public RelayCommand AddCompany
     {
         get
         {
             return _addCompany ??= new RelayCommand(o =>
             {
-                _ds.ShowDialog<CompanyControl>(
+                _ds.ShowDialog<CompanyEditControl>(
                 windowParameters: new WindowParameters
                 {
-                    Height = 100,
+                    Height = 180,
                     Width = 300,
                     Title = "Добавление предприятия"
                 },
@@ -67,6 +72,7 @@ public class CompanyControlVM : ViewModelBase
                 {
 
                 });
+                OnPropertyChanged(nameof(Companies));
             });
         }
     }
@@ -76,20 +82,21 @@ public class CompanyControlVM : ViewModelBase
     /// <summary>
     ///     Команда, открывающая окно редактирования предприятия
     /// </summary>
-    public RelayCommand Edit
+    public RelayCommand EditCompany
     {
         get
         {
             return _editCompany ??= new RelayCommand(o =>
             {
-                _ds.ShowDialog<CompanyControl>(
+                _ds.ShowDialog<CompanyEditControl>(
                 windowParameters: new WindowParameters
                 {
-                    Height = 100,
+                    Height = 180,
                     Width = 300,
                     Title = "Добавление предприятия"
                 },
                 data: SelectedCompany);
+                OnPropertyChanged(nameof(Companies));
             }, _ => SelectedCompany != null);
         }
     }
@@ -99,7 +106,7 @@ public class CompanyControlVM : ViewModelBase
     /// <summary>
     ///     Команда, удаляющая цвет
     /// </summary>
-    public RelayCommand Delete
+    public RelayCommand DeleteCompany
     {
         get
         {
@@ -112,6 +119,7 @@ public class CompanyControlVM : ViewModelBase
                     _context.Companies.Remove(SelectedCompany);
                     _context.SaveChanges();
                 }
+                OnPropertyChanged(nameof(Companies));
             }, _ => SelectedCompany != null);
         }
     }

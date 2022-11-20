@@ -1,10 +1,4 @@
-﻿using System.Windows.Controls;
-
-using Autofac;
-
-using DataAccess.Data;
-
-using VKR.Utils;
+﻿using VKR.Utils;
 using VKR.ViewModel;
 
 
@@ -23,6 +17,4 @@ public partial class ShapePropertyEditControl
         _viewModel = (ShapePropertyEditControlVM?)VMLocator.Resolve<ShapePropertyEditControl>();
         DataContext = _viewModel;
     }
-
-    public IContainer Container { get; set; }
 }

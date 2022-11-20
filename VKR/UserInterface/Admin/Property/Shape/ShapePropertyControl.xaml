@@ -13,14 +13,12 @@
             <RowDefinition />
             <RowDefinition Height="50" />
         </Grid.RowDefinitions>
-
         <DataGrid ItemsSource="{Binding Shapes}"
                   IsReadOnly="True"
                   SelectedItem="{Binding SelectedShape}"
                   SelectionMode="Single"
                   AutoGenerateColumns="False"
                   Background="{StaticResource Style3}">
-
             <DataGrid.Columns>
                 <DataGridTextColumn Header="ID"
                                     Binding="{Binding Id}" />
@@ -30,7 +28,6 @@
                                     Binding="{Binding Formula}" />
             </DataGrid.Columns>
         </DataGrid>
-
         <Grid Row="1" Background="{StaticResource Style2}">
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                 <Button Width="100" Margin="5" hc:BorderElement.CornerRadius="10"

@@ -1,10 +1,4 @@
-﻿using System.Windows.Controls;
-
-using Autofac;
-
-using DataAccess.Data;
-
-using VKR.Utils;
+﻿using VKR.Utils;
 using VKR.ViewModel;
 
 
@@ -23,7 +17,4 @@ public partial class CounterfeitEditControl
         _viewModel = (CounterfeitEditControlVM?)VMLocator.Resolve<CounterfeitEditControl>();
         DataContext = _viewModel;
     }
-
-    public IContainer Container { get; set; }
-
 }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.ObjectModel;
 using System.Linq;
 
 using DataAccess.Data;
@@ -6,6 +7,7 @@ using DataAccess.Models;
 
 using VKR.Utils;
 using VKR.Utils.Dialog.Abstract;
+
 
 namespace VKR.ViewModel;
 
@@ -18,6 +20,7 @@ public class ColorPropertyEditControlVM : ViewModelBase, IDataHolder, IResultHol
     public ColorPropertyEditControlVM(CounterfeitKBContext context)
     {
         _context = context;
+        Colors = new ObservableCollection<Color>(_context.Colors.ToList());
         //Colors = Db.Colors.Local.ToObservableCollection();
     }
 
@@ -48,6 +51,8 @@ public class ColorPropertyEditControlVM : ViewModelBase, IDataHolder, IResultHol
     public Color EditingColor => (Color)Data;
 
     private readonly CounterfeitKBContext _context;
+
+    public ObservableCollection<Color> Colors { get; set; }
 
     #endregion
 

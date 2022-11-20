@@ -1,9 +1,5 @@
 ﻿using System.Windows.Controls;
 
-using Autofac;
-
-using DataAccess.Data;
-
 using VKR.Utils;
 using VKR.ViewModel;
 

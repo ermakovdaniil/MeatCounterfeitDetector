@@ -36,11 +36,12 @@ public class LoginControlVM : ViewModelBase
 
 
     #region Properties
+
     public User User { get; set; }
     private readonly UserDBContext _context;
     private readonly NavigationManager _navigationManager;
 
-#endregion
+    #endregion
 
 
     #region Commands
@@ -81,7 +82,7 @@ public class LoginControlVM : ViewModelBase
                         });
                     }
                 }
-                catch (DivideByZeroException )
+                catch (Exception ex)
                 {
                     MessageBox.Show("Неверное имя пользователя или пароль! Повторите попытку.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
                 }

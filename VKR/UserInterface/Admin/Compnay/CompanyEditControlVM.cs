@@ -19,7 +19,7 @@ public class CompanyEditControlVM : ViewModelBase, IDataHolder, IResultHolder, I
     public CompanyEditControlVM(ResultDBContext context)
     {
         _context = context;
-        Companies = _context.Companies.Local.ToObservableCollection();
+        Companies = new ObservableCollection<Company>(_context.Companies.ToList());
     }
 
     #endregion
@@ -43,7 +43,6 @@ public class CompanyEditControlVM : ViewModelBase, IDataHolder, IResultHolder, I
             OnPropertyChanged();
         }
     }
-    // public Color TempColor { get; set; }
 
     public Company EditingCompany => (Company)Data;
 

@@ -1,7 +1,5 @@
 ﻿using System.Windows.Controls;
 
-using Autofac;
-
 using VKR.Utils;
 using VKR.ViewModel;
 
@@ -21,6 +19,4 @@ public partial class CounterfeitExplorerControl : UserControl
         _viewModel = (CounterfeitExplorerControlVM?)VMLocator.Resolve<CounterfeitExplorerControl>();
         DataContext = _viewModel;
     }
-
-    public IContainer Container { get; set; }
 }
