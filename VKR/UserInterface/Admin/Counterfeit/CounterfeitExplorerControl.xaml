@@ -4,10 +4,14 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:vm="clr-namespace:VKR.ViewModel"
+             xmlns:cs="clr-namespace:VKR.UserInterface.Admin.Counterfeit"
              xmlns:hc="https://handyorg.github.io/handycontrol"
              mc:Ignorable="d"
              d:DataContext="{d:DesignInstance vm:CounterfeitExplorerControlVM}"
              d:DesignHeight="450">
+    <UserControl.Resources>
+        <cs:SizeConverter x:Key="SizeConverter" />
+    </UserControl.Resources>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition />
@@ -21,7 +25,7 @@
                 <DataGridTextColumn Header="ID" Binding="{Binding Id}" />
                 <DataGridTextColumn Header="Наименование" Binding="{Binding Name}" />
                 <DataGridTextColumn Header="Форма" Binding="{Binding Shape}" />
-                <DataGridTextColumn Header="Размер, мкм" Binding="{Binding Size}" />
+                <DataGridTextColumn Header="Размер, мкм" Binding="{Binding Converter={StaticResource SizeConverter}}" />
                 <DataGridTextColumn Header="Цвет" Binding="{Binding Color}" />
             </DataGrid.Columns>
         </DataGrid>
