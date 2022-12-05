@@ -19,7 +19,7 @@ public class MainWindowVM : ViewModelBase
             Height = 300,
             Width = 300,
             StartupLocation = WindowStartupLocation.CenterScreen,
-            Title = "МЯСОАНАЛИЗАТОР3000",
+            Title = "Программный комплекс для анализа изображения на наличие фальсификата",
         };
     }
 
@@ -36,6 +36,7 @@ public class MainWindowVM : ViewModelBase
     internal void SetNewContent(UserControl content)
     {
         ContentWindow = content;
+        MenuControl.Content = content.TryFindResource("Menu") as Menu;
     }
 
     public WindowParameters Parameters { get; set; }

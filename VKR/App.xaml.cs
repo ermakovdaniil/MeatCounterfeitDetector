@@ -83,12 +83,5 @@ public partial class App : Application
         });
         
         var ds = Container.Resolve<DialogService>();
-
-        //ds.ShowDialog<ColorPropertyEditControl>(data: new Color()
-        //{
-        //    Name = "name",
-        //    UpLine = "upline",
-        //    BotLine = "botline",
-        //});
     }
 }
