@@ -18,7 +18,7 @@
         <StackPanel Orientation="Horizontal">
             <Image Source="pack://application:,,,/resources/icons/image-analysis.png" Height="20" Margin="3"
                    RenderOptions.BitmapScalingMode="HighQuality" />
-            <ContentControl x:Name="MenuControl" />
+            <ContentControl x:Name="MenuControl" Content="{Binding Menu }" />
             <TextBlock Text="{Binding Title,RelativeSource={RelativeSource FindAncestor,AncestorType=Window}}"
                        Background="{Binding NonClientAreaBackground,RelativeSource={RelativeSource FindAncestor,AncestorType=Window}}"
                        Margin="5" FontSize="14" VerticalAlignment="Stretch" />

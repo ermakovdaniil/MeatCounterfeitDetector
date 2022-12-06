@@ -1,13 +1,24 @@
-﻿using Microsoft.Win32;
+﻿using System.Diagnostics;
+
+using Microsoft.Win32;
 using System.Windows;
 using VKR.Utils;
+using VKR.Utils.MainWindowControlChanger;
+using VKR.View;
+
 
 namespace VKR.ViewModel;
 
 public class TechnologistControlVM : ViewModelBase
 {
-    #region Functions
-    public TechnologistControlVM() { }
+    private readonly NavigationManager _navigationManager;
+
+
+#region Functions
+    public TechnologistControlVM(NavigationManager navigationManager)
+    {
+        _navigationManager = navigationManager;
+    }
 
     #endregion
 
@@ -80,6 +91,8 @@ public class TechnologistControlVM : ViewModelBase
         {
             return _changeUser ??= new RelayCommand(_ =>
             {
+                Debug.WriteLine("changeuser");
+                _navigationManager.Navigate<LoginControl>();
                 // TODO: вызов LoginControl | OnChangingRequest(new LoginControl());
             });
         }

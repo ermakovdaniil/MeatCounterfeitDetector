@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿using System;
+using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -36,7 +37,25 @@ public class MainWindowVM : ViewModelBase
     internal void SetNewContent(UserControl content)
     {
         ContentWindow = content;
-        MenuControl.Content = content.TryFindResource("Menu") as Menu;
+        //MenuControl.Content = content.TryFindResource("Menu") as Menu;
+    }
+
+    public Menu? Menu
+    {
+        get
+        {
+            var m = ContentWindow?.TryFindResource("Menu") as Menu;
+
+            if (m != null)
+            {
+                m.DataContext = ContentWindow.DataContext;
+            }
+            return m;
+        }
+        set
+        {
+            throw new NotImplementedException();
+        }
     }
 
     public WindowParameters Parameters { get; set; }

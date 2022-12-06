@@ -85,10 +85,10 @@
                 <hc:Divider Content="Результат анализа изображения" Margin="0 5" FontSize="17" />
             </Border>
 
+            
             <hc:TextBox Grid.Row="1" IsReadOnly="True" Margin="10"
                         Text="{Binding Res, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                         HorizontalAlignment="Stretch" />
-
         </Grid>
     </Grid>
 </UserControl>
