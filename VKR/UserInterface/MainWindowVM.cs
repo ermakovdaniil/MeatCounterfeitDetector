@@ -30,7 +30,7 @@ public class MainWindowVM : ViewModelBase
         set
         {
             _content = value;
-            OnPropertyChanged();
+            OnPropertyChanged(); //
         }
     }
 
