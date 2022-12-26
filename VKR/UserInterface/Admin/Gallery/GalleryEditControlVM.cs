@@ -12,15 +12,16 @@ using VKR.Utils.Dialog.Abstract;
 
 namespace VKR.ViewModel;
 
-public class CounterfeitEditControlVM : ViewModelBase, IDataHolder, IResultHolder, IInteractionAware
+public class GalleryEditControlVM : ViewModelBase, IDataHolder, IResultHolder, IInteractionAware
 {
     #region Functions
 
     #region Constructors
 
-    public CounterfeitEditControlVM(CounterfeitKBContext context)
+    public GalleryEditControlVM(CounterfeitKBContext context)
     {
         _context = context;
+        _context.Counterfeits.Load();
     }
 
     #endregion
@@ -30,29 +31,24 @@ public class CounterfeitEditControlVM : ViewModelBase, IDataHolder, IResultHolde
 
     #region Properties
 
-    private Counterfeit _tempCounterfeit;
+    private CounterfeitPath _tempCounterfeitPath;
 
-    public Counterfeit TempCounterfeit
+    public CounterfeitPath TempCounterfeitPath
     {
         get
         {
-            return _tempCounterfeit;
+            return _tempCounterfeitPath;
         }
         set
         {
-            _tempCounterfeit = value;
+            _tempCounterfeitPath = value;
             OnPropertyChanged();
         }
     }
 
-    public Counterfeit EditingCounterfeit => (Counterfeit)Data;
+    public CounterfeitPath EditingCounterfeitPath => (CounterfeitPath)Data;
 
     private readonly CounterfeitKBContext _context;
-
-    public List<CounterfeitPath> CounterfeitPaths
-    {
-        get => _context.CounterfeitPaths.ToList();
-    }
 
     public List<Counterfeit> Counterfeits
     {
@@ -64,23 +60,24 @@ public class CounterfeitEditControlVM : ViewModelBase, IDataHolder, IResultHolde
 
     #region Commands
 
-    private RelayCommand _saveCounterfeit;
+    private RelayCommand _saveCounterfeitPath;
 
     /// <summary>
-    ///     Команда сохраняющая изменение данных о цвете в базе данных
+    ///     Команда сохраняющая изменение данных о пути к изображению фальсификата в базе данных
     /// </summary>
-    public RelayCommand SaveCounterfeit
+    public RelayCommand SaveCounterfeitPath
     {
         get
         {
-            return _saveCounterfeit ??= new RelayCommand(o =>
+            return _saveCounterfeitPath ??= new RelayCommand(o =>
             {
-                EditingCounterfeit.Id = TempCounterfeit.Id;
-                EditingCounterfeit.Name = TempCounterfeit.Name;
+                EditingCounterfeitPath.Id = TempCounterfeitPath.Id;
+                EditingCounterfeitPath.CounterfeitId = TempCounterfeitPath.CounterfeitId;
+                EditingCounterfeitPath.ImagePath = TempCounterfeitPath.ImagePath;
 
-                if (!_context.Counterfeits.Contains(EditingCounterfeit))
+                if (!_context.CounterfeitPaths.Contains(EditingCounterfeitPath))
                 {
-                    _context.Counterfeits.Add(EditingCounterfeit);
+                    _context.CounterfeitPaths.Add(EditingCounterfeitPath);
                 }
 
                 _context.SaveChanges();
@@ -111,12 +108,13 @@ public class CounterfeitEditControlVM : ViewModelBase, IDataHolder, IResultHolde
         set
         {
             _data = value;
-            TempCounterfeit = new Counterfeit()
+            TempCounterfeitPath = new CounterfeitPath()
             {
-                Id = EditingCounterfeit.Id,
-                Name = EditingCounterfeit.Name,
+                Id = EditingCounterfeitPath.Id,
+                CounterfeitId = EditingCounterfeitPath.CounterfeitId,
+                ImagePath = EditingCounterfeitPath.ImagePath,
             };
-            OnPropertyChanged(nameof(TempCounterfeit));
+            OnPropertyChanged(nameof(TempCounterfeitPath));
         }
     }
 

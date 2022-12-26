@@ -17,24 +17,6 @@
                         hc:InfoElement.TitlePlacement="Top" Margin="10 5"
                         Text="{Binding TempCounterfeit.Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                         Background="{StaticResource Style3}" HorizontalAlignment="Stretch" />
-            <hc:ComboBox hc:InfoElement.Title="Форма" ItemsSource="{Binding Shapes}"
-                         hc:InfoElement.TitlePlacement="Top" Margin="10 5"
-                         SelectedItem="{Binding TempCounterfeit.Shape.Name}"
-                         DisplayMemberPath="Name" SelectedValuePath="Id"
-                         Background="{StaticResource Style3}" HorizontalAlignment="Stretch" />
-            <hc:TextBox hc:InfoElement.Title="Нижняя граница размера, мкм"
-                        hc:InfoElement.TitlePlacement="Top" Margin="10 5"
-                        Text="{Binding TempCounterfeit.BotLineSize, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                        Background="{StaticResource Style3}" HorizontalAlignment="Stretch" />
-            <hc:TextBox hc:InfoElement.Title="Верхняя граница размера, мкм"
-                        hc:InfoElement.TitlePlacement="Top" Margin="10 5"
-                        Text="{Binding TempCounterfeit.UpLineSize, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                        Background="{StaticResource Style3}" HorizontalAlignment="Stretch" />
-            <hc:ComboBox hc:InfoElement.Title="Цвет" ItemsSource="{Binding Colors}"
-                         hc:InfoElement.TitlePlacement="Top" Margin="10 5"
-                         SelectedItem="{Binding TempCounterfeit.Color.Name}"
-                         DisplayMemberPath="Name" SelectedValuePath="Id"
-                         Background="{StaticResource Style3}" HorizontalAlignment="Stretch" />
         </StackPanel>
         <Grid Row="1" Background="{StaticResource Style1}">
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">

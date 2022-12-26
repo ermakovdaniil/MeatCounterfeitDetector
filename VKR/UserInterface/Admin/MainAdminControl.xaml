@@ -17,8 +17,8 @@
             <TabItem Header="Редактирование фальсифкатов" Background="{StaticResource Style2}">
                 <view:CounterfeitExplorerControl />
             </TabItem>
-            <TabItem Header="Редактирование свойств фальсифкатов" Background="{StaticResource Style2}">
-                <view:PropertyExplorerControl />
+            <TabItem Header="Редактирование изображений фальсифкатов" Background="{StaticResource Style2}">
+                <view:GalleryControl />
             </TabItem>
             <TabItem Header="Редактирование журнала результатов" Background="{StaticResource Style2}">
                 <view:ResultControl />

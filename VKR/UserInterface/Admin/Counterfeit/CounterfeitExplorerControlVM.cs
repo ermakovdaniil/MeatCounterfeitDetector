@@ -25,8 +25,6 @@ public class CounterfeitExplorerControlVM : ViewModelBase
     public CounterfeitExplorerControlVM(CounterfeitKBContext context, DialogService ds)
     {
         _context = context;
-        _context.Shapes.Load();
-        _context.Colors.Load();
         _ds = ds;
     }
 

@@ -55,19 +55,16 @@ public partial class App : Application
         Container = builder.Build();
 
         VMLocator.Container = Container;
-
         VMLocator.Register<MainWindow, MainWindowVM>();
         VMLocator.Register<LoginControl, LoginControlVM>();
         VMLocator.Register<TechnologistControl, TechnologistControlVM>();
         VMLocator.Register<UserExplorerControl, UserExplorerControlVM>();
         VMLocator.Register<ResultControl, ResultControlVM>();
-        VMLocator.Register<ColorPropertyControl, ColorPropertyControlVM>(); 
-        VMLocator.Register<ShapePropertyControl, ShapePropertyControlVM>();
         VMLocator.Register<CounterfeitExplorerControl, CounterfeitExplorerControlVM>();
         VMLocator.Register<CompanyControl, CompanyControlVM>();
+        VMLocator.Register<GalleryEditControl, GalleryEditControlVM>();
+        VMLocator.Register<GalleryControl, GalleryControlVM>();
         VMLocator.Register<UserEditControl, UserEditControlVM>();
-        VMLocator.Register<ColorPropertyEditControl, ColorPropertyEditControlVM>();
-        VMLocator.Register<ShapePropertyEditControl, ShapePropertyEditControlVM>();
         VMLocator.Register<CounterfeitEditControl, CounterfeitEditControlVM>();
         VMLocator.Register<CompanyEditControl, CompanyEditControlVM>();
 
