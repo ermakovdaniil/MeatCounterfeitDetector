@@ -16,7 +16,7 @@
            WindowStartupLocation="CenterScreen">
     <hc:Window.NonClientAreaContent>
         <StackPanel Orientation="Horizontal">
-            <Image Source="pack://application:,,,/resources/icons/image-analysis.png" Height="20" Margin="3"
+            <Image Source="pack://application:,,,/resources/icons/image-analysis.png" Height="30" Margin="3"
                    RenderOptions.BitmapScalingMode="HighQuality" />
             <ContentControl x:Name="MenuControl" Content="{Binding Menu }" />
             <TextBlock Text="{Binding Title,RelativeSource={RelativeSource FindAncestor,AncestorType=Window}}"

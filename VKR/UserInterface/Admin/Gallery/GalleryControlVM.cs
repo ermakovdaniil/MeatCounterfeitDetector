@@ -112,7 +112,7 @@ public class GalleryControlVM : ViewModelBase
         {
             return _deleteCounterfeitPath ??= new RelayCommand(o =>
             {
-                if (MessageBox.Show($"Вы действительно хотите удалить изображение?",
+                if (HandyControl.Controls.MessageBox.Show($"Вы действительно хотите удалить изображение?",
                                     "Удаление изображения", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
                 {
                     _context.CounterfeitPaths.Remove(SelectedCounterfeitPath);

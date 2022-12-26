@@ -60,7 +60,7 @@ public class ResultControlVM : ViewModelBase
         {
             return _deleteResult ??= new RelayCommand(o =>
             {
-                if (MessageBox.Show("Вы действительно хотите удалить запись?",
+                if (HandyControl.Controls.MessageBox.Show("Вы действительно хотите удалить запись?",
                                     "Удаление записи", MessageBoxButton.YesNo, MessageBoxImage.Warning) ==
                     MessageBoxResult.Yes)
                 {

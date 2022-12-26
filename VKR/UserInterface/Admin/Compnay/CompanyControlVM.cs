@@ -112,7 +112,7 @@ public class CompanyControlVM : ViewModelBase
         {
             return _deleteCompany ??= new RelayCommand(o =>
             {
-                if (MessageBox.Show($"Вы действительно хотите удалить предприятие: \"{SelectedCompany.Name}\" и все записи связанные с ним?",
+                if (HandyControl.Controls.MessageBox.Show($"Вы действительно хотите удалить предприятие: \"{SelectedCompany.Name}\" и все записи связанные с ним?",
                                     "Удаление предприятия", MessageBoxButton.YesNo, MessageBoxImage.Warning) ==
                     MessageBoxResult.Yes)
                 {

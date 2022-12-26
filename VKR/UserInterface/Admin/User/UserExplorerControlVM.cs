@@ -112,7 +112,7 @@ public class UserExplorerControlVM : ViewModelBase
         {
             return _deleteUser ??= new RelayCommand(o =>
             {
-                if (MessageBox.Show($"Вы действительно хотите удалить пользователя: \"{SelectedUser.Name}\"?",
+                if (HandyControl.Controls.MessageBox.Show($"Вы действительно хотите удалить пользователя: \"{SelectedUser.Name}\"?",
                                     "Удаление пользователя", MessageBoxButton.YesNo, MessageBoxImage.Warning) ==
                     MessageBoxResult.Yes)
                 {

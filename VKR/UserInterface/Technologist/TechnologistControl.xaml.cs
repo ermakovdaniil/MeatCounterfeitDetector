@@ -64,7 +64,7 @@ public partial class TechnologistControl : UserControl
     //        }
     //        else
     //        {
-    //            MessageBox.Show("Нет данных для сохранения", "Ошибка!", MessageBoxButton.OK, MessageBoxImage.Error);
+    //            HandyControl.Controls.MessageBox.Show("Нет данных для сохранения", "Ошибка!", MessageBoxButton.OK, MessageBoxImage.Error);
     //        }
     //    }
     //}
@@ -73,7 +73,7 @@ public partial class TechnologistControl : UserControl
     {
         if (!IsValid(MainGrid))
         {
-            MessageBox.Show("Невозможно произвести расчёт, есть ошибки ввода данных", "Ошибка!", MessageBoxButton.OK, MessageBoxImage.Error);
+            HandyControl.Controls.MessageBox.Show("Невозможно произвести расчёт, есть ошибки ввода данных", "Ошибка!", MessageBoxButton.OK, MessageBoxImage.Error);
         }
     }
 

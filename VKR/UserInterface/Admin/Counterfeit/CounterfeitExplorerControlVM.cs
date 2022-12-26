@@ -111,7 +111,7 @@ public class CounterfeitExplorerControlVM : ViewModelBase
         {
             return _deleteCounterfeit ??= new RelayCommand(o =>
             {
-                if (MessageBox.Show($"Вы действительно хотите удалить фальсификат: \"{SelectedCounterfeit.Name}\"?",
+                if (HandyControl.Controls.MessageBox.Show($"Вы действительно хотите удалить фальсификат: \"{SelectedCounterfeit.Name}\"?",
                                     "Удаление объекта", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
                 {
                     _context.Counterfeits.Remove(SelectedCounterfeit);

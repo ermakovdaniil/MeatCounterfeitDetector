@@ -14,7 +14,8 @@ public class TechnologistControlVM : ViewModelBase
     private readonly NavigationManager _navigationManager;
 
 
-#region Functions
+    #region Functions
+
     public TechnologistControlVM(NavigationManager navigationManager)
     {
         _navigationManager = navigationManager;
@@ -23,6 +24,7 @@ public class TechnologistControlVM : ViewModelBase
     #endregion
 
     #region Properties
+
     private string _displayedImagePath;
     public string DisplayedImagePath
     {
@@ -36,6 +38,35 @@ public class TechnologistControlVM : ViewModelBase
             OnPropertyChanged();
         }
     }
+
+    private string _resultImagePath;
+    public string ResultImagePath
+    {
+        get
+        {
+            return _resultImagePath;
+        }
+        set
+        {
+            _resultImagePath = value;
+            OnPropertyChanged();
+        }
+    }
+
+    private string _searchResult;
+    public string SearchResult
+    {
+        get
+        {
+            return _searchResult;
+        }
+        set
+        {
+            _searchResult = value;
+            OnPropertyChanged();
+        }
+    }
+
     #endregion
 
     #region Commands
@@ -52,7 +83,10 @@ public class TechnologistControlVM : ViewModelBase
                 open.Filter = "Pictures (*.jpg;*.gif;*.png)|*.jpg;*.gif;*.png";
 
                 if (open.ShowDialog() == true)
+                {
                     DisplayedImagePath = open.FileName;
+                    ResultImagePath = "";
+                }
             });
         }
     }
@@ -66,6 +100,9 @@ public class TechnologistControlVM : ViewModelBase
             return _scanImage ??= new RelayCommand(_ =>
             {
                 // TODO: основа
+                DisplayedImagePath = @"C:\Users\Даня\source\repos\VKR_v2\VKR\resources\orig.jpg";
+                ResultImagePath = @"C:\Users\Даня\source\repos\VKR_v2\VKR\resources\res.jpg";
+                SearchResult = "Обнаружен фальсификат: Каррагинан";
             });
         }
     }
@@ -93,7 +130,6 @@ public class TechnologistControlVM : ViewModelBase
             {
                 Debug.WriteLine("changeuser");
                 _navigationManager.Navigate<LoginControl>();
-                // TODO: вызов LoginControl | OnChangingRequest(new LoginControl());
             });
         }
     }
@@ -106,7 +142,7 @@ public class TechnologistControlVM : ViewModelBase
         {
             return _showInfo ??= new RelayCommand(_ =>
             {
-                MessageBox.Show($"Данная программа... мысли...", "Справка о программе", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+                HandyControl.Controls.MessageBox.Show($"Данная программа... мысли...", "Справка о программе", MessageBoxButton.OK, MessageBoxImage.Exclamation);
             });
         }
     }
@@ -119,7 +155,7 @@ public class TechnologistControlVM : ViewModelBase
         {
             return _exit ??= new RelayCommand(_ =>
             {
-                // TODO: exit(0);
+                Application.Current.Shutdown();
             });
         }
     }

@@ -11,39 +11,39 @@
 
     <!--Title="Программный комплекс для анализа изображения на наличие фальсификата" MinWidth="1300" MinHeight="700"-->
     <UserControl.Resources>
-        <Menu x:Key="Menu" Grid.Row="0" Background="{Binding NonClientAreaBackground,RelativeSource={RelativeSource FindAncestor,AncestorType=Window}}" Grid.ColumnSpan="3">
+        <Menu x:Key="Menu" Background="{Binding NonClientAreaBackground,RelativeSource={RelativeSource FindAncestor,AncestorType=Window}}" Grid.ColumnSpan="3">
 
-            <MenuItem Header="Открыть изображение" Command="{Binding ChangePathImageCommand}">
+            <MenuItem ToolTip="Открыть изображение" Command="{Binding ChangePathImageCommand}">
                 <MenuItem.Icon>
                     <Image Source="pack://application:,,,/resources/icons/open.png" />
                 </MenuItem.Icon>
             </MenuItem>
 
-            <MenuItem Header="Сканировать изображениие" Command="{Binding ScanImage}">
+            <MenuItem ToolTip="Сканировать изображениие" Command="{Binding ScanImage}">
                 <MenuItem.Icon>
                     <Image Source="pack://application:,,,/resources/icons/scanning.png" />
                 </MenuItem.Icon>
             </MenuItem>
 
-            <MenuItem Header="Экспортировать результат" Command="{Binding CreateFile}">
+            <MenuItem ToolTip="Экспортировать результат" Command="{Binding CreateFile}">
                 <MenuItem.Icon>
                     <Image Source="pack://application:,,,/resources/icons/save.png" />
                 </MenuItem.Icon>
             </MenuItem>
 
-            <MenuItem Header="Сменить учётную запись" Command="{Binding ChangeUser}">
+            <MenuItem ToolTip="Сменить учётную запись" Command="{Binding ChangeUser}">
                 <MenuItem.Icon>
                     <Image Source="pack://application:,,,/resources/icons/user.png" />
                 </MenuItem.Icon>
             </MenuItem>
 
-            <MenuItem Header="Справка о программе" Command="{Binding ShowInfo}">
+            <MenuItem ToolTip="Справка о программе" Command="{Binding ShowInfo}">
                 <MenuItem.Icon>
                     <Image Source="pack://application:,,,/resources/icons/info.png" />
                 </MenuItem.Icon>
             </MenuItem>
 
-            <MenuItem Header="Выход" Command="{Binding Exit}">
+            <MenuItem ToolTip="Выход" Command="{Binding Exit}">
                 <MenuItem.Icon>
                     <Image Source="pack://application:,,,/resources/icons/exit.png" />
                 </MenuItem.Icon>
@@ -65,7 +65,7 @@
 
             <Border Grid.Column="0" BorderThickness="1" Margin="10" BorderBrush="#FF000000"
                     Background="{StaticResource Style3}">
-                <Image Source="{Binding OriginalImagePath}" />
+                <Image Source="{Binding DisplayedImagePath}" />
             </Border>
 
             <Border Grid.Column="1" BorderThickness="1" Margin="10" BorderBrush="#FF000000"
@@ -87,7 +87,7 @@
 
             
             <hc:TextBox Grid.Row="1" IsReadOnly="True" Margin="10"
-                        Text="{Binding Res, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                        Text="{Binding SearchResult, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                         HorizontalAlignment="Stretch" />
         </Grid>
     </Grid>

@@ -57,7 +57,7 @@ public class LoginControlVM : ViewModelBase
             {
                 if (string.IsNullOrEmpty(User.Name) || string.IsNullOrEmpty(User.Password))
                 {
-                    MessageBox.Show("Введите имя пользователя и пароль!", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                    HandyControl.Controls.MessageBox.Show("Введите имя пользователя и пароль!", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
                     return;
                 }
 
@@ -84,7 +84,7 @@ public class LoginControlVM : ViewModelBase
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show("Неверное имя пользователя или пароль! Повторите попытку.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                    HandyControl.Controls.MessageBox.Show("Неверное имя пользователя или пароль! Повторите попытку.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
             });
         }
