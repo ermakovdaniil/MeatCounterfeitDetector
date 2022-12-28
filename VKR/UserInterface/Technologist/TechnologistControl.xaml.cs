@@ -28,11 +28,11 @@ public partial class TechnologistControl : UserControl
 
     public IContainer Container { get; set; }
 
-    public WindowState PreferedWindowState { get; set; } = WindowState.Maximized;
-    public string WindowTitle { get; set; } = "Программный комплекс для исследования неизотермического течения аномально-вязких материалов";
-    public double? PreferedHeight { get; set; }
+    //public WindowState PreferedWindowState { get; set; } = WindowState.Maximized;
+    //public string WindowTitle { get; set; } = "Программный комплекс для исследования неизотермического течения аномально-вязких материалов";
+    //public double? PreferedHeight { get; set; }
 
-    public double? PreferedWidth { get; set; }
+    //public double? PreferedWidth { get; set; }
 
     //public event IСhangeableControl.ChangingRequestHandler ChangingRequest;
 
@@ -90,10 +90,5 @@ public partial class TechnologistControl : UserControl
     private void Validation_OnError(object? sender, ValidationErrorEventArgs e)
     {
         //throw new NotImplementedException();
-    }
-
-    private void ChangeUser(object sender, RoutedEventArgs e)
-    {
-        //OnChangingRequest(new LoginControl());
     }
 }

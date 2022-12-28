@@ -40,6 +40,12 @@ public class GalleryControlVM : ViewModelBase
 
     private readonly CounterfeitKBContext _context;
     public CounterfeitPath SelectedCounterfeitPath { get; set; }
+    
+    public List<CounterfeitPath> CounterfeitPaths
+    {
+        get => _context.CounterfeitPaths.ToList();
+    }
+
     public List<Counterfeit> Counterfeits
     {
         get => _context.Counterfeits.ToList();
@@ -72,7 +78,7 @@ public class GalleryControlVM : ViewModelBase
                 {
 
                 });
-                OnPropertyChanged(nameof(Counterfeits));
+                OnPropertyChanged(nameof(CounterfeitPaths));
             });
         }
     }
@@ -96,7 +102,7 @@ public class GalleryControlVM : ViewModelBase
                     Title = "Редактирование изображения фальсификата"
                 },
                 data: SelectedCounterfeitPath);
-                OnPropertyChanged(nameof(Counterfeits));
+                OnPropertyChanged(nameof(CounterfeitPaths));
             }, _ => SelectedCounterfeitPath != null);
         }
     }
@@ -118,7 +124,7 @@ public class GalleryControlVM : ViewModelBase
                     _context.CounterfeitPaths.Remove(SelectedCounterfeitPath);
                     _context.SaveChanges();
                 }
-                OnPropertyChanged(nameof(Counterfeits));
+                OnPropertyChanged(nameof(CounterfeitPaths));
             }, c => SelectedCounterfeitPath != null);
         }
     }

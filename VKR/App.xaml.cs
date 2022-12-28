@@ -58,6 +58,7 @@ public partial class App : Application
         VMLocator.Register<MainWindow, MainWindowVM>();
         VMLocator.Register<LoginControl, LoginControlVM>();
         VMLocator.Register<TechnologistControl, TechnologistControlVM>();
+        VMLocator.Register<MainAdminControl, MainAdminControlVM>();
         VMLocator.Register<UserExplorerControl, UserExplorerControlVM>();
         VMLocator.Register<ResultControl, ResultControlVM>();
         VMLocator.Register<CounterfeitExplorerControl, CounterfeitExplorerControlVM>();
@@ -75,7 +76,7 @@ public partial class App : Application
         navigator.Navigate<LoginControl>(new WindowParameters()
         {
             Height = 300,
-            Width = 300,
+            Width = 350,
             Title = "Вход в систему"
         });
         

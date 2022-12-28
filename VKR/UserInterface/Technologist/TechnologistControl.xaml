@@ -5,47 +5,45 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:vm="clr-namespace:VKR.ViewModel"
-
              mc:Ignorable="d"
              d:DataContext="{d:DesignInstance vm:TechnologistControlVM}">
-
+    
     <!--Title="Программный комплекс для анализа изображения на наличие фальсификата" MinWidth="1300" MinHeight="700"-->
     <UserControl.Resources>
         <Menu x:Key="Menu" Background="{Binding NonClientAreaBackground,RelativeSource={RelativeSource FindAncestor,AncestorType=Window}}" Grid.ColumnSpan="3">
-
-            <MenuItem ToolTip="Открыть изображение" Command="{Binding ChangePathImageCommand}">
+            <MenuItem Height="40" ToolTip="Открыть изображение" Command="{Binding ChangePathImageCommand}">
                 <MenuItem.Icon>
-                    <Image Source="pack://application:,,,/resources/icons/open.png" />
+                    <Image Height="20" Source="pack://application:,,,/resources/icons/open.png" />
                 </MenuItem.Icon>
             </MenuItem>
 
             <MenuItem ToolTip="Сканировать изображениие" Command="{Binding ScanImage}">
                 <MenuItem.Icon>
-                    <Image Source="pack://application:,,,/resources/icons/scanning.png" />
+                    <Image Height="20" Source="pack://application:,,,/resources/icons/scanning.png" />
                 </MenuItem.Icon>
             </MenuItem>
 
             <MenuItem ToolTip="Экспортировать результат" Command="{Binding CreateFile}">
                 <MenuItem.Icon>
-                    <Image Source="pack://application:,,,/resources/icons/save.png" />
+                    <Image Height="20" Source="pack://application:,,,/resources/icons/save.png" />
                 </MenuItem.Icon>
             </MenuItem>
 
             <MenuItem ToolTip="Сменить учётную запись" Command="{Binding ChangeUser}">
                 <MenuItem.Icon>
-                    <Image Source="pack://application:,,,/resources/icons/user.png" />
+                    <Image Height="20" Source="pack://application:,,,/resources/icons/user.png" />
                 </MenuItem.Icon>
             </MenuItem>
 
             <MenuItem ToolTip="Справка о программе" Command="{Binding ShowInfo}">
                 <MenuItem.Icon>
-                    <Image Source="pack://application:,,,/resources/icons/info.png" />
+                    <Image Height="20" Source="pack://application:,,,/resources/icons/info.png" />
                 </MenuItem.Icon>
             </MenuItem>
 
             <MenuItem ToolTip="Выход" Command="{Binding Exit}">
                 <MenuItem.Icon>
-                    <Image Source="pack://application:,,,/resources/icons/exit.png" />
+                    <Image Height="20" Source="pack://application:,,,/resources/icons/exit.png" />
                 </MenuItem.Icon>
             </MenuItem>
         </Menu>
@@ -53,11 +51,27 @@
 
     <Grid x:Name="MainGrid">
         <Grid.RowDefinitions>
+            <RowDefinition Height="80"/>
             <RowDefinition />
-            <RowDefinition />
+            <RowDefinition Height="100"/>
         </Grid.RowDefinitions>
-
+        
         <Grid Grid.Row="0" Background="{StaticResource Style2}">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+            <hc:ComboBox hc:InfoElement.Title="Предприятие"
+                         Grid.Column="0" FontSize="17"
+                         ItemsSource="{Binding Companies}"
+                         hc:InfoElement.TitlePlacement="Top"
+                         SelectedItem="{Binding SelectedCompany.Name}"
+                         DisplayMemberPath="Name"
+                         Background="{StaticResource Style3}" 
+                         Margin="10 5"/>
+        </Grid>
+        
+        <Grid Grid.Row="1" Background="{StaticResource Style2}">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition />
                 <ColumnDefinition />
@@ -75,7 +89,7 @@
 
         </Grid>
 
-        <Grid Grid.Row="1" Background="{StaticResource Style2}">
+        <Grid Grid.Row="2" Background="{StaticResource Style2}">
             <Grid.RowDefinitions>
                 <RowDefinition Height="30" />
                 <RowDefinition />
@@ -85,10 +99,9 @@
                 <hc:Divider Content="Результат анализа изображения" Margin="0 5" FontSize="17" />
             </Border>
 
-            
-            <hc:TextBox Grid.Row="1" IsReadOnly="True" Margin="10"
+            <hc:TextBox Grid.Row="1" IsReadOnly="True" Margin="10" FontSize="20.0" FontFamily="Courier New"
                         Text="{Binding SearchResult, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
-                        HorizontalAlignment="Stretch" />
+                        Background="{StaticResource Style3}" HorizontalAlignment="Stretch" />
         </Grid>
     </Grid>
 </UserControl>

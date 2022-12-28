@@ -4,7 +4,7 @@ using System.Windows;
 using System.Windows.Controls;
 
 using VKR.Utils.Dialog;
-
+using VKR.Utils.MainWindowControlChanger;
 
 namespace VKR.ViewModel;
 
@@ -14,13 +14,11 @@ public class MainWindowVM : ViewModelBase
 
     public MainWindowVM()
     {
-        //todo ПЕРЕПИСАТЬ СРОЧНО!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         Parameters = new WindowParameters()
         {
             Height = 300,
             Width = 300,
             StartupLocation = WindowStartupLocation.CenterScreen,
-            Title = "Программный комплекс для анализа изображения на наличие фальсификата",
         };
     }
 

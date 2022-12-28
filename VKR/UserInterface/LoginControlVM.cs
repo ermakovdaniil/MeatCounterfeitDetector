@@ -69,7 +69,7 @@ public class LoginControlVM : ViewModelBase
                         _navigationManager.Navigate<MainAdminControl>(new WindowParameters()
                         {
                             WindowState = WindowState.Maximized,
-                            Title = "Панель администратора"
+                            Title = " | Панель администратора | "
                         });
                     }
 
@@ -78,7 +78,7 @@ public class LoginControlVM : ViewModelBase
                         _navigationManager.Navigate<TechnologistControl>(new WindowParameters()
                         {
                             WindowState = WindowState.Maximized,
-                            Title = "Панель исследователя"
+                            Title = " | Панель исследователя | "
                         });
                     }
                 }

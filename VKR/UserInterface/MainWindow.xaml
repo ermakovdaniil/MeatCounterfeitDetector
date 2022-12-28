@@ -15,15 +15,14 @@
            d:DataContext="{d:DesignInstance viewModel:MainWindowVM}"
            WindowStartupLocation="CenterScreen">
     <hc:Window.NonClientAreaContent>
-        <StackPanel Orientation="Horizontal">
-            <Image Source="pack://application:,,,/resources/icons/image-analysis.png" Height="30" Margin="3"
+        <StackPanel Orientation="Horizontal" Height="40">
+            <Image Source="pack://application:,,,/resources/icons/image-analysis.png" Margin="3"
                    RenderOptions.BitmapScalingMode="HighQuality" />
-            <ContentControl x:Name="MenuControl" Content="{Binding Menu }" />
             <TextBlock Text="{Binding Title,RelativeSource={RelativeSource FindAncestor,AncestorType=Window}}"
                        Background="{Binding NonClientAreaBackground,RelativeSource={RelativeSource FindAncestor,AncestorType=Window}}"
-                       Margin="5" FontSize="14" VerticalAlignment="Stretch" />
+                       Margin="5" FontSize="17" VerticalAlignment="Stretch" />
+            <ContentControl x:Name="MenuControl" Content="{Binding Menu}" />
         </StackPanel>
-
     </hc:Window.NonClientAreaContent>
     <Grid>
         <ContentControl Content="{Binding ContentWindow, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />

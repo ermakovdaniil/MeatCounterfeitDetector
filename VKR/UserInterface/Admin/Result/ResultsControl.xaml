@@ -16,14 +16,29 @@
         <DataGrid AutoGenerateColumns="False" ItemsSource="{Binding Results}" CanUserAddRows="False"
                   IsReadOnly="True"
                   SelectionMode="Single"
+                  RowHeight="400"
+                  ScrollViewer.CanContentScroll="False"
                   SelectedItem="{Binding SelectedResult}" Background="{StaticResource Style3}">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="ID" Binding="{Binding Id}" />
                 <DataGridTextColumn Header="Дата" Binding="{Binding Date}" />
                 <DataGridTextColumn Header="Предприятие" Binding="{Binding Company.Name}" />
                 <DataGridTextColumn Header="Результат анализа" Binding="{Binding AnRes}" />
-                <DataGridTextColumn Header="Путь к оригинальному изображению" Binding="{Binding OrigPath.Path}" />
-                <DataGridTextColumn Header="Путь к обработанному изображению" Binding="{Binding ResPath.Path}" />
+                <DataGridTemplateColumn Header="Оригинальное изображение" Width="500">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Image Source="{Binding OrigPath.Path}" Stretch="Fill" Height="400" Width="400"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="Результат обработки изображения" Width="500">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Image Source="{Binding ResPath.Path}" Stretch="Fill" Height="400" Width="400"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                
             </DataGrid.Columns>
         </DataGrid>
         <Grid Row="1" Background="{StaticResource Style2}">

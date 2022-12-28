@@ -67,7 +67,7 @@ public class CounterfeitEditControlVM : ViewModelBase, IDataHolder, IResultHolde
     private RelayCommand _saveCounterfeit;
 
     /// <summary>
-    ///     Команда сохраняющая изменение данных о цвете в базе данных
+    ///     Команда сохраняющая изменение данных о фальсификате в базе данных
     /// </summary>
     public RelayCommand SaveCounterfeit
     {

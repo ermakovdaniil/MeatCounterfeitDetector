@@ -25,7 +25,6 @@ public class CompanyControlVM : ViewModelBase
     public CompanyControlVM(ResultDBContext context, DialogService ds)
     {
         _context = context;
-        //_context.Companies.Load();
         _ds = ds;
     }
 

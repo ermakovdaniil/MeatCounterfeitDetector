@@ -10,16 +10,28 @@
              d:DesignHeight="450">
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition />
+            <RowDefinition Height="*" />
             <RowDefinition Height="50" />
         </Grid.RowDefinitions>
-        <DataGrid AutoGenerateColumns="False" ItemsSource="{Binding CounterfeitPaths}" CanUserAddRows="False"
+        <DataGrid AutoGenerateColumns="False" 
+                  ItemsSource="{Binding CounterfeitPaths}" 
+                  CanUserAddRows="False"
                   IsReadOnly="True"
                   SelectionMode="Single"
-                  SelectedItem="{Binding SelectedCounterfeitPath}" Background="{StaticResource Style3}">
+                  SelectedItem="{Binding SelectedCounterfeitPath}" 
+                  Background="{StaticResource Style3}"
+                  RowHeight="300"
+                  ScrollViewer.CanContentScroll="False">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="ID" Binding="{Binding Id}" />
-                <DataGridTextColumn Header="Наименование" Binding="{Binding Name}" />
+                <DataGridTextColumn Header="Наименование" Binding="{Binding Counterfeit.Name}" />
+                <DataGridTemplateColumn Header="Изображение" >
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Image Source="{Binding ImagePath}" Stretch="Fill" Height="300" Width="300"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
             </DataGrid.Columns>
         </DataGrid>
         <Grid Row="1" Background="{StaticResource Style2}">

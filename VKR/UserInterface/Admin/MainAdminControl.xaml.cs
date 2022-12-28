@@ -1,12 +1,15 @@
-﻿using System;
-using System.Diagnostics;
-using System.IO;
+﻿using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 
-using HandyControl.Controls;
+using Autofac;
 
-using Microsoft.EntityFrameworkCore;
+using VKR.Utils;
+using VKR.ViewModel;
+
+using MessageBox = HandyControl.Controls.MessageBox;
+
+
 namespace VKR.View;
 
 /// <summary>
@@ -14,8 +17,12 @@ namespace VKR.View;
 /// </summary>
 public partial class MainAdminControl : UserControl
 {
+    private MainAdminControlVM _viewModel;
+
     public MainAdminControl()
     {
         InitializeComponent();
+        _viewModel = (MainAdminControlVM?)VMLocator.Resolve<MainAdminControl>();
+        DataContext = _viewModel;
     }
 }
