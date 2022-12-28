@@ -65,7 +65,7 @@
                          Grid.Column="0" FontSize="17"
                          ItemsSource="{Binding Companies}"
                          hc:InfoElement.TitlePlacement="Top"
-                         SelectedItem="{Binding SelectedCompany.Name}"
+                         SelectedItem="{Binding SelectedCompany}"
                          DisplayMemberPath="Name"
                          Background="{StaticResource Style3}" 
                          Margin="10 5"/>

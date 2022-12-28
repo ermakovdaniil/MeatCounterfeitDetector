@@ -50,12 +50,26 @@ public class TechnologistControlVM : ViewModelBase
 
     private readonly ResultDBContext _context;
 
-    public Company SelectedCompany { get; set; }
-
     public List<Company> Companies
     {
         get => _context.Companies.ToList();
     }
+
+    private Company _selectedCompany;
+
+    public Company SelectedCompany
+    {
+        get
+        {
+            return _selectedCompany;
+        }
+        set
+        {
+            _selectedCompany = value;
+            OnPropertyChanged();
+        }
+    }
+
 
     private string _displayedImagePath;
     public string DisplayedImagePath
@@ -113,23 +127,20 @@ public class TechnologistControlVM : ViewModelBase
         }
     }
 
+    private Result _currentResult;
 
-    private Result _tempResult;
-
-    public Result TempResult
+    public Result CurrentResult
     {
         get
         {
-            return _tempResult;
+            return _currentResult;
         }
         set
         {
-            _tempResult = value;
+            _currentResult = value;
             OnPropertyChanged();
         }
     }
-
-    public Result CurrentResult => (Result)Data;
 
     #endregion
 
@@ -170,28 +181,33 @@ public class TechnologistControlVM : ViewModelBase
                 AnalysisDate = DateTime.Now.ToString();
                 SearchResult = "Обнаружен фальсификат: Каррагинан.\n" + "Дата проведения анализа: " + AnalysisDate;
 
-                //CurrentResult.Id = TempResult.Id;
-                //CurrentResult.Date = TempResult.Date;
-                //CurrentResult.Company = TempResult.Company;
-                //CurrentResult.AnRes = TempResult.AnRes;
-                //CurrentResult.OrigPath = TempResult.OrigPath;
-                //CurrentResult.ResPath = TempResult.ResPath;
+                var TempOrigPath = new OriginalPath()
+                {
+                    Path = DisplayedImagePath,
+                };
 
-                //CurrentResult.Date = AnalysisDate;
-                //CurrentResult.Company = SelectedCompany;  
-                //// TODO: Загулшка
-                //CurrentResult.AnRes = "Обнаружен фальсификат: Каррагинан.";
-                //// CurrentResult.AnRes = SearchResult;
-                //CurrentResult.OrigPath.Path = DisplayedImagePath;
-                //CurrentResult.ResPath.Path = ResultImagePath;
+                var TempResPath = new ResultPath()
+                {
+                    Init = TempOrigPath,
+                    Path = ResultImagePath,
+                };
 
-                //if (!_context.Results.Contains(CurrentResult))
-                //{
-                //    _context.Results.Add(CurrentResult);
-                //}
+                CurrentResult = new Result()
+                {
+                    Date = AnalysisDate,
+                    Company = SelectedCompany,
+                    // TODO: Загулшка
+                    AnRes = "Обнаружен фальсификат: Каррагинан.",
+                    //AnRes = SearchResult,
+                    OrigPath = TempOrigPath,
+                    ResPath = TempResPath
+                };
 
-                //_context.SaveChanges();
-                //FinishInteraction();
+                if (!_context.Results.Contains(CurrentResult))
+                {
+                    _context.Results.Add(CurrentResult);
+                }
+                _context.SaveChanges();
             });
         }
     }
@@ -290,29 +306,4 @@ public class TechnologistControlVM : ViewModelBase
     }
 
     #endregion
-
-    private object _data;
-    public object Data
-    {
-        get => _data;
-        set
-        {
-            _data = value;
-            TempResult = new Result()
-            {
-                //Id = CurrentResult.Id,
-                Date = AnalysisDate,
-                Company = SelectedCompany,
-                // TODO: заглушка
-                AnRes = "Обнаружен фальсификат: Каррагинан.",
-                //AnRes = SearchResult,
-                //OrigPath = DisplayedImagePath,
-                //ResPath = ResultImagePath,
-            };
-            OnPropertyChanged(nameof(TempResult));
-        }
-    }
-
-    public object? Result { get; }
-    public Action FinishInteraction { get; set; }
 }
