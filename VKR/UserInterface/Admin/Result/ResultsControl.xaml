@@ -24,14 +24,14 @@
                 <DataGridTextColumn Header="Дата" Binding="{Binding Date}" />
                 <DataGridTextColumn Header="Предприятие" Binding="{Binding Company.Name}" />
                 <DataGridTextColumn Header="Результат анализа" Binding="{Binding AnRes}" />
-                <DataGridTemplateColumn Header="Оригинальное изображение" Width="500">
+                <DataGridTemplateColumn Header="            Оригинальное изображение" Width="500">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <Image Source="{Binding OrigPath.Path}" Stretch="Fill" Height="400" Width="400"/>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
-                <DataGridTemplateColumn Header="Результат обработки изображения" Width="500">
+                <DataGridTemplateColumn Header="            Результат обработки изображения" Width="500">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <Image Source="{Binding ResPath.Path}" Stretch="Fill" Height="400" Width="400"/>

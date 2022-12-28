@@ -21,7 +21,7 @@ public class GalleryEditControlVM : ViewModelBase, IDataHolder, IResultHolder, I
     public GalleryEditControlVM(CounterfeitKBContext context)
     {
         _context = context;
-        _context.Counterfeits.Load();
+        Counterfeits = new ObservableCollection<Counterfeit>(_context.Counterfeits.ToList());
     }
 
     #endregion
@@ -50,10 +50,7 @@ public class GalleryEditControlVM : ViewModelBase, IDataHolder, IResultHolder, I
 
     private readonly CounterfeitKBContext _context;
 
-    public List<Counterfeit> Counterfeits
-    {
-        get => _context.Counterfeits.ToList();
-    }
+    public ObservableCollection<Counterfeit> Counterfeits { get; set; }
 
     #endregion
 
@@ -72,7 +69,7 @@ public class GalleryEditControlVM : ViewModelBase, IDataHolder, IResultHolder, I
             return _saveCounterfeitPath ??= new RelayCommand(o =>
             {
                 EditingCounterfeitPath.Id = TempCounterfeitPath.Id;
-                EditingCounterfeitPath.CounterfeitId = TempCounterfeitPath.CounterfeitId;
+                EditingCounterfeitPath.Counterfeit = TempCounterfeitPath.Counterfeit;
                 EditingCounterfeitPath.ImagePath = TempCounterfeitPath.ImagePath;
 
                 if (!_context.CounterfeitPaths.Contains(EditingCounterfeitPath))
@@ -111,7 +108,7 @@ public class GalleryEditControlVM : ViewModelBase, IDataHolder, IResultHolder, I
             TempCounterfeitPath = new CounterfeitPath()
             {
                 Id = EditingCounterfeitPath.Id,
-                CounterfeitId = EditingCounterfeitPath.CounterfeitId,
+                Counterfeit = EditingCounterfeitPath.Counterfeit,
                 ImagePath = EditingCounterfeitPath.ImagePath,
             };
             OnPropertyChanged(nameof(TempCounterfeitPath));

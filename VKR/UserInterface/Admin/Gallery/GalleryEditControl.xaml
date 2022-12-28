@@ -13,10 +13,12 @@
             <RowDefinition Height="60" />
         </Grid.RowDefinitions>
         <StackPanel Background="{StaticResource Style2}">
-            <hc:ComboBox hc:InfoElement.Title="Наименование фальсификата" ItemsSource="{Binding Counterfeits}"
+            <hc:ComboBox hc:InfoElement.Title="Наименование фальсификата" 
+                         ItemsSource="{Binding Counterfeits}"
                          hc:InfoElement.TitlePlacement="Top" Margin="10 5"
-                         SelectedItem="{Binding TempCounterfeitPath.Counterfeit.Name}"
-                         DisplayMemberPath="Name" SelectedValuePath="Id"
+                         SelectedItem="{Binding TempCounterfeitPath.Counterfeit}"
+                         DisplayMemberPath="Name" 
+                         SelectedValuePath="Id"
                          Background="{StaticResource Style3}" HorizontalAlignment="Stretch" />
             <hc:TextBox hc:InfoElement.Title="Путь к изображению"
                         hc:InfoElement.TitlePlacement="Top" Margin="10 5"

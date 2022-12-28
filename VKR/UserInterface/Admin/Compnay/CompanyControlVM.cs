@@ -64,7 +64,7 @@ public class CompanyControlVM : ViewModelBase
                 windowParameters: new WindowParameters
                 {
                     Height = 180,
-                    Width = 300,
+                    Width = 500,
                     Title = "Добавление предприятия"
                 },
                 data: new Company()
@@ -91,7 +91,7 @@ public class CompanyControlVM : ViewModelBase
                 windowParameters: new WindowParameters
                 {
                     Height = 180,
-                    Width = 300,
+                    Width = 500,
                     Title = "Добавление предприятия"
                 },
                 data: SelectedCompany);

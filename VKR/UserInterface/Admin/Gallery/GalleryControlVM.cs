@@ -70,8 +70,8 @@ public class GalleryControlVM : ViewModelBase
                 _ds.ShowDialog<GalleryEditControl>(
                 windowParameters: new WindowParameters
                 {
-                    Height = 550,
-                    Width = 300,
+                    Height = 280,
+                    Width = 500,
                     Title = "Добавление изображения фальсификата"
                 },
                 data: new CounterfeitPath()
@@ -97,8 +97,8 @@ public class GalleryControlVM : ViewModelBase
                 _ds.ShowDialog<GalleryEditControl>(
                 windowParameters: new WindowParameters
                 {
-                    Height = 550,
-                    Width = 300,
+                    Height = 280,
+                    Width = 500,
                     Title = "Редактирование изображения фальсификата"
                 },
                 data: SelectedCounterfeitPath);

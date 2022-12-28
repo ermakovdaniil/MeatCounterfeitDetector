@@ -25,7 +25,7 @@
             <DataGrid.Columns>
                 <DataGridTextColumn Header="ID" Binding="{Binding Id}" />
                 <DataGridTextColumn Header="Наименование" Binding="{Binding Counterfeit.Name}" />
-                <DataGridTemplateColumn Header="Изображение" >
+                <DataGridTemplateColumn Header=" Изображение" >
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <Image Source="{Binding ImagePath}" Stretch="Fill" Height="300" Width="300"/>

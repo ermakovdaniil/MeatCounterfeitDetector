@@ -63,7 +63,7 @@ public class CounterfeitExplorerControlVM : ViewModelBase
                 _ds.ShowDialog<CounterfeitEditControl>(
                 windowParameters: new WindowParameters
                 {
-                    Height = 550,
+                    Height = 180,
                     Width = 300,
                     Title = "Добавление фальсификата"
                 },
@@ -90,7 +90,7 @@ public class CounterfeitExplorerControlVM : ViewModelBase
                 _ds.ShowDialog<CounterfeitEditControl>(
                 windowParameters: new WindowParameters
                 {
-                    Height = 550,
+                    Height = 180,
                     Width = 300,
                     Title = "Добавление фальсификата"
                 },
