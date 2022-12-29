@@ -176,38 +176,52 @@ public class TechnologistControlVM : ViewModelBase
             return _scanImage ??= new RelayCommand(_ =>
             {
                 // TODO: Загулшка
-                DisplayedImagePath = @"C:\Users\Даня\source\repos\VKR_v2\VKR\resources\origImages\orig.jpg";
-                ResultImagePath = @"C:\Users\Даня\source\repos\VKR_v2\VKR\resources\resImages\res.jpg";
+                //DisplayedImagePath = @"C:\Users\ermak\source\repos\VKR_v2\VKR\resources\origImages\orig.jpg";
+                DisplayedImagePath = @"pack:\\application:,,,\resources\origImages\orig.jpg";
+                ResultImagePath = @"pack:\\application:,,,\resources\resImages\res.jpg";
                 AnalysisDate = DateTime.Now.ToString();
                 SearchResult = "Обнаружен фальсификат: Каррагинан.\n" + "Дата проведения анализа: " + AnalysisDate;
 
-                var TempOrigPath = new OriginalPath()
+                if (SelectedCompany != null && DisplayedImagePath != null && ResultImagePath != null)
                 {
-                    Path = DisplayedImagePath,
-                };
+                    var TempOrigPath = new OriginalPath()
+                    {
+                        Path = DisplayedImagePath,
+                    };
 
-                var TempResPath = new ResultPath()
-                {
-                    Init = TempOrigPath,
-                    Path = ResultImagePath,
-                };
+                    var TempResPath = new ResultPath()
+                    {
+                        Init = TempOrigPath,
+                        Path = ResultImagePath,
+                    };
 
-                CurrentResult = new Result()
-                {
-                    Date = AnalysisDate,
-                    Company = SelectedCompany,
-                    // TODO: Загулшка
-                    AnRes = "Обнаружен фальсификат: Каррагинан.",
-                    //AnRes = SearchResult,
-                    OrigPath = TempOrigPath,
-                    ResPath = TempResPath
-                };
+                    CurrentResult = new Result()
+                    {
+                        Date = AnalysisDate,
+                        Company = SelectedCompany,
+                        // TODO: Загулшка
+                        AnRes = "Обнаружен фальсификат: Каррагинан.",
+                        //AnRes = SearchResult,
+                        OrigPath = TempOrigPath,
+                        ResPath = TempResPath
+                    };
 
-                if (!_context.Results.Contains(CurrentResult))
-                {
-                    _context.Results.Add(CurrentResult);
+                    var origImagePathToSave = @"..\..\..\resources\origImages\origImage_" + DateTime.Now.ToString().Replace(':', '.'). Replace('/', '.') + ".jpeg";
+                    var resImagePathToSave = @"..\..\..\resources\resImages\resImage_" + DateTime.Now.ToString().Replace(':', '.').Replace('/', '.') + ".jpeg";
+
+                    //File.Copy(DisplayedImagePath, origImagePathToSave);
+                    //File.Copy(ResultImagePath, resImagePathToSave);
+
+                    if (!_context.Results.Contains(CurrentResult))
+                    {
+                        _context.Results.Add(CurrentResult);
+                    }
+                    _context.SaveChanges();
                 }
-                _context.SaveChanges();
+                else
+                {
+                    HandyControl.Controls.MessageBox.Show("Недостаточно данных для произведения анализа", "Ошибка!", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
             });
         }
     }
@@ -225,7 +239,7 @@ public class TechnologistControlVM : ViewModelBase
                     var dlg = new SaveFileDialog
                     {
                         DefaultExt = ".pdf",
-                        FileName = "АНАЛИЗ_" + DateTime.Now.ToString().Replace(':', '_').Replace('/', '.'),
+                        FileName = "АНАЛИЗ_" + DateTime.Now.ToString().Replace(':', '.').Replace('/', '.'),
                     };
                     var res = dlg.ShowDialog();
                     if (res == true)
