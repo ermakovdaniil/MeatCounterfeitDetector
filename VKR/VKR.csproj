@@ -33,6 +33,7 @@
         <None Remove="resources\icons\scanning.png" />
         <None Remove="resources\icons\upload.png" />
         <None Remove="resources\icons\user.png" />
+        <None Remove="resources\origImages\orig.jpg" />
     </ItemGroup>
 
     <ItemGroup>
@@ -99,6 +100,9 @@
         </Resource>
         <Resource Include="resources\icons\user.png">
             <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+        </Resource>
+        <Resource Include="resources\origImages\orig.jpg">
+          <CopyToOutputDirectory>Never</CopyToOutputDirectory>
         </Resource>
     </ItemGroup>
 

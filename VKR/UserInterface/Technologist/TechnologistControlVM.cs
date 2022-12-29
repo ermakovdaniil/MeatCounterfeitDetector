@@ -142,9 +142,11 @@ public class TechnologistControlVM : ViewModelBase
         }
     }
 
+
     #endregion
 
     #region Commands
+
 
     private RelayCommand _changePathImage;
 
@@ -175,10 +177,10 @@ public class TechnologistControlVM : ViewModelBase
         {
             return _scanImage ??= new RelayCommand(_ =>
             {
-                // TODO: Загулшка
+                // TODO: Заглушка
                 //DisplayedImagePath = @"C:\Users\ermak\source\repos\VKR_v2\VKR\resources\origImages\orig.jpg";
-                DisplayedImagePath = @"pack:\\application:,,,\resources\origImages\orig.jpg";
-                ResultImagePath = @"pack:\\application:,,,\resources\resImages\res.jpg";
+                DisplayedImagePath = @"pack:\\application:,,,\..\..\resources\origImages\orig.jpg";
+                ResultImagePath = @"pack:\\application:,,,\..\..\..\resources\resImages\res.jpg";
                 AnalysisDate = DateTime.Now.ToString();
                 SearchResult = "Обнаружен фальсификат: Каррагинан.\n" + "Дата проведения анализа: " + AnalysisDate;
 
