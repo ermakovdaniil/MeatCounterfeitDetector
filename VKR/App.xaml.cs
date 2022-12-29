@@ -8,6 +8,7 @@ using Autofac;
 using DataAccess.Data;
 using DataAccess.Models;
 
+using VKR.UserInterface.Technologist.ImageAnalyzis;
 using VKR.Utils;
 using VKR.Utils.Dialog;
 using VKR.Utils.FrameworkFactory;
@@ -51,6 +52,7 @@ public partial class App : Application
         builder.RegisterType<NavigationManager>().AsSelf().SingleInstance();
         builder.RegisterType<UserControlFactory>().AsSelf();
         builder.RegisterType<DialogService>().AsSelf();
+        builder.RegisterType<ImageAnalyzerStub>().As<IImageAnalyzer>();
 
         Container = builder.Build();
 

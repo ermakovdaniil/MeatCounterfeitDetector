@@ -15,23 +15,30 @@ using DataAccess.Models;
 using DataAccess.Data;
 using Microsoft.EntityFrameworkCore;
 
+using VKR.UserInterface.Technologist.ImageAnalyzis;
+
+
 namespace VKR.ViewModel;
 
 public class TechnologistControlVM : ViewModelBase
 {
     private readonly NavigationManager _navigationManager;
+    private readonly IImageAnalyzer _analyzer;
 
-    #region Functions
 
-    public TechnologistControlVM(ResultDBContext context, NavigationManager navigationManager)
+#region Functions
+
+    public TechnologistControlVM(ResultDBContext context, NavigationManager navigationManager, IImageAnalyzer analyzer)
     {
         _context = context;
         _context.Companies.Load();
         _context.OriginalPaths.Load();
         _context.ResultPaths.Load();
         _navigationManager = navigationManager;
+        _analyzer = analyzer;
     }
 
+    //todo срочно убери передачу этого массива в функцию
     private byte[] ImagePathToByteArray(byte[] byteArray, string path)
     {
         JpegBitmapEncoder encoder = new JpegBitmapEncoder();
@@ -175,45 +182,18 @@ public class TechnologistControlVM : ViewModelBase
     {
         get
         {
+            // ReSharper disable once NullCoalescingConditionIsAlwaysNotNullAccordingToAPIContract
             return _scanImage ??= new RelayCommand(_ =>
             {
-                // TODO: Заглушка
-                //DisplayedImagePath = @"C:\Users\ermak\source\repos\VKR_v2\VKR\resources\origImages\orig.jpg";
-                DisplayedImagePath = @"pack:\\application:,,,\..\..\resources\origImages\orig.jpg";
-                ResultImagePath = @"pack:\\application:,,,\..\..\..\resources\resImages\res.jpg";
-                AnalysisDate = DateTime.Now.ToString();
-                SearchResult = "Обнаружен фальсификат: Каррагинан.\n" + "Дата проведения анализа: " + AnalysisDate;
-
+                
                 if (SelectedCompany != null && DisplayedImagePath != null && ResultImagePath != null)
                 {
-                    var TempOrigPath = new OriginalPath()
-                    {
-                        Path = DisplayedImagePath,
-                    };
-
-                    var TempResPath = new ResultPath()
-                    {
-                        Init = TempOrigPath,
-                        Path = ResultImagePath,
-                    };
-
-                    CurrentResult = new Result()
-                    {
-                        Date = AnalysisDate,
-                        Company = SelectedCompany,
-                        // TODO: Загулшка
-                        AnRes = "Обнаружен фальсификат: Каррагинан.",
-                        //AnRes = SearchResult,
-                        OrigPath = TempOrigPath,
-                        ResPath = TempResPath
-                    };
-
-                    var origImagePathToSave = @"..\..\..\resources\origImages\origImage_" + DateTime.Now.ToString().Replace(':', '.'). Replace('/', '.') + ".jpeg";
-                    var resImagePathToSave = @"..\..\..\resources\resImages\resImage_" + DateTime.Now.ToString().Replace(':', '.').Replace('/', '.') + ".jpeg";
-
-                    //File.Copy(DisplayedImagePath, origImagePathToSave);
-                    //File.Copy(ResultImagePath, resImagePathToSave);
-
+                    //название переменной со словом Current это очень плохой тон
+                    CurrentResult = _analyzer.analyze(DisplayedImagePath, SelectedCompany);
+                    // вместо того чтобы обновлять все эти поля можно просто прибиндится к результату и его свойствам
+                    ResultImagePath = CurrentResult.ResPath.Path;
+                    SearchResult = CurrentResult.AnRes;
+                    // мне кажется эта проверка не нужна
                     if (!_context.Results.Contains(CurrentResult))
                     {
                         _context.Results.Add(CurrentResult);
