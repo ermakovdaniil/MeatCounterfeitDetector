@@ -8,11 +8,13 @@ using Autofac;
 using DataAccess.Data;
 using DataAccess.Models;
 
+using VKR.Services.IOService;
 using VKR.UserInterface.Technologist.ImageAnalyzis;
 using VKR.Utils;
 using VKR.Utils.Dialog;
 using VKR.Utils.FrameworkFactory;
 using VKR.Utils.MainWindowControlChanger;
+using VKR.Utils.MessageBoxService;
 using VKR.View;
 using VKR.ViewModel;
 
@@ -52,7 +54,11 @@ public partial class App : Application
         builder.RegisterType<NavigationManager>().AsSelf().SingleInstance();
         builder.RegisterType<UserControlFactory>().AsSelf();
         builder.RegisterType<DialogService>().AsSelf();
+        
         builder.RegisterType<ImageAnalyzerStub>().As<IImageAnalyzer>();
+        builder.RegisterType<FileDialogService>().As<IFileDialogService>();
+        builder.RegisterType<HandyMessageBoxService>().As<IMessageBoxService>();
+        
 
         Container = builder.Build();
 
@@ -72,6 +78,7 @@ public partial class App : Application
         VMLocator.Register<CompanyEditControl, CompanyEditControlVM>();
 
         var mainWindow = Container.Resolve<MainWindow>();
+        mainWindow.WindowStartupLocation = WindowStartupLocation.CenterScreen;
         mainWindow.Show();
 
         var navigator = Container.Resolve<NavigationManager>();
@@ -79,7 +86,8 @@ public partial class App : Application
         {
             Height = 300,
             Width = 350,
-            Title = "Вход в систему"
+            Title = "Вход в систему",
+            StartupLocation = WindowStartupLocation.CenterScreen
         });
         
         var ds = Container.Resolve<DialogService>();
