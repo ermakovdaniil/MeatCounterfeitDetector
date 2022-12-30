@@ -1,17 +1,17 @@
 ﻿using System.Collections.ObjectModel;
 
-namespace DataAccess.Models
+
+namespace DataAccess.Models;
+
+public class Company
 {
-    public partial class Company
+    public Company()
     {
-        public Company()
-        {
-            Results = new ObservableCollection<Result>();
-        }
-
-        public long Id { get; set; }
-        public string Name { get; set; } = null!;
-
-        public virtual ObservableCollection<Result> Results { get; set; }
+        Results = new ObservableCollection<Result>();
     }
+
+    public long Id { get; set; }
+    public string Name { get; set; } = null!;
+
+    public virtual ObservableCollection<Result> Results { get; set; }
 }

@@ -1,12 +1,12 @@
-﻿<UserControl x:Class="VKR.View.ResultControl"
+﻿<UserControl x:Class="VKR.UserInterface.Admin.Result.ResultControl"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:vm="clr-namespace:VKR.ViewModel"
              xmlns:hc="https://handyorg.github.io/handycontrol"
+             xmlns:result="clr-namespace:VKR.UserInterface.Admin.Result"
              mc:Ignorable="d"
-             d:DataContext="{d:DesignInstance vm:ResultControlVM}"
+             d:DataContext="{d:DesignInstance result:ResultControlVM}"
              d:DesignHeight="450">
     <Grid>
         <Grid.RowDefinitions>
@@ -27,18 +27,18 @@
                 <DataGridTemplateColumn Header="            Оригинальное изображение" Width="500">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <Image Source="{Binding OrigPath.Path}" Stretch="Fill" Height="400" Width="400"/>
+                            <Image Source="{Binding OrigPath.Path}" Stretch="Fill" Height="400" Width="400" />
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
                 <DataGridTemplateColumn Header="            Результат обработки изображения" Width="500">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <Image Source="{Binding ResPath.Path}" Stretch="Fill" Height="400" Width="400"/>
+                            <Image Source="{Binding ResPath.Path}" Stretch="Fill" Height="400" Width="400" />
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
-                
+
             </DataGrid.Columns>
         </DataGrid>
         <Grid Row="1" Background="{StaticResource Style2}">

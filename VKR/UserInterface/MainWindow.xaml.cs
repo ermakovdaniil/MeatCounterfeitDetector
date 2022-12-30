@@ -1,6 +1,4 @@
-﻿using VKR.ViewModel;
-
-namespace VKR.View;
+﻿namespace VKR.UserInterface;
 
 /// <summary>
 ///     Логика взаимодействия для MainWindow.xaml
@@ -16,3 +14,4 @@ public partial class MainWindow
         DataContext = vm;
     }
 }
+

@@ -1,8 +1,8 @@
 ﻿using System.Windows.Controls;
 
+using VKR.UserInterface;
 using VKR.Utils.Dialog;
 using VKR.Utils.FrameworkFactory;
-using VKR.ViewModel;
 
 
 namespace VKR.Utils.MainWindowControlChanger;
@@ -23,6 +23,7 @@ public class NavigationManager
         var uc = _userControlFactory.CreateUserControl<UC>(null);
         _mainWindowVm.SetNewContent(uc);
     }
+
     public void Navigate<UC>(WindowParameters wp) where UC : UserControl
     {
         var uc = _userControlFactory.CreateUserControl<UC>(null);
@@ -30,3 +31,4 @@ public class NavigationManager
         _mainWindowVm.SetNewContent(uc);
     }
 }
+

@@ -1,22 +1,21 @@
 ﻿using System.Windows.Controls;
 
 using VKR.Utils;
-using VKR.ViewModel;
 
 
-namespace VKR.View;
+namespace VKR.UserInterface;
 
 /// <summary>
 ///     Логика взаимодействия для ColorPropertyControl.xaml
 /// </summary>
 public partial class LoginControl : UserControl
 {
-    private LoginControlVM _viewModel;
+    private readonly LoginControlVM _viewModel;
 
     public LoginControl()
     {
         InitializeComponent();
-        _viewModel = (LoginControlVM?)VMLocator.Resolve<LoginControl>();
+        _viewModel = (LoginControlVM?) VmLocator.Resolve<LoginControl>();
         DataContext = _viewModel;
     }
 }

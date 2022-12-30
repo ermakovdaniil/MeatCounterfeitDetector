@@ -1,33 +1,32 @@
 ﻿using System;
-using System.IO;
 using System.Collections.Generic;
-using System.Windows.Media.Imaging;
-using Microsoft.Win32;
-using System.Windows;
+using System.IO;
 using System.Linq;
+using System.Windows;
+using System.Windows.Media.Imaging;
 
-using VKR.Utils;
-using VKR.Utils.MainWindowControlChanger;
-using VKR.View;
-using VKR.Utils.Dialog;
-
-using DataAccess.Models;
 using DataAccess.Data;
+using DataAccess.Models;
+
 using Microsoft.EntityFrameworkCore;
 
-using VKR.Services.IOService;
-using VKR.UserInterface.Technologist.ImageAnalyzis;
+using VKR.UserInterface.Admin.Abstract;
+using VKR.Utils;
+using VKR.Utils.Dialog;
+using VKR.Utils.ImageAnalyzis;
+using VKR.Utils.IOService;
+using VKR.Utils.MainWindowControlChanger;
 using VKR.Utils.MessageBoxService;
 
 
-namespace VKR.ViewModel;
+namespace VKR.UserInterface.Technologist;
 
 public class TechnologistControlVM : ViewModelBase
 {
-    private readonly NavigationManager _navigationManager;
     private readonly IImageAnalyzer _analyzer;
     private readonly IFileDialogService _dialogService;
     private readonly IMessageBoxService _messageBoxService;
+    private readonly NavigationManager _navigationManager;
 
 
 #region Functions
@@ -47,27 +46,29 @@ public class TechnologistControlVM : ViewModelBase
         _dialogService = dialogService;
         _messageBoxService = messageBoxService;
     }
-    
+
     private byte[] ImagePathToByteArray(string path)
     {
-        JpegBitmapEncoder encoder = new JpegBitmapEncoder();
+        var encoder = new JpegBitmapEncoder();
         encoder.Frames.Add(BitmapFrame.Create(new BitmapImage(new Uri(path, UriKind.RelativeOrAbsolute))));
-        using (MemoryStream ms = new MemoryStream())
+
+        using (var ms = new MemoryStream())
         {
             encoder.Save(ms);
+
             return ms.ToArray();
         }
     }
 
-    #endregion
+#endregion
 
-    #region Properties
+
+#region Properties
 
     private readonly ResultDBContext _context;
-    public List<Company> Companies
-    {
-        get => _context.Companies.ToList();
-    }
+
+    public List<Company> Companies => _context.Companies.ToList();
+
     public Company SelectedCompany { get; set; }
     public string DisplayedImagePath { get; set; }
     public string ResultImagePath { get; set; }
@@ -75,11 +76,10 @@ public class TechnologistControlVM : ViewModelBase
     public string AnalysisDate { get; set; }
     public Result CurrentResult { get; set; }
 
+#endregion
 
-    #endregion
 
-    #region Commands
-
+#region Commands
 
     private RelayCommand _changePathImage;
 
@@ -90,8 +90,9 @@ public class TechnologistControlVM : ViewModelBase
             // ReSharper disable once NullCoalescingConditionIsAlwaysNotNullAccordingToAPIContract
             return _changePathImage ??= new RelayCommand(_ =>
             {
-                var path =_dialogService.OpenFileDialog(filter: "Pictures (*.jpg;*.gif;*.png)|*.jpg;*.gif;*.png", ext: ".png");
-                if (path!= "")
+                var path = _dialogService.OpenFileDialog(filter: "Pictures (*.jpg;*.gif;*.png)|*.jpg;*.gif;*.png", ext: ".png");
+
+                if (path != "")
                 {
                     DisplayedImagePath = path;
                     ResultImagePath = "";
@@ -113,20 +114,24 @@ public class TechnologistControlVM : ViewModelBase
                 {
                     //название переменной со словом Current это очень плохой тон
                     CurrentResult = _analyzer.analyze(DisplayedImagePath, SelectedCompany);
+
                     // вместо того чтобы обновлять все эти поля можно просто прибиндится к результату и его свойствам
                     ResultImagePath = CurrentResult.ResPath.Path;
                     SearchResult = CurrentResult.AnRes;
                     AnalysisDate = DateTime.Now.ToString();
+
                     // мне кажется эта проверка не нужна
                     if (!_context.Results.Contains(CurrentResult))
                     {
                         _context.Results.Add(CurrentResult);
                     }
+
                     _context.SaveChanges();
                 }
                 else
                 {
-                    _messageBoxService.ShowMessage("Недостаточно данных для произведения анализа", "Ошибка!", MessageBoxButton.OK, MessageBoxImage.Error);
+                    _messageBoxService.ShowMessage("Недостаточно данных для произведения анализа", "Ошибка!", MessageBoxButton.OK,
+                                                   MessageBoxImage.Error);
                 }
             });
         }
@@ -144,16 +149,17 @@ public class TechnologistControlVM : ViewModelBase
                 if (SearchResult != "")
                 {
                     var filename = "АНАЛИЗ_" + DateTime.Now.ToString().Replace(':', '.').Replace('/', '.');
-                    var filePath = _dialogService.SaveFileDialog(fileName: filename, ext: ".pdf");
-                    
-                    if (!String.IsNullOrEmpty(filePath))
+                    var filePath = _dialogService.SaveFileDialog(filename, ext: ".pdf");
+
+                    if (!string.IsNullOrEmpty(filePath))
                     {
                         var initialBitmap = ImagePathToByteArray(DisplayedImagePath);
-                        
+
                         //зачем эта проверка если все равно идет сохранение?????
                         //if (ResultImagePath != "")
                         //{
-                            var resBitmap = ImagePathToByteArray(ResultImagePath);
+                        var resBitmap = ImagePathToByteArray(ResultImagePath);
+
                         //}
                         FileSystem.ExportPdf(filePath, initialBitmap, resBitmap, SearchResult, AnalysisDate, SelectedCompany.Name);
                     }
@@ -175,7 +181,7 @@ public class TechnologistControlVM : ViewModelBase
             // ReSharper disable once NullCoalescingConditionIsAlwaysNotNullAccordingToAPIContract
             return _changeUser ??= new RelayCommand(_ =>
             {
-                _navigationManager.Navigate<LoginControl>(new WindowParameters()
+                _navigationManager.Navigate<LoginControl>(new WindowParameters
                 {
                     Height = 300,
                     Width = 350,
@@ -195,8 +201,7 @@ public class TechnologistControlVM : ViewModelBase
             // ReSharper disable once NullCoalescingConditionIsAlwaysNotNullAccordingToAPIContract
             return _showInfo ??= new RelayCommand(_ =>
             {
-                _messageBoxService.ShowMessage(
-                                               "Данный программный комплекс предназначен для обработки\n" +
+                _messageBoxService.ShowMessage("Данный программный комплекс предназначен для обработки\n" +
                                                "входного изображения среза мясной продукции в задаче\n" +
                                                "обнаружения фальсификата.\n" +
                                                "\n" +
@@ -226,5 +231,5 @@ public class TechnologistControlVM : ViewModelBase
         }
     }
 
-    #endregion
+#endregion
 }

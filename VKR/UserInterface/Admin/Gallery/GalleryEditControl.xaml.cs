@@ -1,20 +1,19 @@
 ﻿using VKR.Utils;
-using VKR.ViewModel;
 
 
-namespace VKR.View;
+namespace VKR.UserInterface.Admin.Gallery;
 
 /// <summary>
 ///     Логика взаимодействия для GalleryEditControl.xaml
 /// </summary>
 public partial class GalleryEditControl
 {
-    private GalleryEditControlVM _viewModel;
+    private readonly GalleryEditControlVM _viewModel;
 
     public GalleryEditControl()
     {
         InitializeComponent();
-        _viewModel = (GalleryEditControlVM?)VMLocator.Resolve<GalleryEditControl>();
+        _viewModel = (GalleryEditControlVM?) VmLocator.Resolve<GalleryEditControl>();
         DataContext = _viewModel;
     }
 }

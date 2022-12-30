@@ -1,22 +1,22 @@
 ﻿using System.Windows.Controls;
 
 using VKR.Utils;
-using VKR.ViewModel;
 
 
-namespace VKR.View;
+namespace VKR.UserInterface.Admin.User;
 
 /// <summary>
 ///     Логика взаимодействия для UserExplorerControl.xaml
 /// </summary>
 public partial class UserExplorerControl : UserControl
 {
-    private UserExplorerControlVM _viewModel;
+    private readonly UserExplorerControlVM _viewModel;
 
     public UserExplorerControl()
     {
         InitializeComponent();
-        _viewModel = (UserExplorerControlVM?)VMLocator.Resolve<UserExplorerControl>();
+        _viewModel = (UserExplorerControlVM?) VmLocator.Resolve<UserExplorerControl>();
         DataContext = _viewModel;
     }
 }
+

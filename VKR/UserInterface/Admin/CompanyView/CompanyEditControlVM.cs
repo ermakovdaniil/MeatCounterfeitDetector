@@ -1,20 +1,25 @@
 ﻿using System;
-using System.Linq;
 using System.Collections.ObjectModel;
+using System.Linq;
 
 using DataAccess.Data;
 using DataAccess.Models;
 
+using VKR.UserInterface.Admin.Abstract;
 using VKR.Utils;
 using VKR.Utils.Dialog.Abstract;
 
-namespace VKR.ViewModel;
+
+namespace VKR.UserInterface.Admin.CompanyView;
 
 public class CompanyEditControlVM : ViewModelBase, IDataHolder, IResultHolder, IInteractionAware
 {
-    #region Functions
+    private object _data;
 
-    #region Constructors
+
+#region Functions
+
+#region Constructors
 
     public CompanyEditControlVM(ResultDBContext context)
     {
@@ -22,21 +27,40 @@ public class CompanyEditControlVM : ViewModelBase, IDataHolder, IResultHolder, I
         Companies = new ObservableCollection<Company>(_context.Companies.ToList());
     }
 
-    #endregion
+#endregion
 
-    #endregion
+#endregion
 
 
-    #region Properties
+    public object Data
+    {
+        get => _data;
+        set
+        {
+            _data = value;
+
+            TempCompany = new Company
+            {
+                Id = EditingCompany.Id,
+                Name = EditingCompany.Name,
+            };
+
+            OnPropertyChanged(nameof(TempCompany));
+        }
+    }
+
+    public Action FinishInteraction { get; set; }
+
+    public object? Result { get; }
+
+
+#region Properties
 
     private Company _tempCompany;
 
     public Company TempCompany
     {
-        get
-        {
-            return _tempCompany;
-        }
+        get => _tempCompany;
         set
         {
             _tempCompany = value;
@@ -44,16 +68,16 @@ public class CompanyEditControlVM : ViewModelBase, IDataHolder, IResultHolder, I
         }
     }
 
-    public Company EditingCompany => (Company)Data;
+    public Company EditingCompany => (Company) Data;
 
     private readonly ResultDBContext _context;
 
     public ObservableCollection<Company> Companies { get; set; }
 
-    #endregion
+#endregion
 
 
-    #region Commands
+#region Commands
 
     private RelayCommand _saveCompany;
 
@@ -93,24 +117,5 @@ public class CompanyEditControlVM : ViewModelBase, IDataHolder, IResultHolder, I
         }
     }
 
-    #endregion
-
-    private object _data;
-    public object Data
-    {
-        get => _data;
-        set
-        {
-            _data = value;
-            TempCompany = new Company()
-            {
-                Id = EditingCompany.Id,
-                Name = EditingCompany.Name,
-            };
-            OnPropertyChanged(nameof(TempCompany));
-        }
-    }
-
-    public object? Result { get; }
-    public Action FinishInteraction { get; set; }
+#endregion
 }

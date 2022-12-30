@@ -4,3 +4,4 @@ public interface IResultHolder
 {
     object? Result { get; }
 }
+

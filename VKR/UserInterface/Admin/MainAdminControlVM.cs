@@ -1,29 +1,32 @@
-﻿using System.Diagnostics;
+﻿using System.Windows;
 
-using Microsoft.Win32;
-using System.Windows;
+using VKR.UserInterface.Admin.Abstract;
 using VKR.Utils;
-using VKR.Utils.MainWindowControlChanger;
-using VKR.View;
 using VKR.Utils.Dialog;
+using VKR.Utils.MainWindowControlChanger;
 
-namespace VKR.ViewModel;
+using MessageBox = HandyControl.Controls.MessageBox;
+
+
+namespace VKR.UserInterface.Admin;
 
 public class MainAdminControlVM : ViewModelBase
 {
     private readonly NavigationManager _navigationManager;
 
-    #region Functions
+
+#region Functions
 
     public MainAdminControlVM(NavigationManager navigationManager)
     {
         _navigationManager = navigationManager;
     }
 
-    #endregion
+#endregion
 
-    #region Commands
-    
+
+#region Commands
+
     private RelayCommand _changeUser;
 
     public RelayCommand ChangeUser
@@ -32,7 +35,7 @@ public class MainAdminControlVM : ViewModelBase
         {
             return _changeUser ??= new RelayCommand(_ =>
             {
-                _navigationManager.Navigate<LoginControl>(new WindowParameters()
+                _navigationManager.Navigate<LoginControl>(new WindowParameters
                 {
                     Height = 350,
                     Width = 350,
@@ -51,20 +54,19 @@ public class MainAdminControlVM : ViewModelBase
         {
             return _showInfo ??= new RelayCommand(_ =>
             {
-                HandyControl.Controls.MessageBox.Show(
-                "Данный программный комплекс предназначен для обработки\n" +
-                "входного изображения среза мясной продукции в задаче\n" +
-                "обнаружения фальсификата.\n" +
-                "\n" +
-                "Вам доступны следующие возможности:\n" +
-                "   * Администрирование базы знаний фальсификатов.\n" +
-                "   * Администрирование базы данных результатов анализа.\n" +
-                "   * Администрирование базы данных пользователейй.\n" +
-                "\n" +
-                "Автор:  Ермаков Даниил Игоревич\n" +
-                "Группа: 494\n" +
-                "Учебное заведение: СПбГТИ (ТУ)", "Справка о программе",
-                MessageBoxButton.OK, MessageBoxImage.Information);
+                MessageBox.Show("Данный программный комплекс предназначен для обработки\n" +
+                                "входного изображения среза мясной продукции в задаче\n" +
+                                "обнаружения фальсификата.\n" +
+                                "\n" +
+                                "Вам доступны следующие возможности:\n" +
+                                "   * Администрирование базы знаний фальсификатов.\n" +
+                                "   * Администрирование базы данных результатов анализа.\n" +
+                                "   * Администрирование базы данных пользователейй.\n" +
+                                "\n" +
+                                "Автор:  Ермаков Даниил Игоревич\n" +
+                                "Группа: 494\n" +
+                                "Учебное заведение: СПбГТИ (ТУ)", "Справка о программе",
+                                MessageBoxButton.OK, MessageBoxImage.Information);
             });
         }
     }
@@ -82,5 +84,5 @@ public class MainAdminControlVM : ViewModelBase
         }
     }
 
-    #endregion
+#endregion
 }

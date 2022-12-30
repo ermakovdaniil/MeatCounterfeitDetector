@@ -1,7 +1,9 @@
 ﻿using System.Windows;
-using System.Windows.Controls;
 
 using Autofac;
+
+
+namespace VKR.Utils.FrameworkFactory;
 
 public class FrameworkElementFactory : IFrameworkElementFactory
 {
@@ -12,15 +14,15 @@ public class FrameworkElementFactory : IFrameworkElementFactory
         this.container = container;
     }
 
-    public FrameworkElement CreateFrameworkElement<T>(object datacontext) where T : FrameworkElement
+    public FrameworkElement CreateFrameworkElement<T>(object dataСontext) where T : FrameworkElement
     {
         var fe = container.Resolve<T>();
 
-        if (datacontext is not null)
+        if (dataСontext is not null)
         {
-            fe.DataContext = datacontext;
-
+            fe.DataContext = dataСontext;
         }
+
         return fe;
     }
 }

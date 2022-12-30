@@ -1,28 +1,21 @@
-﻿using System.Linq;
-using System.Windows;
-using System.Windows.Controls;
-
-using Autofac;
+﻿using System.Windows.Controls;
 
 using VKR.Utils;
-using VKR.ViewModel;
-
-using MessageBox = HandyControl.Controls.MessageBox;
 
 
-namespace VKR.View;
+namespace VKR.UserInterface.Admin;
 
 /// <summary>
 ///     Логика взаимодействия для MainAdminControl.xaml
 /// </summary>
 public partial class MainAdminControl : UserControl
 {
-    private MainAdminControlVM _viewModel;
+    private readonly MainAdminControlVM _viewModel;
 
     public MainAdminControl()
     {
         InitializeComponent();
-        _viewModel = (MainAdminControlVM?)VMLocator.Resolve<MainAdminControl>();
+        _viewModel = (MainAdminControlVM?) VmLocator.Resolve<MainAdminControl>();
         DataContext = _viewModel;
     }
 }

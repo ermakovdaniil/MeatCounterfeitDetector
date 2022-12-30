@@ -1,44 +1,67 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 
 using DataAccess.Data;
 using DataAccess.Models;
-using Microsoft.EntityFrameworkCore;
+
+using VKR.UserInterface.Admin.Abstract;
 using VKR.Utils;
 using VKR.Utils.Dialog.Abstract;
 
 
-namespace VKR.ViewModel;
+namespace VKR.UserInterface.Admin.Gallery;
 
 public class GalleryEditControlVM : ViewModelBase, IDataHolder, IResultHolder, IInteractionAware
 {
-    #region Functions
+    private object _data;
 
-    #region Constructors
+
+#region Functions
+
+#region Constructors
 
     public GalleryEditControlVM(CounterfeitKBContext context)
     {
         _context = context;
-        Counterfeits = new ObservableCollection<Counterfeit>(_context.Counterfeits.ToList());
+        Counterfeits = new ObservableCollection<DataAccess.Models.Counterfeit>(_context.Counterfeits.ToList());
     }
 
-    #endregion
+#endregion
 
-    #endregion
+#endregion
 
 
-    #region Properties
+    public object Data
+    {
+        get => _data;
+        set
+        {
+            _data = value;
+
+            TempCounterfeitPath = new CounterfeitPath
+            {
+                Id = EditingCounterfeitPath.Id,
+                Counterfeit = EditingCounterfeitPath.Counterfeit,
+                ImagePath = EditingCounterfeitPath.ImagePath,
+            };
+
+            OnPropertyChanged(nameof(TempCounterfeitPath));
+        }
+    }
+
+    public Action FinishInteraction { get; set; }
+
+    public object? Result { get; }
+
+
+#region Properties
 
     private CounterfeitPath _tempCounterfeitPath;
 
     public CounterfeitPath TempCounterfeitPath
     {
-        get
-        {
-            return _tempCounterfeitPath;
-        }
+        get => _tempCounterfeitPath;
         set
         {
             _tempCounterfeitPath = value;
@@ -46,16 +69,16 @@ public class GalleryEditControlVM : ViewModelBase, IDataHolder, IResultHolder, I
         }
     }
 
-    public CounterfeitPath EditingCounterfeitPath => (CounterfeitPath)Data;
+    public CounterfeitPath EditingCounterfeitPath => (CounterfeitPath) Data;
 
     private readonly CounterfeitKBContext _context;
 
-    public ObservableCollection<Counterfeit> Counterfeits { get; set; }
+    public ObservableCollection<DataAccess.Models.Counterfeit> Counterfeits { get; set; }
 
-    #endregion
+#endregion
 
 
-    #region Commands
+#region Commands
 
     private RelayCommand _saveCounterfeitPath;
 
@@ -96,25 +119,6 @@ public class GalleryEditControlVM : ViewModelBase, IDataHolder, IResultHolder, I
         }
     }
 
-    #endregion
-
-    private object _data;
-    public object Data
-    {
-        get => _data;
-        set
-        {
-            _data = value;
-            TempCounterfeitPath = new CounterfeitPath()
-            {
-                Id = EditingCounterfeitPath.Id,
-                Counterfeit = EditingCounterfeitPath.Counterfeit,
-                ImagePath = EditingCounterfeitPath.ImagePath,
-            };
-            OnPropertyChanged(nameof(TempCounterfeitPath));
-        }
-    }
-
-    public object? Result { get; }
-    public Action FinishInteraction { get; set; }
+#endregion
 }
+

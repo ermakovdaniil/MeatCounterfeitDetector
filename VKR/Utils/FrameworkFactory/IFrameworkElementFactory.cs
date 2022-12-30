@@ -1,8 +1,9 @@
 ﻿using System.Windows;
-using System.Windows.Controls;
 
+
+namespace VKR.Utils.FrameworkFactory;
 
 public interface IFrameworkElementFactory
 {
-    FrameworkElement CreateFrameworkElement<T>(object datacontext) where T : FrameworkElement;  
+    FrameworkElement CreateFrameworkElement<T>(object dataСontext) where T : FrameworkElement;
 }

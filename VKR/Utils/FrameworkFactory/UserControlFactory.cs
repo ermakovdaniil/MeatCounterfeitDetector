@@ -1,5 +1,4 @@
-﻿using System.Windows;
-using System.Windows.Controls;
+﻿using System.Windows.Controls;
 
 
 namespace VKR.Utils.FrameworkFactory;
@@ -12,8 +11,10 @@ public class UserControlFactory
     {
         _frameworkElementFactory = frameworkElementFactory;
     }
+
     public UserControl CreateUserControl<T>(object param) where T : UserControl
     {
         return (UserControl) _frameworkElementFactory.CreateFrameworkElement<T>(param);
     }
 }
+

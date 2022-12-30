@@ -1,28 +1,22 @@
-﻿using System.Linq;
-using System.Windows;
-using System.Windows.Controls;
-
-using Autofac;
+﻿using System.Windows.Controls;
 
 using VKR.Utils;
-using VKR.ViewModel;
-
-using MessageBox = HandyControl.Controls.MessageBox;
 
 
-namespace VKR.View;
+namespace VKR.UserInterface.Technologist;
 
 /// <summary>
 ///     Логика взаимодействия для TechnologistControl.xaml
 /// </summary>
 public partial class TechnologistControl : UserControl
 {
-    private TechnologistControlVM _viewModel;
+    private readonly TechnologistControlVM _viewModel;
 
     public TechnologistControl()
     {
         InitializeComponent();
-        _viewModel = (TechnologistControlVM?)VMLocator.Resolve<TechnologistControl>();
+        _viewModel = (TechnologistControlVM?) VmLocator.Resolve<TechnologistControl>();
         DataContext = _viewModel;
     }
 }
+

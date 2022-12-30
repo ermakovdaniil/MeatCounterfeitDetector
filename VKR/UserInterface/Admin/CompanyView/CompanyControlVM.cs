@@ -1,26 +1,23 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using System.Windows;
-using System.Collections.Generic;
 
 using DataAccess.Data;
-using DataAccess.Models;
 
-using Microsoft.EntityFrameworkCore;
-
+using VKR.UserInterface.Admin.Abstract;
 using VKR.Utils;
 using VKR.Utils.Dialog;
-using VKR.View;
 
 using MessageBox = HandyControl.Controls.MessageBox;
 
 
-namespace VKR.ViewModel;
+namespace VKR.UserInterface.Admin.CompanyView;
 
 public class CompanyControlVM : ViewModelBase
 {
-    #region Functions
+#region Functions
 
-    #region Constructors
+#region Constructors
 
     public CompanyControlVM(ResultDBContext context, DialogService ds)
     {
@@ -28,26 +25,24 @@ public class CompanyControlVM : ViewModelBase
         _ds = ds;
     }
 
-    #endregion
+#endregion
 
-    #endregion
+#endregion
 
 
-    #region Properties
+#region Properties
 
-    private DialogService _ds;
+    private readonly DialogService _ds;
 
     private readonly ResultDBContext _context;
-    public Company SelectedCompany { get; set; }
-    public List<Company> Companies
-    {
-        get => _context.Companies.ToList();
-    }
+    public DataAccess.Models.Company SelectedCompany { get; set; }
 
-    #endregion
+    public List<DataAccess.Models.Company> Companies => _context.Companies.ToList();
+
+#endregion
 
 
-    #region Commands
+#region Commands
 
     private RelayCommand _addCompany;
 
@@ -60,17 +55,14 @@ public class CompanyControlVM : ViewModelBase
         {
             return _addCompany ??= new RelayCommand(o =>
             {
-                _ds.ShowDialog<CompanyEditControl>(
-                windowParameters: new WindowParameters
-                {
-                    Height = 180,
-                    Width = 500,
-                    Title = "Добавление предприятия"
-                },
-                data: new Company()
-                {
+                _ds.ShowDialog<CompanyEditControl>(new WindowParameters
+                                                   {
+                                                       Height = 180,
+                                                       Width = 500,
+                                                       Title = "Добавление предприятия",
+                                                   },
+                                                   data: new DataAccess.Models.Company());
 
-                });
                 OnPropertyChanged(nameof(Companies));
             });
         }
@@ -87,14 +79,14 @@ public class CompanyControlVM : ViewModelBase
         {
             return _editCompany ??= new RelayCommand(o =>
             {
-                _ds.ShowDialog<CompanyEditControl>(
-                windowParameters: new WindowParameters
-                {
-                    Height = 180,
-                    Width = 500,
-                    Title = "Добавление предприятия"
-                },
-                data: SelectedCompany);
+                _ds.ShowDialog<CompanyEditControl>(new WindowParameters
+                                                   {
+                                                       Height = 180,
+                                                       Width = 500,
+                                                       Title = "Добавление предприятия",
+                                                   },
+                                                   data: SelectedCompany);
+
                 OnPropertyChanged(nameof(Companies));
             }, _ => SelectedCompany != null);
         }
@@ -111,17 +103,19 @@ public class CompanyControlVM : ViewModelBase
         {
             return _deleteCompany ??= new RelayCommand(o =>
             {
-                if (HandyControl.Controls.MessageBox.Show($"Вы действительно хотите удалить предприятие: \"{SelectedCompany.Name}\" и все записи связанные с ним?",
+                if (MessageBox.Show($"Вы действительно хотите удалить предприятие: \"{SelectedCompany.Name}\" и все записи связанные с ним?",
                                     "Удаление предприятия", MessageBoxButton.YesNo, MessageBoxImage.Warning) ==
                     MessageBoxResult.Yes)
                 {
                     _context.Companies.Remove(SelectedCompany);
                     _context.SaveChanges();
                 }
+
                 OnPropertyChanged(nameof(Companies));
             }, _ => SelectedCompany != null);
         }
     }
 
-    #endregion
+#endregion
 }
+

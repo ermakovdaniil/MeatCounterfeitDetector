@@ -1,9 +1,9 @@
-﻿using VKR.ViewModel;
+﻿using VKR.UserInterface.Admin.Abstract;
 
-namespace VKR.Utils
+
+namespace VKR.Utils;
+
+internal interface IViewModelFactory<TViewModel> where TViewModel : ViewModelBase
 {
-    internal interface IViewModelFactory<TViewModel> where TViewModel : ViewModelBase
-    {
-        TViewModel CreateVM();
-    }
+    TViewModel CreateVM();
 }

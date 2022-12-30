@@ -1,27 +1,29 @@
 ﻿using System;
-
 using System.Linq;
 using System.Windows;
-using Autofac;
 
 using DataAccess.Data;
 using DataAccess.Models;
 
 using Microsoft.EntityFrameworkCore;
 
+using VKR.UserInterface.Admin;
+using VKR.UserInterface.Admin.Abstract;
+using VKR.UserInterface.Technologist;
 using VKR.Utils;
 using VKR.Utils.Dialog;
 using VKR.Utils.MainWindowControlChanger;
-using VKR.View;
+
+using MessageBox = HandyControl.Controls.MessageBox;
 
 
-namespace VKR.ViewModel;
+namespace VKR.UserInterface;
 
 public class LoginControlVM : ViewModelBase
 {
-    #region Functions
+#region Functions
 
-    #region Constructors
+#region Constructors
 
     public LoginControlVM(UserDBContext context, NavigationManager navigationManager)
     {
@@ -30,21 +32,21 @@ public class LoginControlVM : ViewModelBase
         User = new User();
     }
 
-    #endregion
+#endregion
 
-    #endregion
+#endregion
 
 
-    #region Properties
+#region Properties
 
     public User User { get; set; }
     private readonly UserDBContext _context;
     private readonly NavigationManager _navigationManager;
 
-    #endregion
+#endregion
 
 
-    #region Commands
+#region Commands
 
     private RelayCommand _enterCommand;
 
@@ -57,39 +59,40 @@ public class LoginControlVM : ViewModelBase
             {
                 if (string.IsNullOrEmpty(User.Name) || string.IsNullOrEmpty(User.Password))
                 {
-                    HandyControl.Controls.MessageBox.Show("Введите имя пользователя и пароль!", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                    MessageBox.Show("Введите имя пользователя и пароль!", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+
                     return;
                 }
 
                 try
                 {
-                    var user = _context.Users.Include(u=> u.Type).First(u => u.Name == User.Name && u.Password == User.Password);
+                    var user = _context.Users.Include(u => u.Type).First(u => u.Name == User.Name && u.Password == User.Password);
+
                     if (user.Type.Name == "Администратор")
                     {
-                        _navigationManager.Navigate<MainAdminControl>(new WindowParameters()
+                        _navigationManager.Navigate<MainAdminControl>(new WindowParameters
                         {
                             WindowState = WindowState.Maximized,
-                            Title = " | Панель администратора | "
+                            Title = " | Панель администратора | ",
                         });
                     }
 
                     if (user.Type.Name == "Исследователь")
                     {
-                        _navigationManager.Navigate<TechnologistControl>(new WindowParameters()
+                        _navigationManager.Navigate<TechnologistControl>(new WindowParameters
                         {
                             WindowState = WindowState.Maximized,
-                            Title = " | Панель исследователя | "
+                            Title = " | Панель исследователя | ",
                         });
                     }
                 }
                 catch (Exception ex)
                 {
-                    HandyControl.Controls.MessageBox.Show("Неверное имя пользователя или пароль! Повторите попытку.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                    MessageBox.Show("Неверное имя пользователя или пароль! Повторите попытку.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
             });
         }
-
     }
 
-    #endregion
+#endregion
 }

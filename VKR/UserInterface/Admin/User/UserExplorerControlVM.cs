@@ -1,26 +1,25 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using System.Windows;
-using System.Collections.Generic;
 
 using DataAccess.Data;
-using DataAccess.Models;
 
 using Microsoft.EntityFrameworkCore;
 
+using VKR.UserInterface.Admin.Abstract;
 using VKR.Utils;
 using VKR.Utils.Dialog;
-using VKR.View;
 
 using MessageBox = HandyControl.Controls.MessageBox;
 
 
-namespace VKR.ViewModel;
+namespace VKR.UserInterface.Admin.User;
 
 public class UserExplorerControlVM : ViewModelBase
 {
-    #region Functions
+#region Functions
 
-    #region Constructors
+#region Constructors
 
     public UserExplorerControlVM(UserDBContext context, DialogService ds)
     {
@@ -29,26 +28,24 @@ public class UserExplorerControlVM : ViewModelBase
         _ds = ds;
     }
 
-    #endregion
+#endregion
 
-    #endregion
+#endregion
 
 
-    #region Properties
+#region Properties
 
-    private DialogService _ds;
+    private readonly DialogService _ds;
 
     private readonly UserDBContext _context;
-    public User SelectedUser { get; set; }
-    public List<User> Users
-    {
-        get => _context.Users.ToList();
-    }
+    public DataAccess.Models.User SelectedUser { get; set; }
 
-    #endregion
+    public List<DataAccess.Models.User> Users => _context.Users.ToList();
+
+#endregion
 
 
-    #region Commands
+#region Commands
 
     private RelayCommand _addUser;
 
@@ -61,17 +58,14 @@ public class UserExplorerControlVM : ViewModelBase
         {
             return _addUser ??= new RelayCommand(o =>
             {
-                _ds.ShowDialog<UserEditControl>(
-                windowParameters: new WindowParameters
-                {
-                    Height = 380,
-                    Width = 300,
-                    Title = "Добавление пользователя"
-                },
-                data: new User()
-                {
+                _ds.ShowDialog<UserEditControl>(new WindowParameters
+                                                {
+                                                    Height = 380,
+                                                    Width = 300,
+                                                    Title = "Добавление пользователя",
+                                                },
+                                                data: new DataAccess.Models.User());
 
-                });
                 OnPropertyChanged(nameof(Users));
             });
         }
@@ -88,14 +82,14 @@ public class UserExplorerControlVM : ViewModelBase
         {
             return _editUser ??= new RelayCommand(o =>
             {
-                _ds.ShowDialog<UserEditControl>(
-                windowParameters: new WindowParameters
-                {
-                    Height = 380,
-                    Width = 300,
-                    Title = "Добавление пользователя"
-                },
-                data: SelectedUser);
+                _ds.ShowDialog<UserEditControl>(new WindowParameters
+                                                {
+                                                    Height = 380,
+                                                    Width = 300,
+                                                    Title = "Добавление пользователя",
+                                                },
+                                                data: SelectedUser);
+
                 OnPropertyChanged(nameof(Users));
             }, _ => SelectedUser != null);
         }
@@ -112,17 +106,19 @@ public class UserExplorerControlVM : ViewModelBase
         {
             return _deleteUser ??= new RelayCommand(o =>
             {
-                if (HandyControl.Controls.MessageBox.Show($"Вы действительно хотите удалить пользователя: \"{SelectedUser.Name}\"?",
+                if (MessageBox.Show($"Вы действительно хотите удалить пользователя: \"{SelectedUser.Name}\"?",
                                     "Удаление пользователя", MessageBoxButton.YesNo, MessageBoxImage.Warning) ==
                     MessageBoxResult.Yes)
                 {
                     _context.Users.Remove(SelectedUser);
                     _context.SaveChanges();
                 }
+
                 OnPropertyChanged(nameof(Users));
             }, _ => SelectedUser != null);
         }
     }
 
-    #endregion
+#endregion
 }
+

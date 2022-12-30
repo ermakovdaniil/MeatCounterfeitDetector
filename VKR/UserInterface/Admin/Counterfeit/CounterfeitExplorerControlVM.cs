@@ -1,26 +1,23 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using System.Windows;
-using System.Collections.Generic;
 
 using DataAccess.Data;
-using DataAccess.Models;
 
-using Microsoft.EntityFrameworkCore;
-
+using VKR.UserInterface.Admin.Abstract;
 using VKR.Utils;
 using VKR.Utils.Dialog;
-using VKR.View;
 
 using MessageBox = HandyControl.Controls.MessageBox;
 
 
-namespace VKR.ViewModel;
+namespace VKR.UserInterface.Admin.Counterfeit;
 
 public class CounterfeitExplorerControlVM : ViewModelBase
 {
-    #region Functions
+#region Functions
 
-    #region Constructors
+#region Constructors
 
     public CounterfeitExplorerControlVM(CounterfeitKBContext context, DialogService ds)
     {
@@ -28,26 +25,24 @@ public class CounterfeitExplorerControlVM : ViewModelBase
         _ds = ds;
     }
 
-    #endregion
+#endregion
 
-    #endregion
+#endregion
 
 
-    #region Properties
-    
-    private DialogService _ds;
+#region Properties
+
+    private readonly DialogService _ds;
 
     private readonly CounterfeitKBContext _context;
-    public Counterfeit SelectedCounterfeit { get; set; }
-    public List<Counterfeit> Counterfeits
-    {
-        get => _context.Counterfeits.ToList();
-    }
+    public DataAccess.Models.Counterfeit SelectedCounterfeit { get; set; }
 
-    #endregion
+    public List<DataAccess.Models.Counterfeit> Counterfeits => _context.Counterfeits.ToList();
+
+#endregion
 
 
-    #region Commands
+#region Commands
 
     private RelayCommand _addCounterfeit;
 
@@ -60,17 +55,14 @@ public class CounterfeitExplorerControlVM : ViewModelBase
         {
             return _addCounterfeit ??= new RelayCommand(o =>
             {
-                _ds.ShowDialog<CounterfeitEditControl>(
-                windowParameters: new WindowParameters
-                {
-                    Height = 180,
-                    Width = 300,
-                    Title = "Добавление фальсификата"
-                },
-                data: new Counterfeit()
-                {
+                _ds.ShowDialog<CounterfeitEditControl>(new WindowParameters
+                                                       {
+                                                           Height = 180,
+                                                           Width = 300,
+                                                           Title = "Добавление фальсификата",
+                                                       },
+                                                       data: new DataAccess.Models.Counterfeit());
 
-                });
                 OnPropertyChanged(nameof(Counterfeits));
             });
         }
@@ -87,14 +79,14 @@ public class CounterfeitExplorerControlVM : ViewModelBase
         {
             return _editCounterfeitObject ??= new RelayCommand(o =>
             {
-                _ds.ShowDialog<CounterfeitEditControl>(
-                windowParameters: new WindowParameters
-                {
-                    Height = 180,
-                    Width = 300,
-                    Title = "Добавление фальсификата"
-                },
-                data: SelectedCounterfeit);
+                _ds.ShowDialog<CounterfeitEditControl>(new WindowParameters
+                                                       {
+                                                           Height = 180,
+                                                           Width = 300,
+                                                           Title = "Добавление фальсификата",
+                                                       },
+                                                       data: SelectedCounterfeit);
+
                 OnPropertyChanged(nameof(Counterfeits));
             }, _ => SelectedCounterfeit != null);
         }
@@ -111,16 +103,18 @@ public class CounterfeitExplorerControlVM : ViewModelBase
         {
             return _deleteCounterfeit ??= new RelayCommand(o =>
             {
-                if (HandyControl.Controls.MessageBox.Show($"Вы действительно хотите удалить фальсификат: \"{SelectedCounterfeit.Name}\"?",
+                if (MessageBox.Show($"Вы действительно хотите удалить фальсификат: \"{SelectedCounterfeit.Name}\"?",
                                     "Удаление объекта", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
                 {
                     _context.Counterfeits.Remove(SelectedCounterfeit);
                     _context.SaveChanges();
                 }
+
                 OnPropertyChanged(nameof(Counterfeits));
             }, c => SelectedCounterfeit != null);
         }
     }
 
-    #endregion
+#endregion
 }
+

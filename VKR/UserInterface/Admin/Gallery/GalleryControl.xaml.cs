@@ -1,22 +1,22 @@
 ﻿using System.Windows.Controls;
 
 using VKR.Utils;
-using VKR.ViewModel;
 
 
-namespace VKR.View;
+namespace VKR.UserInterface.Admin.Gallery;
 
 /// <summary>
 ///     Логика взаимодействия для GalleryControl.xaml
 /// </summary>
 public partial class GalleryControl : UserControl
 {
-    private GalleryControlVM _viewModel;
+    private readonly GalleryControlVM _viewModel;
 
     public GalleryControl()
     {
         InitializeComponent();
-        _viewModel = (GalleryControlVM?)VMLocator.Resolve<GalleryControl>();
+        _viewModel = (GalleryControlVM?) VmLocator.Resolve<GalleryControl>();
         DataContext = _viewModel;
     }
 }
+

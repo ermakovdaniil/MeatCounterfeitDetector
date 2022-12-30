@@ -1,5 +1,6 @@
 ﻿using System;
 
+
 namespace VKR.Utils;
 
 public class AbstractFactory<T> : IAbstractFactory<T>

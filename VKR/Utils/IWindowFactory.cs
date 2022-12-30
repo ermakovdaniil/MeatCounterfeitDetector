@@ -1,9 +1,9 @@
 ﻿using System.Windows;
 
-namespace VKR.Utils
+
+namespace VKR.Utils;
+
+internal interface IWindowFactory<T> where T : Window
 {
-    internal interface IWindowFactory<T> where T : Window
-    {
-        T CreateWindow();
-    }
+    T CreateWindow();
 }

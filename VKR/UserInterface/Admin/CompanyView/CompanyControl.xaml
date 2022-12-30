@@ -1,12 +1,12 @@
-﻿<UserControl x:Class="VKR.View.CompanyControl"
+﻿<UserControl x:Class="VKR.UserInterface.Admin.CompanyView.CompanyControl"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:vm="clr-namespace:VKR.ViewModel"
              xmlns:hc="https://handyorg.github.io/handycontrol"
+             xmlns:companyView="clr-namespace:VKR.UserInterface.Admin.CompanyView"
              mc:Ignorable="d"
-             d:DataContext="{d:DesignInstance vm:CompanyControlVM}"
+             d:DataContext="{d:DesignInstance companyView:CompanyControlVM}"
              d:DesignHeight="450">
     <Grid>
         <Grid.RowDefinitions>

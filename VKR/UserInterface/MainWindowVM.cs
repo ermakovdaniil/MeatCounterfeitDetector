@@ -1,12 +1,12 @@
 ﻿using System;
-using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
 
+using VKR.UserInterface.Admin.Abstract;
 using VKR.Utils.Dialog;
-using VKR.Utils.MainWindowControlChanger;
 
-namespace VKR.ViewModel;
+
+namespace VKR.UserInterface;
 
 public class MainWindowVM : ViewModelBase
 {
@@ -14,7 +14,7 @@ public class MainWindowVM : ViewModelBase
 
     public MainWindowVM()
     {
-        Parameters = new WindowParameters()
+        Parameters = new WindowParameters
         {
             Height = 300,
             Width = 300,
@@ -32,12 +32,6 @@ public class MainWindowVM : ViewModelBase
         }
     }
 
-    internal void SetNewContent(UserControl content)
-    {
-        ContentWindow = content;
-        //MenuControl.Content = content.TryFindResource("Menu") as Menu;
-    }
-
     public Menu? Menu
     {
         get
@@ -48,13 +42,19 @@ public class MainWindowVM : ViewModelBase
             {
                 m.DataContext = ContentWindow.DataContext;
             }
+
             return m;
         }
-        set
-        {
-            throw new NotImplementedException();
-        }
+        set => throw new NotImplementedException();
     }
 
     public WindowParameters Parameters { get; set; }
+
+    internal void SetNewContent(UserControl content)
+    {
+        ContentWindow = content;
+
+        //MenuControl.Content = content.TryFindResource("Menu") as Menu;
+    }
 }
+

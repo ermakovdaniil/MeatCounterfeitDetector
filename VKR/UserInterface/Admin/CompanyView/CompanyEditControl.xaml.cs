@@ -1,20 +1,19 @@
 ﻿using VKR.Utils;
-using VKR.ViewModel;
 
 
-namespace VKR.View;
+namespace VKR.UserInterface.Admin.CompanyView;
 
 /// <summary>
 ///     Логика взаимодействия для CompanyEditControl.xaml
 /// </summary>
 public partial class CompanyEditControl
 {
-    private CompanyEditControlVM _viewModel;
+    private readonly CompanyEditControlVM _viewModel;
 
     public CompanyEditControl()
     {
         InitializeComponent();
-        _viewModel = (CompanyEditControlVM?)VMLocator.Resolve<CompanyEditControl>();
+        _viewModel = (CompanyEditControlVM?) VmLocator.Resolve<CompanyEditControl>();
         DataContext = _viewModel;
     }
 }

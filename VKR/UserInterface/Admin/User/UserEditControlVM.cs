@@ -5,17 +5,21 @@ using System.Linq;
 using DataAccess.Data;
 using DataAccess.Models;
 
+using VKR.UserInterface.Admin.Abstract;
 using VKR.Utils;
 using VKR.Utils.Dialog.Abstract;
 
 
-namespace VKR.ViewModel;
+namespace VKR.UserInterface.Admin.User;
 
 public class UserEditControlVM : ViewModelBase, IDataHolder, IResultHolder, IInteractionAware
 {
-    #region Functions
+    private object _data;
 
-    #region Constructors
+
+#region Functions
+
+#region Constructors
 
     public UserEditControlVM(UserDBContext context)
     {
@@ -23,21 +27,42 @@ public class UserEditControlVM : ViewModelBase, IDataHolder, IResultHolder, IInt
         UserTypes = new ObservableCollection<UserType>(_context.UserTypes.ToList());
     }
 
-    #endregion
+#endregion
 
-    #endregion
+#endregion
 
 
-    #region Properties
-
-    private User _tempUser;
-
-    public User TempUser
+    public object Data
     {
-        get
+        get => _data;
+        set
         {
-            return _tempUser;
+            _data = value;
+
+            TempUser = new DataAccess.Models.User
+            {
+                Id = EditingUser.Id,
+                Name = EditingUser.Name,
+                Password = EditingUser.Password,
+                Type = EditingUser.Type,
+            };
+
+            OnPropertyChanged(nameof(TempUser));
         }
+    }
+
+    public Action FinishInteraction { get; set; }
+
+    public object? Result { get; }
+
+
+#region Properties
+
+    private DataAccess.Models.User _tempUser;
+
+    public DataAccess.Models.User TempUser
+    {
+        get => _tempUser;
         set
         {
             _tempUser = value;
@@ -45,16 +70,16 @@ public class UserEditControlVM : ViewModelBase, IDataHolder, IResultHolder, IInt
         }
     }
 
-    public User EditingUser => (User)Data;
+    public DataAccess.Models.User EditingUser => (DataAccess.Models.User) Data;
 
     private readonly UserDBContext _context;
 
     public ObservableCollection<UserType> UserTypes { get; set; }
 
-    #endregion
+#endregion
 
 
-    #region Commands
+#region Commands
 
     private RelayCommand _saveUser;
 
@@ -96,26 +121,6 @@ public class UserEditControlVM : ViewModelBase, IDataHolder, IResultHolder, IInt
         }
     }
 
-    #endregion
-
-    private object _data;
-    public object Data
-    {
-        get => _data;
-        set
-        {
-            _data = value;
-            TempUser = new User()
-            {
-                Id = EditingUser.Id,
-                Name = EditingUser.Name,
-                Password = EditingUser.Password,
-                Type = EditingUser.Type,
-            };
-            OnPropertyChanged(nameof(TempUser));
-        }
-    }
-
-    public object? Result { get; }
-    public Action FinishInteraction { get; set; }
+#endregion
 }
+

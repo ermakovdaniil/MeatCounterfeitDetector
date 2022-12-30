@@ -1,5 +1,7 @@
 ﻿using System.Windows;
 
+using MessageBox = HandyControl.Controls.MessageBox;
+
 
 namespace VKR.Utils.MessageBoxService;
 
@@ -9,8 +11,9 @@ public class HandyMessageBoxService : IMessageBoxService
                                         string caption = null,
                                         MessageBoxButton button = MessageBoxButton.OK,
                                         MessageBoxImage icon = MessageBoxImage.None,
-                                        MessageBoxResult defaultResult = MessageBoxResult.None) 
+                                        MessageBoxResult defaultResult = MessageBoxResult.None)
     {
-        return HandyControl.Controls.MessageBox.Show(messageBoxText,caption,button,icon,defaultResult);
+        return MessageBox.Show(messageBoxText, caption, button, icon, defaultResult);
     }
 }
+

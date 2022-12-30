@@ -15,3 +15,4 @@ public class Counterfeit
 
     public virtual ObservableCollection<CounterfeitPath> CounterfeitPaths { get; set; }
 }
+

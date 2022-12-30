@@ -1,14 +1,13 @@
 ﻿using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
-using PropertyChanged;
 
-
-namespace VKR.ViewModel;
+namespace VKR.UserInterface.Admin.Abstract;
 
 /// <summary>
 ///     Абстрактный класс для VM
 /// </summary>
+
 //[AddINotifyPropertyChangedInterface]
 public class ViewModelBase : INotifyPropertyChanged
 {
@@ -19,3 +18,4 @@ public class ViewModelBase : INotifyPropertyChanged
         PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
     }
 }
+

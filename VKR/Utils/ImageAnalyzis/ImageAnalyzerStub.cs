@@ -3,7 +3,7 @@
 using DataAccess.Models;
 
 
-namespace VKR.UserInterface.Technologist.ImageAnalyzis;
+namespace VKR.Utils.ImageAnalyzis;
 
 public class ImageAnalyzerStub : IImageAnalyzer
 {
@@ -11,26 +11,27 @@ public class ImageAnalyzerStub : IImageAnalyzer
     //наверное лучше стоит передавать битмап вместо пути, но тут хз
     public Result analyze(string pathToOrig, Company company)
     {
-        var TempOrigPath = new OriginalPath()
+        var tempOrigPath = new OriginalPath
         {
             Path = pathToOrig,
         };
 
-        var TempResPath = new ResultPath()
+        var tempResPath = new ResultPath
         {
-            Init = TempOrigPath,
+            Init = tempOrigPath,
             Path = @"pack://application:,,,/resources/resImages/res.jpg",
         };
 
-        var result = new Result()
+        var result = new Result
         {
             Date = DateTime.Now.ToString(),
             Company = company,
             AnRes = "Обнаружен фальсификат: Каррагинан.",
-            OrigPath = TempOrigPath,
-            ResPath = TempResPath
+            OrigPath = tempOrigPath,
+            ResPath = tempResPath,
         };
 
         return result;
     }
 }
+

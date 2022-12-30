@@ -1,23 +1,23 @@
-﻿<UserControl x:Class="VKR.View.GalleryEditControl"
-           xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-           xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-           xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-           xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-           xmlns:hc="https://handyorg.github.io/handycontrol"
-           xmlns:vm="clr-namespace:VKR.ViewModel"
-           mc:Ignorable="d"
-           d:DataContext="{d:DesignInstance vm:GalleryEditControlVM}">
+﻿<UserControl x:Class="VKR.UserInterface.Admin.Gallery.GalleryEditControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:hc="https://handyorg.github.io/handycontrol"
+             xmlns:gallery="clr-namespace:VKR.UserInterface.Admin.Gallery"
+             mc:Ignorable="d"
+             d:DataContext="{d:DesignInstance gallery:GalleryEditControlVM}">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition />
             <RowDefinition Height="60" />
         </Grid.RowDefinitions>
         <StackPanel Background="{StaticResource Style2}">
-            <hc:ComboBox hc:InfoElement.Title="Наименование фальсификата" 
+            <hc:ComboBox hc:InfoElement.Title="Наименование фальсификата"
                          ItemsSource="{Binding Counterfeits}"
                          hc:InfoElement.TitlePlacement="Top" Margin="10 5"
                          SelectedItem="{Binding TempCounterfeitPath.Counterfeit}"
-                         DisplayMemberPath="Name" 
+                         DisplayMemberPath="Name"
                          SelectedValuePath="Id"
                          Background="{StaticResource Style3}" HorizontalAlignment="Stretch" />
             <hc:TextBox hc:InfoElement.Title="Путь к изображению"
@@ -27,7 +27,8 @@
         </StackPanel>
         <Grid Row="1" Background="{StaticResource Style1}">
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                <Button hc:BorderElement.CornerRadius="10" Width="100" Margin="5" Command="{Binding SaveCounterfeitPath}"
+                <Button hc:BorderElement.CornerRadius="10" Width="100" Margin="5"
+                        Command="{Binding SaveCounterfeitPath}"
                         Background="{StaticResource Style3}" Content="{StaticResource ApplyButton}" />
                 <Button Width="100" Margin="5" Content="{StaticResource CancelButton}"
                         hc:BorderElement.CornerRadius="10" Command="{Binding CloseCommand}"

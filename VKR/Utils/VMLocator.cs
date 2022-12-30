@@ -1,25 +1,25 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Security.Permissions;
 
 using Autofac;
 
 
 namespace VKR.Utils;
 
-public static class VMLocator
+public static class VmLocator
 {
-    public static IComponentContext Container;
+    public static IComponentContext Container = null!;
 
-    private static Dictionary<Type, Type> VMByViews { get; set; } = new Dictionary<Type, Type>();
-    
+    private static Dictionary<Type, Type> VmByViews { get; } = new();
+
     public static void Register<View, ViewModel>()
     {
-        VMByViews[typeof(View)] = typeof(ViewModel);
+        VmByViews[typeof(View)] = typeof(ViewModel);
     }
 
     public static object Resolve<TView>()
     {
-        return Container.Resolve(VMByViews[typeof(TView)]);
+        return Container.Resolve(VmByViews[typeof(TView)]);
     }
 }
+

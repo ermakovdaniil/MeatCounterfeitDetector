@@ -8,10 +8,10 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <Compile Remove="Utils\WindowFactory\**" />
-      <EmbeddedResource Remove="Utils\WindowFactory\**" />
-      <None Remove="Utils\WindowFactory\**" />
-      <Page Remove="Utils\WindowFactory\**" />
+        <Compile Remove="Utils\WindowFactory\**" />
+        <EmbeddedResource Remove="Utils\WindowFactory\**" />
+        <None Remove="Utils\WindowFactory\**" />
+        <Page Remove="Utils\WindowFactory\**" />
     </ItemGroup>
 
     <ItemGroup>
@@ -102,7 +102,7 @@
             <CopyToOutputDirectory>Never</CopyToOutputDirectory>
         </Resource>
         <Resource Include="resources\origImages\orig.jpg">
-          <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+            <CopyToOutputDirectory>Never</CopyToOutputDirectory>
         </Resource>
         <None Remove="resources\resImages\res.jpg" />
         <Resource Include="resources\resImages\res.jpg" />
@@ -113,15 +113,15 @@
     </ItemGroup>
 
     <ItemGroup>
-      <None Update="CounterfeitKB.db">
-        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      </None>
-      <None Update="ResultDB.db">
-        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      </None>
-      <None Update="UserDB.db">
-        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      </None>
+        <None Update="CounterfeitKB.db">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </None>
+        <None Update="ResultDB.db">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </None>
+        <None Update="UserDB.db">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </None>
     </ItemGroup>
 
 </Project>

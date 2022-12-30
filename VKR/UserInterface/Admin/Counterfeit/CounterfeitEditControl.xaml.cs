@@ -1,20 +1,19 @@
 ﻿using VKR.Utils;
-using VKR.ViewModel;
 
 
-namespace VKR.View;
+namespace VKR.UserInterface.Admin.Counterfeit;
 
 /// <summary>
 ///     Логика взаимодействия для CounterfeitEditControl.xaml
 /// </summary>
 public partial class CounterfeitEditControl
 {
-    private CounterfeitEditControlVM _viewModel;
+    private readonly CounterfeitEditControlVM _viewModel;
 
     public CounterfeitEditControl()
     {
         InitializeComponent();
-        _viewModel = (CounterfeitEditControlVM?)VMLocator.Resolve<CounterfeitEditControl>();
+        _viewModel = (CounterfeitEditControlVM?) VmLocator.Resolve<CounterfeitEditControl>();
         DataContext = _viewModel;
     }
 }

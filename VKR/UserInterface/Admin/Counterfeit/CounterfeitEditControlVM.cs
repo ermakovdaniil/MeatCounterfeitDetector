@@ -1,43 +1,65 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
 
 using DataAccess.Data;
 using DataAccess.Models;
-using Microsoft.EntityFrameworkCore;
+
+using VKR.UserInterface.Admin.Abstract;
 using VKR.Utils;
 using VKR.Utils.Dialog.Abstract;
 
 
-namespace VKR.ViewModel;
+namespace VKR.UserInterface.Admin.Counterfeit;
 
 public class CounterfeitEditControlVM : ViewModelBase, IDataHolder, IResultHolder, IInteractionAware
 {
-    #region Functions
+    private object _data;
 
-    #region Constructors
+
+#region Functions
+
+#region Constructors
 
     public CounterfeitEditControlVM(CounterfeitKBContext context)
     {
         _context = context;
     }
 
-    #endregion
+#endregion
 
-    #endregion
+#endregion
 
 
-    #region Properties
-
-    private Counterfeit _tempCounterfeit;
-
-    public Counterfeit TempCounterfeit
+    public object Data
     {
-        get
+        get => _data;
+        set
         {
-            return _tempCounterfeit;
+            _data = value;
+
+            TempCounterfeit = new DataAccess.Models.Counterfeit
+            {
+                Id = EditingCounterfeit.Id,
+                Name = EditingCounterfeit.Name,
+            };
+
+            OnPropertyChanged(nameof(TempCounterfeit));
         }
+    }
+
+    public Action FinishInteraction { get; set; }
+
+    public object? Result { get; }
+
+
+#region Properties
+
+    private DataAccess.Models.Counterfeit _tempCounterfeit;
+
+    public DataAccess.Models.Counterfeit TempCounterfeit
+    {
+        get => _tempCounterfeit;
         set
         {
             _tempCounterfeit = value;
@@ -45,24 +67,18 @@ public class CounterfeitEditControlVM : ViewModelBase, IDataHolder, IResultHolde
         }
     }
 
-    public Counterfeit EditingCounterfeit => (Counterfeit)Data;
+    public DataAccess.Models.Counterfeit EditingCounterfeit => (DataAccess.Models.Counterfeit) Data;
 
     private readonly CounterfeitKBContext _context;
 
-    public List<CounterfeitPath> CounterfeitPaths
-    {
-        get => _context.CounterfeitPaths.ToList();
-    }
+    public List<CounterfeitPath> CounterfeitPaths => _context.CounterfeitPaths.ToList();
 
-    public List<Counterfeit> Counterfeits
-    {
-        get => _context.Counterfeits.ToList();
-    }
+    public List<DataAccess.Models.Counterfeit> Counterfeits => _context.Counterfeits.ToList();
 
-    #endregion
+#endregion
 
 
-    #region Commands
+#region Commands
 
     private RelayCommand _saveCounterfeit;
 
@@ -102,24 +118,6 @@ public class CounterfeitEditControlVM : ViewModelBase, IDataHolder, IResultHolde
         }
     }
 
-    #endregion
-
-    private object _data;
-    public object Data
-    {
-        get => _data;
-        set
-        {
-            _data = value;
-            TempCounterfeit = new Counterfeit()
-            {
-                Id = EditingCounterfeit.Id,
-                Name = EditingCounterfeit.Name,
-            };
-            OnPropertyChanged(nameof(TempCounterfeit));
-        }
-    }
-
-    public object? Result { get; }
-    public Action FinishInteraction { get; set; }
+#endregion
 }
+

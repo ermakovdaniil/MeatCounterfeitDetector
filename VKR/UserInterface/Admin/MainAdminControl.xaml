@@ -1,13 +1,16 @@
-﻿<UserControl x:Class="VKR.View.MainAdminControl"
-             xmlns:hc="https://handyorg.github.io/handycontrol"
+﻿<UserControl x:Class="VKR.UserInterface.Admin.MainAdminControl"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:view="clr-namespace:VKR.View"
-             xmlns:vm="clr-namespace:VKR.ViewModel" 
+             xmlns:counterfeit="clr-namespace:VKR.UserInterface.Admin.Counterfeit"
+             xmlns:gallery="clr-namespace:VKR.UserInterface.Admin.Gallery"
+             xmlns:result="clr-namespace:VKR.UserInterface.Admin.Result"
+             xmlns:user="clr-namespace:VKR.UserInterface.Admin.User"
+             xmlns:admin="clr-namespace:VKR.UserInterface.Admin"
+             xmlns:companyView="clr-namespace:VKR.UserInterface.Admin.CompanyView"
              mc:Ignorable="d"
-             d:DataContext="{d:DesignInstance Type=vm:MainAdminControlVM}">
+             d:DataContext="{d:DesignInstance Type=admin:MainAdminControlVM}">
     <UserControl.Resources>
         <Menu x:Key="Menu" Height="40" Background="{Binding NonClientAreaBackground,RelativeSource={RelativeSource FindAncestor,AncestorType=Window}}" Grid.ColumnSpan="3">
             <MenuItem ToolTip="Сменить учётную запись" Command="{Binding ChangeUser}">
@@ -35,19 +38,19 @@
                     Style="{StaticResource TabControlInLine}"
                     Background="{StaticResource Style3}">
             <TabItem Header="Редактирование фальсифкатов" Background="{StaticResource Style2}">
-                <view:CounterfeitExplorerControl />
+                <counterfeit:CounterfeitExplorerControl />
             </TabItem>
             <TabItem Header="Редактирование изображений фальсифкатов" Background="{StaticResource Style2}">
-                <view:GalleryControl />
+                <gallery:GalleryControl />
             </TabItem>
             <TabItem Header="Редактирование журнала результатов" Background="{StaticResource Style2}">
-                <view:ResultControl />
+                <result:ResultControl />
             </TabItem>
             <TabItem Header="Редактирование предприятий" Background="{StaticResource Style2}">
-                <view:CompanyControl />
+                <companyView:CompanyControl />
             </TabItem>
             <TabItem Header="Редактирование пользователей" Background="{StaticResource Style2}">
-                <view:UserExplorerControl />
+                <user:UserExplorerControl />
             </TabItem>
         </TabControl>
     </Grid>

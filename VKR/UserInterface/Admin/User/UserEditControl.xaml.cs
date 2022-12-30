@@ -1,20 +1,20 @@
 ﻿using VKR.Utils;
-using VKR.ViewModel;
 
 
-namespace VKR.View;
+namespace VKR.UserInterface.Admin.User;
 
 /// <summary>
 ///     Логика взаимодействия для UserEditControl.xaml
 /// </summary>
 public partial class UserEditControl
 {
-    private UserEditControlVM _viewModel;
+    private readonly UserEditControlVM _viewModel;
 
     public UserEditControl()
     {
         InitializeComponent();
-        _viewModel = (UserEditControlVM?)VMLocator.Resolve<UserEditControl>();
+        _viewModel = (UserEditControlVM?) VmLocator.Resolve<UserEditControl>();
         DataContext = _viewModel;
     }
 }
+

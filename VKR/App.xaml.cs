@@ -1,22 +1,28 @@
 ﻿using System.Globalization;
 using System.Threading;
-using System.Threading.Tasks;
 using System.Windows;
 
 using Autofac;
 
 using DataAccess.Data;
-using DataAccess.Models;
 
-using VKR.Services.IOService;
-using VKR.UserInterface.Technologist.ImageAnalyzis;
+using VKR.UserInterface;
+using VKR.UserInterface.Admin;
+using VKR.UserInterface.Admin.CompanyView;
+using VKR.UserInterface.Admin.Counterfeit;
+using VKR.UserInterface.Admin.Gallery;
+using VKR.UserInterface.Admin.Result;
+using VKR.UserInterface.Admin.User;
+using VKR.UserInterface.Technologist;
 using VKR.Utils;
 using VKR.Utils.Dialog;
 using VKR.Utils.FrameworkFactory;
+using VKR.Utils.ImageAnalyzis;
+using VKR.Utils.IOService;
 using VKR.Utils.MainWindowControlChanger;
 using VKR.Utils.MessageBoxService;
-using VKR.View;
-using VKR.ViewModel;
+
+using FrameworkElementFactory = VKR.Utils.FrameworkFactory.FrameworkElementFactory;
 
 
 namespace VKR;
@@ -26,7 +32,7 @@ namespace VKR;
 /// </summary>
 public partial class App : Application
 {
-    public IContainer Container { get; set; }
+    private IContainer Container { get; set; }
 
     protected override void OnStartup(StartupEventArgs e)
     {
@@ -37,6 +43,7 @@ public partial class App : Application
         builder.RegisterType<CounterfeitKBContext>().AsSelf();
         builder.RegisterType<ResultDBContext>().AsSelf();
         builder.RegisterType<UserDBContext>().AsSelf();
+
         builder.RegisterAssemblyTypes(typeof(App).Assembly)
                .Where(t => t.Name.EndsWith("VM"))
                .AsSelf();
@@ -48,48 +55,49 @@ public partial class App : Application
         builder.RegisterAssemblyTypes(typeof(App).Assembly)
                .Where(t => t.Name.EndsWith("Window"))
                .AsSelf();
+
         builder.RegisterType<MainWindow>().AsSelf().SingleInstance();
         builder.RegisterType<MainWindowVM>().AsSelf().SingleInstance();
         builder.RegisterType<FrameworkElementFactory>().As<IFrameworkElementFactory>();
         builder.RegisterType<NavigationManager>().AsSelf().SingleInstance();
         builder.RegisterType<UserControlFactory>().AsSelf();
         builder.RegisterType<DialogService>().AsSelf();
-        
+
         builder.RegisterType<ImageAnalyzerStub>().As<IImageAnalyzer>();
         builder.RegisterType<FileDialogService>().As<IFileDialogService>();
         builder.RegisterType<HandyMessageBoxService>().As<IMessageBoxService>();
-        
+
 
         Container = builder.Build();
 
-        VMLocator.Container = Container;
-        VMLocator.Register<MainWindow, MainWindowVM>();
-        VMLocator.Register<LoginControl, LoginControlVM>();
-        VMLocator.Register<TechnologistControl, TechnologistControlVM>();
-        VMLocator.Register<MainAdminControl, MainAdminControlVM>();
-        VMLocator.Register<UserExplorerControl, UserExplorerControlVM>();
-        VMLocator.Register<ResultControl, ResultControlVM>();
-        VMLocator.Register<CounterfeitExplorerControl, CounterfeitExplorerControlVM>();
-        VMLocator.Register<CompanyControl, CompanyControlVM>();
-        VMLocator.Register<GalleryEditControl, GalleryEditControlVM>();
-        VMLocator.Register<GalleryControl, GalleryControlVM>();
-        VMLocator.Register<UserEditControl, UserEditControlVM>();
-        VMLocator.Register<CounterfeitEditControl, CounterfeitEditControlVM>();
-        VMLocator.Register<CompanyEditControl, CompanyEditControlVM>();
+        VmLocator.Container = Container;
+        VmLocator.Register<MainWindow, MainWindowVM>();
+        VmLocator.Register<LoginControl, LoginControlVM>();
+        VmLocator.Register<TechnologistControl, TechnologistControlVM>();
+        VmLocator.Register<MainAdminControl, MainAdminControlVM>();
+        VmLocator.Register<UserExplorerControl, UserExplorerControlVM>();
+        VmLocator.Register<ResultControl, ResultControlVM>();
+        VmLocator.Register<CounterfeitExplorerControl, CounterfeitExplorerControlVM>();
+        VmLocator.Register<CompanyControl, CompanyControlVM>();
+        VmLocator.Register<GalleryEditControl, GalleryEditControlVM>();
+        VmLocator.Register<GalleryControl, GalleryControlVM>();
+        VmLocator.Register<UserEditControl, UserEditControlVM>();
+        VmLocator.Register<CounterfeitEditControl, CounterfeitEditControlVM>();
+        VmLocator.Register<CompanyEditControl, CompanyEditControlVM>();
 
         var mainWindow = Container.Resolve<MainWindow>();
         mainWindow.WindowStartupLocation = WindowStartupLocation.CenterScreen;
         mainWindow.Show();
 
         var navigator = Container.Resolve<NavigationManager>();
-        navigator.Navigate<LoginControl>(new WindowParameters()
+
+        navigator.Navigate<LoginControl>(new WindowParameters
         {
             Height = 300,
             Width = 350,
             Title = "Вход в систему",
-            StartupLocation = WindowStartupLocation.CenterScreen
+            StartupLocation = WindowStartupLocation.CenterScreen,
         });
-        
-        var ds = Container.Resolve<DialogService>();
     }
 }
+

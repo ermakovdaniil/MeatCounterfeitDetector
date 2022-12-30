@@ -1,26 +1,26 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using System.Windows;
-using System.Collections.Generic;
 
 using DataAccess.Data;
 using DataAccess.Models;
 
 using Microsoft.EntityFrameworkCore;
 
+using VKR.UserInterface.Admin.Abstract;
 using VKR.Utils;
 using VKR.Utils.Dialog;
-using VKR.View;
 
 using MessageBox = HandyControl.Controls.MessageBox;
 
 
-namespace VKR.ViewModel;
+namespace VKR.UserInterface.Admin.Gallery;
 
 public class GalleryControlVM : ViewModelBase
 {
-    #region Functions
+#region Functions
 
-    #region Constructors
+#region Constructors
 
     public GalleryControlVM(CounterfeitKBContext context, DialogService ds)
     {
@@ -29,32 +29,26 @@ public class GalleryControlVM : ViewModelBase
         _ds = ds;
     }
 
-    #endregion
+#endregion
 
-    #endregion
+#endregion
 
 
-    #region Properties
+#region Properties
 
-    private DialogService _ds;
+    private readonly DialogService _ds;
 
     private readonly CounterfeitKBContext _context;
     public CounterfeitPath SelectedCounterfeitPath { get; set; }
-    
-    public List<CounterfeitPath> CounterfeitPaths
-    {
-        get => _context.CounterfeitPaths.ToList();
-    }
 
-    public List<Counterfeit> Counterfeits
-    {
-        get => _context.Counterfeits.ToList();
-    }
+    public List<CounterfeitPath> CounterfeitPaths => _context.CounterfeitPaths.ToList();
 
-    #endregion
+    public List<DataAccess.Models.Counterfeit> Counterfeits => _context.Counterfeits.ToList();
+
+#endregion
 
 
-    #region Commands
+#region Commands
 
     private RelayCommand _addCounterfeitPath;
 
@@ -67,17 +61,14 @@ public class GalleryControlVM : ViewModelBase
         {
             return _addCounterfeitPath ??= new RelayCommand(o =>
             {
-                _ds.ShowDialog<GalleryEditControl>(
-                windowParameters: new WindowParameters
-                {
-                    Height = 280,
-                    Width = 500,
-                    Title = "Добавление изображения фальсификата"
-                },
-                data: new CounterfeitPath()
-                {
+                _ds.ShowDialog<GalleryEditControl>(new WindowParameters
+                                                   {
+                                                       Height = 280,
+                                                       Width = 500,
+                                                       Title = "Добавление изображения фальсификата",
+                                                   },
+                                                   data: new CounterfeitPath());
 
-                });
                 OnPropertyChanged(nameof(CounterfeitPaths));
             });
         }
@@ -94,14 +85,14 @@ public class GalleryControlVM : ViewModelBase
         {
             return _editCounterfeitPath ??= new RelayCommand(o =>
             {
-                _ds.ShowDialog<GalleryEditControl>(
-                windowParameters: new WindowParameters
-                {
-                    Height = 280,
-                    Width = 500,
-                    Title = "Редактирование изображения фальсификата"
-                },
-                data: SelectedCounterfeitPath);
+                _ds.ShowDialog<GalleryEditControl>(new WindowParameters
+                                                   {
+                                                       Height = 280,
+                                                       Width = 500,
+                                                       Title = "Редактирование изображения фальсификата",
+                                                   },
+                                                   data: SelectedCounterfeitPath);
+
                 OnPropertyChanged(nameof(CounterfeitPaths));
             }, _ => SelectedCounterfeitPath != null);
         }
@@ -118,16 +109,18 @@ public class GalleryControlVM : ViewModelBase
         {
             return _deleteCounterfeitPath ??= new RelayCommand(o =>
             {
-                if (HandyControl.Controls.MessageBox.Show($"Вы действительно хотите удалить изображение?",
+                if (MessageBox.Show("Вы действительно хотите удалить изображение?",
                                     "Удаление изображения", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
                 {
                     _context.CounterfeitPaths.Remove(SelectedCounterfeitPath);
                     _context.SaveChanges();
                 }
+
                 OnPropertyChanged(nameof(CounterfeitPaths));
             }, c => SelectedCounterfeitPath != null);
         }
     }
 
-    #endregion
+#endregion
 }
+
