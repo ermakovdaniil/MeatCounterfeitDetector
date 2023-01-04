@@ -16,34 +16,34 @@ namespace VKR.UserInterface.Admin.Result;
 
 public class ResultControlVM : ViewModelBase
 {
-#region Functions
+    #region Functions
 
-#region Constructors
+    #region Constructors
 
     public ResultControlVM(ResultDBContext context)
     {
         _context = context;
-        _context.Companies.Load();
+        _context.Users.Load();
         _context.OriginalPaths.Load();
         _context.ResultPaths.Load();
     }
 
-#endregion
+    #endregion
 
-#endregion
+    #endregion
 
 
-#region Properties
+    #region Properties
 
     private readonly ResultDBContext _context;
     public DataAccess.Models.Result SelectedResult { get; set; }
 
     public List<DataAccess.Models.Result> Results => _context.Results.ToList();
 
-#endregion
+    #endregion
 
 
-#region Commands
+    #region Commands
 
     private RelayCommand _deleteResult;
 
@@ -63,12 +63,10 @@ public class ResultControlVM : ViewModelBase
                     _context.Results.Remove(SelectedResult);
                     _context.SaveChanges();
                 }
-
-                OnPropertyChanged(nameof(Results));
             }, _ => SelectedResult != null);
         }
     }
 
-#endregion
+    #endregion
 }
 

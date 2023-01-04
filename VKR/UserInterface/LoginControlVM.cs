@@ -21,32 +21,32 @@ namespace VKR.UserInterface;
 
 public class LoginControlVM : ViewModelBase
 {
-#region Functions
+    #region Functions
 
-#region Constructors
+    #region Constructors
 
-    public LoginControlVM(UserDBContext context, NavigationManager navigationManager)
+    public LoginControlVM(ResultDBContext context, NavigationManager navigationManager)
     {
         _context = context;
         _navigationManager = navigationManager;
         User = new User();
     }
 
-#endregion
+    #endregion
 
-#endregion
+    #endregion
 
 
-#region Properties
+    #region Properties
 
     public User User { get; set; }
-    private readonly UserDBContext _context;
+    private readonly ResultDBContext _context;
     private readonly NavigationManager _navigationManager;
 
-#endregion
+    #endregion
 
 
-#region Commands
+    #region Commands
 
     private RelayCommand _enterCommand;
 
@@ -54,10 +54,9 @@ public class LoginControlVM : ViewModelBase
     {
         get
         {
-            // ReSharper disable once ConstantNullCoalescingCondition
             return _enterCommand ??= new RelayCommand(o =>
             {
-                if (string.IsNullOrEmpty(User.Name) || string.IsNullOrEmpty(User.Password))
+                if (string.IsNullOrEmpty(User.Login) || string.IsNullOrEmpty(User.Password))
                 {
                     MessageBox.Show("Введите имя пользователя и пароль!", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
 
@@ -66,7 +65,7 @@ public class LoginControlVM : ViewModelBase
 
                 try
                 {
-                    var user = _context.Users.Include(u => u.Type).First(u => u.Name == User.Name && u.Password == User.Password);
+                    var user = _context.Users.Include(u => u.Type).First(u => u.Login == User.Login && u.Password == User.Password);
 
                     if (user.Type.Name == "Администратор")
                     {
@@ -77,12 +76,12 @@ public class LoginControlVM : ViewModelBase
                         });
                     }
 
-                    if (user.Type.Name == "Исследователь")
+                    if (user.Type.Name == "Технолог")
                     {
                         _navigationManager.Navigate<TechnologistControl>(new WindowParameters
                         {
                             WindowState = WindowState.Maximized,
-                            Title = " | Панель исследователя | ",
+                            Title = " | Панель технолога | ",
                         });
                     }
                 }
@@ -94,5 +93,5 @@ public class LoginControlVM : ViewModelBase
         }
     }
 
-#endregion
+    #endregion
 }

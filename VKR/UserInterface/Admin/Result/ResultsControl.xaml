@@ -22,7 +22,7 @@
             <DataGrid.Columns>
                 <DataGridTextColumn Header="ID" Binding="{Binding Id}" />
                 <DataGridTextColumn Header="Дата" Binding="{Binding Date}" />
-                <DataGridTextColumn Header="Предприятие" Binding="{Binding Company.Name}" />
+                <DataGridTextColumn Header="Сотрудник, проводивший анализ" Binding="{Binding User.Name}" />
                 <DataGridTextColumn Header="Результат анализа" Binding="{Binding AnRes}" />
                 <DataGridTemplateColumn Header="            Оригинальное изображение" Width="500">
                     <DataGridTemplateColumn.CellTemplate>

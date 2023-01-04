@@ -13,14 +13,21 @@
             <RowDefinition Height="60" />
         </Grid.RowDefinitions>
         <StackPanel Background="{StaticResource Style2}">
-            <hc:TextBox hc:InfoElement.Title="Имя пользователя"
+            <hc:TextBox hc:InfoElement.Title="Логин"
                         hc:InfoElement.TitlePlacement="Top" Margin="10 5"
-                        Text="{Binding TempUser.Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                        Text="{Binding TempUser.Login, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                         Background="{StaticResource Style3}" HorizontalAlignment="Stretch" />
+
             <hc:TextBox hc:InfoElement.Title="Пароль"
                         hc:InfoElement.TitlePlacement="Top" Margin="10 5"
                         Text="{Binding TempUser.Password, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                         Background="{StaticResource Style3}" HorizontalAlignment="Stretch" />
+            
+            <hc:TextBox hc:InfoElement.Title="Имя пользователя"
+                        hc:InfoElement.TitlePlacement="Top" Margin="10 5"
+                        Text="{Binding TempUser.Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                        Background="{StaticResource Style3}" HorizontalAlignment="Stretch" />
+
             <hc:ComboBox hc:InfoElement.Title="Тип пользователя"
                          ItemsSource="{Binding UserTypes}"
                          hc:InfoElement.TitlePlacement="Top" Margin="10 5"

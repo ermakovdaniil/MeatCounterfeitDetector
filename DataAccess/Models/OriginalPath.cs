@@ -1,9 +1,8 @@
 ﻿using System.Collections.ObjectModel;
 
-
 namespace DataAccess.Models;
 
-public class OriginalPath
+public partial class OriginalPath
 {
     public OriginalPath()
     {

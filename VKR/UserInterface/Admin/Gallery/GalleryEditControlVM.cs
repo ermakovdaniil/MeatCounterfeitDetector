@@ -17,9 +17,9 @@ public class GalleryEditControlVM : ViewModelBase, IDataHolder, IResultHolder, I
     private object _data;
 
 
-#region Functions
+    #region Functions
 
-#region Constructors
+    #region Constructors
 
     public GalleryEditControlVM(CounterfeitKBContext context)
     {
@@ -27,9 +27,9 @@ public class GalleryEditControlVM : ViewModelBase, IDataHolder, IResultHolder, I
         Counterfeits = new ObservableCollection<DataAccess.Models.Counterfeit>(_context.Counterfeits.ToList());
     }
 
-#endregion
+    #endregion
 
-#endregion
+    #endregion
 
 
     public object Data
@@ -55,7 +55,7 @@ public class GalleryEditControlVM : ViewModelBase, IDataHolder, IResultHolder, I
     public object? Result { get; }
 
 
-#region Properties
+    #region Properties
 
     private CounterfeitPath _tempCounterfeitPath;
 
@@ -69,16 +69,16 @@ public class GalleryEditControlVM : ViewModelBase, IDataHolder, IResultHolder, I
         }
     }
 
-    public CounterfeitPath EditingCounterfeitPath => (CounterfeitPath) Data;
+    public CounterfeitPath EditingCounterfeitPath => (CounterfeitPath)Data;
 
     private readonly CounterfeitKBContext _context;
 
     public ObservableCollection<DataAccess.Models.Counterfeit> Counterfeits { get; set; }
 
-#endregion
+    #endregion
 
 
-#region Commands
+    #region Commands
 
     private RelayCommand _saveCounterfeitPath;
 
@@ -119,6 +119,6 @@ public class GalleryEditControlVM : ViewModelBase, IDataHolder, IResultHolder, I
         }
     }
 
-#endregion
+    #endregion
 }
 

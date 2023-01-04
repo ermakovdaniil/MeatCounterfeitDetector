@@ -3,9 +3,6 @@
 
 namespace VKR.UserInterface.Admin.User;
 
-/// <summary>
-///     Логика взаимодействия для UserEditControl.xaml
-/// </summary>
 public partial class UserEditControl
 {
     private readonly UserEditControlVM _viewModel;

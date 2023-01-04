@@ -3,9 +3,6 @@
 
 namespace VKR.UserInterface.Admin.Counterfeit;
 
-/// <summary>
-///     Логика взаимодействия для CounterfeitEditControl.xaml
-/// </summary>
 public partial class CounterfeitEditControl
 {
     private readonly CounterfeitEditControlVM _viewModel;

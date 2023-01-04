@@ -5,9 +5,6 @@ using VKR.Utils;
 
 namespace VKR.UserInterface.Admin;
 
-/// <summary>
-///     Логика взаимодействия для MainAdminControl.xaml
-/// </summary>
 public partial class MainAdminControl : UserControl
 {
     private readonly MainAdminControlVM _viewModel;

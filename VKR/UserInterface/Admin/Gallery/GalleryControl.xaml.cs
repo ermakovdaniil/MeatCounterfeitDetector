@@ -5,9 +5,6 @@ using VKR.Utils;
 
 namespace VKR.UserInterface.Admin.Gallery;
 
-/// <summary>
-///     Логика взаимодействия для GalleryControl.xaml
-/// </summary>
 public partial class GalleryControl : UserControl
 {
     private readonly GalleryControlVM _viewModel;

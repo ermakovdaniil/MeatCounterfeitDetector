@@ -119,9 +119,6 @@
         <None Update="ResultDB.db">
             <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         </None>
-        <None Update="UserDB.db">
-            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-        </None>
     </ItemGroup>
 
 </Project>

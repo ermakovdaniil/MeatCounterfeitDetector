@@ -17,35 +17,35 @@ namespace VKR.UserInterface.Admin.User;
 
 public class UserExplorerControlVM : ViewModelBase
 {
-#region Functions
+    #region Functions
 
-#region Constructors
+    #region Constructors
 
-    public UserExplorerControlVM(UserDBContext context, DialogService ds)
+    public UserExplorerControlVM(ResultDBContext context, DialogService ds)
     {
         _context = context;
         _context.UserTypes.Load();
         _ds = ds;
     }
 
-#endregion
+    #endregion
 
-#endregion
+    #endregion
 
 
-#region Properties
+    #region Properties
 
     private readonly DialogService _ds;
 
-    private readonly UserDBContext _context;
+    private readonly ResultDBContext _context;
     public DataAccess.Models.User SelectedUser { get; set; }
 
     public List<DataAccess.Models.User> Users => _context.Users.ToList();
 
-#endregion
+    #endregion
 
 
-#region Commands
+    #region Commands
 
     private RelayCommand _addUser;
 
@@ -59,12 +59,12 @@ public class UserExplorerControlVM : ViewModelBase
             return _addUser ??= new RelayCommand(o =>
             {
                 _ds.ShowDialog<UserEditControl>(new WindowParameters
-                                                {
-                                                    Height = 380,
-                                                    Width = 300,
-                                                    Title = "Добавление пользователя",
-                                                },
-                                                data: new DataAccess.Models.User());
+                {
+                    Height = 380,
+                    Width = 300,
+                    Title = "Добавление пользователя",
+                },
+                data: new DataAccess.Models.User());
 
                 OnPropertyChanged(nameof(Users));
             });
@@ -83,12 +83,12 @@ public class UserExplorerControlVM : ViewModelBase
             return _editUser ??= new RelayCommand(o =>
             {
                 _ds.ShowDialog<UserEditControl>(new WindowParameters
-                                                {
-                                                    Height = 380,
-                                                    Width = 300,
-                                                    Title = "Добавление пользователя",
-                                                },
-                                                data: SelectedUser);
+                {
+                    Height = 380,
+                    Width = 300,
+                    Title = "Добавление пользователя",
+                },
+                data: SelectedUser);
 
                 OnPropertyChanged(nameof(Users));
             }, _ => SelectedUser != null);
@@ -119,6 +119,6 @@ public class UserExplorerControlVM : ViewModelBase
         }
     }
 
-#endregion
+    #endregion
 }
 

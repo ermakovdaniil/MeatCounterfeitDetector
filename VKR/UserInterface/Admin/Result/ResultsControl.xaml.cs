@@ -5,9 +5,6 @@ using VKR.Utils;
 
 namespace VKR.UserInterface.Admin.Result;
 
-/// <summary>
-///     Логика взаимодействия для ResultControl.xaml
-/// </summary>
 public partial class ResultControl : UserControl
 {
     private readonly ResultControlVM _viewModel;

@@ -1,9 +1,8 @@
 ﻿using System.Collections.ObjectModel;
 
-
 namespace DataAccess.Models;
 
-public class ResultPath
+public partial class ResultPath
 {
     public ResultPath()
     {
@@ -17,3 +16,4 @@ public class ResultPath
     public virtual OriginalPath? Init { get; set; }
     public virtual ObservableCollection<Result> Results { get; set; }
 }
+

@@ -24,10 +24,12 @@
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="ID"
                                         Binding="{Binding Id}" />
-                    <DataGridTextColumn Header="Имя пользователя"
-                                        Binding="{Binding Name}" />
+                    <DataGridTextColumn Header="Логин"
+                                        Binding="{Binding Login}" />
                     <DataGridTextColumn Header="Пароль"
                                         Binding="{Binding Password}" />
+                    <DataGridTextColumn Header="Имя пользователя"
+                                        Binding="{Binding Name}" />
                     <DataGridTextColumn Header="Тип пользователя"
                                         Binding="{Binding Type.Name}" />
                 </DataGrid.Columns>

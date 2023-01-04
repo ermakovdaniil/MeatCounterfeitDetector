@@ -1,6 +1,5 @@
 ﻿using System.Collections.ObjectModel;
 
-
 namespace DataAccess.Models;
 
 public class Counterfeit

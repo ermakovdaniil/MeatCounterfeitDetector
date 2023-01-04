@@ -29,18 +29,20 @@ public class TechnologistControlVM : ViewModelBase
     private readonly NavigationManager _navigationManager;
 
 
-#region Functions
+    #region Functions
 
-    public TechnologistControlVM(ResultDBContext context,
+    public TechnologistControlVM(ResultDBContext resultContext,
+                                 CounterfeitKBContext counterfeitsContext,
                                  NavigationManager navigationManager,
                                  IImageAnalyzer analyzer,
                                  IFileDialogService dialogService,
                                  IMessageBoxService messageBoxService)
     {
-        _context = context;
-        _context.Companies.Load();
-        _context.OriginalPaths.Load();
-        _context.ResultPaths.Load();
+        _resultContext = resultContext;
+        _counterfeitsContext = counterfeitsContext;
+        _counterfeitsContext.Counterfeits.Load();
+        _resultContext.OriginalPaths.Load();
+        _resultContext.ResultPaths.Load();
         _navigationManager = navigationManager;
         _analyzer = analyzer;
         _dialogService = dialogService;
@@ -60,26 +62,29 @@ public class TechnologistControlVM : ViewModelBase
         }
     }
 
-#endregion
+    #endregion
 
 
-#region Properties
+    #region Properties
 
-    private readonly ResultDBContext _context;
+    private readonly ResultDBContext _resultContext;
+    private readonly CounterfeitKBContext _counterfeitsContext;
 
-    public List<Company> Companies => _context.Companies.ToList();
+    public List<Counterfeit> Counterfeits => _counterfeitsContext.Counterfeits.ToList();
 
-    public Company SelectedCompany { get; set; }
+    public Counterfeit SelectedCounterfeit { get; set; }
+    public User SelectedUser { get; set; }
+    public double PrecentOfSimilarity { get; set; }
     public string DisplayedImagePath { get; set; }
     public string ResultImagePath { get; set; }
     public string SearchResult { get; set; }
     public string AnalysisDate { get; set; }
     public Result CurrentResult { get; set; }
 
-#endregion
+    #endregion
 
 
-#region Commands
+    #region Commands
 
     private RelayCommand _changePathImage;
 
@@ -87,7 +92,6 @@ public class TechnologistControlVM : ViewModelBase
     {
         get
         {
-            // ReSharper disable once NullCoalescingConditionIsAlwaysNotNullAccordingToAPIContract
             return _changePathImage ??= new RelayCommand(_ =>
             {
                 var path = _dialogService.OpenFileDialog(filter: "Pictures (*.jpg;*.gif;*.png)|*.jpg;*.gif;*.png", ext: ".png");
@@ -107,13 +111,12 @@ public class TechnologistControlVM : ViewModelBase
     {
         get
         {
-            // ReSharper disable once NullCoalescingConditionIsAlwaysNotNullAccordingToAPIContract
             return _scanImage ??= new RelayCommand(_ =>
             {
-                if (SelectedCompany != null && DisplayedImagePath != null && ResultImagePath != null)
+                if (SelectedCounterfeit != null && DisplayedImagePath != null && ResultImagePath != null)
                 {
                     //название переменной со словом Current это очень плохой тон
-                    CurrentResult = _analyzer.analyze(DisplayedImagePath, SelectedCompany);
+                    CurrentResult = _analyzer.analyze(DisplayedImagePath, SelectedCounterfeit, PrecentOfSimilarity);
 
                     // вместо того чтобы обновлять все эти поля можно просто прибиндится к результату и его свойствам
                     ResultImagePath = CurrentResult.ResPath.Path;
@@ -121,12 +124,12 @@ public class TechnologistControlVM : ViewModelBase
                     AnalysisDate = DateTime.Now.ToString();
 
                     // мне кажется эта проверка не нужна
-                    if (!_context.Results.Contains(CurrentResult))
-                    {
-                        _context.Results.Add(CurrentResult);
-                    }
+                    //if (!_resultContext.Results.Contains(CurrentResult))
+                    //{
+                        _resultContext.Results.Add(CurrentResult);
+                    //}
 
-                    _context.SaveChanges();
+                    _resultContext.SaveChanges();
                 }
                 else
                 {
@@ -143,7 +146,6 @@ public class TechnologistControlVM : ViewModelBase
     {
         get
         {
-            // ReSharper disable once NullCoalescingConditionIsAlwaysNotNullAccordingToAPIContract
             return _createFile ??= new RelayCommand(_ =>
             {
                 if (SearchResult != "")
@@ -161,7 +163,7 @@ public class TechnologistControlVM : ViewModelBase
                         var resBitmap = ImagePathToByteArray(ResultImagePath);
 
                         //}
-                        FileSystem.ExportPdf(filePath, initialBitmap, resBitmap, SearchResult, AnalysisDate, SelectedCompany.Name);
+                        FileSystem.ExportPdf(filePath, initialBitmap, resBitmap, SearchResult, AnalysisDate, SelectedUser.Name);
                     }
                 }
                 else
@@ -178,7 +180,6 @@ public class TechnologistControlVM : ViewModelBase
     {
         get
         {
-            // ReSharper disable once NullCoalescingConditionIsAlwaysNotNullAccordingToAPIContract
             return _changeUser ??= new RelayCommand(_ =>
             {
                 _navigationManager.Navigate<LoginControl>(new WindowParameters
@@ -198,7 +199,6 @@ public class TechnologistControlVM : ViewModelBase
     {
         get
         {
-            // ReSharper disable once NullCoalescingConditionIsAlwaysNotNullAccordingToAPIContract
             return _showInfo ??= new RelayCommand(_ =>
             {
                 _messageBoxService.ShowMessage("Данный программный комплекс предназначен для обработки\n" +
@@ -223,7 +223,6 @@ public class TechnologistControlVM : ViewModelBase
     {
         get
         {
-            // ReSharper disable once NullCoalescingConditionIsAlwaysNotNullAccordingToAPIContract
             return _exit ??= new RelayCommand(_ =>
             {
                 Application.Current.Shutdown();
@@ -231,5 +230,5 @@ public class TechnologistControlVM : ViewModelBase
         }
     }
 
-#endregion
+    #endregion
 }

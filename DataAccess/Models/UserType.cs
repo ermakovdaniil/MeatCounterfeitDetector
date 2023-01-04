@@ -3,7 +3,7 @@
 
 namespace DataAccess.Models;
 
-public class UserType
+public partial class UserType
 {
     public UserType()
     {
@@ -15,3 +15,4 @@ public class UserType
 
     public virtual ObservableCollection<User> Users { get; set; }
 }
+

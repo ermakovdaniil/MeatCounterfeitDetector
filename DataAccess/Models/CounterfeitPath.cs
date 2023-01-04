@@ -1,5 +1,4 @@
 ﻿namespace DataAccess.Models;
-
 public class CounterfeitPath
 {
     public long Id { get; set; }

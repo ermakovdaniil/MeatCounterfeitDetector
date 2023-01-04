@@ -5,9 +5,6 @@ using VKR.Utils;
 
 namespace VKR.UserInterface.Technologist;
 
-/// <summary>
-///     Логика взаимодействия для TechnologistControl.xaml
-/// </summary>
 public partial class TechnologistControl : UserControl
 {
     private readonly TechnologistControlVM _viewModel;

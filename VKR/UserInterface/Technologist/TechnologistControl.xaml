@@ -61,12 +61,18 @@
                 <ColumnDefinition />
                 <ColumnDefinition />
             </Grid.ColumnDefinitions>
-            <hc:ComboBox hc:InfoElement.Title="Предприятие"
+            <hc:ComboBox hc:InfoElement.Title="Вид фальсфиката для поиска"
                          Grid.Column="0" FontSize="17"
-                         ItemsSource="{Binding Companies}"
+                         ItemsSource="{Binding Counterfeits}"
                          hc:InfoElement.TitlePlacement="Top"
-                         SelectedItem="{Binding SelectedCompany}"
+                         SelectedItem="{Binding SelectedCounterfeit}"
                          DisplayMemberPath="Name"
+                         Background="{StaticResource Style3}"
+                         Margin="10 5" />
+            <hc:NumericUpDown hc:InfoElement.Title="Процент сходства"
+                         Height="50"
+                         Grid.Column="1" FontSize="17"
+                         hc:InfoElement.TitlePlacement="Top"
                          Background="{StaticResource Style3}"
                          Margin="10 5" />
         </Grid>

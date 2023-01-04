@@ -17,19 +17,19 @@ public class UserEditControlVM : ViewModelBase, IDataHolder, IResultHolder, IInt
     private object _data;
 
 
-#region Functions
+    #region Functions
 
-#region Constructors
+    #region Constructors
 
-    public UserEditControlVM(UserDBContext context)
+    public UserEditControlVM(ResultDBContext context)
     {
         _context = context;
         UserTypes = new ObservableCollection<UserType>(_context.UserTypes.ToList());
     }
 
-#endregion
+    #endregion
 
-#endregion
+    #endregion
 
 
     public object Data
@@ -42,8 +42,9 @@ public class UserEditControlVM : ViewModelBase, IDataHolder, IResultHolder, IInt
             TempUser = new DataAccess.Models.User
             {
                 Id = EditingUser.Id,
-                Name = EditingUser.Name,
+                Login = EditingUser.Login,
                 Password = EditingUser.Password,
+                Name = EditingUser.Name,
                 Type = EditingUser.Type,
             };
 
@@ -56,7 +57,7 @@ public class UserEditControlVM : ViewModelBase, IDataHolder, IResultHolder, IInt
     public object? Result { get; }
 
 
-#region Properties
+    #region Properties
 
     private DataAccess.Models.User _tempUser;
 
@@ -70,16 +71,16 @@ public class UserEditControlVM : ViewModelBase, IDataHolder, IResultHolder, IInt
         }
     }
 
-    public DataAccess.Models.User EditingUser => (DataAccess.Models.User) Data;
+    public DataAccess.Models.User EditingUser => (DataAccess.Models.User)Data;
 
-    private readonly UserDBContext _context;
+    private readonly ResultDBContext _context;
 
     public ObservableCollection<UserType> UserTypes { get; set; }
 
-#endregion
+    #endregion
 
 
-#region Commands
+    #region Commands
 
     private RelayCommand _saveUser;
 
@@ -93,8 +94,9 @@ public class UserEditControlVM : ViewModelBase, IDataHolder, IResultHolder, IInt
             return _saveUser ??= new RelayCommand(o =>
             {
                 EditingUser.Id = TempUser.Id;
-                EditingUser.Name = TempUser.Name;
+                EditingUser.Login = TempUser.Login;
                 EditingUser.Password = TempUser.Password;
+                EditingUser.Name = TempUser.Name;
                 EditingUser.Type = TempUser.Type;
 
                 if (!_context.Users.Contains(EditingUser))
@@ -121,6 +123,6 @@ public class UserEditControlVM : ViewModelBase, IDataHolder, IResultHolder, IInt
         }
     }
 
-#endregion
+    #endregion
 }
 

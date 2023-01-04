@@ -5,6 +5,6 @@ namespace VKR.Utils.ImageAnalyzis;
 
 public interface IImageAnalyzer
 {
-    public Result analyze(string pathToOrig, Company company);
+    public Result analyze(string pathToOrig, Counterfeit counterfeit, double precentOfSimilarity);
 }
 

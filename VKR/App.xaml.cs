@@ -8,7 +8,6 @@ using DataAccess.Data;
 
 using VKR.UserInterface;
 using VKR.UserInterface.Admin;
-using VKR.UserInterface.Admin.CompanyView;
 using VKR.UserInterface.Admin.Counterfeit;
 using VKR.UserInterface.Admin.Gallery;
 using VKR.UserInterface.Admin.Result;
@@ -27,9 +26,6 @@ using FrameworkElementFactory = VKR.Utils.FrameworkFactory.FrameworkElementFacto
 
 namespace VKR;
 
-/// <summary>
-///     Interaction logic for App.xaml
-/// </summary>
 public partial class App : Application
 {
     private IContainer Container { get; set; }
@@ -42,7 +38,6 @@ public partial class App : Application
         var builder = new ContainerBuilder();
         builder.RegisterType<CounterfeitKBContext>().AsSelf();
         builder.RegisterType<ResultDBContext>().AsSelf();
-        builder.RegisterType<UserDBContext>().AsSelf();
 
         builder.RegisterAssemblyTypes(typeof(App).Assembly)
                .Where(t => t.Name.EndsWith("VM"))
@@ -78,12 +73,10 @@ public partial class App : Application
         VmLocator.Register<UserExplorerControl, UserExplorerControlVM>();
         VmLocator.Register<ResultControl, ResultControlVM>();
         VmLocator.Register<CounterfeitExplorerControl, CounterfeitExplorerControlVM>();
-        VmLocator.Register<CompanyControl, CompanyControlVM>();
         VmLocator.Register<GalleryEditControl, GalleryEditControlVM>();
         VmLocator.Register<GalleryControl, GalleryControlVM>();
         VmLocator.Register<UserEditControl, UserEditControlVM>();
         VmLocator.Register<CounterfeitEditControl, CounterfeitEditControlVM>();
-        VmLocator.Register<CompanyEditControl, CompanyEditControlVM>();
 
         var mainWindow = Container.Resolve<MainWindow>();
         mainWindow.WindowStartupLocation = WindowStartupLocation.CenterScreen;

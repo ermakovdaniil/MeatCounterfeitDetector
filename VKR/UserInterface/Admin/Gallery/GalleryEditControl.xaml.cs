@@ -3,9 +3,6 @@
 
 namespace VKR.UserInterface.Admin.Gallery;
 
-/// <summary>
-///     Логика взаимодействия для GalleryEditControl.xaml
-/// </summary>
 public partial class GalleryEditControl
 {
     private readonly GalleryEditControlVM _viewModel;

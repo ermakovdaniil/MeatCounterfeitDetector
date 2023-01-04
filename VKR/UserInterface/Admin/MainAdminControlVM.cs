@@ -15,17 +15,17 @@ public class MainAdminControlVM : ViewModelBase
     private readonly NavigationManager _navigationManager;
 
 
-#region Functions
+    #region Functions
 
     public MainAdminControlVM(NavigationManager navigationManager)
     {
         _navigationManager = navigationManager;
     }
 
-#endregion
+    #endregion
 
 
-#region Commands
+    #region Commands
 
     private RelayCommand _changeUser;
 
@@ -84,5 +84,5 @@ public class MainAdminControlVM : ViewModelBase
         }
     }
 
-#endregion
+    #endregion
 }
