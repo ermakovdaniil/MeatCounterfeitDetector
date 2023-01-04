@@ -61,20 +61,27 @@
                 <ColumnDefinition />
                 <ColumnDefinition />
             </Grid.ColumnDefinitions>
+
             <hc:ComboBox hc:InfoElement.Title="Вид фальсфиката для поиска"
                          Grid.Column="0" FontSize="17"
+                         Text="Любой"
+                         ShowClearButton="True"
                          ItemsSource="{Binding Counterfeits}"
                          hc:InfoElement.TitlePlacement="Top"
                          SelectedItem="{Binding SelectedCounterfeit}"
                          DisplayMemberPath="Name"
                          Background="{StaticResource Style3}"
                          Margin="10 5" />
-            <hc:NumericUpDown hc:InfoElement.Title="Процент сходства"
-                         Height="50"
-                         Grid.Column="1" FontSize="17"
-                         hc:InfoElement.TitlePlacement="Top"
-                         Background="{StaticResource Style3}"
-                         Margin="10 5" />
+
+            <hc:NumericUpDown ValueFormat="N2" Grid.Column="1" 
+                              FontSize="17" Height="70" Width="180"
+                              Minimum="0.01" Maximum="100" Value="{Binding PrecentOfSimilarity}" Increment="0.01"
+                              hc:InfoElement.TitleWidth="140" 
+                              hc:InfoElement.Title="Процент сходства" 
+                              hc:InfoElement.TitlePlacement="Top"
+                              HorizontalAlignment="Left" Margin="10 5"
+                              Style="{StaticResource NumericUpDownExtend}"
+                              Background="{StaticResource Style3}" />
         </Grid>
 
         <Grid Grid.Row="1" Background="{StaticResource Style2}">
@@ -92,7 +99,6 @@
                     Background="{StaticResource Style3}">
                 <Image Source="{Binding ResultImagePath}" />
             </Border>
-
         </Grid>
 
         <Grid Grid.Row="2" Background="{StaticResource Style2}">

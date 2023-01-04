@@ -26,6 +26,7 @@ public class TechnologistControlVM : ViewModelBase
     private readonly IImageAnalyzer _analyzer;
     private readonly IFileDialogService _dialogService;
     private readonly IMessageBoxService _messageBoxService;
+    private readonly Counterfeit _counterfeit;
     private readonly NavigationManager _navigationManager;
 
 
@@ -47,6 +48,7 @@ public class TechnologistControlVM : ViewModelBase
         _analyzer = analyzer;
         _dialogService = dialogService;
         _messageBoxService = messageBoxService;
+
     }
 
     private byte[] ImagePathToByteArray(string path)
@@ -71,7 +73,6 @@ public class TechnologistControlVM : ViewModelBase
     private readonly CounterfeitKBContext _counterfeitsContext;
 
     public List<Counterfeit> Counterfeits => _counterfeitsContext.Counterfeits.ToList();
-
     public Counterfeit SelectedCounterfeit { get; set; }
     public User SelectedUser { get; set; }
     public double PrecentOfSimilarity { get; set; }
@@ -79,7 +80,7 @@ public class TechnologistControlVM : ViewModelBase
     public string ResultImagePath { get; set; }
     public string SearchResult { get; set; }
     public string AnalysisDate { get; set; }
-    public Result CurrentResult { get; set; }
+    public Result AnalysisResult { get; set; }
 
     #endregion
 
@@ -113,22 +114,16 @@ public class TechnologistControlVM : ViewModelBase
         {
             return _scanImage ??= new RelayCommand(_ =>
             {
-                if (SelectedCounterfeit != null && DisplayedImagePath != null && ResultImagePath != null)
+                if (DisplayedImagePath != null)
                 {
-                    //название переменной со словом Current это очень плохой тон
-                    CurrentResult = _analyzer.analyze(DisplayedImagePath, SelectedCounterfeit, PrecentOfSimilarity);
-
-                    // вместо того чтобы обновлять все эти поля можно просто прибиндится к результату и его свойствам
-                    ResultImagePath = CurrentResult.ResPath.Path;
-                    SearchResult = CurrentResult.AnRes;
+                    AnalysisResult = _analyzer.analyze(DisplayedImagePath, SelectedCounterfeit, PrecentOfSimilarity);
+                    // Вместо того чтобы обновлять все эти поля можно просто прибиндится к результату и его свойствам
+                    // SearchResult = AnalysisResult.AnRes + AnalysisResult.Date
+                    ResultImagePath = AnalysisResult.ResPath.Path;
+                    SearchResult = AnalysisResult.AnRes;
                     AnalysisDate = DateTime.Now.ToString();
-
-                    // мне кажется эта проверка не нужна
-                    //if (!_resultContext.Results.Contains(CurrentResult))
-                    //{
-                        _resultContext.Results.Add(CurrentResult);
-                    //}
-
+                    //
+                    _resultContext.Results.Add(AnalysisResult);
                     _resultContext.SaveChanges();
                 }
                 else
@@ -156,13 +151,7 @@ public class TechnologistControlVM : ViewModelBase
                     if (!string.IsNullOrEmpty(filePath))
                     {
                         var initialBitmap = ImagePathToByteArray(DisplayedImagePath);
-
-                        //зачем эта проверка если все равно идет сохранение?????
-                        //if (ResultImagePath != "")
-                        //{
                         var resBitmap = ImagePathToByteArray(ResultImagePath);
-
-                        //}
                         FileSystem.ExportPdf(filePath, initialBitmap, resBitmap, SearchResult, AnalysisDate, SelectedUser.Name);
                     }
                 }
