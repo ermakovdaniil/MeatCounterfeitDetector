@@ -15,9 +15,9 @@ namespace VKR.UserInterface.Admin.Counterfeit;
 
 public class CounterfeitExplorerControlVM : ViewModelBase
 {
-#region Functions
+    #region Functions
 
-#region Constructors
+    #region Constructors
 
     public CounterfeitExplorerControlVM(CounterfeitKBContext context, DialogService ds)
     {
@@ -25,12 +25,12 @@ public class CounterfeitExplorerControlVM : ViewModelBase
         _ds = ds;
     }
 
-#endregion
+    #endregion
 
-#endregion
+    #endregion
 
 
-#region Properties
+    #region Properties
 
     private readonly DialogService _ds;
 
@@ -39,10 +39,10 @@ public class CounterfeitExplorerControlVM : ViewModelBase
 
     public List<DataAccess.Models.Counterfeit> Counterfeits => _context.Counterfeits.ToList();
 
-#endregion
+    #endregion
 
 
-#region Commands
+    #region Commands
 
     private RelayCommand _addCounterfeit;
 
@@ -56,12 +56,12 @@ public class CounterfeitExplorerControlVM : ViewModelBase
             return _addCounterfeit ??= new RelayCommand(o =>
             {
                 _ds.ShowDialog<CounterfeitEditControl>(new WindowParameters
-                                                       {
-                                                           Height = 180,
-                                                           Width = 300,
-                                                           Title = "Добавление фальсификата",
-                                                       },
-                                                       data: new DataAccess.Models.Counterfeit());
+                {
+                    Height = 180,
+                    Width = 300,
+                    Title = "Добавление фальсификата",
+                },
+                data: new DataAccess.Models.Counterfeit());
 
                 OnPropertyChanged(nameof(Counterfeits));
             });
@@ -80,12 +80,12 @@ public class CounterfeitExplorerControlVM : ViewModelBase
             return _editCounterfeitObject ??= new RelayCommand(o =>
             {
                 _ds.ShowDialog<CounterfeitEditControl>(new WindowParameters
-                                                       {
-                                                           Height = 180,
-                                                           Width = 300,
-                                                           Title = "Добавление фальсификата",
-                                                       },
-                                                       data: SelectedCounterfeit);
+                {
+                    Height = 180,
+                    Width = 300,
+                    Title = "Добавление фальсификата",
+                },
+                data: SelectedCounterfeit);
 
                 OnPropertyChanged(nameof(Counterfeits));
             }, _ => SelectedCounterfeit != null);
@@ -115,6 +115,6 @@ public class CounterfeitExplorerControlVM : ViewModelBase
         }
     }
 
-#endregion
+    #endregion
 }
 

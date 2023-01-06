@@ -31,7 +31,6 @@ public class UserEditControlVM : ViewModelBase, IDataHolder, IResultHolder, IInt
 
     #endregion
 
-
     public object Data
     {
         get => _data;

@@ -17,18 +17,18 @@ public class CounterfeitEditControlVM : ViewModelBase, IDataHolder, IResultHolde
     private object _data;
 
 
-#region Functions
+    #region Functions
 
-#region Constructors
+    #region Constructors
 
     public CounterfeitEditControlVM(CounterfeitKBContext context)
     {
         _context = context;
     }
 
-#endregion
+    #endregion
 
-#endregion
+    #endregion
 
 
     public object Data
@@ -53,21 +53,11 @@ public class CounterfeitEditControlVM : ViewModelBase, IDataHolder, IResultHolde
     public object? Result { get; }
 
 
-#region Properties
+    #region Properties
 
-    private DataAccess.Models.Counterfeit _tempCounterfeit;
+    public DataAccess.Models.Counterfeit TempCounterfeit { get; set; }
 
-    public DataAccess.Models.Counterfeit TempCounterfeit
-    {
-        get => _tempCounterfeit;
-        set
-        {
-            _tempCounterfeit = value;
-            OnPropertyChanged();
-        }
-    }
-
-    public DataAccess.Models.Counterfeit EditingCounterfeit => (DataAccess.Models.Counterfeit) Data;
+    public DataAccess.Models.Counterfeit EditingCounterfeit => (DataAccess.Models.Counterfeit)Data;
 
     private readonly CounterfeitKBContext _context;
 
@@ -75,10 +65,10 @@ public class CounterfeitEditControlVM : ViewModelBase, IDataHolder, IResultHolde
 
     public List<DataAccess.Models.Counterfeit> Counterfeits => _context.Counterfeits.ToList();
 
-#endregion
+    #endregion
 
 
-#region Commands
+    #region Commands
 
     private RelayCommand _saveCounterfeit;
 
@@ -118,6 +108,6 @@ public class CounterfeitEditControlVM : ViewModelBase, IDataHolder, IResultHolde
         }
     }
 
-#endregion
+    #endregion
 }
 

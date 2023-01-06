@@ -21,6 +21,7 @@ namespace VKR.UserInterface;
 
 public class LoginControlVM : ViewModelBase
 {
+
     #region Functions
 
     #region Constructors
@@ -40,6 +41,7 @@ public class LoginControlVM : ViewModelBase
     #region Properties
 
     public User User { get; set; }
+    public User TempUser { get; set; }
     private readonly ResultDBContext _context;
     private readonly NavigationManager _navigationManager;
 
@@ -82,7 +84,8 @@ public class LoginControlVM : ViewModelBase
                         {
                             WindowState = WindowState.Maximized,
                             Title = " | Панель технолога | ",
-                        });
+                        },
+                        data: user);
                     }
                 }
                 catch (Exception ex)

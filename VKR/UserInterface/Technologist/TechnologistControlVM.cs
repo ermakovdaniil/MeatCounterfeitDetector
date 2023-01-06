@@ -13,6 +13,7 @@ using Microsoft.EntityFrameworkCore;
 using VKR.UserInterface.Admin.Abstract;
 using VKR.Utils;
 using VKR.Utils.Dialog;
+using VKR.Utils.Dialog.Abstract;
 using VKR.Utils.ImageAnalyzis;
 using VKR.Utils.IOService;
 using VKR.Utils.MainWindowControlChanger;
@@ -21,8 +22,9 @@ using VKR.Utils.MessageBoxService;
 
 namespace VKR.UserInterface.Technologist;
 
-public class TechnologistControlVM : ViewModelBase
+public class TechnologistControlVM : ViewModelBase, IDataHolder
 {
+    private object _data;
     private readonly IImageAnalyzer _analyzer;
     private readonly IFileDialogService _dialogService;
     private readonly IMessageBoxService _messageBoxService;
@@ -48,7 +50,6 @@ public class TechnologistControlVM : ViewModelBase
         _analyzer = analyzer;
         _dialogService = dialogService;
         _messageBoxService = messageBoxService;
-
     }
 
     private byte[] ImagePathToByteArray(string path)
@@ -66,6 +67,25 @@ public class TechnologistControlVM : ViewModelBase
 
     #endregion
 
+    public object Data
+    {
+        get => _data;
+        set
+        {
+            _data = value;
+
+            WorkingUser = new User
+            {
+                Id = TempUser.Id,
+                Login = TempUser.Login,
+                Password = TempUser.Password,
+                Name = TempUser.Name,
+                TypeId = TempUser.TypeId,
+            };
+
+            OnPropertyChanged(nameof(WorkingUser));
+        }
+    }
 
     #region Properties
 
@@ -74,7 +94,11 @@ public class TechnologistControlVM : ViewModelBase
 
     public List<Counterfeit> Counterfeits => _counterfeitsContext.Counterfeits.ToList();
     public Counterfeit SelectedCounterfeit { get; set; }
-    public User SelectedUser { get; set; }
+
+    public User WorkingUser { get; set; }
+
+    public User TempUser => (User)Data;
+
     public double PrecentOfSimilarity { get; set; }
     public string DisplayedImagePath { get; set; }
     public string ResultImagePath { get; set; }
@@ -116,7 +140,7 @@ public class TechnologistControlVM : ViewModelBase
             {
                 if (DisplayedImagePath != null)
                 {
-                    AnalysisResult = _analyzer.analyze(DisplayedImagePath, SelectedCounterfeit, PrecentOfSimilarity);
+                    AnalysisResult = _analyzer.analyze(DisplayedImagePath, WorkingUser, PrecentOfSimilarity);
                     // Вместо того чтобы обновлять все эти поля можно просто прибиндится к результату и его свойствам
                     // SearchResult = AnalysisResult.AnRes + AnalysisResult.Date
                     ResultImagePath = AnalysisResult.ResPath.Path;
@@ -152,7 +176,7 @@ public class TechnologistControlVM : ViewModelBase
                     {
                         var initialBitmap = ImagePathToByteArray(DisplayedImagePath);
                         var resBitmap = ImagePathToByteArray(ResultImagePath);
-                        FileSystem.ExportPdf(filePath, initialBitmap, resBitmap, SearchResult, AnalysisDate, SelectedUser.Name);
+                        FileSystem.ExportPdf(filePath, initialBitmap, resBitmap, SearchResult, AnalysisDate, TempUser.Name);
                     }
                 }
                 else

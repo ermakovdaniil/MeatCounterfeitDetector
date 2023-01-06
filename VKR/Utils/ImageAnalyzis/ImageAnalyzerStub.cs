@@ -8,7 +8,7 @@ namespace VKR.Utils.ImageAnalyzis;
 public class ImageAnalyzerStub : IImageAnalyzer
 {
     // наверное лучше стоит передавать битмап вместо пути, но тут хз
-    public Result analyze(string pathToOrig, Counterfeit counterfeit, double precentOfSimilarity)
+    public Result analyze(string pathToOrig, User user, double precentOfSimilarity)
     {
         var tempOrigPath = new OriginalPath
         {
@@ -24,7 +24,7 @@ public class ImageAnalyzerStub : IImageAnalyzer
         var result = new Result
         {
             Date = DateTime.Now.ToString(),
-            User = { Name = "test" },
+            User = user,
             AnRes = "Обнаружен фальсификат: Каррагинан.",
             OrigPath = tempOrigPath,
             ResPath = tempResPath,

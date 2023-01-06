@@ -2,6 +2,7 @@
 
 using VKR.UserInterface;
 using VKR.Utils.Dialog;
+using VKR.Utils.Dialog.Abstract;
 using VKR.Utils.FrameworkFactory;
 
 
@@ -29,6 +30,20 @@ public class NavigationManager
         var uc = _userControlFactory.CreateUserControl<UC>(null);
         _mainWindowVm.Parameters = wp;
         _mainWindowVm.SetNewContent(uc);
+    }
+
+    public void Navigate<UC>(WindowParameters wp, object data = null) where UC : UserControl
+    {
+        var uc = _userControlFactory.CreateUserControl<UC>(null);
+        _mainWindowVm.Parameters = wp;
+        _mainWindowVm.SetNewContent(uc);
+
+        var viewModel = uc.DataContext;
+
+        if (viewModel is IDataHolder dataHolder)
+        {
+            dataHolder.Data = data;
+        }
     }
 }
 
