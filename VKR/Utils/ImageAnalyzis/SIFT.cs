@@ -31,14 +31,16 @@ namespace VKR.Utils.ImageAnalyzis
             {
                 SIFT sift = new SIFT();
                 //extract features from the object image
-                UMat modelDescriptors = new UMat();
+                //UMat modelDescriptors = new UMat();
+                Mat modelDescriptors = new Mat();
                 // БЫЛО uModelImage
                 sift.DetectAndCompute(modelImage, null, modelKeyPoints, modelDescriptors, false);
 
                 watch = Stopwatch.StartNew();
 
                 // extract features from the observed image
-                UMat observedDescriptors = new UMat();
+                //UMat observedDescriptors = new UMat();
+                Mat observedDescriptors = new Mat();
                 // БЫЛО uObservedImage
                 sift.DetectAndCompute(observedImage, null, observedKeyPoints, observedDescriptors, false);
                 BFMatcher matcher = new BFMatcher(DistanceType.L2);
@@ -74,12 +76,12 @@ namespace VKR.Utils.ImageAnalyzis
             {
                 Mat mask;
                 FindMatch(modelImage, observedImage, out matchTime, out modelKeyPoints, out observedKeyPoints, matches,
-                   out mask, out homography);
+                    out mask, out homography);
 
                 //Draw the matched keypoints
                 Mat result = new Mat();
                 Features2DToolbox.DrawMatches(modelImage, modelKeyPoints, observedImage, observedKeyPoints,
-                   matches, result, new MCvScalar(255, 255, 255), new MCvScalar(255, 255, 255), mask);
+                    matches, result, new MCvScalar(255, 255, 255), new MCvScalar(255, 255, 255), mask);
 
                 #region draw the projected region on the image
 
@@ -89,10 +91,10 @@ namespace VKR.Utils.ImageAnalyzis
                     Rectangle rect = new Rectangle(Point.Empty, modelImage.Size);
                     PointF[] pts = new PointF[]
                     {
-                  new PointF(rect.Left, rect.Bottom),
-                  new PointF(rect.Right, rect.Bottom),
-                  new PointF(rect.Right, rect.Top),
-                  new PointF(rect.Left, rect.Top)
+                        new PointF(rect.Left, rect.Bottom),
+                        new PointF(rect.Right, rect.Bottom),
+                        new PointF(rect.Right, rect.Top),
+                        new PointF(rect.Left, rect.Top)
                     };
                     pts = CvInvoke.PerspectiveTransform(pts, homography);
 
