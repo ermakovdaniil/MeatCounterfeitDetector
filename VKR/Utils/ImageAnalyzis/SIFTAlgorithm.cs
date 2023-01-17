@@ -13,7 +13,7 @@ using Emgu.CV.Util;
 
 namespace VKR.Utils.ImageAnalyzis
 {
-    public static class SIFTT
+    public static class SIFTAlgorithm
     {
         public static void FindMatch(Mat modelImage, Mat observedImage, out long matchTime, out VectorOfKeyPoint modelKeyPoints, out VectorOfKeyPoint observedKeyPoints, VectorOfVectorOfDMatch matches, out Mat mask, out Mat homography)
         {
