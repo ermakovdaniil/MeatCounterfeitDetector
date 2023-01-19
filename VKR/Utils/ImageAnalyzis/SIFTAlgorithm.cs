@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
-using System.Runtime.InteropServices;
 
 using Emgu.CV;
 using Emgu.CV.CvEnum;
@@ -15,7 +13,7 @@ namespace VKR.Utils.ImageAnalyzis
 {
     public static class SIFTAlgorithm
     {
-        public static void FindMatch(Mat modelImage, Mat observedImage, out long matchTime, out VectorOfKeyPoint modelKeyPoints, out VectorOfKeyPoint observedKeyPoints, VectorOfVectorOfDMatch matches, out Mat mask, out Mat homography)
+        public static void FindMatch(Mat modelImage, Mat observedImage, out double matchTime, out VectorOfKeyPoint modelKeyPoints, out VectorOfKeyPoint observedKeyPoints, VectorOfVectorOfDMatch matches, out Mat mask, out Mat homography)
         {
             int k = 2;
             double uniquenessThreshold = 0.8;
@@ -60,15 +58,15 @@ namespace VKR.Utils.ImageAnalyzis
                         homography = Features2DToolbox.GetHomographyMatrixFromMatchedFeatures(modelKeyPoints,
                            observedKeyPoints, matches, mask, 2);
                 }
-
                 watch.Stop();
-
             }
             matchTime = watch.ElapsedMilliseconds;
         }
 
-        public static Mat Draw(Mat modelImage, Mat observedImage, out long matchTime)
+        public static Mat Draw(Mat modelImage, Mat observedImage, out double matchTime, out double score)
         {
+            // TODO: Заглушка
+            score = 0;
             Mat homography;
             VectorOfKeyPoint modelKeyPoints;
             VectorOfKeyPoint observedKeyPoints;

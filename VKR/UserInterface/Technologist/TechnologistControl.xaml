@@ -75,7 +75,7 @@
 
             <hc:NumericUpDown ValueFormat="N2" Grid.Column="1" 
                               FontSize="17" Height="70" Width="180"
-                              Minimum="0.01" Maximum="100" Value="{Binding PrecentOfSimilarity}" Increment="0.01"
+                              Minimum="0.01" Maximum="100" Value="{Binding PercentOfSimilarity}" Increment="0.01"
                               hc:InfoElement.TitleWidth="140" 
                               hc:InfoElement.Title="Процент сходства" 
                               hc:InfoElement.TitlePlacement="Top"

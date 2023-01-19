@@ -58,7 +58,7 @@ public partial class App : Application
         builder.RegisterType<UserControlFactory>().AsSelf();
         builder.RegisterType<DialogService>().AsSelf();
 
-        builder.RegisterType<ImageAnalyzerStub>().As<IImageAnalyzer>();
+        builder.RegisterType<ImageAnalyzer>().As<IImageAnalyzer>();
         builder.RegisterType<FileDialogService>().As<IFileDialogService>();
         builder.RegisterType<HandyMessageBoxService>().As<IMessageBoxService>();
 

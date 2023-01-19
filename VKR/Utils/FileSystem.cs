@@ -1,4 +1,5 @@
-﻿using iText.IO.Font;
+﻿using DataAccess.Models;
+using iText.IO.Font;
 using iText.IO.Image;
 using iText.Kernel.Font;
 using iText.Kernel.Geom;
@@ -47,7 +48,7 @@ internal static class FileSystem
         image.Scale(scaler, scaler);
     }
 
-    public static void ExportPdf(string path, byte[] initialBitmap, byte[] resBitMap, string result, string dateAnalysis, string companyDate)
+    public static void ExportPdf(string path, byte[] initialBitmap, byte[] resBitMap, Result result)
     {
         var writer = new PdfWriter(path);
         var pdf = new PdfDocument(writer);
@@ -80,11 +81,13 @@ internal static class FileSystem
         //document.Add(new AreaBreak());
 
         document.Add(new Paragraph("Результат анализа:"));
-        document.Add(new Paragraph(result));
-        document.Add(new Paragraph("Дата проведения анализа:"));
-        document.Add(new Paragraph(dateAnalysis));
-        document.Add(new Paragraph("Предприятие, которое проводило анализ:"));
-        document.Add(new Paragraph(companyDate));
+
+        string resultToString = result.AnRes + "\n" +
+                                "Дата проведения анализа: " + result.Date + "\n" +
+                                "Время проведения: " + result.PercentOfSimilarity + " мс\n" +
+                                "Процент сходства: " + result.PercentOfSimilarity + "%\n" +
+                                "Пользователь, который проводил анализ: " + result.User.Name;
+        document.Add(new Paragraph(resultToString));
         document.Close();
     }
 }

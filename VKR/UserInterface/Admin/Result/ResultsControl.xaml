@@ -24,6 +24,8 @@
                 <DataGridTextColumn Header="Дата" Binding="{Binding Date}" />
                 <DataGridTextColumn Header="Сотрудник, проводивший анализ" Binding="{Binding User.Name}" />
                 <DataGridTextColumn Header="Результат анализа" Binding="{Binding AnRes}" />
+                <DataGridTextColumn Header="Время анализа, мс" Binding="{Binding Time}" />
+                <DataGridTextColumn Header="Процент сходства, %" Binding="{Binding PercentOfSimilarity}" />
                 <DataGridTemplateColumn Header="            Оригинальное изображение" Width="500">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>

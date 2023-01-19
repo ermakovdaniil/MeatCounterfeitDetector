@@ -65,6 +65,16 @@ public class TechnologistControlVM : ViewModelBase, IDataHolder
         }
     }
 
+    private string CreateSearchResult(Result AnalysisResult)
+    {
+        string searchResult;
+        searchResult = AnalysisResult.AnRes + "\n" +
+                       "Дата проведения анализа: " + AnalysisResult.Date + "\n" +
+                       "Время проведения: " + AnalysisResult.PercentOfSimilarity + " мс\n" +
+                       "Процент сходства: " + AnalysisResult.PercentOfSimilarity + "%";
+        return searchResult;
+    }
+
     #endregion
 
     public object Data
@@ -99,11 +109,10 @@ public class TechnologistControlVM : ViewModelBase, IDataHolder
 
     public User TempUser => (User)Data;
 
-    public double PrecentOfSimilarity { get; set; }
+    public double PercentOfSimilarity { get; set; }
     public string DisplayedImagePath { get; set; }
     public string ResultImagePath { get; set; }
     public string SearchResult { get; set; }
-    public string AnalysisDate { get; set; }
     public Result AnalysisResult { get; set; }
 
     #endregion
@@ -140,13 +149,20 @@ public class TechnologistControlVM : ViewModelBase, IDataHolder
             {
                 if (DisplayedImagePath != null)
                 {
-                    AnalysisResult = _analyzer.analyze(DisplayedImagePath, WorkingUser, PrecentOfSimilarity);
-                    // Вместо того чтобы обновлять все эти поля можно просто прибиндится к результату и его свойствам
-                    // SearchResult = AnalysisResult.AnRes + AnalysisResult.Date
+                    List<CounterfeitPath> counterfeitPaths = new List<CounterfeitPath>();
+                    if (SelectedCounterfeit == null)
+                    {
+                        counterfeitPaths = _counterfeitsContext.CounterfeitPaths.ToList();
+                    }
+                    else
+                    {
+
+                        counterfeitPaths = _counterfeitsContext.CounterfeitPaths.Include(c => c.Counterfeit).Where(c => c.CounterfeitId == SelectedCounterfeit.Id).ToList();
+                    }
+
+                    AnalysisResult = _analyzer.RunAnalysis(DisplayedImagePath, counterfeitPaths, PercentOfSimilarity, WorkingUser);
                     ResultImagePath = AnalysisResult.ResPath.Path;
-                    SearchResult = AnalysisResult.AnRes;
-                    AnalysisDate = DateTime.Now.ToString();
-                    //
+                    SearchResult = CreateSearchResult(AnalysisResult);
                     _resultContext.Results.Add(AnalysisResult);
                     _resultContext.SaveChanges();
                 }
@@ -167,7 +183,7 @@ public class TechnologistControlVM : ViewModelBase, IDataHolder
         {
             return _createFile ??= new RelayCommand(_ =>
             {
-                if (SearchResult != "")
+                if (AnalysisResult != null)
                 {
                     var filename = "АНАЛИЗ_" + DateTime.Now.ToString().Replace(':', '.').Replace('/', '.');
                     var filePath = _dialogService.SaveFileDialog(filename, ext: ".pdf");
@@ -176,7 +192,7 @@ public class TechnologistControlVM : ViewModelBase, IDataHolder
                     {
                         var initialBitmap = ImagePathToByteArray(DisplayedImagePath);
                         var resBitmap = ImagePathToByteArray(ResultImagePath);
-                        FileSystem.ExportPdf(filePath, initialBitmap, resBitmap, SearchResult, AnalysisDate, TempUser.Name);
+                        FileSystem.ExportPdf(filePath, initialBitmap, resBitmap, AnalysisResult);
                     }
                 }
                 else
