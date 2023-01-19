@@ -66,7 +66,7 @@ namespace VKR.Utils.ImageAnalyzis
         public static Mat Draw(Mat modelImage, Mat observedImage, out double matchTime, out double score)
         {
             // TODO: Заглушка
-            score = 0;
+            score = 0.02 ;
             Mat homography;
             VectorOfKeyPoint modelKeyPoints;
             VectorOfKeyPoint observedKeyPoints;

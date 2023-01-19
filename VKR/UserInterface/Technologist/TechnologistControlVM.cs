@@ -128,7 +128,7 @@ public class TechnologistControlVM : ViewModelBase, IDataHolder
         {
             return _changePathImage ??= new RelayCommand(_ =>
             {
-                var path = _dialogService.OpenFileDialog(filter: "Pictures (*.jpg;*.gif;*.png)|*.jpg;*.gif;*.png", ext: ".png");
+                var path = _dialogService.OpenFileDialog(filter: "Pictures (*.jpg;*.jpeg;*.gif;*.png)|*.jpg;*.gif;*.png", ext: ".jpg");
 
                 if (path != "")
                 {
@@ -185,7 +185,7 @@ public class TechnologistControlVM : ViewModelBase, IDataHolder
             {
                 if (AnalysisResult != null)
                 {
-                    var filename = "АНАЛИЗ_" + DateTime.Now.ToString().Replace(':', '.').Replace('/', '.');
+                    var filename = "АНАЛИЗ_" + DateTime.Now.ToString("dd.mm.yyyy_hh.mm.ss"); ;
                     var filePath = _dialogService.SaveFileDialog(filename, ext: ".pdf");
 
                     if (!string.IsNullOrEmpty(filePath))

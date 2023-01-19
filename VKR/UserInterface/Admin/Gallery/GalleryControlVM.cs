@@ -18,9 +18,9 @@ namespace VKR.UserInterface.Admin.Gallery;
 
 public class GalleryControlVM : ViewModelBase
 {
-#region Functions
+    #region Functions
 
-#region Constructors
+    #region Constructors
 
     public GalleryControlVM(CounterfeitKBContext context, DialogService ds)
     {
@@ -29,12 +29,12 @@ public class GalleryControlVM : ViewModelBase
         _ds = ds;
     }
 
-#endregion
+    #endregion
 
-#endregion
+    #endregion
 
 
-#region Properties
+    #region Properties
 
     private readonly DialogService _ds;
 
@@ -45,10 +45,10 @@ public class GalleryControlVM : ViewModelBase
 
     public List<DataAccess.Models.Counterfeit> Counterfeits => _context.Counterfeits.ToList();
 
-#endregion
+    #endregion
 
 
-#region Commands
+    #region Commands
 
     private RelayCommand _addCounterfeitPath;
 
@@ -62,13 +62,12 @@ public class GalleryControlVM : ViewModelBase
             return _addCounterfeitPath ??= new RelayCommand(o =>
             {
                 _ds.ShowDialog<GalleryEditControl>(new WindowParameters
-                                                   {
-                                                       Height = 280,
-                                                       Width = 500,
-                                                       Title = "Добавление изображения фальсификата",
-                                                   },
-                                                   data: new CounterfeitPath());
-
+                {
+                    Height = 280,
+                    Width = 500,
+                    Title = "Добавление изображения фальсификата",
+                },
+                data: new CounterfeitPath());
                 OnPropertyChanged(nameof(CounterfeitPaths));
             });
         }
@@ -86,13 +85,12 @@ public class GalleryControlVM : ViewModelBase
             return _editCounterfeitPath ??= new RelayCommand(o =>
             {
                 _ds.ShowDialog<GalleryEditControl>(new WindowParameters
-                                                   {
-                                                       Height = 280,
-                                                       Width = 500,
-                                                       Title = "Редактирование изображения фальсификата",
-                                                   },
-                                                   data: SelectedCounterfeitPath);
-
+                {
+                    Height = 280,
+                    Width = 500,
+                    Title = "Редактирование изображения фальсификата",
+                },
+                data: SelectedCounterfeitPath);
                 OnPropertyChanged(nameof(CounterfeitPaths));
             }, _ => SelectedCounterfeitPath != null);
         }
@@ -121,6 +119,6 @@ public class GalleryControlVM : ViewModelBase
         }
     }
 
-#endregion
+    #endregion
 }
 

@@ -58,7 +58,7 @@ public class ImageAnalyzer : IImageAnalyzer
         string anRes = "";
         string resPath = "";
         double matchTime = 0;
-        double score = 0;
+        double score = 0.02;
 
         for (int i = 0; i < counterfeitPaths.Count; i++)
         {
@@ -81,21 +81,23 @@ public class ImageAnalyzer : IImageAnalyzer
     private void AnalyzeImage(ref string pathToOrig, string pathToCounterfeit, out string pathToResult, out double matchTime, out double score, double percentOfSimilarity)
     {
         Mat origMat = CvInvoke.Imread(pathToOrig, Emgu.CV.CvEnum.ImreadModes.AnyColor);
+        pathToCounterfeit = @"..\..\..\counterfeits\" + pathToCounterfeit;
         Mat counterfeitMat = CvInvoke.Imread(pathToCounterfeit, Emgu.CV.CvEnum.ImreadModes.AnyColor);
-        var res = SIFTAlgorithm.Draw(origMat, counterfeitMat, out matchTime, out score);
+        Mat resMat = SIFTAlgorithm.Draw(origMat, counterfeitMat, out matchTime, out score);
+        
         Image<Bgr, Byte> OrigImage = origMat.ToImage<Bgr, Byte>();
-        Image<Bgr, Byte> ResultImage = res.ToImage<Bgr, Byte>();
+        Image<Bgr, Byte> ResultImage = resMat.ToImage<Bgr, Byte>();
         pathToResult = "";
         if (score > percentOfSimilarity)
         {
-            var date = DateTime.Now.ToString().Replace(':', '.').Replace('/', '.');
-            var filename = "orig_" + date;
-            pathToOrig = @"..\..\resources\origImages\" + filename;
-            OrigImage.Save(pathToOrig);
+            var date = DateTime.Now.ToString("dd.mm.yyyy_hh.mm.ss");
+            var filename = "orig_" + date + ".jpg";
+            pathToOrig = filename;
+            origMat.Save(@"..\..\..\resources\origImages\" + pathToOrig);
 
-            filename = "res_" + date;
-            pathToResult = @"..\..\resources\resImages\" + filename;
-            ResultImage.Save(pathToResult);
+            filename = "res_" + date + ".jpg";
+            pathToResult = filename;
+            resMat.Save(@"..\..\..\resources\resImages\" + pathToResult);
         }
         //SIFT siftCPU = new SIFT();
         //VectorOfKeyPoint modelKeyPoints = new VectorOfKeyPoint();
