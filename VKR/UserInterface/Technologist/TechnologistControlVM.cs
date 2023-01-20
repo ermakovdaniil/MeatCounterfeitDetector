@@ -70,7 +70,7 @@ public class TechnologistControlVM : ViewModelBase, IDataHolder
         string searchResult;
         searchResult = AnalysisResult.AnRes + "\n" +
                        "Дата проведения анализа: " + AnalysisResult.Date + "\n" +
-                       "Время проведения: " + AnalysisResult.PercentOfSimilarity + " мс\n" +
+                       "Время проведения: " + AnalysisResult.Time + " мс\n" +
                        "Процент сходства: " + AnalysisResult.PercentOfSimilarity + "%";
         return searchResult;
     }
@@ -161,7 +161,11 @@ public class TechnologistControlVM : ViewModelBase, IDataHolder
                     }
 
                     AnalysisResult = _analyzer.RunAnalysis(DisplayedImagePath, counterfeitPaths, PercentOfSimilarity, WorkingUser);
-                    ResultImagePath = AnalysisResult.ResPath.Path;
+
+                    string pathToBase = Directory.GetCurrentDirectory();
+                    string pathToResults = @"..\..\..\resources\resImages\";
+                    string combinedPath = Path.Combine(pathToBase, pathToResults, AnalysisResult.ResPath.Path);
+                    ResultImagePath = combinedPath;
                     SearchResult = CreateSearchResult(AnalysisResult);
                     //_resultContext.Results.Add(AnalysisResult);
                     //_resultContext.SaveChanges();

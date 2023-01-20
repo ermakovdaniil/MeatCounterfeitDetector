@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Resources;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media.Imaging;
@@ -62,10 +63,11 @@ public class ImageAnalyzer : IImageAnalyzer
         string resPath = "";
         double matchTime = 0;
         double score = 0.02;
-
+        double tempTime = 0;
         for (int i = 0; i < counterfeitPaths.Count; i++)
         {
-            AnalyzeImage(ref pathToOrig, counterfeitPaths[i].ImagePath, out resPath, out matchTime, out score, percentOfSimilarity);
+            AnalyzeImage(ref pathToOrig, counterfeitPaths[i].ImagePath, out resPath, out tempTime, out score, percentOfSimilarity);
+            matchTime += tempTime;
             if(score > percentOfSimilarity)
             {
                 anRes = "Фальсификат обнаружен: " + counterfeitPaths[i].Counterfeit.Name;
@@ -89,9 +91,9 @@ public class ImageAnalyzer : IImageAnalyzer
         Mat origMat = CvInvoke.Imread(pathToOrig, Emgu.CV.CvEnum.ImreadModes.AnyColor);
         Mat counterfeitMat = CvInvoke.Imread(combinedPath, Emgu.CV.CvEnum.ImreadModes.AnyColor);
         Mat resMat = SIFTAlgorithm.Draw(origMat, counterfeitMat, out matchTime, out score);
-        
-        Image<Bgr, Byte> OrigImage = origMat.ToImage<Bgr, Byte>();
-        Image<Bgr, Byte> ResultImage = resMat.ToImage<Bgr, Byte>();
+
+        //Image<Bgr, Byte> OrigImage = origMat.ToImage<Bgr, Byte>();
+        //Image<Bgr, Byte> ResultImage = resMat.ToImage<Bgr, Byte>();
         pathToResult = "";
         if (score > percentOfSimilarity)
         {
@@ -103,20 +105,22 @@ public class ImageAnalyzer : IImageAnalyzer
             filename = "res_" + date + ".jpg";
             pathToResult = filename;
             resMat.Save(@"..\..\..\resources\resImages\" + pathToResult);
-
+            
             Image origImage = new Image();
-            //var uriSource = new Uri(@"/WpfApplication1;component/Images/Untitled.png", UriKind.Relative);
-            origImage.Source = new BitmapImage(new Uri("pack://application:,,,/VKR;component/resources/origImages/" + pathToOrig));
+            var uriSource = new Uri(@"/VKR;component/resources/origImages/" + pathToOrig, UriKind.Relative);
+            origImage.Source = new BitmapImage(uriSource);
+
+            IResourceWriter writer = new ResourceWriter(@"..\..\..\resources\origImages\" + pathToOrig);
+            writer.AddResource(@"..\..\..\resources\origImages\" + pathToOrig, origImage);
+            writer.Close();
 
             Image resImage = new Image();
-            //uriSource = new Uri(@"/WpfApplication1;component/Images/Untitled.png", UriKind.Relative);
-            resImage.Source = new BitmapImage(new Uri("pack://application:,,,/VKR;component/resources/resImages/" + pathToResult));
+            uriSource = new Uri(@"/VKR;component/resources/resImages/" + pathToResult, UriKind.Relative);
+            resImage.Source = new BitmapImage(uriSource);
 
-            //ResourceDictionary myResourceDictionary = new ResourceDictionary();
-            //myResourceDictionary.Source = new Uri(@"resources\origImages\" + pathToOrig, UriKind.Relative);
-            //Application.Current.Resources.MergedDictionaries.Add(myResourceDictionary);
-            //myResourceDictionary.Source = new Uri(@"resources\resImages\" + pathToResult, UriKind.Relative);
-            //Application.Current.Resources.MergedDictionaries.Add(myResourceDictionary);
+            writer = new ResourceWriter(@"..\..\..\resources\resImages\" + pathToResult);
+            writer.AddResource(@"..\..\..\resources\resImages\" + pathToResult, resImage);
+            writer.Close();
         }
     }
 

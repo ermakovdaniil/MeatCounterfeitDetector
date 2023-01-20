@@ -84,7 +84,7 @@ internal static class FileSystem
 
         string resultToString = result.AnRes + "\n" +
                                 "Дата проведения анализа: " + result.Date + "\n" +
-                                "Время проведения: " + result.PercentOfSimilarity + " мс\n" +
+                                "Время проведения: " + result.Time + " мс\n" +
                                 "Процент сходства: " + result.PercentOfSimilarity + "%\n" +
                                 "Пользователь, который проводил анализ: " + result.User.Name;
         document.Add(new Paragraph(resultToString));
