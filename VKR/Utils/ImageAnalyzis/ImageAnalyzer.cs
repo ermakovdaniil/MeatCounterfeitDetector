@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Media.Imaging;
 using DataAccess.Models;
 using Emgu.CV;
 using Emgu.CV.Features2D;
@@ -81,9 +83,11 @@ public class ImageAnalyzer : IImageAnalyzer
 
     private void AnalyzeImage(ref string pathToOrig, string pathToCounterfeit, out string pathToResult, out double matchTime, out double score, double percentOfSimilarity)
     {
+        string pathToBase = Directory.GetCurrentDirectory();
+        string pathToCounterfeits = @"..\..\..\resources\counterfeits\";
+        string combinedPath = Path.Combine(pathToBase, pathToCounterfeits, pathToCounterfeit);
         Mat origMat = CvInvoke.Imread(pathToOrig, Emgu.CV.CvEnum.ImreadModes.AnyColor);
-        pathToCounterfeit = @"..\..\..\counterfeits\" + pathToCounterfeit;
-        Mat counterfeitMat = CvInvoke.Imread(pathToCounterfeit, Emgu.CV.CvEnum.ImreadModes.AnyColor);
+        Mat counterfeitMat = CvInvoke.Imread(combinedPath, Emgu.CV.CvEnum.ImreadModes.AnyColor);
         Mat resMat = SIFTAlgorithm.Draw(origMat, counterfeitMat, out matchTime, out score);
         
         Image<Bgr, Byte> OrigImage = origMat.ToImage<Bgr, Byte>();
@@ -100,18 +104,20 @@ public class ImageAnalyzer : IImageAnalyzer
             pathToResult = filename;
             resMat.Save(@"..\..\..\resources\resImages\" + pathToResult);
 
-            ResourceDictionary myResourceDictionary = new ResourceDictionary();
-            myResourceDictionary.Source = new Uri(@"resources\origImages\" + pathToOrig, UriKind.Relative);
-            Application.Current.Resources.MergedDictionaries.Add(myResourceDictionary);
-            myResourceDictionary.Source = new Uri(@"resources\resImages\" + pathToResult, UriKind.Relative);
-            Application.Current.Resources.MergedDictionaries.Add(myResourceDictionary);
+            Image origImage = new Image();
+            //var uriSource = new Uri(@"/WpfApplication1;component/Images/Untitled.png", UriKind.Relative);
+            origImage.Source = new BitmapImage(new Uri("pack://application:,,,/VKR;component/resources/origImages/" + pathToOrig));
+
+            Image resImage = new Image();
+            //uriSource = new Uri(@"/WpfApplication1;component/Images/Untitled.png", UriKind.Relative);
+            resImage.Source = new BitmapImage(new Uri("pack://application:,,,/VKR;component/resources/resImages/" + pathToResult));
+
+            //ResourceDictionary myResourceDictionary = new ResourceDictionary();
+            //myResourceDictionary.Source = new Uri(@"resources\origImages\" + pathToOrig, UriKind.Relative);
+            //Application.Current.Resources.MergedDictionaries.Add(myResourceDictionary);
+            //myResourceDictionary.Source = new Uri(@"resources\resImages\" + pathToResult, UriKind.Relative);
+            //Application.Current.Resources.MergedDictionaries.Add(myResourceDictionary);
         }
-        //SIFT siftCPU = new SIFT();
-        //VectorOfKeyPoint modelKeyPoints = new VectorOfKeyPoint();
-        //MKeyPoint[] mKeyPoints = siftCPU.DetectKeyPoints(modelImage, null);
-        //modelKeyPoints.Push(mKeyPoints);
-        //ImageFeature<float>[] reulst = siftCPU.ComputeDescriptors(modelImage, null, mKeyPoints);
-        //Image<Bgr, Byte> image = Features2DToolbox.DrawKeypoints(modelImage, modelKeyPoints, new Bgr(Color.Red), Features2DToolbox.KeypointDrawType.DEFAULT);
     }
 
     private Result CreateResult(string pathToOrig, string pathToRes, string anRes, User user, double time, double score)
