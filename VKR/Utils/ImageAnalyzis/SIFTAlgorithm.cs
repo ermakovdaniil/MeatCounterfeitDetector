@@ -65,8 +65,13 @@ namespace VKR.Utils.ImageAnalyzis
 
         public static Mat Draw(Mat modelImage, Mat observedImage, out double matchTime, out double score)
         {
-            // TODO: Заглушка
-            score = 0.02 ;
+            Mat scoreImg = new Mat();
+            double minVal = Double.MaxValue;
+            score = Double.MinValue;
+            var minLoc = new Point();
+            var maxLoc = new Point();
+            CvInvoke.MatchTemplate(modelImage, observedImage, scoreImg, TemplateMatchingType.CcoeffNormed);
+            CvInvoke.MinMaxLoc(scoreImg, ref minVal, ref score, ref minLoc, ref maxLoc);
             Mat homography;
             VectorOfKeyPoint modelKeyPoints;
             VectorOfKeyPoint observedKeyPoints;

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Windows;
 using DataAccess.Models;
 using Emgu.CV;
 using Emgu.CV.Features2D;
@@ -98,6 +99,12 @@ public class ImageAnalyzer : IImageAnalyzer
             filename = "res_" + date + ".jpg";
             pathToResult = filename;
             resMat.Save(@"..\..\..\resources\resImages\" + pathToResult);
+
+            ResourceDictionary myResourceDictionary = new ResourceDictionary();
+            myResourceDictionary.Source = new Uri(@"resources\origImages\" + pathToOrig, UriKind.Relative);
+            Application.Current.Resources.MergedDictionaries.Add(myResourceDictionary);
+            myResourceDictionary.Source = new Uri(@"resources\resImages\" + pathToResult, UriKind.Relative);
+            Application.Current.Resources.MergedDictionaries.Add(myResourceDictionary);
         }
         //SIFT siftCPU = new SIFT();
         //VectorOfKeyPoint modelKeyPoints = new VectorOfKeyPoint();

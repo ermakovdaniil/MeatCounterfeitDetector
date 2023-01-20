@@ -163,8 +163,8 @@ public class TechnologistControlVM : ViewModelBase, IDataHolder
                     AnalysisResult = _analyzer.RunAnalysis(DisplayedImagePath, counterfeitPaths, PercentOfSimilarity, WorkingUser);
                     ResultImagePath = AnalysisResult.ResPath.Path;
                     SearchResult = CreateSearchResult(AnalysisResult);
-                    _resultContext.Results.Add(AnalysisResult);
-                    _resultContext.SaveChanges();
+                    //_resultContext.Results.Add(AnalysisResult);
+                    //_resultContext.SaveChanges();
                 }
                 else
                 {
