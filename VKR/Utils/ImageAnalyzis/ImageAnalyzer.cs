@@ -62,7 +62,7 @@ public class ImageAnalyzer : IImageAnalyzer
         string anRes = "";
         string resPath = "";
         double matchTime = 0;
-        double score = 0.02;
+        double score = 0;
         double tempTime = 0;
         for (int i = 0; i < counterfeitPaths.Count; i++)
         {
@@ -75,6 +75,7 @@ public class ImageAnalyzer : IImageAnalyzer
             }
             else
             {
+                score = 0;
                 anRes = "Фальсификат не обнаружен";
             }
         }
@@ -106,21 +107,21 @@ public class ImageAnalyzer : IImageAnalyzer
             pathToResult = filename;
             resMat.Save(@"..\..\..\resources\resImages\" + pathToResult);
             
-            Image origImage = new Image();
-            var uriSource = new Uri(@"/VKR;component/resources/origImages/" + pathToOrig, UriKind.Relative);
-            origImage.Source = new BitmapImage(uriSource);
+            //Image origImage = new Image();
+            //var uriSource = new Uri(@"/VKR;component/resources/origImages/" + pathToOrig, UriKind.Relative);
+            //origImage.Source = new BitmapImage(uriSource);
 
-            IResourceWriter writer = new ResourceWriter(@"..\..\..\resources\origImages\" + pathToOrig);
-            writer.AddResource(@"..\..\..\resources\origImages\" + pathToOrig, origImage);
-            writer.Close();
+            //IResourceWriter writer = new ResourceWriter(@"..\..\..\resources\origImages\" + pathToOrig);
+            //writer.AddResource(@"..\..\..\resources\origImages\" + pathToOrig, origImage);
+            //writer.Close();
 
-            Image resImage = new Image();
-            uriSource = new Uri(@"/VKR;component/resources/resImages/" + pathToResult, UriKind.Relative);
-            resImage.Source = new BitmapImage(uriSource);
+            //Image resImage = new Image();
+            //uriSource = new Uri(@"/VKR;component/resources/resImages/" + pathToResult, UriKind.Relative);
+            //resImage.Source = new BitmapImage(uriSource);
 
-            writer = new ResourceWriter(@"..\..\..\resources\resImages\" + pathToResult);
-            writer.AddResource(@"..\..\..\resources\resImages\" + pathToResult, resImage);
-            writer.Close();
+            //writer = new ResourceWriter(@"..\..\..\resources\resImages\" + pathToResult);
+            //writer.AddResource(@"..\..\..\resources\resImages\" + pathToResult, resImage);
+            //writer.Close();
         }
     }
 

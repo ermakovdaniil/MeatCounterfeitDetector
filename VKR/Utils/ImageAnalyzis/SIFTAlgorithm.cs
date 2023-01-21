@@ -72,6 +72,9 @@ namespace VKR.Utils.ImageAnalyzis
             var maxLoc = new Point();
             CvInvoke.MatchTemplate(modelImage, observedImage, scoreImg, TemplateMatchingType.CcoeffNormed);
             CvInvoke.MinMaxLoc(scoreImg, ref minVal, ref score, ref minLoc, ref maxLoc);
+            score *= 100;
+            score = Math.Round(score, 2);
+
             Mat homography;
             VectorOfKeyPoint modelKeyPoints;
             VectorOfKeyPoint observedKeyPoints;
@@ -84,7 +87,7 @@ namespace VKR.Utils.ImageAnalyzis
                 //Draw the matched keypoints
                 Mat result = new Mat();
                 Features2DToolbox.DrawMatches(modelImage, modelKeyPoints, observedImage, observedKeyPoints,
-                    matches, result, new MCvScalar(255, 255, 255), new MCvScalar(255, 255, 255), mask);
+                    matches, result, new MCvScalar(0, 0, 255), new MCvScalar(255, 255, 255), mask, Features2DToolbox.KeypointDrawType.NotDrawSinglePoints);
 
                 #region draw the projected region on the image
 
@@ -104,7 +107,7 @@ namespace VKR.Utils.ImageAnalyzis
                     Point[] points = Array.ConvertAll<PointF, Point>(pts, Point.Round);
                     using (VectorOfPoint vp = new VectorOfPoint(points))
                     {
-                        CvInvoke.Polylines(result, vp, true, new MCvScalar(255, 0, 0, 255), 5);
+                        CvInvoke.Polylines(result, vp, true, new MCvScalar(255, 0, 0, 255), 0);
                     }
 
                 }
