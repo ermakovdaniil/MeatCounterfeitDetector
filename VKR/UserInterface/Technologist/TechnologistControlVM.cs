@@ -77,6 +77,13 @@ public class TechnologistControlVM : ViewModelBase, IDataHolder
 
     #endregion
 
+
+    #region Properties
+
+    private readonly ResultDBContext _resultContext;
+    private readonly CounterfeitKBContext _counterfeitsContext;
+    public List<Counterfeit> Counterfeits => _counterfeitsContext.Counterfeits.ToList();
+    public Counterfeit SelectedCounterfeit { get; set; }
     public object Data
     {
         get => _data;
@@ -96,19 +103,8 @@ public class TechnologistControlVM : ViewModelBase, IDataHolder
             OnPropertyChanged(nameof(WorkingUser));
         }
     }
-
-    #region Properties
-
-    private readonly ResultDBContext _resultContext;
-    private readonly CounterfeitKBContext _counterfeitsContext;
-
-    public List<Counterfeit> Counterfeits => _counterfeitsContext.Counterfeits.ToList();
-    public Counterfeit SelectedCounterfeit { get; set; }
-
     public User WorkingUser { get; set; }
-
     public User TempUser => (User)Data;
-
     public double PercentOfSimilarity { get; set; }
     public string DisplayedImagePath { get; set; }
     public string ResultImagePath { get; set; }

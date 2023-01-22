@@ -33,16 +33,12 @@ public class GalleryControlVM : ViewModelBase
 
     #endregion
 
-
     #region Properties
 
     private readonly DialogService _ds;
-
     private readonly CounterfeitKBContext _context;
     public CounterfeitPath SelectedCounterfeitPath { get; set; }
-
     public List<CounterfeitPath> CounterfeitPaths => _context.CounterfeitPaths.ToList();
-
     public List<DataAccess.Models.Counterfeit> Counterfeits => _context.Counterfeits.ToList();
 
     #endregion
@@ -68,6 +64,7 @@ public class GalleryControlVM : ViewModelBase
                     Title = "Добавление изображения фальсификата",
                 },
                 data: new CounterfeitPath());
+
                 OnPropertyChanged(nameof(CounterfeitPaths));
             });
         }
