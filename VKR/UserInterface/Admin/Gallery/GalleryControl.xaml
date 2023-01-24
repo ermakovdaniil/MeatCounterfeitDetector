@@ -4,10 +4,14 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:hc="https://handyorg.github.io/handycontrol"
-             xmlns:gallery="clr-namespace:VKR.UserInterface.Admin.Gallery"
+             xmlns:gallery="clr-namespace:VKR.UserInterface.Admin.Gallery" 
+             xmlns:utils="clr-namespace:VKR.Utils"
              mc:Ignorable="d"
              d:DataContext="{d:DesignInstance gallery:GalleryControlVM}"
              d:DesignHeight="450">
+    <UserControl.Resources>
+        <utils:PathToImageConverter x:Key="PathToIMageConverter"/>
+    </UserControl.Resources>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="*" />
@@ -28,7 +32,7 @@
                 <DataGridTemplateColumn Header=" Изображение">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <Image Source="{Binding ImagePath}" Stretch="Fill" Height="300" Width="300" />
+                            <Image Source="{Binding ImagePath, Converter={StaticResource PathToIMageConverter}}" Stretch="Fill" Height="300" Width="300" />
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>

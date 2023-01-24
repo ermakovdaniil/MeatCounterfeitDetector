@@ -1,16 +1,13 @@
-﻿using System.Collections.Generic;
+﻿using DataAccess.Data;
+using DataAccess.Models;
+using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Windows;
-
-using DataAccess.Data;
-using DataAccess.Models;
-
-using Microsoft.EntityFrameworkCore;
-
 using VKR.UserInterface.Admin.Abstract;
 using VKR.Utils;
 using VKR.Utils.Dialog;
-
 using MessageBox = HandyControl.Controls.MessageBox;
 
 
@@ -32,6 +29,7 @@ public class GalleryControlVM : ViewModelBase
     #endregion
 
     #endregion
+
 
     #region Properties
 
@@ -59,12 +57,11 @@ public class GalleryControlVM : ViewModelBase
             {
                 _ds.ShowDialog<GalleryEditControl>(new WindowParameters
                 {
-                    Height = 280,
-                    Width = 500,
+                    Height = 550,
+                    Width = 350,
                     Title = "Добавление изображения фальсификата",
                 },
                 data: new CounterfeitPath());
-
                 OnPropertyChanged(nameof(CounterfeitPaths));
             });
         }
@@ -83,8 +80,8 @@ public class GalleryControlVM : ViewModelBase
             {
                 _ds.ShowDialog<GalleryEditControl>(new WindowParameters
                 {
-                    Height = 280,
-                    Width = 500,
+                    Height = 550,
+                    Width = 350,
                     Title = "Редактирование изображения фальсификата",
                 },
                 data: SelectedCounterfeitPath);
@@ -110,7 +107,6 @@ public class GalleryControlVM : ViewModelBase
                     _context.CounterfeitPaths.Remove(SelectedCounterfeitPath);
                     _context.SaveChanges();
                 }
-
                 OnPropertyChanged(nameof(CounterfeitPaths));
             }, c => SelectedCounterfeitPath != null);
         }

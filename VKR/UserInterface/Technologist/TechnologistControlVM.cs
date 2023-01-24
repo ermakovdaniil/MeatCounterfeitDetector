@@ -1,15 +1,12 @@
-﻿using System;
+﻿using DataAccess.Data;
+using DataAccess.Models;
+using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Windows;
 using System.Windows.Media.Imaging;
-
-using DataAccess.Data;
-using DataAccess.Models;
-
-using Microsoft.EntityFrameworkCore;
-
 using VKR.UserInterface.Admin.Abstract;
 using VKR.Utils;
 using VKR.Utils.Dialog;
@@ -28,7 +25,6 @@ public class TechnologistControlVM : ViewModelBase, IDataHolder
     private readonly IImageAnalyzer _analyzer;
     private readonly IFileDialogService _dialogService;
     private readonly IMessageBoxService _messageBoxService;
-    private readonly Counterfeit _counterfeit;
     private readonly NavigationManager _navigationManager;
 
 
@@ -152,7 +148,6 @@ public class TechnologistControlVM : ViewModelBase, IDataHolder
                     }
                     else
                     {
-
                         counterfeitPaths = _counterfeitsContext.CounterfeitPaths.Include(c => c.Counterfeit).Where(c => c.CounterfeitId == SelectedCounterfeit.Id).ToList();
                     }
 

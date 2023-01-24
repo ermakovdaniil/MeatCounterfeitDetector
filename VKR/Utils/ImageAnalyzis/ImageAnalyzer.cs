@@ -87,8 +87,8 @@ public class ImageAnalyzer : IImageAnalyzer
     private void AnalyzeImage(ref string pathToOrig, string pathToCounterfeit, out string pathToResult, out double matchTime, out double score, double percentOfSimilarity)
     {
         string pathToBase = Directory.GetCurrentDirectory();
-        string pathToCounterfeits = @"..\..\..\resources\counterfeits\";
-        string combinedPath = Path.Combine(pathToBase, pathToCounterfeits, pathToCounterfeit);
+        //string pathToCounterfeits = @"..\..\..\resources\counterfeits\";
+        string combinedPath = Path.Combine(pathToBase, pathToCounterfeit);
         Mat origMat = CvInvoke.Imread(pathToOrig, Emgu.CV.CvEnum.ImreadModes.AnyColor);
         Mat counterfeitMat = CvInvoke.Imread(combinedPath, Emgu.CV.CvEnum.ImreadModes.AnyColor);
         Mat resMat = SIFTAlgorithm.Draw(origMat, counterfeitMat, out matchTime, out score);

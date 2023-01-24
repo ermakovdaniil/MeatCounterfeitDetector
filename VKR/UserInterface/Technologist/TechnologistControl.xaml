@@ -7,8 +7,7 @@
              xmlns:technologist="clr-namespace:VKR.UserInterface.Technologist"
              mc:Ignorable="d"
              d:DataContext="{d:DesignInstance technologist:TechnologistControlVM}">
-
-    <!--Title="Программный комплекс для анализа изображения на наличие фальсификата" MinWidth="1300" MinHeight="700"-->
+    
     <UserControl.Resources>
         <Menu x:Key="Menu" Background="{Binding NonClientAreaBackground,RelativeSource={RelativeSource FindAncestor,AncestorType=Window}}" Grid.ColumnSpan="3">
             <MenuItem Height="40" ToolTip="Открыть изображение" Command="{Binding ChangePathImageCommand}">
@@ -92,12 +91,12 @@
 
             <Border Grid.Column="0" BorderThickness="1" Margin="10" BorderBrush="#FF000000"
                     Background="{StaticResource Style3}">
-                <Image Source="{Binding DisplayedImagePath}" />
+                <Image Source="{Binding DisplayedImagePath, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Stretch="Fill"/>
             </Border>
 
             <Border Grid.Column="1" BorderThickness="1" Margin="10" BorderBrush="#FF000000"
                     Background="{StaticResource Style3}">
-                <Image Source="{Binding ResultImagePath}" />
+                <Image Source="{Binding ResultImagePath, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Stretch="Fill"/>
             </Border>
         </Grid>
 

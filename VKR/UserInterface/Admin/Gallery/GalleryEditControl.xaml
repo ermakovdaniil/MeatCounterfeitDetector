@@ -5,26 +5,38 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:hc="https://handyorg.github.io/handycontrol"
              xmlns:gallery="clr-namespace:VKR.UserInterface.Admin.Gallery"
+             xmlns:utils="clr-namespace:VKR.Utils"
              mc:Ignorable="d"
              d:DataContext="{d:DesignInstance gallery:GalleryEditControlVM}">
+    <UserControl.Resources>
+        <utils:PathToImageConverter x:Key="PathToIMageConverter"/>
+    </UserControl.Resources>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition />
             <RowDefinition Height="60" />
         </Grid.RowDefinitions>
-        <StackPanel Background="{StaticResource Style2}">
-            <hc:ComboBox hc:InfoElement.Title="Наименование фальсификата"
+        <ScrollViewer>
+            <StackPanel Background="{StaticResource Style2}">
+                <hc:ComboBox hc:InfoElement.Title="Вид фальсификата"
                          ItemsSource="{Binding Counterfeits}"
                          hc:InfoElement.TitlePlacement="Top" Margin="10 5"
                          SelectedItem="{Binding TempCounterfeitPath.Counterfeit}"
                          DisplayMemberPath="Name"
                          SelectedValuePath="Id"
                          Background="{StaticResource Style3}" HorizontalAlignment="Stretch" />
-            <hc:TextBox hc:InfoElement.Title="Путь к изображению"
+                <hc:TextBox hc:InfoElement.Title="Путь к файлу"
                         hc:InfoElement.TitlePlacement="Top" Margin="10 5"
                         Text="{Binding TempCounterfeitPath.ImagePath, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                         Background="{StaticResource Style3}" HorizontalAlignment="Stretch" />
-        </StackPanel>
+                <Border BorderThickness="1" Margin="10" BorderBrush="#FF000000" Background="{StaticResource Style3}">
+                    <Image Source="{Binding TempCounterfeitPath.ImagePath, Converter={StaticResource PathToIMageConverter}}" Stretch="Fill"/>
+                </Border>
+                <Button hc:BorderElement.CornerRadius="10" Width="180" Margin="5 0 5 10"
+                        Command="{Binding ChangePathImageCommand}"
+                        Background="{StaticResource Style3}" Content="{StaticResource OpenButton}" />
+            </StackPanel>
+        </ScrollViewer>
         <Grid Row="1" Background="{StaticResource Style1}">
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                 <Button hc:BorderElement.CornerRadius="10" Width="100" Margin="5"

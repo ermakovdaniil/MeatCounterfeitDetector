@@ -5,9 +5,13 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:hc="https://handyorg.github.io/handycontrol"
              xmlns:result="clr-namespace:VKR.UserInterface.Admin.Result"
+             xmlns:utils="clr-namespace:VKR.Utils"
              mc:Ignorable="d"
              d:DataContext="{d:DesignInstance result:ResultControlVM}"
              d:DesignHeight="450">
+    <UserControl.Resources>
+        <utils:PathToImageConverter x:Key="PathToIMageConverter"/>
+    </UserControl.Resources>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition />
@@ -29,18 +33,17 @@
                 <DataGridTemplateColumn Header="            Оригинальное изображение" Width="500">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <Image Source="{Binding OrigPath.Path}" Stretch="Fill" Height="400" Width="400" />
+                            <Image Source="{Binding OrigPath.Path, Converter={StaticResource PathToIMageConverter}}" Stretch="Fill" Height="400" Width="400" />
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
                 <DataGridTemplateColumn Header="            Результат обработки изображения" Width="500">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <Image Source="{Binding ResPath.Path}" Stretch="Fill" Height="400" Width="400" />
+                            <Image Source="{Binding ResPath.Path, Converter={StaticResource PathToIMageConverter}}" Stretch="Fill" Height="400" Width="400" />
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
-
             </DataGrid.Columns>
         </DataGrid>
         <Grid Row="1" Background="{StaticResource Style2}">
