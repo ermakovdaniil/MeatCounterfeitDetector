@@ -13,15 +13,22 @@ namespace VKR.Utils.ImageAnalyzis
 {
     public static class SIFTAlgorithm
     {
+        public static bool firstAnalysis = true;
+        private static VectorOfKeyPoint modelKeyPoints;
+        private static Mat modelDescriptors;
+
         public static void FindMatch(Mat modelImage, Mat observedImage, out double matchTime, out VectorOfKeyPoint modelKeyPoints, out VectorOfKeyPoint observedKeyPoints, VectorOfVectorOfDMatch matches, out Mat mask, out Mat homography)
         {
             int k = 2;
             double uniquenessThreshold = 0.8;
 
             Stopwatch watch;
+            watch = Stopwatch.StartNew();
             homography = null;
 
-            modelKeyPoints = new VectorOfKeyPoint();
+            //modelKeyPoints = SIFTAlgorithm.modelKeyPoints;
+            
+            //modelKeyPoints = new VectorOfKeyPoint();
             observedKeyPoints = new VectorOfKeyPoint();
 
             //using (UMat uModelImage = modelImage.ToUMat(AccessType.Read))
@@ -30,11 +37,17 @@ namespace VKR.Utils.ImageAnalyzis
                 SIFT sift = new SIFT();
                 //extract features from the object image
                 //UMat modelDescriptors = new UMat();
-                Mat modelDescriptors = new Mat();
-                // БЫЛО uModelImage
-                sift.DetectAndCompute(modelImage, null, modelKeyPoints, modelDescriptors, false);
-
-                watch = Stopwatch.StartNew();
+                //Mat modelDescriptors = new Mat();
+                if (firstAnalysis == true)
+                {
+                    SIFTAlgorithm.modelKeyPoints = new VectorOfKeyPoint();
+                    modelDescriptors = new Mat();
+                    // БЫЛО uModelImage
+                    sift.DetectAndCompute(modelImage, null, SIFTAlgorithm.modelKeyPoints, modelDescriptors, false);
+                    firstAnalysis = false;
+                }
+                //watch = Stopwatch.StartNew();
+                modelKeyPoints = SIFTAlgorithm.modelKeyPoints;
 
                 // extract features from the observed image
                 //UMat observedDescriptors = new UMat();
@@ -58,8 +71,9 @@ namespace VKR.Utils.ImageAnalyzis
                         homography = Features2DToolbox.GetHomographyMatrixFromMatchedFeatures(modelKeyPoints,
                            observedKeyPoints, matches, mask, 2);
                 }
-                watch.Stop();
+                //watch.Stop();
             }
+            watch.Stop();
             matchTime = watch.ElapsedMilliseconds;
         }
 

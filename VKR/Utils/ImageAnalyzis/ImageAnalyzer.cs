@@ -71,11 +71,14 @@ public class ImageAnalyzer : IImageAnalyzer
             if(score > percentOfSimilarity)
             {
                 anRes = "Фальсификат обнаружен: " + counterfeitPaths[i].Counterfeit.Name;
+                matchTime += tempTime;
+                SIFTAlgorithm.firstAnalysis = true;
                 break;
             }
             else
             {
                 score = 0;
+                matchTime += tempTime;
                 anRes = "Фальсификат не обнаружен";
             }
         }
