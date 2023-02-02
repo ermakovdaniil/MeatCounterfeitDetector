@@ -16,9 +16,9 @@ namespace VKR.Utils;
 /// </summary>
 internal static class FileSystem
 {
-    private static Image CreateAndFitImage(byte[] bitmap, Document document)
+    private static Image CreateAndFitImage(string path, Document document)
     {
-        var image = new Image(ImageDataFactory.Create(bitmap)).SetTextAlignment(TextAlignment.CENTER);
+        var image = new Image(ImageDataFactory.Create(path)).SetTextAlignment(TextAlignment.CENTER);
         FitImageToDocument(image, document);
 
         return image;
@@ -26,6 +26,7 @@ internal static class FileSystem
 
     private static void FitImageToDocument(Image image, Document document)
     {
+        image.SetTextAlignment(TextAlignment.CENTER);
         var widthscaler =
             (document.GetPageEffectiveArea(PageSize.A4).GetWidth() - document.GetLeftMargin() -
              document.GetRightMargin()) / image.GetImageWidth();
@@ -48,7 +49,7 @@ internal static class FileSystem
         image.Scale(scaler, scaler);
     }
 
-    public static void ExportPdf(string path, byte[] initialBitmap, byte[] resBitMap, Result result)
+    public static void ExportPdf(string path, string initialImagePath, string resImagePath, Result result)
     {
         var writer = new PdfWriter(path);
         var pdf = new PdfDocument(writer);
@@ -65,14 +66,15 @@ internal static class FileSystem
 
         document.Add(header);
         document.Add(new Paragraph("Исходное изображение:"));
-        var initialImage = CreateAndFitImage(initialBitmap, document);
+        var initialImage = CreateAndFitImage(initialImagePath, document);
         document.Add(initialImage);
         document.Add(new AreaBreak());
 
-        if (resBitMap != null)
+        if (resImagePath != null)
         {
             document.Add(new Paragraph("Обработанное изображение:"));
-            var resImage = CreateAndFitImage(resBitMap, document);
+
+            var resImage = CreateAndFitImage(resImagePath, document);
             document.Add(resImage);
         }
 

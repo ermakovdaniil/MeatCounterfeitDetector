@@ -13,43 +13,27 @@ namespace VKR.Utils.ImageAnalyzis
 {
     public static class SIFTAlgorithm
     {
-        public static bool firstAnalysis = true;
-        private static VectorOfKeyPoint modelKeyPoints;
-        private static Mat modelDescriptors;
-
-        public static void FindMatch(Mat modelImage, Mat observedImage, out double matchTime, out VectorOfKeyPoint modelKeyPoints, out VectorOfKeyPoint observedKeyPoints, VectorOfVectorOfDMatch matches, out Mat mask, out Mat homography)
+        public static void FindMatch(Mat modelImage, Mat observedImage, out VectorOfKeyPoint modelKeyPoints, out VectorOfKeyPoint observedKeyPoints, VectorOfVectorOfDMatch matches, out Mat mask, out Mat homography)
         {
             int k = 2;
             double uniquenessThreshold = 0.8;
 
-            Stopwatch watch;
-            watch = Stopwatch.StartNew();
+
             homography = null;
 
-            //modelKeyPoints = SIFTAlgorithm.modelKeyPoints;
-            
-            //modelKeyPoints = new VectorOfKeyPoint();
+            modelKeyPoints = new VectorOfKeyPoint();
             observedKeyPoints = new VectorOfKeyPoint();
 
             //using (UMat uModelImage = modelImage.ToUMat(AccessType.Read))
             //using (UMat uObservedImage = observedImage.ToUMat(AccessType.Read))
             {
                 SIFT sift = new SIFT();
-                //extract features from the object image
                 //UMat modelDescriptors = new UMat();
-                //Mat modelDescriptors = new Mat();
-                if (firstAnalysis == true)
-                {
-                    SIFTAlgorithm.modelKeyPoints = new VectorOfKeyPoint();
-                    modelDescriptors = new Mat();
-                    // БЫЛО uModelImage
-                    sift.DetectAndCompute(modelImage, null, SIFTAlgorithm.modelKeyPoints, modelDescriptors, false);
-                    firstAnalysis = false;
-                }
-                //watch = Stopwatch.StartNew();
-                modelKeyPoints = SIFTAlgorithm.modelKeyPoints;
-
-                // extract features from the observed image
+                Mat modelDescriptors = new Mat();
+                modelKeyPoints = new VectorOfKeyPoint();
+                modelDescriptors = new Mat();
+                // БЫЛО uModelImage
+                sift.DetectAndCompute(modelImage, null, modelKeyPoints, modelDescriptors, false);
                 //UMat observedDescriptors = new UMat();
                 Mat observedDescriptors = new Mat();
                 // БЫЛО uObservedImage
@@ -71,14 +55,15 @@ namespace VKR.Utils.ImageAnalyzis
                         homography = Features2DToolbox.GetHomographyMatrixFromMatchedFeatures(modelKeyPoints,
                            observedKeyPoints, matches, mask, 2);
                 }
-                //watch.Stop();
+
             }
-            watch.Stop();
-            matchTime = watch.ElapsedMilliseconds;
+
         }
 
         public static Mat Draw(Mat modelImage, Mat observedImage, out double matchTime, out double score)
         {
+            Stopwatch watch;
+            watch = Stopwatch.StartNew();
             Mat scoreImg = new Mat();
             double minVal = Double.MaxValue;
             score = Double.MinValue;
@@ -95,7 +80,7 @@ namespace VKR.Utils.ImageAnalyzis
             using (VectorOfVectorOfDMatch matches = new VectorOfVectorOfDMatch())
             {
                 Mat mask;
-                FindMatch(modelImage, observedImage, out matchTime, out modelKeyPoints, out observedKeyPoints, matches,
+                FindMatch(modelImage, observedImage, out modelKeyPoints, out observedKeyPoints, matches,
                     out mask, out homography);
 
                 //Draw the matched keypoints
@@ -123,11 +108,11 @@ namespace VKR.Utils.ImageAnalyzis
                     {
                         CvInvoke.Polylines(result, vp, true, new MCvScalar(255, 0, 0, 255), 0);
                     }
-
                 }
 
                 #endregion
-
+                watch.Stop();
+                matchTime = watch.ElapsedMilliseconds;
                 return result;
             }
         }

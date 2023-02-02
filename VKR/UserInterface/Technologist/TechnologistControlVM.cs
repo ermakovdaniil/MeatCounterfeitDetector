@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Windows;
+using System.Drawing;
 using System.Windows.Media.Imaging;
 using VKR.UserInterface.Admin.Abstract;
 using VKR.Utils;
@@ -15,7 +16,7 @@ using VKR.Utils.ImageAnalyzis;
 using VKR.Utils.IOService;
 using VKR.Utils.MainWindowControlChanger;
 using VKR.Utils.MessageBoxService;
-
+using iText.Layout.Element;
 
 namespace VKR.UserInterface.Technologist;
 
@@ -46,19 +47,6 @@ public class TechnologistControlVM : ViewModelBase, IDataHolder
         _analyzer = analyzer;
         _dialogService = dialogService;
         _messageBoxService = messageBoxService;
-    }
-
-    private byte[] ImagePathToByteArray(string path)
-    {
-        var encoder = new JpegBitmapEncoder();
-        encoder.Frames.Add(BitmapFrame.Create(new BitmapImage(new Uri(path, UriKind.RelativeOrAbsolute))));
-
-        using (var ms = new MemoryStream())
-        {
-            encoder.Save(ms);
-
-            return ms.ToArray();
-        }
     }
 
     private string CreateSearchResult(Result AnalysisResult)
@@ -158,13 +146,12 @@ public class TechnologistControlVM : ViewModelBase, IDataHolder
                     string combinedPath = Path.Combine(pathToBase, pathToResults, AnalysisResult.ResPath.Path);
                     ResultImagePath = combinedPath;
                     SearchResult = CreateSearchResult(AnalysisResult);
-                    //_resultContext.Results.Add(AnalysisResult);
-                    //_resultContext.SaveChanges();
+                    _resultContext.Results.Add(AnalysisResult);
+                    _resultContext.SaveChanges();
                 }
                 else
                 {
-                    _messageBoxService.ShowMessage("Недостаточно данных для произведения анализа", "Ошибка!", MessageBoxButton.OK,
-                                                   MessageBoxImage.Error);
+                    _messageBoxService.ShowMessage("Недостаточно данных для произведения анализа", "Ошибка!", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
             });
         }
@@ -185,9 +172,7 @@ public class TechnologistControlVM : ViewModelBase, IDataHolder
 
                     if (!string.IsNullOrEmpty(filePath))
                     {
-                        var initialBitmap = ImagePathToByteArray(DisplayedImagePath);
-                        var resBitmap = ImagePathToByteArray(ResultImagePath);
-                        FileSystem.ExportPdf(filePath, initialBitmap, resBitmap, AnalysisResult);
+                        FileSystem.ExportPdf(filePath, DisplayedImagePath, ResultImagePath, AnalysisResult);
                     }
                 }
                 else

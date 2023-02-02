@@ -11,6 +11,7 @@ using Emgu.CV;
 using Emgu.CV.Features2D;
 using Emgu.CV.Structure;
 using Emgu.CV.Util;
+using VKR.Utils.MessageBoxService;
 
 namespace VKR.Utils.ImageAnalyzis;
 
@@ -57,34 +58,43 @@ public class ImageAnalyzer : IImageAnalyzer
     //}
     //}
 
+    private readonly HandyMessageBoxService _messageBoxService = new HandyMessageBoxService();
+
     public Result RunAnalysis(string pathToOrig, List<CounterfeitPath> counterfeitPaths, double percentOfSimilarity, User user)
     {
-        string anRes = "";
-        string resPath = "";
-        double matchTime = 0;
-        double score = 0;
-        double tempTime = 0;
-        for (int i = 0; i < counterfeitPaths.Count; i++)
+        try
         {
-            AnalyzeImage(ref pathToOrig, counterfeitPaths[i].ImagePath, out resPath, out tempTime, out score, percentOfSimilarity);
-            matchTime += tempTime;
-            if(score > percentOfSimilarity)
+            string anRes = "";
+            string resPath = "";
+            double matchTime = 0;
+            double score = 0;
+            double tempTime = 0;
+            for (int i = 0; i < counterfeitPaths.Count; i++)
             {
-                anRes = "Фальсификат обнаружен: " + counterfeitPaths[i].Counterfeit.Name;
+                AnalyzeImage(ref pathToOrig, counterfeitPaths[i].ImagePath, out resPath, out tempTime, out score, percentOfSimilarity);
                 matchTime += tempTime;
-                SIFTAlgorithm.firstAnalysis = true;
-                break;
+                if (score > percentOfSimilarity)
+                {
+                    anRes = "Фальсификат обнаружен: " + counterfeitPaths[i].Counterfeit.Name;
+                    matchTime += tempTime;
+                    break;
+                }
+                else
+                {
+                    score = 0;
+                    matchTime += tempTime;
+                    anRes = "Фальсификат не обнаружен";
+                }
             }
-            else
-            {
-                score = 0;
-                matchTime += tempTime;
-                anRes = "Фальсификат не обнаружен";
-            }
+            var res = CreateResult(pathToOrig, resPath, anRes, user, matchTime, score);
+            return res;
         }
-
-        var res = CreateResult(pathToOrig, resPath, anRes, user, matchTime, score);
-        return res;
+        catch (Emgu.CV.Util.CvException)
+        {
+            Result res = null;
+            _messageBoxService.ShowMessage("Данное изображение не удаётся обработать. Попробуйте изменить разрешение изображения.", "Ошибка!", MessageBoxButton.OK, MessageBoxImage.Error);
+            return res;
+        }
     }
 
     private void AnalyzeImage(ref string pathToOrig, string pathToCounterfeit, out string pathToResult, out double matchTime, out double score, double percentOfSimilarity)
@@ -109,7 +119,7 @@ public class ImageAnalyzer : IImageAnalyzer
             filename = "res_" + date + ".jpg";
             pathToResult = filename;
             resMat.Save(@"..\..\..\resources\resImages\" + pathToResult);
-            
+
             //Image origImage = new Image();
             //var uriSource = new Uri(@"/VKR;component/resources/origImages/" + pathToOrig, UriKind.Relative);
             //origImage.Source = new BitmapImage(uriSource);
