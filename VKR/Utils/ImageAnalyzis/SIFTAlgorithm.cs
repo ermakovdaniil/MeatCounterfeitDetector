@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Drawing;
-
+using System.Linq;
 using Emgu.CV;
 using Emgu.CV.CvEnum;
 using Emgu.CV.Features2D;
@@ -40,7 +40,6 @@ namespace VKR.Utils.ImageAnalyzis
                 sift.DetectAndCompute(observedImage, null, observedKeyPoints, observedDescriptors, false);
                 BFMatcher matcher = new BFMatcher(DistanceType.L2);
                 matcher.Add(modelDescriptors);
-
                 matcher.KnnMatch(observedDescriptors, matches, k, null);
                 mask = new Mat(matches.Size, 1, DepthType.Cv8U, 1);
                 mask.SetTo(new MCvScalar(255));
@@ -64,15 +63,16 @@ namespace VKR.Utils.ImageAnalyzis
         {
             Stopwatch watch;
             watch = Stopwatch.StartNew();
-            Mat scoreImg = new Mat();
-            double minVal = Double.MaxValue;
-            score = Double.MinValue;
-            var minLoc = new Point();
-            var maxLoc = new Point();
-            CvInvoke.MatchTemplate(modelImage, observedImage, scoreImg, TemplateMatchingType.CcoeffNormed);
-            CvInvoke.MinMaxLoc(scoreImg, ref minVal, ref score, ref minLoc, ref maxLoc);
-            score *= 100;
-            score = Math.Round(score, 2);
+
+            //Mat scoreImg = new Mat();
+            //double minVal = Double.MaxValue;
+            //score = Double.MinValue;
+            //var minLoc = new Point();
+            //var maxLoc = new Point();
+            //CvInvoke.MatchTemplate(modelImage, observedImage, scoreImg, TemplateMatchingType.CcoeffNormed);
+            //CvInvoke.MinMaxLoc(scoreImg, ref minVal, ref score, ref minLoc, ref maxLoc);
+            //score *= 100;
+            //score = Math.Round(score, 2);
 
             Mat homography;
             VectorOfKeyPoint modelKeyPoints;
@@ -83,16 +83,44 @@ namespace VKR.Utils.ImageAnalyzis
                 FindMatch(modelImage, observedImage, out modelKeyPoints, out observedKeyPoints, matches,
                     out mask, out homography);
 
-                //Draw the matched keypoints
+                //VectorOfVectorOfDMatch goodMatches = new VectorOfVectorOfDMatch();
+
+                //for (int i = 0; i < matches.Size; i++)
+                //{
+                //    var arrayOfMatches = matches[i].ToArray();
+
+                //    if (arrayOfMatches[0].Distance < 0.8 * arrayOfMatches[1].Distance)
+                //    {
+                //        VectorOfDMatch tempVec = new VectorOfDMatch();
+                //        tempVec.Push(arrayOfMatches);
+                //        goodMatches.Push(tempVec);
+                //    }
+                //}
+
+                //for m, n in matches:
+                //    if m.distance < 0.75 * n.distance:
+                //        good.append([m])
+                //# cv.drawMatchesKnn expects list of lists as matches.
+                //img3 = cv.drawMatchesKnn(img1, kp1, img2, kp2, good, None, flags = cv.DrawMatchesFlags_NOT_DRAW_SINGLE_POINTS)
+
                 Mat result = new Mat();
                 Features2DToolbox.DrawMatches(modelImage, modelKeyPoints, observedImage, observedKeyPoints,
                     matches, result, new MCvScalar(0, 0, 255), new MCvScalar(255, 255, 255), mask, Features2DToolbox.KeypointDrawType.NotDrawSinglePoints);
-
-                #region draw the projected region on the image
+                // TODO: В МАСКЕ НАЙТИ ВСЕ 255 и ПОДСЧИТАТЬ
+                int goodMatches = CountHowManyPairsExist(mask);
+                //if (modelKeyPoints.Length <= observedKeyPoints.Length)
+                //{
+                //    numberOfKeypoints = (double)modelKeyPoints.Length;
+                //}
+                //else
+                //{
+                //    numberOfKeypoints = (double)observedKeyPoints.Length;
+                //}
+                score = ((double)goodMatches / (double)matches.Length) * 100.0;
+                score = Math.Round(score, 2);
 
                 if (homography != null)
                 {
-                    //draw a rectangle along the projected model
                     Rectangle rect = new Rectangle(Point.Empty, modelImage.Size);
                     PointF[] pts = new PointF[]
                     {
@@ -110,11 +138,17 @@ namespace VKR.Utils.ImageAnalyzis
                     }
                 }
 
-                #endregion
                 watch.Stop();
                 matchTime = watch.ElapsedMilliseconds;
                 return result;
             }
+        }
+        public static int CountHowManyPairsExist(Mat mask)
+        {
+            var matched = mask.GetData();
+            var list = matched.OfType<byte>().ToList();
+            var count = list.Count(a => a.Equals(1));
+            return count;
         }
     }
 }

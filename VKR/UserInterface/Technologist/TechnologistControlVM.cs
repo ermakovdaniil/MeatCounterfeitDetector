@@ -140,14 +140,18 @@ public class TechnologistControlVM : ViewModelBase, IDataHolder
                     }
 
                     AnalysisResult = _analyzer.RunAnalysis(DisplayedImagePath, counterfeitPaths, PercentOfSimilarity, WorkingUser);
-
-                    string pathToBase = Directory.GetCurrentDirectory();
-                    string pathToResults = @"..\..\..\resources\resImages\";
-                    string combinedPath = Path.Combine(pathToBase, pathToResults, AnalysisResult.ResPath.Path);
-                    ResultImagePath = combinedPath;
                     SearchResult = CreateSearchResult(AnalysisResult);
-                    _resultContext.Results.Add(AnalysisResult);
-                    _resultContext.SaveChanges();
+                    
+                    // TODO: фикс
+                    if(AnalysisResult.ResPath.Path != null)
+                    {
+                        string pathToBase = Directory.GetCurrentDirectory();
+                        string pathToResults = @"..\..\..\resources\resImages\";
+                        string combinedPath = Path.Combine(pathToBase, AnalysisResult.ResPath.Path);
+                        ResultImagePath = combinedPath;
+                    }  
+                    //_resultContext.Results.Add(AnalysisResult);
+                    //_resultContext.SaveChanges();
                 }
                 else
                 {
@@ -172,7 +176,7 @@ public class TechnologistControlVM : ViewModelBase, IDataHolder
 
                     if (!string.IsNullOrEmpty(filePath))
                     {
-                        FileSystem.ExportPdf(filePath, DisplayedImagePath, ResultImagePath, AnalysisResult);
+                        FileSystem.ExportPdf(filePath, AnalysisResult);
                     }
                 }
                 else

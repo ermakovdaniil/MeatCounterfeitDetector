@@ -49,7 +49,7 @@ internal static class FileSystem
         image.Scale(scaler, scaler);
     }
 
-    public static void ExportPdf(string path, string initialImagePath, string resImagePath, Result result)
+    public static void ExportPdf(string path, Result result)
     {
         var writer = new PdfWriter(path);
         var pdf = new PdfDocument(writer);
@@ -66,15 +66,15 @@ internal static class FileSystem
 
         document.Add(header);
         document.Add(new Paragraph("Исходное изображение:"));
-        var initialImage = CreateAndFitImage(initialImagePath, document);
+        var initialImage = CreateAndFitImage(result.OrigPath.Path, document);
         document.Add(initialImage);
         document.Add(new AreaBreak());
 
-        if (resImagePath != null)
+        if (result.ResPath.Path != null)
         {
             document.Add(new Paragraph("Обработанное изображение:"));
 
-            var resImage = CreateAndFitImage(resImagePath, document);
+            var resImage = CreateAndFitImage(result.ResPath.Path, document);
             document.Add(resImage);
         }
 

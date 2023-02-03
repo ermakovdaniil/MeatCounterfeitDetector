@@ -137,7 +137,7 @@ public class ImageAnalyzer : IImageAnalyzer
             //writer.Close();
         }
     }
-
+    // TODO: чек пути
     private Result CreateResult(string pathToOrig, string pathToRes, string anRes, User user, double time, double score)
     {
         var tempOrigPath = new OriginalPath
