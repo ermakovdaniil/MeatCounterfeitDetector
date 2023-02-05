@@ -141,15 +141,14 @@ public class TechnologistControlVM : ViewModelBase, IDataHolder
 
                     AnalysisResult = _analyzer.RunAnalysis(DisplayedImagePath, counterfeitPaths, PercentOfSimilarity, WorkingUser);
                     SearchResult = CreateSearchResult(AnalysisResult);
-                    
-                    // TODO: фикс
+
                     if(AnalysisResult.ResPath.Path != null)
                     {
                         string pathToBase = Directory.GetCurrentDirectory();
                         string pathToResults = @"..\..\..\resources\resImages\";
-                        string combinedPath = Path.Combine(pathToBase, AnalysisResult.ResPath.Path);
+                        string combinedPath = Path.Combine(pathToBase, pathToResults, AnalysisResult.ResPath.Path);
                         ResultImagePath = combinedPath;
-                    }  
+                    }
                     //_resultContext.Results.Add(AnalysisResult);
                     //_resultContext.SaveChanges();
                 }
@@ -171,7 +170,7 @@ public class TechnologistControlVM : ViewModelBase, IDataHolder
             {
                 if (AnalysisResult != null)
                 {
-                    var filename = "АНАЛИЗ_" + DateTime.Now.ToString("dd.mm.yyyy_hh.mm.ss"); ;
+                    var filename = "АНАЛИЗ_" + DateTime.Now.ToString("dd.mm.yyyy_hh.mm.ss");
                     var filePath = _dialogService.SaveFileDialog(filename, ext: ".pdf");
 
                     if (!string.IsNullOrEmpty(filePath))

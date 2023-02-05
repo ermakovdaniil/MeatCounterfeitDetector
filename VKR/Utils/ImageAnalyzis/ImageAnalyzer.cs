@@ -113,12 +113,12 @@ public class ImageAnalyzer : IImageAnalyzer
         {
             var date = DateTime.Now.ToString("dd.mm.yyyy_hh.mm.ss");
             var filename = "orig_" + date + ".jpg";
-            pathToOrig = filename;
-            origMat.Save(@"..\..\..\resources\origImages\" + pathToOrig);
+            pathToOrig = @"..\..\..\resources\origImages\" + filename;
+            origMat.Save(pathToOrig);
 
             filename = "res_" + date + ".jpg";
-            pathToResult = filename;
-            resMat.Save(@"..\..\..\resources\resImages\" + pathToResult);
+            pathToResult = @"..\..\..\resources\resImages\" + filename;
+            resMat.Save(pathToResult);
 
             //Image origImage = new Image();
             //var uriSource = new Uri(@"/VKR;component/resources/origImages/" + pathToOrig, UriKind.Relative);
@@ -137,7 +137,7 @@ public class ImageAnalyzer : IImageAnalyzer
             //writer.Close();
         }
     }
-    // TODO: чек пути
+
     private Result CreateResult(string pathToOrig, string pathToRes, string anRes, User user, double time, double score)
     {
         var tempOrigPath = new OriginalPath
