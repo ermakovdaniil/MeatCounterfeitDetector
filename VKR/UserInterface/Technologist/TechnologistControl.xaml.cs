@@ -12,7 +12,7 @@ public partial class TechnologistControl : UserControl
     public TechnologistControl()
     {
         InitializeComponent();
-        _viewModel = (TechnologistControlVM?) VmLocator.Resolve<TechnologistControl>();
+        _viewModel = (TechnologistControlVM?)VmLocator.Resolve<TechnologistControl>();
         DataContext = _viewModel;
     }
 }

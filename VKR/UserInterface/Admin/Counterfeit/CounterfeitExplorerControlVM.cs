@@ -1,13 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using DataAccess.Data;
+using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
-
-using DataAccess.Data;
-
 using VKR.UserInterface.Admin.Abstract;
 using VKR.Utils;
 using VKR.Utils.Dialog;
-
 using MessageBox = HandyControl.Controls.MessageBox;
 
 

@@ -12,7 +12,7 @@ public partial class GalleryControl : UserControl
     public GalleryControl()
     {
         InitializeComponent();
-        _viewModel = (GalleryControlVM?) VmLocator.Resolve<GalleryControl>();
+        _viewModel = (GalleryControlVM?)VmLocator.Resolve<GalleryControl>();
         DataContext = _viewModel;
     }
 }

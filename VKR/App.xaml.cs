@@ -1,11 +1,8 @@
-﻿using System.Globalization;
+﻿using Autofac;
+using DataAccess.Data;
+using System.Globalization;
 using System.Threading;
 using System.Windows;
-
-using Autofac;
-
-using DataAccess.Data;
-
 using VKR.UserInterface;
 using VKR.UserInterface.Admin;
 using VKR.UserInterface.Admin.Counterfeit;
@@ -20,7 +17,6 @@ using VKR.Utils.ImageAnalyzis;
 using VKR.Utils.IOService;
 using VKR.Utils.MainWindowControlChanger;
 using VKR.Utils.MessageBoxService;
-
 using FrameworkElementFactory = VKR.Utils.FrameworkFactory.FrameworkElementFactory;
 
 

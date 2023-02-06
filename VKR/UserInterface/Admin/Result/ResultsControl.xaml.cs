@@ -12,7 +12,7 @@ public partial class ResultControl : UserControl
     public ResultControl()
     {
         InitializeComponent();
-        _viewModel = (ResultControlVM?) VmLocator.Resolve<ResultControl>();
+        _viewModel = (ResultControlVM?)VmLocator.Resolve<ResultControl>();
         DataContext = _viewModel;
     }
 }

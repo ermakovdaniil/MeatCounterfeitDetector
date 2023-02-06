@@ -1,19 +1,15 @@
-﻿using System;
+﻿using DataAccess.Data;
+using DataAccess.Models;
+using Microsoft.EntityFrameworkCore;
+using System;
 using System.Linq;
 using System.Windows;
-
-using DataAccess.Data;
-using DataAccess.Models;
-
-using Microsoft.EntityFrameworkCore;
-
 using VKR.UserInterface.Admin;
 using VKR.UserInterface.Admin.Abstract;
 using VKR.UserInterface.Technologist;
 using VKR.Utils;
 using VKR.Utils.Dialog;
 using VKR.Utils.MainWindowControlChanger;
-
 using MessageBox = HandyControl.Controls.MessageBox;
 
 

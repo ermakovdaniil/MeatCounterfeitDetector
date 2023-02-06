@@ -14,7 +14,7 @@ public class UserControlFactory
 
     public UserControl CreateUserControl<T>(object param) where T : UserControl
     {
-        return (UserControl) _frameworkElementFactory.CreateFrameworkElement<T>(param);
+        return (UserControl)_frameworkElementFactory.CreateFrameworkElement<T>(param);
     }
 }
 

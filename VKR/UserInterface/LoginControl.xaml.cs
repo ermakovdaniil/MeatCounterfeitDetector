@@ -12,7 +12,7 @@ public partial class LoginControl : UserControl
     public LoginControl()
     {
         InitializeComponent();
-        _viewModel = (LoginControlVM?) VmLocator.Resolve<LoginControl>();
+        _viewModel = (LoginControlVM?)VmLocator.Resolve<LoginControl>();
         DataContext = _viewModel;
     }
 }

@@ -10,7 +10,7 @@ public partial class GalleryEditControl
     public GalleryEditControl()
     {
         InitializeComponent();
-        _viewModel = (GalleryEditControlVM?) VmLocator.Resolve<GalleryEditControl>();
+        _viewModel = (GalleryEditControlVM?)VmLocator.Resolve<GalleryEditControl>();
         DataContext = _viewModel;
     }
 }

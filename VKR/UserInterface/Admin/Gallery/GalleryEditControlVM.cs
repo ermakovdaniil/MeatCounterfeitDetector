@@ -1,11 +1,10 @@
-﻿using System;
+﻿using DataAccess.Data;
+using DataAccess.Models;
+using System;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Windows;
-using DataAccess.Data;
-using DataAccess.Models;
-
 using VKR.UserInterface.Admin.Abstract;
 using VKR.Utils;
 using VKR.Utils.Dialog.Abstract;
@@ -135,7 +134,7 @@ public class GalleryEditControlVM : ViewModelBase, IDataHolder, IResultHolder, I
                 }
                 catch (ArgumentNullException ex)
                 {
-                    _messageBoxService.ShowMessage("Не указан путь к файлу", "Ошибка!", 
+                    _messageBoxService.ShowMessage("Не указан путь к файлу", "Ошибка!",
                                                     MessageBoxButton.OK, MessageBoxImage.Error);
                 }
                 catch (Exception ex)

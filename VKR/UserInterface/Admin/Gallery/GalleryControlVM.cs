@@ -2,7 +2,6 @@
 using DataAccess.Models;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Windows;
 using VKR.UserInterface.Admin.Abstract;

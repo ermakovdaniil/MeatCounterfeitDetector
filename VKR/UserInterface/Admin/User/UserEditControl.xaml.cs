@@ -10,7 +10,7 @@ public partial class UserEditControl
     public UserEditControl()
     {
         InitializeComponent();
-        _viewModel = (UserEditControlVM?) VmLocator.Resolve<UserEditControl>();
+        _viewModel = (UserEditControlVM?)VmLocator.Resolve<UserEditControl>();
         DataContext = _viewModel;
     }
 }

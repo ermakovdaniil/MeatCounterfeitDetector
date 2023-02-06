@@ -1,6 +1,5 @@
-﻿using System.Windows;
-
-using Autofac;
+﻿using Autofac;
+using System.Windows;
 
 
 namespace VKR.Utils.FrameworkFactory;

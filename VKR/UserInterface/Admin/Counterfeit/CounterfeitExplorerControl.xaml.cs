@@ -12,7 +12,7 @@ public partial class CounterfeitExplorerControl : UserControl
     public CounterfeitExplorerControl()
     {
         InitializeComponent();
-        _viewModel = (CounterfeitExplorerControlVM?) VmLocator.Resolve<CounterfeitExplorerControl>();
+        _viewModel = (CounterfeitExplorerControlVM?)VmLocator.Resolve<CounterfeitExplorerControl>();
         DataContext = _viewModel;
     }
 }

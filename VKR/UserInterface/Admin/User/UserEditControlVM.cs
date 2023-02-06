@@ -1,10 +1,8 @@
-﻿using System;
+﻿using DataAccess.Data;
+using DataAccess.Models;
+using System;
 using System.Collections.ObjectModel;
 using System.Linq;
-
-using DataAccess.Data;
-using DataAccess.Models;
-
 using VKR.UserInterface.Admin.Abstract;
 using VKR.Utils;
 using VKR.Utils.Dialog.Abstract;

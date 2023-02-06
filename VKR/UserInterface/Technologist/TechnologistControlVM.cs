@@ -6,8 +6,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Windows;
-using System.Drawing;
-using System.Windows.Media.Imaging;
 using VKR.UserInterface.Admin.Abstract;
 using VKR.Utils;
 using VKR.Utils.Dialog;
@@ -16,7 +14,6 @@ using VKR.Utils.ImageAnalyzis;
 using VKR.Utils.IOService;
 using VKR.Utils.MainWindowControlChanger;
 using VKR.Utils.MessageBoxService;
-using iText.Layout.Element;
 
 namespace VKR.UserInterface.Technologist;
 
@@ -142,7 +139,7 @@ public class TechnologistControlVM : ViewModelBase, IDataHolder
                     AnalysisResult = _analyzer.RunAnalysis(DisplayedImagePath, counterfeitPaths, PercentOfSimilarity, WorkingUser);
                     SearchResult = CreateSearchResult(AnalysisResult);
 
-                    if(AnalysisResult.ResPath.Path != null)
+                    if (AnalysisResult.ResPath.Path != null)
                     {
                         string pathToBase = Directory.GetCurrentDirectory();
                         string pathToResults = @"..\..\..\resources\resImages\";

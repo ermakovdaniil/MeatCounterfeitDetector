@@ -10,7 +10,7 @@ public partial class CounterfeitEditControl
     public CounterfeitEditControl()
     {
         InitializeComponent();
-        _viewModel = (CounterfeitEditControlVM?) VmLocator.Resolve<CounterfeitEditControl>();
+        _viewModel = (CounterfeitEditControlVM?)VmLocator.Resolve<CounterfeitEditControl>();
         DataContext = _viewModel;
     }
 }

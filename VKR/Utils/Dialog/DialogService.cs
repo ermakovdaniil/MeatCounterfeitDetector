@@ -1,7 +1,5 @@
-﻿using System.Windows.Controls;
-
-using HandyControl.Controls;
-
+﻿using HandyControl.Controls;
+using System.Windows.Controls;
 using VKR.Utils.Dialog.Abstract;
 using VKR.Utils.FrameworkFactory;
 

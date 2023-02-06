@@ -1,16 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.IO;
-using System.Resources;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Media.Imaging;
-using DataAccess.Models;
+﻿using DataAccess.Models;
 using Emgu.CV;
-using Emgu.CV.Features2D;
-using Emgu.CV.Structure;
-using Emgu.CV.Util;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Windows;
 using VKR.Utils.MessageBoxService;
 
 namespace VKR.Utils.ImageAnalyzis;

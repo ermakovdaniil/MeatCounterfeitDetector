@@ -12,7 +12,7 @@ public partial class MainAdminControl : UserControl
     public MainAdminControl()
     {
         InitializeComponent();
-        _viewModel = (MainAdminControlVM?) VmLocator.Resolve<MainAdminControl>();
+        _viewModel = (MainAdminControlVM?)VmLocator.Resolve<MainAdminControl>();
         DataContext = _viewModel;
     }
 }

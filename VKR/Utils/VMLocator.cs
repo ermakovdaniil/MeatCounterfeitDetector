@@ -1,7 +1,6 @@
-﻿using System;
+﻿using Autofac;
+using System;
 using System.Collections.Generic;
-
-using Autofac;
 
 
 namespace VKR.Utils;

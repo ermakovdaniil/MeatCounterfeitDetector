@@ -12,7 +12,7 @@ public partial class UserExplorerControl : UserControl
     public UserExplorerControl()
     {
         InitializeComponent();
-        _viewModel = (UserExplorerControlVM?) VmLocator.Resolve<UserExplorerControl>();
+        _viewModel = (UserExplorerControlVM?)VmLocator.Resolve<UserExplorerControl>();
         DataContext = _viewModel;
     }
 }
