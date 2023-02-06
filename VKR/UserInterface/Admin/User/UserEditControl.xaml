@@ -31,9 +31,11 @@
             <hc:ComboBox hc:InfoElement.Title="Тип пользователя"
                          ItemsSource="{Binding UserTypes}"
                          hc:InfoElement.TitlePlacement="Top" Margin="10 5"
-                         SelectedItem="{Binding TempUser.Type}"
-                         DisplayMemberPath="Name"
+                         SelectedItem="{Binding TempUser.Type, Mode=TwoWay}"
+                         SelectedIndex="{Binding TempUser.TypeId}"
+                         SelectedValuePath="Id" DisplayMemberPath="Name"
                          Background="{StaticResource Style3}" HorizontalAlignment="Stretch" />
+
         </StackPanel>
         <Grid Row="1" Background="{StaticResource Style1}">
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">

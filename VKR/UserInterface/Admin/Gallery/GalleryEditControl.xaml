@@ -18,12 +18,12 @@
         </Grid.RowDefinitions>
         <ScrollViewer>
             <StackPanel Background="{StaticResource Style2}">
-                <hc:ComboBox hc:InfoElement.Title="Вид фальсификата"
+                <hc:ComboBox hc:InfoElement.Title="Вид фальсификат"
                          ItemsSource="{Binding Counterfeits}"
                          hc:InfoElement.TitlePlacement="Top" Margin="10 5"
-                         SelectedItem="{Binding TempCounterfeitPath.Counterfeit}"
-                         DisplayMemberPath="Name"
-                         SelectedValuePath="Id"
+                         SelectedItem="{Binding TempCounterfeitPath.Counterfeit, Mode=TwoWay}"
+                         SelectedIndex="{Binding TempCounterfeitPath.CounterfeitId}"
+                         SelectedValuePath="Id" DisplayMemberPath="Name"
                          Background="{StaticResource Style3}" HorizontalAlignment="Stretch" />
                 <hc:TextBox hc:InfoElement.Title="Путь к файлу"
                         hc:InfoElement.TitlePlacement="Top" Margin="10 5"
