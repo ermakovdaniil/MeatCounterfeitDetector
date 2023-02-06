@@ -143,7 +143,7 @@ public class TechnologistControlVM : ViewModelBase, IDataHolder
                     {
                         string pathToBase = Directory.GetCurrentDirectory();
                         string pathToResults = @"..\..\..\resources\resImages\";
-                        string combinedPath = Path.Combine(pathToBase, pathToResults, AnalysisResult.ResPath.Path);
+                        string combinedPath = Path.Combine(pathToBase, AnalysisResult.ResPath.Path);
                         ResultImagePath = combinedPath;
                     }
                     //_resultContext.Results.Add(AnalysisResult);

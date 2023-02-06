@@ -106,6 +106,7 @@ namespace VKR.Utils.ImageAnalyzis
                 //{
                 //    numberOfKeypoints = (double)observedKeyPoints.Length;
                 //}
+
                 //score = ((double)goodMatches / (double)matches.Length) * 100.0;
                 //score = Math.Round(score, 2);
 
