@@ -7,6 +7,7 @@ using System.Windows;
 using VKR.UserInterface.Admin.Abstract;
 using VKR.Utils;
 using VKR.Utils.Dialog;
+using VKR.Utils.MessageBoxService;
 using MessageBox = HandyControl.Controls.MessageBox;
 
 
@@ -18,8 +19,9 @@ public class GalleryControlVM : ViewModelBase
 
     #region Constructors
 
-    public GalleryControlVM(CounterfeitKBContext context, DialogService ds)
+    public GalleryControlVM(CounterfeitKBContext context, DialogService ds, IMessageBoxService messageBoxService)
     {
+        _messageBoxService = messageBoxService;
         _context = context;
         _context.Counterfeits.Load();
         _ds = ds;
@@ -34,6 +36,7 @@ public class GalleryControlVM : ViewModelBase
 
     private readonly DialogService _ds;
     private readonly CounterfeitKBContext _context;
+    private readonly IMessageBoxService _messageBoxService;
     public CounterfeitPath SelectedCounterfeitPath { get; set; }
     public List<CounterfeitPath> CounterfeitPaths => _context.CounterfeitPaths.ToList();
     public List<DataAccess.Models.Counterfeit> Counterfeits => _context.Counterfeits.ToList();
@@ -85,7 +88,7 @@ public class GalleryControlVM : ViewModelBase
                 },
                 data: SelectedCounterfeitPath);
                 OnPropertyChanged(nameof(CounterfeitPaths));
-            }, _ => SelectedCounterfeitPath != null);
+            }, _ => SelectedCounterfeitPath is not null);
         }
     }
 
@@ -94,20 +97,19 @@ public class GalleryControlVM : ViewModelBase
     /// <summary>
     ///     Команда, удаляющая изображение фальсификата
     /// </summary>
-    public RelayCommand DeleteounterfeitPath
+    public RelayCommand DeleteCounterfeitPath
     {
         get
         {
             return _deleteCounterfeitPath ??= new RelayCommand(o =>
             {
-                if (MessageBox.Show("Вы действительно хотите удалить изображение?",
-                                    "Удаление изображения", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
+                if (_messageBoxService.ShowMessage("Вы действительно хотите удалить изображение?", "Удаление изображения", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
                 {
                     _context.CounterfeitPaths.Remove(SelectedCounterfeitPath);
                     _context.SaveChanges();
                 }
                 OnPropertyChanged(nameof(CounterfeitPaths));
-            }, c => SelectedCounterfeitPath != null);
+            }, c => SelectedCounterfeitPath is not null);
         }
     }
 

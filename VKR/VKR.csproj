@@ -5,6 +5,7 @@
         <TargetFramework>net6.0-windows</TargetFramework>
         <Nullable>enable</Nullable>
         <UseWPF>true</UseWPF>
+        <ApplicationIcon>resources\icons\image-analysis.ico</ApplicationIcon>
     </PropertyGroup>
 
     <ItemGroup>
@@ -38,10 +39,6 @@
 
     <ItemGroup>
         <PackageReference Include="Autofac" Version="6.4.0" />
-        <PackageReference Include="DynamicLanguageRuntime" Version="1.3.3" />
-        <PackageReference Include="Emgu.CV" Version="4.6.0.5131" />
-        <PackageReference Include="Emgu.CV.runtime.windows" Version="4.6.0.5131" />
-        <PackageReference Include="EmguCV" Version="3.1.0.1" />
         <PackageReference Include="HandyControl" Version="3.3.0" />
         <PackageReference Include="HandyControls.Lang.ru" Version="3.4.1" />
         <PackageReference Include="itext7" Version="7.2.3" />
@@ -109,22 +106,21 @@
             <CopyToOutputDirectory>Never</CopyToOutputDirectory>
         </Resource>
         <None Remove="resources\resImages\res.jpg" />
+        <Resource Include="resources\icons\image-analysis.ico" />
         <Resource Include="resources\resImages\res.jpg" />
     </ItemGroup>
 
     <ItemGroup>
         <ProjectReference Include="..\DataAccess\DataAccess.csproj" />
+        <ProjectReference Include="..\ImageAnalyzer\ImageAnalyzer.csproj" />
     </ItemGroup>
 
     <ItemGroup>
         <None Update="CounterfeitKB.db">
-            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
         <None Update="ResultDB.db">
-            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-        </None>
-        <None Update="Utils\ImageAnalyzis\Test.py">
-          <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
     </ItemGroup>
 

@@ -6,6 +6,7 @@ using System.Windows;
 using VKR.UserInterface.Admin.Abstract;
 using VKR.Utils;
 using VKR.Utils.Dialog;
+using VKR.Utils.MessageBoxService;
 using MessageBox = HandyControl.Controls.MessageBox;
 
 
@@ -17,8 +18,9 @@ public class UserExplorerControlVM : ViewModelBase
 
     #region Constructors
 
-    public UserExplorerControlVM(ResultDBContext context, DialogService ds)
+    public UserExplorerControlVM(ResultDBContext context, DialogService ds, IMessageBoxService messageBoxService)
     {
+        _messageBoxService = messageBoxService;
         _context = context;
         _context.UserTypes.Load();
         _ds = ds;
@@ -32,8 +34,8 @@ public class UserExplorerControlVM : ViewModelBase
     #region Properties
 
     private readonly DialogService _ds;
-
     private readonly ResultDBContext _context;
+    private readonly IMessageBoxService _messageBoxService;
     public DataAccess.Models.User SelectedUser { get; set; }
 
     public List<DataAccess.Models.User> Users => _context.Users.ToList();
@@ -87,7 +89,7 @@ public class UserExplorerControlVM : ViewModelBase
                 data: SelectedUser);
 
                 OnPropertyChanged(nameof(Users));
-            }, _ => SelectedUser != null);
+            }, _ => SelectedUser is not null);
         }
     }
 
@@ -102,16 +104,14 @@ public class UserExplorerControlVM : ViewModelBase
         {
             return _deleteUser ??= new RelayCommand(o =>
             {
-                if (MessageBox.Show($"Вы действительно хотите удалить пользователя: \"{SelectedUser.Name}\"?",
-                                    "Удаление пользователя", MessageBoxButton.YesNo, MessageBoxImage.Warning) ==
-                    MessageBoxResult.Yes)
+                if (_messageBoxService.ShowMessage($"Вы действительно хотите удалить пользователя: \"{SelectedUser.Name}\"?", "Удаление пользователя", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
                 {
                     _context.Users.Remove(SelectedUser);
                     _context.SaveChanges();
                 }
 
                 OnPropertyChanged(nameof(Users));
-            }, _ => SelectedUser != null);
+            }, _ => SelectedUser is not null);
         }
     }
 

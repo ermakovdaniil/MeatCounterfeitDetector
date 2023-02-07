@@ -9,7 +9,7 @@ using System.Drawing;
 using System.Linq;
 
 
-namespace VKR.Utils.ImageAnalyzis
+namespace ImageAnalyzis
 {
     public static class SIFTAlgorithm
     {
@@ -17,43 +17,31 @@ namespace VKR.Utils.ImageAnalyzis
         {
             int k = 2;
             double uniquenessThreshold = 0.8;
-
-
             homography = null;
-
             modelKeyPoints = new VectorOfKeyPoint();
             observedKeyPoints = new VectorOfKeyPoint();
+            SIFT sift = new SIFT();
+            Mat modelDescriptors = new Mat();
+            modelKeyPoints = new VectorOfKeyPoint();
+            modelDescriptors = new Mat();
 
-            //using (UMat uModelImage = modelImage.ToUMat(AccessType.Read))
-            //using (UMat uObservedImage = observedImage.ToUMat(AccessType.Read))
+            sift.DetectAndCompute(modelImage, null, modelKeyPoints, modelDescriptors, false);
+            Mat observedDescriptors = new Mat();
+            sift.DetectAndCompute(observedImage, null, observedKeyPoints, observedDescriptors, false);
+            BFMatcher matcher = new BFMatcher(DistanceType.L2);
+            matcher.Add(modelDescriptors);
+            matcher.KnnMatch(observedDescriptors, matches, k, null);
+            mask = new Mat(matches.Size, 1, DepthType.Cv8U, 1);
+            mask.SetTo(new MCvScalar(255));
+            Features2DToolbox.VoteForUniqueness(matches, uniquenessThreshold, mask);
+            int nonZeroCount = CvInvoke.CountNonZero(mask);
+            if (nonZeroCount >= 4)
             {
-                SIFT sift = new SIFT();
-                //UMat modelDescriptors = new UMat();
-                Mat modelDescriptors = new Mat();
-                modelKeyPoints = new VectorOfKeyPoint();
-                modelDescriptors = new Mat();
-                // БЫЛО uModelImage
-                sift.DetectAndCompute(modelImage, null, modelKeyPoints, modelDescriptors, false);
-                //UMat observedDescriptors = new UMat();
-                Mat observedDescriptors = new Mat();
-                // БЫЛО uObservedImage
-                sift.DetectAndCompute(observedImage, null, observedKeyPoints, observedDescriptors, false);
-                BFMatcher matcher = new BFMatcher(DistanceType.L2);
-                matcher.Add(modelDescriptors);
-                matcher.KnnMatch(observedDescriptors, matches, k, null);
-                mask = new Mat(matches.Size, 1, DepthType.Cv8U, 1);
-                mask.SetTo(new MCvScalar(255));
-                Features2DToolbox.VoteForUniqueness(matches, uniquenessThreshold, mask);
-
-                int nonZeroCount = CvInvoke.CountNonZero(mask);
+                nonZeroCount = Features2DToolbox.VoteForSizeAndOrientation(modelKeyPoints, observedKeyPoints,
+                   matches, mask, 1.5, 20);
                 if (nonZeroCount >= 4)
-                {
-                    nonZeroCount = Features2DToolbox.VoteForSizeAndOrientation(modelKeyPoints, observedKeyPoints,
-                       matches, mask, 1.5, 20);
-                    if (nonZeroCount >= 4)
-                        homography = Features2DToolbox.GetHomographyMatrixFromMatchedFeatures(modelKeyPoints,
-                           observedKeyPoints, matches, mask, 2);
-                }
+                    homography = Features2DToolbox.GetHomographyMatrixFromMatchedFeatures(modelKeyPoints,
+                       observedKeyPoints, matches, mask, 2);
             }
         }
 
@@ -96,8 +84,8 @@ namespace VKR.Utils.ImageAnalyzis
                 Mat result = new Mat();
                 Features2DToolbox.DrawMatches(modelImage, modelKeyPoints, observedImage, observedKeyPoints,
                     matches, result, new MCvScalar(0, 0, 255), new MCvScalar(255, 255, 255), mask, Features2DToolbox.KeypointDrawType.NotDrawSinglePoints);
-                int goodMatches = CountHowManyPairsExist(mask);
-
+               
+                //int goodMatches = CountHowManyPairsExist(mask);
                 //if (modelKeyPoints.Length <= observedKeyPoints.Length)
                 //{
                 //    numberOfKeypoints = (double)modelKeyPoints.Length;

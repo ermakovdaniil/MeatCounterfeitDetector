@@ -5,6 +5,7 @@ using System.Windows;
 using VKR.UserInterface.Admin.Abstract;
 using VKR.Utils;
 using VKR.Utils.Dialog;
+using VKR.Utils.MessageBoxService;
 using MessageBox = HandyControl.Controls.MessageBox;
 
 
@@ -16,8 +17,9 @@ public class CounterfeitExplorerControlVM : ViewModelBase
 
     #region Constructors
 
-    public CounterfeitExplorerControlVM(CounterfeitKBContext context, DialogService ds)
+    public CounterfeitExplorerControlVM(CounterfeitKBContext context, DialogService ds, IMessageBoxService messageBoxService)
     {
+        _messageBoxService = messageBoxService;
         _context = context;
         _ds = ds;
     }
@@ -30,8 +32,8 @@ public class CounterfeitExplorerControlVM : ViewModelBase
     #region Properties
 
     private readonly DialogService _ds;
-
     private readonly CounterfeitKBContext _context;
+    private readonly IMessageBoxService _messageBoxService;
     public DataAccess.Models.Counterfeit SelectedCounterfeit { get; set; }
 
     public List<DataAccess.Models.Counterfeit> Counterfeits => _context.Counterfeits.ToList();
@@ -85,7 +87,7 @@ public class CounterfeitExplorerControlVM : ViewModelBase
                 data: SelectedCounterfeit);
 
                 OnPropertyChanged(nameof(Counterfeits));
-            }, _ => SelectedCounterfeit != null);
+            }, _ => SelectedCounterfeit is not null);
         }
     }
 
@@ -100,15 +102,13 @@ public class CounterfeitExplorerControlVM : ViewModelBase
         {
             return _deleteCounterfeit ??= new RelayCommand(o =>
             {
-                if (MessageBox.Show($"Вы действительно хотите удалить фальсификат: \"{SelectedCounterfeit.Name}\"?",
-                                    "Удаление объекта", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
+                if (_messageBoxService.ShowMessage($"Вы действительно хотите удалить фальсификат: \"{SelectedCounterfeit.Name}\"?", "Удаление объекта", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
                 {
-                    _context.Counterfeits.Remove(SelectedCounterfeit);
+                        _context.Counterfeits.Remove(SelectedCounterfeit);
                     _context.SaveChanges();
                 }
-
                 OnPropertyChanged(nameof(Counterfeits));
-            }, c => SelectedCounterfeit != null);
+            }, c => SelectedCounterfeit is not null);
         }
     }
 

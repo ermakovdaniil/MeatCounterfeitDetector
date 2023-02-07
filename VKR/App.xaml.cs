@@ -1,5 +1,7 @@
 ﻿using Autofac;
 using DataAccess.Data;
+using DataAccess.Models;
+using ImageAnalyzis;
 using System.Globalization;
 using System.Threading;
 using System.Windows;
@@ -13,10 +15,10 @@ using VKR.UserInterface.Technologist;
 using VKR.Utils;
 using VKR.Utils.Dialog;
 using VKR.Utils.FrameworkFactory;
-using VKR.Utils.ImageAnalyzis;
 using VKR.Utils.IOService;
 using VKR.Utils.MainWindowControlChanger;
 using VKR.Utils.MessageBoxService;
+using VKR.Utils.UserService;
 using FrameworkElementFactory = VKR.Utils.FrameworkFactory.FrameworkElementFactory;
 
 
@@ -53,11 +55,10 @@ public partial class App : Application
         builder.RegisterType<NavigationManager>().AsSelf().SingleInstance();
         builder.RegisterType<UserControlFactory>().AsSelf();
         builder.RegisterType<DialogService>().AsSelf();
-
-        builder.RegisterType<ImageAnalyzer>().As<IImageAnalyzer>();
+        builder.RegisterType<ImageAnalyzis.ImageAnalyzer>().As<IImageAnalyzer>();
         builder.RegisterType<FileDialogService>().As<IFileDialogService>();
         builder.RegisterType<HandyMessageBoxService>().As<IMessageBoxService>();
-
+        builder.RegisterType<UserService>().As<IUserService>().SingleInstance();
 
         Container = builder.Build();
 

@@ -4,7 +4,7 @@ using VKR.UserInterface.Admin.Abstract;
 using VKR.Utils;
 using VKR.Utils.Dialog;
 using VKR.Utils.MainWindowControlChanger;
-
+using VKR.Utils.MessageBoxService;
 using MessageBox = HandyControl.Controls.MessageBox;
 
 
@@ -13,12 +13,13 @@ namespace VKR.UserInterface.Admin;
 public class MainAdminControlVM : ViewModelBase
 {
     private readonly NavigationManager _navigationManager;
-
+    private readonly IMessageBoxService _messageBoxService;
 
     #region Functions
 
-    public MainAdminControlVM(NavigationManager navigationManager)
+    public MainAdminControlVM(NavigationManager navigationManager, IMessageBoxService messageBoxService)
     {
+        _messageBoxService = messageBoxService;
         _navigationManager = navigationManager;
     }
 
@@ -54,7 +55,7 @@ public class MainAdminControlVM : ViewModelBase
         {
             return _showInfo ??= new RelayCommand(_ =>
             {
-                MessageBox.Show("Данный программный комплекс предназначен для обработки\n" +
+                _messageBoxService.ShowMessage("Данный программный комплекс предназначен для обработки\n" +
                                 "входного изображения среза мясной продукции в задаче\n" +
                                 "обнаружения фальсификата.\n" +
                                 "\n" +

@@ -38,7 +38,7 @@ public class MainWindowVM : ViewModelBase
         {
             var m = ContentWindow?.TryFindResource("Menu") as Menu;
 
-            if (m != null)
+            if (m is not null)
             {
                 m.DataContext = ContentWindow.DataContext;
             }

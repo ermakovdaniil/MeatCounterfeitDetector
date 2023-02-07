@@ -5,6 +5,7 @@ using System.Linq;
 using System.Windows;
 using VKR.UserInterface.Admin.Abstract;
 using VKR.Utils;
+using VKR.Utils.MessageBoxService;
 using MessageBox = HandyControl.Controls.MessageBox;
 
 
@@ -16,8 +17,9 @@ public class ResultControlVM : ViewModelBase
 
     #region Constructors
 
-    public ResultControlVM(ResultDBContext context)
+    public ResultControlVM(ResultDBContext context, IMessageBoxService messageBoxService)
     {
+        _messageBoxService = messageBoxService;
         _context = context;
         _context.Users.Load();
         _context.OriginalPaths.Load();
@@ -32,6 +34,7 @@ public class ResultControlVM : ViewModelBase
     #region Properties
 
     private readonly ResultDBContext _context;
+    private readonly IMessageBoxService _messageBoxService;
     public DataAccess.Models.Result SelectedResult { get; set; }
 
     public List<DataAccess.Models.Result> Results => _context.Results.ToList();
@@ -52,14 +55,12 @@ public class ResultControlVM : ViewModelBase
         {
             return _deleteResult ??= new RelayCommand(o =>
             {
-                if (MessageBox.Show("Вы действительно хотите удалить запись?",
-                                    "Удаление записи", MessageBoxButton.YesNo, MessageBoxImage.Warning) ==
-                    MessageBoxResult.Yes)
+                if (_messageBoxService.ShowMessage("Вы действительно хотите удалить запись?", "Удаление записи", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
                 {
                     _context.Results.Remove(SelectedResult);
                     _context.SaveChanges();
                 }
-            }, _ => SelectedResult != null);
+            }, _ => SelectedResult is not null);
         }
     }
 

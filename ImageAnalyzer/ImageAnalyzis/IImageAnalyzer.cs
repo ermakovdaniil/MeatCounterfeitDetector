@@ -1,7 +1,7 @@
 ﻿using DataAccess.Models;
 using System.Collections.Generic;
 
-namespace VKR.Utils.ImageAnalyzis;
+namespace ImageAnalyzis;
 
 public interface IImageAnalyzer
 {

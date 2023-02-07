@@ -57,33 +57,26 @@ internal static class FileSystem
 
         var fontFilename = "../../../resources/fonts/Times_New_Roman.ttf";
         var font = PdfFontFactory.CreateFont(fontFilename, PdfEncodings.IDENTITY_H);
-
         var header = new Paragraph("Отчёт об анализе изображения мясной продукции.").SetFont(font)
                                                                                     .SetTextAlignment(TextAlignment.CENTER)
                                                                                     .SetFontSize(20);
-
         document.SetFont(font);
-
         document.Add(header);
         document.Add(new Paragraph("Исходное изображение:"));
+        
         var initialImage = CreateAndFitImage(result.OrigPath.Path, document);
         document.Add(initialImage);
         document.Add(new AreaBreak());
 
-        if (result.ResPath.Path != null)
+        if (result.ResPath.Path is not null)
         {
             document.Add(new Paragraph("Обработанное изображение:"));
-
             var resImage = CreateAndFitImage(result.ResPath.Path, document);
             document.Add(resImage);
         }
 
         document.Add(new Paragraph(""));
-
-        //document.Add(new AreaBreak());
-
         document.Add(new Paragraph("Результат анализа:"));
-
         string resultToString = result.AnRes + "\n" +
                                 "Дата проведения анализа: " + result.Date + "\n" +
                                 "Время проведения: " + result.Time + " мс\n" +

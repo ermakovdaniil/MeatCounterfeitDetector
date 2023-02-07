@@ -117,7 +117,7 @@ public class GalleryEditControlVM : ViewModelBase, IDataHolder, IResultHolder, I
             {
                 try
                 {
-                    if (CounterfeitImagePath == null)
+                    if (CounterfeitImagePath is null)
                     {
                         CounterfeitImagePath = Directory.GetCurrentDirectory();
                     }

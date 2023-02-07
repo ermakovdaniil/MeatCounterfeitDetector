@@ -10,6 +10,8 @@ using VKR.UserInterface.Technologist;
 using VKR.Utils;
 using VKR.Utils.Dialog;
 using VKR.Utils.MainWindowControlChanger;
+using VKR.Utils.MessageBoxService;
+using VKR.Utils.UserService;
 using MessageBox = HandyControl.Controls.MessageBox;
 
 
@@ -22,10 +24,12 @@ public class LoginControlVM : ViewModelBase
 
     #region Constructors
 
-    public LoginControlVM(ResultDBContext context, NavigationManager navigationManager)
+    public LoginControlVM(ResultDBContext context, NavigationManager navigationManager, IUserService userService, IMessageBoxService messageBoxService)
     {
+        _messageBoxService = messageBoxService;
         _context = context;
         _navigationManager = navigationManager;
+        _userService = userService;
         User = new User();
     }
 
@@ -37,9 +41,10 @@ public class LoginControlVM : ViewModelBase
     #region Properties
 
     public User User { get; set; }
-    public User TempUser { get; set; }
     private readonly ResultDBContext _context;
     private readonly NavigationManager _navigationManager;
+    private readonly IMessageBoxService _messageBoxService;
+    private readonly IUserService _userService;
 
     #endregion
 
@@ -56,8 +61,7 @@ public class LoginControlVM : ViewModelBase
             {
                 if (string.IsNullOrEmpty(User.Login) || string.IsNullOrEmpty(User.Password))
                 {
-                    MessageBox.Show("Введите имя пользователя и пароль!", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
-
+                    _messageBoxService.ShowMessage("Введите имя пользователя и пароль!", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
                     return;
                 }
 
@@ -80,13 +84,13 @@ public class LoginControlVM : ViewModelBase
                         {
                             WindowState = WindowState.Maximized,
                             Title = " | Панель технолога | ",
-                        },
-                        data: user);
+                        });
                     }
+                    _userService.User = user;
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show("Неверное имя пользователя или пароль! Повторите попытку.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                    _messageBoxService.ShowMessage("Неверное имя пользователя или пароль! Повторите попытку.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
             });
         }

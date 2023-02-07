@@ -1,5 +1,6 @@
 ﻿using DataAccess.Data;
 using DataAccess.Models;
+using ImageAnalyzis;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -10,21 +11,21 @@ using VKR.UserInterface.Admin.Abstract;
 using VKR.Utils;
 using VKR.Utils.Dialog;
 using VKR.Utils.Dialog.Abstract;
-using VKR.Utils.ImageAnalyzis;
 using VKR.Utils.IOService;
 using VKR.Utils.MainWindowControlChanger;
 using VKR.Utils.MessageBoxService;
+using VKR.Utils.UserService;
 
 namespace VKR.UserInterface.Technologist;
 
-public class TechnologistControlVM : ViewModelBase, IDataHolder
+public class TechnologistControlVM : ViewModelBase
 {
     private object _data;
     private readonly IImageAnalyzer _analyzer;
     private readonly IFileDialogService _dialogService;
     private readonly IMessageBoxService _messageBoxService;
     private readonly NavigationManager _navigationManager;
-
+    private readonly IUserService _userService;
 
     #region Functions
 
@@ -33,7 +34,8 @@ public class TechnologistControlVM : ViewModelBase, IDataHolder
                                  NavigationManager navigationManager,
                                  IImageAnalyzer analyzer,
                                  IFileDialogService dialogService,
-                                 IMessageBoxService messageBoxService)
+                                 IMessageBoxService messageBoxService,
+                                 IUserService userService)
     {
         _resultContext = resultContext;
         _counterfeitsContext = counterfeitsContext;
@@ -44,6 +46,7 @@ public class TechnologistControlVM : ViewModelBase, IDataHolder
         _analyzer = analyzer;
         _dialogService = dialogService;
         _messageBoxService = messageBoxService;
+        _userService = userService;
     }
 
     private string CreateSearchResult(Result AnalysisResult)
@@ -65,27 +68,6 @@ public class TechnologistControlVM : ViewModelBase, IDataHolder
     private readonly CounterfeitKBContext _counterfeitsContext;
     public List<Counterfeit> Counterfeits => _counterfeitsContext.Counterfeits.ToList();
     public Counterfeit SelectedCounterfeit { get; set; }
-    public object Data
-    {
-        get => _data;
-        set
-        {
-            _data = value;
-
-            WorkingUser = new User
-            {
-                Id = TempUser.Id,
-                Login = TempUser.Login,
-                Password = TempUser.Password,
-                Name = TempUser.Name,
-                TypeId = TempUser.TypeId,
-            };
-
-            OnPropertyChanged(nameof(WorkingUser));
-        }
-    }
-    public User WorkingUser { get; set; }
-    public User TempUser => (User)Data;
     public double PercentOfSimilarity { get; set; }
     public string DisplayedImagePath { get; set; }
     public string ResultImagePath { get; set; }
@@ -124,34 +106,41 @@ public class TechnologistControlVM : ViewModelBase, IDataHolder
         {
             return _scanImage ??= new RelayCommand(_ =>
             {
-                if (DisplayedImagePath != null)
+                if (DisplayedImagePath is null)
                 {
-                    List<CounterfeitPath> counterfeitPaths = new List<CounterfeitPath>();
-                    if (SelectedCounterfeit == null)
-                    {
-                        counterfeitPaths = _counterfeitsContext.CounterfeitPaths.ToList();
-                    }
-                    else
-                    {
-                        counterfeitPaths = _counterfeitsContext.CounterfeitPaths.Include(c => c.Counterfeit).Where(c => c.CounterfeitId == SelectedCounterfeit.Id).ToList();
-                    }
-
-                    AnalysisResult = _analyzer.RunAnalysis(DisplayedImagePath, counterfeitPaths, PercentOfSimilarity, WorkingUser);
-                    SearchResult = CreateSearchResult(AnalysisResult);
-
-                    if (AnalysisResult.ResPath.Path != null)
-                    {
-                        string pathToBase = Directory.GetCurrentDirectory();
-                        string pathToResults = @"..\..\..\resources\resImages\";
-                        string combinedPath = Path.Combine(pathToBase, AnalysisResult.ResPath.Path);
-                        ResultImagePath = combinedPath;
-                    }
-                    //_resultContext.Results.Add(AnalysisResult);
-                    //_resultContext.SaveChanges();
+                    _messageBoxService.ShowMessage("Недостаточно данных для произведения анализа", "Ошибка!", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
                 else
                 {
-                    _messageBoxService.ShowMessage("Недостаточно данных для произведения анализа", "Ошибка!", MessageBoxButton.OK, MessageBoxImage.Error);
+                    try
+                    {
+                        List<CounterfeitPath> counterfeitPaths = new List<CounterfeitPath>();
+                        if (SelectedCounterfeit is null)
+                        {
+                            counterfeitPaths = _counterfeitsContext.CounterfeitPaths.ToList();
+                        }
+                        else
+                        {
+                            counterfeitPaths = _counterfeitsContext.CounterfeitPaths.Include(c => c.Counterfeit).Where(c => c.CounterfeitId == SelectedCounterfeit.Id).ToList();
+                        }
+
+                        AnalysisResult = _analyzer.RunAnalysis(DisplayedImagePath, counterfeitPaths, PercentOfSimilarity, _userService.User);
+                        SearchResult = CreateSearchResult(AnalysisResult);
+
+                        if (AnalysisResult.ResPath.Path is not null)
+                        {
+                            string pathToBase = Directory.GetCurrentDirectory();
+                            string pathToResults = @"..\..\..\resources\resImages\";
+                            string combinedPath = Path.Combine(pathToBase, AnalysisResult.ResPath.Path);
+                            ResultImagePath = combinedPath;
+                        }
+                        _resultContext.Results.Add(AnalysisResult);
+                        _resultContext.SaveChanges();
+                    }
+                    catch (Emgu.CV.Util.CvException)
+                    {
+                        _messageBoxService.ShowMessage("Данное изображение не удаётся обработать. Попробуйте изменить разрешение изображения.", "Ошибка!", MessageBoxButton.OK, MessageBoxImage.Error);
+                    }
                 }
             });
         }
@@ -165,19 +154,18 @@ public class TechnologistControlVM : ViewModelBase, IDataHolder
         {
             return _createFile ??= new RelayCommand(_ =>
             {
-                if (AnalysisResult != null)
+                if (AnalysisResult is null)
+                {
+                    _messageBoxService.ShowMessage("Недостаточно данных для сохранения", "Ошибка!", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+                else
                 {
                     var filename = "АНАЛИЗ_" + DateTime.Now.ToString("dd.mm.yyyy_hh.mm.ss");
                     var filePath = _dialogService.SaveFileDialog(filename, ext: ".pdf");
-
                     if (!string.IsNullOrEmpty(filePath))
                     {
                         FileSystem.ExportPdf(filePath, AnalysisResult);
                     }
-                }
-                else
-                {
-                    _messageBoxService.ShowMessage("Недостаточно данных для сохранения", "Ошибка!", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
             });
         }
