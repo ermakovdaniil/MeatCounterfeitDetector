@@ -102,9 +102,6 @@
         <Resource Include="resources\icons\user.png">
             <CopyToOutputDirectory>Never</CopyToOutputDirectory>
         </Resource>
-        <Resource Include="resources\origImages\orig.jpg">
-            <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-        </Resource>
         <Resource Include="resources\icons\image-analysis.ico" />
     </ItemGroup>
 
@@ -123,6 +120,7 @@
     </ItemGroup>
 
     <ItemGroup>
+      <Folder Include="resources\origImages\" />
       <Folder Include="resources\resImages\" />
     </ItemGroup>
 
