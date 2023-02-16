@@ -1,0 +1,23 @@
+using System;
+
+public class HelloWorld
+{
+    public static void Main(string[] args)
+    {
+        string str = @"INSERT INTO counterfeitPath ( id, counterfeitId, imagePath )
+        VALUES 
+        ";
+        
+        for(int i = 1; i < 29; i++){
+            if(i == 28) {
+               str += @"("+(i+95)+@",2,'..\..\..\resources\counterfeits\соя "+i+@".png');
+               ";   
+            }
+            else {            
+                str += @"("+(i+95)+@",2,'..\..\..\resources\counterfeits\соя "+i+@".png'),
+                ";      
+            }
+        }
+        Console.WriteLine (str);      
+    }
+}

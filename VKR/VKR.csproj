@@ -105,9 +105,7 @@
         <Resource Include="resources\origImages\orig.jpg">
             <CopyToOutputDirectory>Never</CopyToOutputDirectory>
         </Resource>
-        <None Remove="resources\resImages\res.jpg" />
         <Resource Include="resources\icons\image-analysis.ico" />
-        <Resource Include="resources\resImages\res.jpg" />
     </ItemGroup>
 
     <ItemGroup>
@@ -122,6 +120,10 @@
         <None Update="ResultDB.db">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="resources\resImages\" />
     </ItemGroup>
 
 </Project>
