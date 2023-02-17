@@ -9,6 +9,11 @@ namespace ImageAnalyzis;
 
 public class ImageAnalyzer : IImageAnalyzer
 {
+    private int currentPath = 0;
+    private string previousPath;
+    private double previousPercent = 0;
+    private Mat origMat;
+
     public Result RunAnalysis(string pathToOrig, List<CounterfeitPath> counterfeitPaths, double percentOfSimilarity, User user)
     {
         string anRes = "";
@@ -16,14 +21,29 @@ public class ImageAnalyzer : IImageAnalyzer
         double matchTime = 0;
         double score = 0;
         double tempTime = 0;
-        for (int i = 0; i < counterfeitPaths.Count; i++)
+
+       if (previousPath is null || previousPath != pathToOrig)
         {
-            AnalyzeImage(ref pathToOrig, counterfeitPaths[i].ImagePath, out resPath, out tempTime, out score, percentOfSimilarity);
+            currentPath = 0;
+            previousPath = pathToOrig;
+            origMat = CvInvoke.Imread(pathToOrig, Emgu.CV.CvEnum.ImreadModes.AnyColor);
+        }
+
+        if (previousPath == pathToOrig && previousPercent > percentOfSimilarity)
+        {
+            previousPercent = percentOfSimilarity;
+            currentPath = 0;
+        }
+
+        for (int i = currentPath; i < counterfeitPaths.Count; i++)
+        {
+            AnalyzeImage(ref pathToOrig, counterfeitPaths[i].ImagePath, out resPath, out tempTime, out score, percentOfSimilarity, origMat);
             matchTime += tempTime;
             if (score > percentOfSimilarity)
             {
                 anRes = "Фальсификат обнаружен: " + counterfeitPaths[i].Counterfeit.Name;
                 matchTime += tempTime;
+                currentPath = i + 1;
                 break;
             }
             else
@@ -37,14 +57,13 @@ public class ImageAnalyzer : IImageAnalyzer
         return res;
     }
 
-    private void AnalyzeImage(ref string pathToOrig, string pathToCounterfeit, out string pathToResult, out double matchTime, out double score, double percentOfSimilarity)
+    private void AnalyzeImage(ref string pathToOrig, string pathToCounterfeit, out string pathToResult, out double matchTime, out double score, double percentOfSimilarity, Mat origMat)
     {
         string pathToBase = Directory.GetCurrentDirectory();
-        //string pathToCounterfeits = @"..\..\..\resources\counterfeits\";
         string combinedPath = Path.Combine(pathToBase, pathToCounterfeit);
-        Mat origMat = CvInvoke.Imread(pathToOrig, Emgu.CV.CvEnum.ImreadModes.AnyColor);
+
         Mat counterfeitMat = CvInvoke.Imread(combinedPath, Emgu.CV.CvEnum.ImreadModes.AnyColor);
-        Mat resMat = SIFTAlgorithm.Draw(origMat, counterfeitMat, out matchTime, out score);
+        Mat resMat = SIFTAlgorithm.Draw(origMat, counterfeitMat, out matchTime, out score, percentOfSimilarity);
 
         pathToResult = "";
         if (score > percentOfSimilarity)
