@@ -50,11 +50,11 @@ public class ImageAnalyzer : IImageAnalyzer
         if (score > percentOfSimilarity)
         {
             var date = DateTime.Now.ToString("dd.mm.yyyy_hh.mm.ss");
-            var filename = "orig_" + date + ".jpg";
+            var filename = "orig_" + date + ".png";
             pathToOrig = @"..\..\..\resources\origImages\" + filename;
             origMat.Save(pathToOrig);
 
-            filename = "res_" + date + ".jpg";
+            filename = "res_" + date + ".png";
             pathToResult = @"..\..\..\resources\resImages\" + filename;
             resMat.Save(pathToResult);
         }

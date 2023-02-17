@@ -101,6 +101,7 @@ namespace ImageAnalyzis
                 if (homography != null)
                 {
                     Rectangle rect = new Rectangle(Point.Empty, modelImage.Size);
+                    
                     PointF[] pts = new PointF[]
                     {
                         new PointF(rect.Left, rect.Bottom),
@@ -113,7 +114,7 @@ namespace ImageAnalyzis
                     Point[] points = Array.ConvertAll<PointF, Point>(pts, Point.Round);
                     using (VectorOfPoint vp = new VectorOfPoint(points))
                     {
-                        CvInvoke.Polylines(result, vp, true, new MCvScalar(255, 0, 0, 255), 0);
+                        CvInvoke.Polylines(result, vp, true, new MCvScalar(255, 0, 0, 255), 0, LineType.EightConnected, 0);
                     }
                 }
 
