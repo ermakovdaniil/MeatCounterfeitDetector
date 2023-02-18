@@ -31,48 +31,50 @@ namespace ImageAnalyzis
                 FindMatch(modelImage, observedImage, out observedKeyPoints, matches,
                     out mask, out homography);
 
-                Mat scoreImg = new Mat();
-                double minVal = Double.MaxValue;
-                score = Double.MinValue;
-                var minLoc = new Point();
-                var maxLoc = new Point();
-                CvInvoke.MatchTemplate(modelImage, observedImage, scoreImg, TemplateMatchingType.CcoeffNormed);
-                CvInvoke.MinMaxLoc(scoreImg, ref minVal, ref score, ref minLoc, ref maxLoc);
-                score *= 100;
+                //Mat scoreImg = new Mat();
+                //double minVal = Double.MaxValue;
+                //score = Double.MinValue;
+                //var minLoc = new Point();
+                //var maxLoc = new Point();
+                //CvInvoke.MatchTemplate(modelImage, observedImage, scoreImg, TemplateMatchingType.CcoeffNormed);
+                //CvInvoke.MinMaxLoc(scoreImg, ref minVal, ref score, ref minLoc, ref maxLoc);
+                //score *= 100;
+                //score = Math.Round(score, 2);
+
+                int goodMatches = CountHowManyPairsExist(mask);
+                double numberOfKeypoints;
+                if (modelKeyPoints.Length <= observedKeyPoints.Length)
+                {
+                    numberOfKeypoints = (double)modelKeyPoints.Length;
+                }
+                else
+                {
+                    numberOfKeypoints = (double)observedKeyPoints.Length;
+                }
+                //score = ((double)goodMatches / (double)mask.GetData().Length) * 100.0;
+                score = ((double)matches.Length / numberOfKeypoints) * 100.0;
+                //score = ((double)goodMatches / (double)matches.Length) * 100.0;
                 score = Math.Round(score, 2);
+
+                //VectorOfVectorOfDMatch goodMatches = new VectorOfVectorOfDMatch();
+                //for (int i = 0; i < matches.Size; i++)
+                //{
+                //    var arrayOfMatches = matches[i].ToArray();
+                //    if (arrayOfMatches[0].Distance < 0.8 * arrayOfMatches[1].Distance)
+                //    {
+                //        VectorOfDMatch tempVec = new VectorOfDMatch();
+                //        tempVec.Push(arrayOfMatches);
+                //        goodMatches.Push(tempVec);
+                //    }
+                //}
 
                 Mat result = new Mat();
                 if (score > percentOfSimilarity)
                 {
-                    //VectorOfVectorOfDMatch goodMatches = new VectorOfVectorOfDMatch();
-                    //for (int i = 0; i < matches.Size; i++)
-                    //{
-                    //    var arrayOfMatches = matches[i].ToArray();
-                    //    if (arrayOfMatches[0].Distance < 0.8 * arrayOfMatches[1].Distance)
-                    //    {
-                    //        VectorOfDMatch tempVec = new VectorOfDMatch();
-                    //        tempVec.Push(arrayOfMatches);
-                    //        goodMatches.Push(tempVec);
-                    //    }
-                    //}
-
                     //Mat result = new Mat();
 
                     Features2DToolbox.DrawMatches(modelImage, modelKeyPoints, observedImage, observedKeyPoints,
                         matches, result, new MCvScalar(0, 0, 255), new MCvScalar(255, 255, 255), mask, Features2DToolbox.KeypointDrawType.NotDrawSinglePoints);
-
-                    //int goodMatches = CountHowManyPairsExist(mask);
-                    //if (modelKeyPoints.Length <= observedKeyPoints.Length)
-                    //{
-                    //    numberOfKeypoints = (double)modelKeyPoints.Length;
-                    //}
-                    //else
-                    //{
-                    //    numberOfKeypoints = (double)observedKeyPoints.Length;
-                    //}
-
-                    //score = ((double)goodMatches / (double)matches.Length) * 100.0;
-                    //score = Math.Round(score, 2);
 
                     if (homography != null)
                     {
