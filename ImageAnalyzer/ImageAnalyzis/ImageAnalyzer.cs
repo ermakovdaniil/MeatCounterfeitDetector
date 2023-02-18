@@ -22,7 +22,7 @@ public class ImageAnalyzer : IImageAnalyzer
         double score = 0;
         double tempTime = 0;
 
-       if (previousPath is null || previousPath != pathToOrig)
+        if (previousPath is null || previousPath != pathToOrig)
         {
             currentPath = 0;
             previousPath = pathToOrig;
@@ -35,15 +35,15 @@ public class ImageAnalyzer : IImageAnalyzer
             currentPath = 0;
         }
 
-        for (int i = currentPath; i < counterfeitPaths.Count; i++)
+        for (int i = 0; i < counterfeitPaths.Count; i++)
         {
-            AnalyzeImage(ref pathToOrig, counterfeitPaths[i].ImagePath, out resPath, out tempTime, out score, percentOfSimilarity, origMat);
+            AnalyzeImage(ref pathToOrig, counterfeitPaths[i].ImagePath, out resPath, out tempTime, out score, percentOfSimilarity, origMat);       
             matchTime += tempTime;
             if (score > percentOfSimilarity)
             {
                 anRes = "Фальсификат обнаружен: " + counterfeitPaths[i].Counterfeit.Name;
                 matchTime += tempTime;
-                currentPath = i + 1;
+                currentPath = i;
                 break;
             }
             else
@@ -51,7 +51,7 @@ public class ImageAnalyzer : IImageAnalyzer
                 score = 0;
                 matchTime += tempTime;
                 anRes = "Фальсификат не обнаружен";
-            }
+            }       
         }
         var res = CreateResult(pathToOrig, resPath, anRes, user, matchTime, score);
         return res;
@@ -61,10 +61,8 @@ public class ImageAnalyzer : IImageAnalyzer
     {
         string pathToBase = Directory.GetCurrentDirectory();
         string combinedPath = Path.Combine(pathToBase, pathToCounterfeit);
-
         Mat counterfeitMat = CvInvoke.Imread(combinedPath, Emgu.CV.CvEnum.ImreadModes.AnyColor);
         Mat resMat = SIFTAlgorithm.Draw(origMat, counterfeitMat, out matchTime, out score, percentOfSimilarity);
-
         pathToResult = "";
         if (score > percentOfSimilarity)
         {

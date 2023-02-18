@@ -2,6 +2,7 @@
 using DataAccess.Models;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Windows;
 using VKR.UserInterface.Admin.Abstract;
@@ -105,6 +106,9 @@ public class GalleryControlVM : ViewModelBase
             {
                 if (_messageBoxService.ShowMessage("Вы действительно хотите удалить изображение?", "Удаление изображения", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
                 {
+                    string pathToBase = Directory.GetCurrentDirectory();
+                    string combinedPath = Path.Combine(pathToBase, SelectedCounterfeitPath.ImagePath);
+                    File.Delete(combinedPath);
                     _context.CounterfeitPaths.Remove(SelectedCounterfeitPath);
                     _context.SaveChanges();
                 }

@@ -1,6 +1,7 @@
 ﻿using DataAccess.Data;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Windows;
 using VKR.UserInterface.Admin.Abstract;
@@ -57,6 +58,14 @@ public class ResultControlVM : ViewModelBase
             {
                 if (_messageBoxService.ShowMessage("Вы действительно хотите удалить запись?", "Удаление записи", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
                 {
+                    string pathToBase = Directory.GetCurrentDirectory();
+                    string combinedPath = Path.Combine(pathToBase, SelectedResult.OrigPath.Path);
+                    File.Delete(combinedPath);
+                    if (SelectedResult.ResPath.Path is not null)
+                    {
+                        combinedPath = Path.Combine(pathToBase, SelectedResult.ResPath.Path);
+                        File.Delete(combinedPath);
+                    }
                     _context.Results.Remove(SelectedResult);
                     _context.SaveChanges();
                 }

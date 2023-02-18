@@ -137,6 +137,11 @@ public class TechnologistControlVM : ViewModelBase
                         _resultContext.Results.Add(AnalysisResult);
                         _resultContext.SaveChanges();
                     }
+
+                    catch (ArgumentException)
+                    {
+                        _messageBoxService.ShowMessage("Данные в базе фальсификатов были удалены или повреждены.\nПеред запуском анализа устраните проблему.", "Ошибка!", MessageBoxButton.OK, MessageBoxImage.Error);
+                    }
                     catch (Emgu.CV.Util.CvException)
                     {
                         _messageBoxService.ShowMessage("Данное изображение не удаётся обработать. Попробуйте изменить разрешение изображения.", "Ошибка!", MessageBoxButton.OK, MessageBoxImage.Error);
