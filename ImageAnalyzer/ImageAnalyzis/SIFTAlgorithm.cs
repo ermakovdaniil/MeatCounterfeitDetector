@@ -111,7 +111,7 @@ namespace ImageAnalyzis
 
             SIFT sift = new SIFT();
 
-            if(modelKeyPoints is null || modelKeyPoints is null || previousModelImage != modelImage)
+            if (modelKeyPoints is null || modelKeyPoints is null || previousModelImage != modelImage)
             {
                 previousModelImage = modelImage;
                 modelDescriptors = new Mat();
@@ -123,7 +123,7 @@ namespace ImageAnalyzis
             Mat observedDescriptors = new Mat();
             observedKeyPoints = new VectorOfKeyPoint();
             sift.DetectAndCompute(observedImage, null, observedKeyPoints, observedDescriptors, false);
-            
+
             BFMatcher matcher = new BFMatcher(DistanceType.L2);
             matcher.Add(modelDescriptors);
             matcher.KnnMatch(observedDescriptors, matches, k, null);
@@ -132,7 +132,7 @@ namespace ImageAnalyzis
             mask.SetTo(new MCvScalar(255));
 
             Features2DToolbox.VoteForUniqueness(matches, uniquenessThreshold, mask);
-            
+
             int nonZeroCount = CvInvoke.CountNonZero(mask);
             if (nonZeroCount >= 4)
             {

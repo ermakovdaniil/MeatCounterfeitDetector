@@ -5,7 +5,6 @@ using VKR.Utils;
 using VKR.Utils.Dialog;
 using VKR.Utils.MainWindowControlChanger;
 using VKR.Utils.MessageBoxService;
-using MessageBox = HandyControl.Controls.MessageBox;
 
 
 namespace VKR.UserInterface.Admin;

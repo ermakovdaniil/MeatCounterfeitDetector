@@ -63,7 +63,7 @@ internal static class FileSystem
         document.SetFont(font);
         document.Add(header);
         document.Add(new Paragraph("Исходное изображение:"));
-        
+
         var initialImage = CreateAndFitImage(result.OrigPath.Path, document);
         document.Add(initialImage);
         document.Add(new AreaBreak());

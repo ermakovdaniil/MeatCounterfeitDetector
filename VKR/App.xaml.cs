@@ -1,6 +1,5 @@
 ﻿using Autofac;
 using DataAccess.Data;
-using DataAccess.Models;
 using ImageAnalyzis;
 using System.Globalization;
 using System.Threading;

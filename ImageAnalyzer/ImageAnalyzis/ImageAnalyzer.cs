@@ -3,7 +3,6 @@ using Emgu.CV;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Windows;
 
 namespace ImageAnalyzis;
 
@@ -37,7 +36,7 @@ public class ImageAnalyzer : IImageAnalyzer
 
         for (int i = 0; i < counterfeitPaths.Count; i++)
         {
-            AnalyzeImage(ref pathToOrig, counterfeitPaths[i].ImagePath, out resPath, out tempTime, out score, percentOfSimilarity, origMat);       
+            AnalyzeImage(ref pathToOrig, counterfeitPaths[i].ImagePath, out resPath, out tempTime, out score, percentOfSimilarity, origMat);
             matchTime += tempTime;
             if (score > percentOfSimilarity)
             {
@@ -51,7 +50,7 @@ public class ImageAnalyzer : IImageAnalyzer
                 score = 0;
                 matchTime += tempTime;
                 anRes = "Фальсификат не обнаружен";
-            }       
+            }
         }
         var res = CreateResult(pathToOrig, resPath, anRes, user, matchTime, score);
         return res;

@@ -10,7 +10,6 @@ using System.Windows;
 using VKR.UserInterface.Admin.Abstract;
 using VKR.Utils;
 using VKR.Utils.Dialog;
-using VKR.Utils.Dialog.Abstract;
 using VKR.Utils.IOService;
 using VKR.Utils.MainWindowControlChanger;
 using VKR.Utils.MessageBoxService;

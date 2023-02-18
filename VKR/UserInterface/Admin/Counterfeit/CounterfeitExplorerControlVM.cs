@@ -6,7 +6,6 @@ using VKR.UserInterface.Admin.Abstract;
 using VKR.Utils;
 using VKR.Utils.Dialog;
 using VKR.Utils.MessageBoxService;
-using MessageBox = HandyControl.Controls.MessageBox;
 
 
 namespace VKR.UserInterface.Admin.Counterfeit;
@@ -104,7 +103,7 @@ public class CounterfeitExplorerControlVM : ViewModelBase
             {
                 if (_messageBoxService.ShowMessage($"Вы действительно хотите удалить фальсификат: \"{SelectedCounterfeit.Name}\"?", "Удаление объекта", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
                 {
-                        _context.Counterfeits.Remove(SelectedCounterfeit);
+                    _context.Counterfeits.Remove(SelectedCounterfeit);
                     _context.SaveChanges();
                 }
                 OnPropertyChanged(nameof(Counterfeits));

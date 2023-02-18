@@ -7,7 +7,6 @@ using System.Windows;
 using VKR.UserInterface.Admin.Abstract;
 using VKR.Utils;
 using VKR.Utils.MessageBoxService;
-using MessageBox = HandyControl.Controls.MessageBox;
 
 
 namespace VKR.UserInterface.Admin.Result;
