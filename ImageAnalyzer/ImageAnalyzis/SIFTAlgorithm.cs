@@ -28,18 +28,7 @@ namespace ImageAnalyzis
             using (VectorOfVectorOfDMatch matches = new VectorOfVectorOfDMatch())
             {
                 Mat mask;
-                FindMatch(modelImage, observedImage, out observedKeyPoints, matches,
-                    out mask, out homography);
-
-                //Mat scoreImg = new Mat();
-                //double minVal = Double.MaxValue;
-                //score = Double.MinValue;
-                //var minLoc = new Point();
-                //var maxLoc = new Point();
-                //CvInvoke.MatchTemplate(modelImage, observedImage, scoreImg, TemplateMatchingType.CcoeffNormed);
-                //CvInvoke.MinMaxLoc(scoreImg, ref minVal, ref score, ref minLoc, ref maxLoc);
-                //score *= 100;
-                //score = Math.Round(score, 2);
+                FindMatch(modelImage, observedImage, out observedKeyPoints, matches, out mask, out homography);
 
                 int goodMatches = CountHowManyPairsExist(mask);
                 double numberOfKeypoints;
@@ -51,10 +40,24 @@ namespace ImageAnalyzis
                 {
                     numberOfKeypoints = (double)observedKeyPoints.Length;
                 }
-                //score = ((double)goodMatches / (double)mask.GetData().Length) * 100.0;
-                score = ((double)matches.Length / numberOfKeypoints) * 100.0;
+                var temp = (double)mask.GetData().Length - (double)goodMatches;
+                score = (double)goodMatches / (temp / 3.0)  * 100.0;
+                //score = ((double)matches.Length / numberOfKeypoints) * 100.0;
                 //score = ((double)goodMatches / (double)matches.Length) * 100.0;
                 score = Math.Round(score, 2);
+
+                //if (score > percentOfSimilarity)
+                //{
+                //    Mat scoreImg = new Mat();
+                //    double minVal = Double.MaxValue;
+                //    score = Double.MinValue;
+                //    var minLoc = new Point();
+                //    var maxLoc = new Point();
+                //    CvInvoke.MatchTemplate(modelImage, observedImage, scoreImg, TemplateMatchingType.CcoeffNormed);
+                //    CvInvoke.MinMaxLoc(scoreImg, ref minVal, ref score, ref minLoc, ref maxLoc);
+                //    score *= 100;
+                //    score = Math.Round(score, 2);
+                //}
 
                 //VectorOfVectorOfDMatch goodMatches = new VectorOfVectorOfDMatch();
                 //for (int i = 0; i < matches.Size; i++)
