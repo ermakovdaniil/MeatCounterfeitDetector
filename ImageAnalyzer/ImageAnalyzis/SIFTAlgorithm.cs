@@ -3,7 +3,9 @@ using Emgu.CV.CvEnum;
 using Emgu.CV.Features2D;
 using Emgu.CV.Structure;
 using Emgu.CV.Util;
+using Numpy;
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
@@ -23,27 +25,103 @@ namespace ImageAnalyzis
             watch = Stopwatch.StartNew();
 
             Mat homography;
-            //VectorOfKeyPoint modelKeyPoints;
             VectorOfKeyPoint observedKeyPoints;
             using (VectorOfVectorOfDMatch matches = new VectorOfVectorOfDMatch())
             {
                 Mat mask;
                 FindMatch(modelImage, observedImage, out observedKeyPoints, matches, out mask, out homography);
 
-                int goodMatches = CountHowManyPairsExist(mask);
-                double numberOfKeypoints;
-                if (modelKeyPoints.Length <= observedKeyPoints.Length)
+                //double numberOfKeypoints;
+                //if (modelKeyPoints.Length <= observedKeyPoints.Length)
+                //{
+                //    numberOfKeypoints = (double)modelKeyPoints.Length;
+                //}
+                //else
+                //{
+                //    numberOfKeypoints = (double)observedKeyPoints.Length;
+                //}
+
+                //VectorOfVectorOfDMatch goodMatches = new VectorOfVectorOfDMatch();
+                double distMatches = 0;
+
+                //List<MKeyPoint> modelMatched = new List<MKeyPoint>();
+                //List<MKeyPoint> observedMatched = new List<MKeyPoint>();
+
+                for (int i = 0; i < matches.Size; i++)
                 {
-                    numberOfKeypoints = (double)modelKeyPoints.Length;
+                    //var arrayOfMatches = matches[i].ToArray();
+                    //if (arrayOfMatches[0].Distance < 0.8 * arrayOfMatches[1].Distance)
+                    //{
+                    //    modelMatched.Add(modelKeyPoints[arrayOfMatches[0].QueryIdx]);
+                    //    observedMatched.Add(observedKeyPoints[arrayOfMatches[1].TrainIdx]);
+                    //}
+
+                    var arrayOfMatches = matches[i].ToArray();
+                    if (arrayOfMatches[0].Distance < 0.8 * arrayOfMatches[1].Distance)
+                    {
+                        //VectorOfDMatch tempVec = new VectorOfDMatch();
+                        //tempVec.Push(arrayOfMatches);
+                        //goodMatches.Push(tempVec);
+                        distMatches++;
+                    }
                 }
-                else
-                {
-                    numberOfKeypoints = (double)observedKeyPoints.Length;
-                }
-                var temp = (double)mask.GetData().Length - (double)goodMatches;
-                score = (double)goodMatches / (temp / 3.0)  * 100.0;
+
+                /*
+                //List<MKeyPoint> modelInliners = new List<MKeyPoint>();
+                //List<MKeyPoint> observedInliners = new List<MKeyPoint>();
+                //double inlinerThreshold = 2.5;
+                //for (int i = 0; i < modelMatched.Count; i++)
+                //{
+                    //col = np.ones((3, 1), dtype = np.float64)
+                    //double[,,] col = new double[1, 1, 1];
+                    
+                    //col[0:2, 0] = m.pt
+                    //col[0, 0, 0] = modelMatched[i].Point.X;
+                    //col[0, 0, 1] = modelMatched[i].Point.Y;
+                    //*
+                    //two_d[0:2, 1:] → Select elements from row 0 to row2(excluded) and column 1 till the last column.
+                    //0:2 → Slice for x - axis → select row 0 till row 2(excluded)
+                    //1: → Slice for y - axis → select column 1 till the last column
+
+                    //# Project from image 1 to image 2
+                    //col = np.dot(homography, col)
+                    //col = np.dot();
+
+                    //col /= col[2, 0]
+
+                    //# Calculate euclidean distance
+                    //dist = sqrt(pow(col[0, 0] - matched2[i].pt[0], 2) + pow(col[1, 0] - matched2[i].pt[1], 2))
+
+                    //if dist < inlier_threshold: 
+                    //if(distMatches < inlinerThreshold)
+                    //{
+                        //good_matches.append(cv.DMatch(len(inliers1), len(inliers2), 0))
+
+                        //inliers1.append(matched1[i])
+
+                        //inliers2.append(matched2[i])
+                    //}
+
+                //    var arrayOfMatches = matches[i].ToArray();
+                //    if (arrayOfMatches[0].Distance < 0.8 * arrayOfMatches[1].Distance)
+                //    {
+                //        modelMatched.Add(modelKeyPoints[arrayOfMatches[0].QueryIdx]);
+                //        observedMatched.Add(observedKeyPoints[arrayOfMatches[1].TrainIdx]);
+                //    }
+                //}
+                */
+
+                double goodMatches = CountHowManyPairsExist(mask);
+
+                //var temp = (double)mask.GetData().Length - goodMatches;
+                //score = goodMatches / (temp / 3.0)  * 100.0;
+
+                score = goodMatches / distMatches * 100.0;
+
                 //score = ((double)matches.Length / numberOfKeypoints) * 100.0;
-                //score = ((double)goodMatches / (double)matches.Length) * 100.0;
+
+                //score = (goodMatches / (double)matches.Length) * 100.0;
+
                 score = Math.Round(score, 2);
 
                 //if (score > percentOfSimilarity)
@@ -59,23 +137,9 @@ namespace ImageAnalyzis
                 //    score = Math.Round(score, 2);
                 //}
 
-                //VectorOfVectorOfDMatch goodMatches = new VectorOfVectorOfDMatch();
-                //for (int i = 0; i < matches.Size; i++)
-                //{
-                //    var arrayOfMatches = matches[i].ToArray();
-                //    if (arrayOfMatches[0].Distance < 0.8 * arrayOfMatches[1].Distance)
-                //    {
-                //        VectorOfDMatch tempVec = new VectorOfDMatch();
-                //        tempVec.Push(arrayOfMatches);
-                //        goodMatches.Push(tempVec);
-                //    }
-                //}
-
                 Mat result = new Mat();
                 if (score > percentOfSimilarity)
                 {
-                    //Mat result = new Mat();
-
                     Features2DToolbox.DrawMatches(modelImage, modelKeyPoints, observedImage, observedKeyPoints,
                         matches, result, new MCvScalar(0, 0, 255), new MCvScalar(255, 255, 255), mask, Features2DToolbox.KeypointDrawType.NotDrawSinglePoints);
 
@@ -122,7 +186,6 @@ namespace ImageAnalyzis
                 sift.DetectAndCompute(modelImage, null, modelKeyPoints, modelDescriptors, false);
             }
 
-
             Mat observedDescriptors = new Mat();
             observedKeyPoints = new VectorOfKeyPoint();
             sift.DetectAndCompute(observedImage, null, observedKeyPoints, observedDescriptors, false);
@@ -147,7 +210,7 @@ namespace ImageAnalyzis
             }
         }
 
-        public static int CountHowManyPairsExist(Mat mask)
+        public static double CountHowManyPairsExist(Mat mask)
         {
             var matched = mask.GetData();
             var list = matched.OfType<byte>().ToList();
