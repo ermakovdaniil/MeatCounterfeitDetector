@@ -49,7 +49,7 @@ internal static class FileSystem
         image.Scale(scaler, scaler);
     }
 
-    public static void ExportPdf(string path, Result result)
+    public static void ExportPdf(string path, Result result, User user)
     {
         var writer = new PdfWriter(path);
         var pdf = new PdfDocument(writer);
@@ -81,7 +81,7 @@ internal static class FileSystem
                                 "Дата проведения анализа: " + result.Date + "\n" +
                                 "Время проведения: " + result.Time + " мс\n" +
                                 "Процент сходства: " + result.PercentOfSimilarity + "%\n" +
-                                "Пользователь, который проводил анализ: " + result.User.Name;
+                                "Пользователь, который проводил анализ: " + user.Name;
         document.Add(new Paragraph(resultToString));
         document.Close();
     }

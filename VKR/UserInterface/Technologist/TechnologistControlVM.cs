@@ -168,7 +168,7 @@ public class TechnologistControlVM : ViewModelBase
                     var filePath = _dialogService.SaveFileDialog(filename, ext: ".pdf");
                     if (!string.IsNullOrEmpty(filePath))
                     {
-                        FileSystem.ExportPdf(filePath, AnalysisResult);
+                        FileSystem.ExportPdf(filePath, AnalysisResult, _userService.User);
                     }
                 }
             });
