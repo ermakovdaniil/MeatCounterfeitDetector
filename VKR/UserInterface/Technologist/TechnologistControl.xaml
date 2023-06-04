@@ -52,7 +52,7 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="80" />
             <RowDefinition />
-            <RowDefinition Height="150" />
+            <RowDefinition Height="170" />
         </Grid.RowDefinitions>
 
         <Grid Grid.Row="0" Background="{StaticResource Style2}">

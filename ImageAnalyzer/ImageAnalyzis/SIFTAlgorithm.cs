@@ -61,7 +61,7 @@ namespace ImageAnalyzis
                 }
 
                 watch.Stop();
-                matchTime = watch.ElapsedMilliseconds;
+                matchTime = watch.Elapsed.TotalSeconds;
                 return result;
             }
         }

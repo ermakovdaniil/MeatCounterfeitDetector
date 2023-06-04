@@ -53,7 +53,7 @@ public class TechnologistControlVM : ViewModelBase
         string searchResult;
         searchResult = AnalysisResult.AnRes + "\n" +
                        "Дата проведения анализа: " + AnalysisResult.Date + "\n" +
-                       "Время проведения: " + AnalysisResult.Time + " мс\n" +
+                       "Время проведения: " + AnalysisResult.Time + " с\n" +
                        "Процент сходства: " + AnalysisResult.PercentOfSimilarity + "%";
         return searchResult;
     }
@@ -123,7 +123,7 @@ public class TechnologistControlVM : ViewModelBase
                             counterfeitPaths = _counterfeitsContext.CounterfeitPaths.Include(c => c.Counterfeit).Where(c => c.CounterfeitId == SelectedCounterfeit.Id).ToList();
                         }
 
-                        AnalysisResult = _analyzer.RunAnalysis(DisplayedImagePath, counterfeitPaths, PercentOfSimilarity, _userService.User);
+                        AnalysisResult = _analyzer.RunAnalysis(DisplayedImagePath, counterfeitPaths, PercentOfSimilarity, _userService.User);                       
                         SearchResult = CreateSearchResult(AnalysisResult);
 
                         if (AnalysisResult.ResPath.Path is not null)

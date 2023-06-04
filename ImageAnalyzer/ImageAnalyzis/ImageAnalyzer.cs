@@ -52,6 +52,7 @@ public class ImageAnalyzer : IImageAnalyzer
                 anRes = "Фальсификат не обнаружен";
             }
         }
+        matchTime = Math.Round(matchTime, 2);
         var res = CreateResult(pathToOrig, resPath, anRes, user, matchTime, score);
         return res;
     }
