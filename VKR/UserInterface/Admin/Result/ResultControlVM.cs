@@ -55,20 +55,31 @@ public class ResultControlVM : ViewModelBase
         {
             return _deleteResult ??= new RelayCommand(o =>
             {
-                if (_messageBoxService.ShowMessage("Вы действительно хотите удалить запись?", "Удаление записи", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
+                try
                 {
-                    string pathToBase = Directory.GetCurrentDirectory();
-                    string combinedPath = Path.Combine(pathToBase, SelectedResult.OrigPath.Path);
-                    File.Delete(combinedPath);
-                    if (SelectedResult.ResPath.Path is not null)
+                    if (_messageBoxService.ShowMessage("Вы действительно хотите удалить запись?", "Удаление записи", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
                     {
-                        combinedPath = Path.Combine(pathToBase, SelectedResult.ResPath.Path);
+                        string pathToBase = Directory.GetCurrentDirectory();
+                        string combinedPath = Path.Combine(pathToBase, SelectedResult.OrigPath.Path);
                         File.Delete(combinedPath);
+                        if (SelectedResult.ResPath.Path is not null)
+                        {
+                            combinedPath = Path.Combine(pathToBase, SelectedResult.ResPath.Path);
+                            File.Delete(combinedPath);
+                        }
+                        _context.Results.Remove(SelectedResult);
+                        _context.SaveChanges();
                     }
-                    _context.Results.Remove(SelectedResult);
-                    _context.SaveChanges();
+                    OnPropertyChanged(nameof(Results));
                 }
+                catch (IOException)
+                {
+                    _messageBoxService.ShowMessage("Данную запись нельзя удалить в данный момент,\nтак как она используется в программе.", "Ошибка!", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+
+
             }, _ => SelectedResult is not null);
+
         }
     }
 

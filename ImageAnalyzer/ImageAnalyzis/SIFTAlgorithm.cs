@@ -119,8 +119,15 @@ namespace ImageAnalyzis
             scores.Add(fourthScore);
             score = scores.Max();
 
-            score *= 100;
-            score = Math.Round(score, 2);
+            if (double.IsInfinity(score) || score > 100.00)
+            {
+                score = 100.00;
+            }
+            else
+            {
+                score *= 100;
+                score = Math.Round(score, 2);
+            }
         }
 
         private static void FindMatch(Mat modelImage, Mat observedImage, out VectorOfKeyPoint observedKeyPoints, VectorOfVectorOfDMatch matches, out Mat mask, out Mat homography)

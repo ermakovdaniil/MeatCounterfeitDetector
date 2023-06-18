@@ -66,6 +66,7 @@ public class TechnologistControlVM : ViewModelBase
     private readonly ResultDBContext _resultContext;
     private readonly CounterfeitKBContext _counterfeitsContext;
     public List<Counterfeit> Counterfeits => _counterfeitsContext.Counterfeits.ToList();
+    public List<Result> Results => _resultContext.Results.ToList();
     public Counterfeit SelectedCounterfeit { get; set; }
     public double PercentOfSimilarity { get; set; }
     public string DisplayedImagePath { get; set; }
@@ -135,8 +136,8 @@ public class TechnologistControlVM : ViewModelBase
                         }
                         _resultContext.Results.Add(AnalysisResult);
                         _resultContext.SaveChanges();
+                        OnPropertyChanged(nameof(_resultContext.Results));
                     }
-
                     catch (ArgumentException)
                     {
                         _messageBoxService.ShowMessage("Данные в базе фальсификатов были удалены или повреждены.\nПеред запуском анализа устраните проблему.", "Ошибка!", MessageBoxButton.OK, MessageBoxImage.Error);

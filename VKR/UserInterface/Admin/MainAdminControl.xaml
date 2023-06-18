@@ -36,16 +36,16 @@
                     Visibility="{Binding TabControlVisibility, UpdateSourceTrigger=PropertyChanged}"
                     Style="{StaticResource TabControlInLine}"
                     Background="{StaticResource Style3}">
-            <TabItem Header="Редактирование фальсифкатов" Background="{StaticResource Style2}">
+            <TabItem Header="Типы Фальсифкатов" Background="{StaticResource Style2}">
                 <counterfeit:CounterfeitExplorerControl />
             </TabItem>
-            <TabItem Header="Редактирование изображений фальсифкатов" Background="{StaticResource Style2}">
+            <TabItem Header="Изображения фальсифкатов" Background="{StaticResource Style2}">
                 <gallery:GalleryControl />
             </TabItem>
-            <TabItem Header="Редактирование журнала результатов" Background="{StaticResource Style2}">
+            <TabItem Header="Журнала результатов" Background="{StaticResource Style2}">
                 <result:ResultControl />
             </TabItem>
-            <TabItem Header="Редактирование пользователей" Background="{StaticResource Style2}">
+            <TabItem Header="Пользователи" Background="{StaticResource Style2}">
                 <user:UserExplorerControl />
             </TabItem>
         </TabControl>
