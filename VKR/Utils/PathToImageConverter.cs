@@ -10,22 +10,29 @@ namespace VKR.Utils
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            string path = value as string;
-            if (path is null)
+            try
+            {
+                string path = value as string;
+                if (path is null)
+                {
+                    return null;
+                }
+                else
+                {
+                    BitmapImage image = new BitmapImage();
+                    using (FileStream stream = File.OpenRead(path))
+                    {
+                        image.BeginInit();
+                        image.StreamSource = stream;
+                        image.CacheOption = BitmapCacheOption.OnLoad;
+                        image.EndInit();
+                    }
+                    return image;
+                }
+            }
+            catch (System.IO.FileNotFoundException)
             {
                 return null;
-            }
-            else
-            {
-                BitmapImage image = new BitmapImage();
-                using (FileStream stream = File.OpenRead(path))
-                {
-                    image.BeginInit();
-                    image.StreamSource = stream;
-                    image.CacheOption = BitmapCacheOption.OnLoad;
-                    image.EndInit();
-                }
-                return image;
             }
         }
 

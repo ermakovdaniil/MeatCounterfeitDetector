@@ -21,7 +21,7 @@
                   IsReadOnly="True"
                   SelectionMode="Single"
                   RowHeight="400"
-                  ScrollViewer.CanContentScroll="False"
+                  ScrollViewer.CanContentScroll="False"     
                   SelectedItem="{Binding SelectedResult}" Background="{StaticResource Style3}">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="ID" Binding="{Binding Id}" />

@@ -1,13 +1,14 @@
 ﻿using DataAccess.Data;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Windows;
 using VKR.UserInterface.Admin.Abstract;
 using VKR.Utils;
 using VKR.Utils.MessageBoxService;
-
+using VKR.Utils.UserService;
 
 namespace VKR.UserInterface.Admin.Result;
 
@@ -17,13 +18,16 @@ public class ResultControlVM : ViewModelBase
 
     #region Constructors
 
-    public ResultControlVM(ResultDBContext context, IMessageBoxService messageBoxService)
+    public ResultControlVM(ResultDBContext context, IMessageBoxService messageBoxService, IUserService userService)
     {
+        _userService = userService;
         _messageBoxService = messageBoxService;
         _context = context;
         _context.Users.Load();
         _context.OriginalPaths.Load();
         _context.ResultPaths.Load();
+        Results = new ObservableCollection<DataAccess.Models.Result>(_context.Results.ToList());
+        _context.SavedChanges += (s, e) => Results = new ObservableCollection<DataAccess.Models.Result>(_context.Results.ToList());
     }
 
     #endregion
@@ -35,9 +39,10 @@ public class ResultControlVM : ViewModelBase
 
     private readonly ResultDBContext _context;
     private readonly IMessageBoxService _messageBoxService;
+    private readonly IUserService _userService;
     public DataAccess.Models.Result SelectedResult { get; set; }
 
-    public List<DataAccess.Models.Result> Results => _context.Results.ToList();
+    public ObservableCollection<DataAccess.Models.Result> Results { get; set; }
 
     #endregion
 
@@ -78,7 +83,7 @@ public class ResultControlVM : ViewModelBase
                 }
 
 
-            }, _ => SelectedResult is not null);
+            }, _ => SelectedResult is not null && _userService.IsAdmin);
 
         }
     }

@@ -6,6 +6,6 @@ namespace VKR.Utils.UserService
     {
         public User User { get; set; }
 
-
+        public bool IsAdmin { get => User.Type.Name == "Администратор"; }
     }
 }

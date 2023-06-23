@@ -34,7 +34,7 @@ public partial class App : Application
         Thread.CurrentThread.CurrentCulture = CultureInfo.DefaultThreadCurrentUICulture;
         var builder = new ContainerBuilder();
         builder.RegisterType<CounterfeitKBContext>().AsSelf();
-        builder.RegisterType<ResultDBContext>().AsSelf();
+        builder.RegisterType<ResultDBContext>().SingleInstance().AsSelf();
 
         builder.RegisterAssemblyTypes(typeof(App).Assembly)
                .Where(t => t.Name.EndsWith("VM"))

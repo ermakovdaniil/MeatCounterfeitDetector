@@ -67,7 +67,7 @@
                         <ColumnDefinition />
                     </Grid.ColumnDefinitions>
 
-                    <hc:ComboBox hc:InfoElement.Title="Вид фальсфиката для поиска"
+                    <hc:ComboBox hc:InfoElement.Title="Вид фальсификата для поиска"
                          Grid.Column="0" FontSize="17"
                          Text="Любой"
                          ShowClearButton="True"
