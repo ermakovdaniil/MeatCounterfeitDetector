@@ -38,22 +38,21 @@
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="Autofac" Version="6.4.0" />
-        <PackageReference Include="HandyControl" Version="3.3.0" />
-        <PackageReference Include="HandyControls.Lang.ru" Version="3.4.1" />
-        <PackageReference Include="itext7" Version="7.2.3" />
-        <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.10" />
-        <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="6.0.10">
+        <PackageReference Include="Autofac" Version="7.1.0" />
+        <PackageReference Include="HandyControl" Version="3.4.0" />
+        <PackageReference Include="HandyControls.Lang.ru" Version="3.4.5" />
+        <PackageReference Include="itext7" Version="8.0.1" />
+        <PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.10" />
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="7.0.10">
             <PrivateAssets>all</PrivateAssets>
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
-        <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="6.0.10" />
-        <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite.Core" Version="6.0.10" />
-        <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="6.0.10">
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="7.0.10">
             <PrivateAssets>all</PrivateAssets>
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
-        <PackageReference Include="PropertyChanged.Fody" Version="4.0.5" />
+        <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="7.0.4" />
+        <PackageReference Include="PropertyChanged.Fody" Version="4.1.0" />
     </ItemGroup>
 
     <ItemGroup>
