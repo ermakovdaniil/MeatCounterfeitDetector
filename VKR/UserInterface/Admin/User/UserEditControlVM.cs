@@ -3,12 +3,12 @@ using DataAccess.Models;
 using System;
 using System.Collections.ObjectModel;
 using System.Linq;
-using VKR.UserInterface.Admin.Abstract;
-using VKR.Utils;
-using VKR.Utils.Dialog.Abstract;
+using MeatCountefeitDetector.UserInterface.Admin.Abstract;
+using MeatCountefeitDetector.Utils;
+using MeatCountefeitDetector.Utils.Dialog.Abstract;
 
 
-namespace VKR.UserInterface.Admin.User;
+namespace MeatCountefeitDetector.UserInterface.Admin.User;
 
 public class UserEditControlVM : ViewModelBase, IDataHolder, IResultHolder, IInteractionAware
 {

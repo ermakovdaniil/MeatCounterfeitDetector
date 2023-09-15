@@ -2,7 +2,7 @@
 using System.Runtime.CompilerServices;
 
 
-namespace VKR.UserInterface.Admin.Abstract;
+namespace MeatCountefeitDetector.UserInterface.Admin.Abstract;
 
 /// <summary>
 ///     Абстрактный класс для VM

@@ -1,7 +1,7 @@
 ﻿using System;
 
 
-namespace VKR.Utils;
+namespace MeatCountefeitDetector.Utils;
 
 public class AbstractFactory<T> : IAbstractFactory<T>
 {

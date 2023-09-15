@@ -5,12 +5,12 @@ using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Windows;
-using VKR.UserInterface.Admin.Abstract;
-using VKR.Utils;
-using VKR.Utils.MessageBoxService;
-using VKR.Utils.UserService;
+using MeatCountefeitDetector.UserInterface.Admin.Abstract;
+using MeatCountefeitDetector.Utils;
+using MeatCountefeitDetector.Utils.MessageBoxService;
+using MeatCountefeitDetector.Utils.UserService;
 
-namespace VKR.UserInterface.Admin.Result;
+namespace MeatCountefeitDetector.UserInterface.Admin.Result;
 
 public class ResultControlVM : ViewModelBase
 {

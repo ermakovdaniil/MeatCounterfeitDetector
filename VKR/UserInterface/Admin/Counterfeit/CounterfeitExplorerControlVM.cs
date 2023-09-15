@@ -2,13 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
-using VKR.UserInterface.Admin.Abstract;
-using VKR.Utils;
-using VKR.Utils.Dialog;
-using VKR.Utils.MessageBoxService;
+using MeatCountefeitDetector.UserInterface.Admin.Abstract;
+using MeatCountefeitDetector.Utils;
+using MeatCountefeitDetector.Utils.Dialog;
+using MeatCountefeitDetector.Utils.MessageBoxService;
 
 
-namespace VKR.UserInterface.Admin.Counterfeit;
+namespace MeatCountefeitDetector.UserInterface.Admin.Counterfeit;
 
 public class CounterfeitExplorerControlVM : ViewModelBase
 {

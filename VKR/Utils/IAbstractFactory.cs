@@ -1,4 +1,4 @@
-﻿namespace VKR.Utils;
+﻿namespace MeatCountefeitDetector.Utils;
 
 public interface IAbstractFactory<T>
 {

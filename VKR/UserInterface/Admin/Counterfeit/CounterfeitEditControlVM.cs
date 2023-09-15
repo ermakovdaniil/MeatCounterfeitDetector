@@ -3,12 +3,12 @@ using DataAccess.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using VKR.UserInterface.Admin.Abstract;
-using VKR.Utils;
-using VKR.Utils.Dialog.Abstract;
+using MeatCountefeitDetector.UserInterface.Admin.Abstract;
+using MeatCountefeitDetector.Utils;
+using MeatCountefeitDetector.Utils.Dialog.Abstract;
 
 
-namespace VKR.UserInterface.Admin.Counterfeit;
+namespace MeatCountefeitDetector.UserInterface.Admin.Counterfeit;
 
 public class CounterfeitEditControlVM : ViewModelBase, IDataHolder, IResultHolder, IInteractionAware
 {

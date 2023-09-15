@@ -5,13 +5,13 @@ using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Windows;
-using VKR.UserInterface.Admin.Abstract;
-using VKR.Utils;
-using VKR.Utils.Dialog.Abstract;
-using VKR.Utils.IOService;
-using VKR.Utils.MessageBoxService;
+using MeatCountefeitDetector.UserInterface.Admin.Abstract;
+using MeatCountefeitDetector.Utils;
+using MeatCountefeitDetector.Utils.Dialog.Abstract;
+using MeatCountefeitDetector.Utils.IOService;
+using MeatCountefeitDetector.Utils.MessageBoxService;
 
-namespace VKR.UserInterface.Admin.Gallery;
+namespace MeatCountefeitDetector.UserInterface.Admin.Gallery;
 
 public class GalleryEditControlVM : ViewModelBase, IDataHolder, IResultHolder, IInteractionAware
 {

@@ -2,7 +2,7 @@
 using System.Windows;
 
 
-namespace VKR.Utils;
+namespace MeatCountefeitDetector.Utils;
 
 public class GenericWindowFactory<T> : IWindowFactory<T> where T : Window
 {

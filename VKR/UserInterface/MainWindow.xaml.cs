@@ -1,4 +1,4 @@
-﻿namespace VKR.UserInterface;
+﻿namespace MeatCountefeitDetector.UserInterface;
 
 public partial class MainWindow
 {

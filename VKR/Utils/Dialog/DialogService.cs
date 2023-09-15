@@ -1,10 +1,10 @@
 ﻿using HandyControl.Controls;
 using System.Windows.Controls;
-using VKR.Utils.Dialog.Abstract;
-using VKR.Utils.FrameworkFactory;
+using MeatCountefeitDetector.Utils.Dialog.Abstract;
+using MeatCountefeitDetector.Utils.FrameworkFactory;
 
 
-namespace VKR.Utils.Dialog;
+namespace MeatCountefeitDetector.Utils.Dialog;
 
 public class DialogService
 {

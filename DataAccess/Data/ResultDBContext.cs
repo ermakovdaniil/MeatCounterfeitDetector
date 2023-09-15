@@ -20,6 +20,7 @@ namespace DataAccess.Data
         public virtual DbSet<User> Users { get; set; } = null!;
         public virtual DbSet<UserType> UserTypes { get; set; } = null!;
 
+        // TODO: скрыть
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)

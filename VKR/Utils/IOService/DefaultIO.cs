@@ -1,7 +1,7 @@
 ﻿using Microsoft.Win32;
 
 
-namespace VKR.Utils.IOService;
+namespace MeatCountefeitDetector.Utils.IOService;
 
 public class FileDialogService : IFileDialogService
 {

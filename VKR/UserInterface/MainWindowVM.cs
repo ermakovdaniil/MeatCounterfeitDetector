@@ -2,11 +2,11 @@
 using System.Windows;
 using System.Windows.Controls;
 
-using VKR.UserInterface.Admin.Abstract;
-using VKR.Utils.Dialog;
+using MeatCountefeitDetector.UserInterface.Admin.Abstract;
+using MeatCountefeitDetector.Utils.Dialog;
 
 
-namespace VKR.UserInterface;
+namespace MeatCountefeitDetector.UserInterface;
 
 public class MainWindowVM : ViewModelBase
 {

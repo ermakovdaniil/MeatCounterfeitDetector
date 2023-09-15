@@ -1,12 +1,12 @@
 ﻿using System.Windows.Controls;
 
-using VKR.UserInterface;
-using VKR.Utils.Dialog;
-using VKR.Utils.Dialog.Abstract;
-using VKR.Utils.FrameworkFactory;
+using MeatCountefeitDetector.UserInterface;
+using MeatCountefeitDetector.Utils.Dialog;
+using MeatCountefeitDetector.Utils.Dialog.Abstract;
+using MeatCountefeitDetector.Utils.FrameworkFactory;
 
 
-namespace VKR.Utils.MainWindowControlChanger;
+namespace MeatCountefeitDetector.Utils.MainWindowControlChanger;
 
 public class NavigationManager
 {

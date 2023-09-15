@@ -1,7 +1,7 @@
-﻿using VKR.Utils;
+﻿using MeatCountefeitDetector.Utils;
 
 
-namespace VKR.UserInterface.Admin.Gallery;
+namespace MeatCountefeitDetector.UserInterface.Admin.Gallery;
 
 public partial class GalleryEditControl
 {

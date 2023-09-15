@@ -1,7 +1,7 @@
-﻿using VKR.UserInterface.Admin.Abstract;
+﻿using MeatCountefeitDetector.UserInterface.Admin.Abstract;
 
 
-namespace VKR.Utils;
+namespace MeatCountefeitDetector.Utils;
 
 internal interface IViewModelFactory<TViewModel> where TViewModel : ViewModelBase
 {

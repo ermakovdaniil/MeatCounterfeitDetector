@@ -9,7 +9,7 @@ using iText.Layout.Element;
 using iText.Layout.Properties;
 
 
-namespace VKR.Utils;
+namespace MeatCountefeitDetector.Utils;
 
 /// <summary>
 ///     Класс для работы с файлами

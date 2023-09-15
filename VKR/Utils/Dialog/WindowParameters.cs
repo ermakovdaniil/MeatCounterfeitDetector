@@ -1,7 +1,7 @@
 ﻿using System.Windows;
 
 
-namespace VKR.Utils.Dialog;
+namespace MeatCountefeitDetector.Utils.Dialog;
 
 public record WindowParameters
 {

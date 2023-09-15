@@ -1,6 +1,6 @@
 ﻿using DataAccess.Models;
 
-namespace VKR.Utils.UserService
+namespace MeatCountefeitDetector.Utils.UserService
 {
     public class UserService : IUserService
     {

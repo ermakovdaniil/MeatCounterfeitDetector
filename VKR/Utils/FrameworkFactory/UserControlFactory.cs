@@ -1,7 +1,7 @@
 ﻿using System.Windows.Controls;
 
 
-namespace VKR.Utils.FrameworkFactory;
+namespace MeatCountefeitDetector.Utils.FrameworkFactory;
 
 public class UserControlFactory
 {

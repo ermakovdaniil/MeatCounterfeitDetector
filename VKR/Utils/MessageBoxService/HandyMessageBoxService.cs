@@ -3,7 +3,7 @@
 using MessageBox = HandyControl.Controls.MessageBox;
 
 
-namespace VKR.Utils.MessageBoxService;
+namespace MeatCountefeitDetector.Utils.MessageBoxService;
 
 public class HandyMessageBoxService : IMessageBoxService
 {

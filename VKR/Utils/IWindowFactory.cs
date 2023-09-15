@@ -1,7 +1,7 @@
 ﻿using System.Windows;
 
 
-namespace VKR.Utils;
+namespace MeatCountefeitDetector.Utils;
 
 internal interface IWindowFactory<T> where T : Window
 {

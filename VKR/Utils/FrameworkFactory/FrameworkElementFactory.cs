@@ -2,7 +2,7 @@
 using System.Windows;
 
 
-namespace VKR.Utils.FrameworkFactory;
+namespace MeatCountefeitDetector.Utils.FrameworkFactory;
 
 public class FrameworkElementFactory : IFrameworkElementFactory
 {

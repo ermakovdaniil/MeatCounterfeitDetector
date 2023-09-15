@@ -4,24 +4,24 @@ using ImageAnalyzis;
 using System.Globalization;
 using System.Threading;
 using System.Windows;
-using VKR.UserInterface;
-using VKR.UserInterface.Admin;
-using VKR.UserInterface.Admin.Counterfeit;
-using VKR.UserInterface.Admin.Gallery;
-using VKR.UserInterface.Admin.Result;
-using VKR.UserInterface.Admin.User;
-using VKR.UserInterface.Technologist;
-using VKR.Utils;
-using VKR.Utils.Dialog;
-using VKR.Utils.FrameworkFactory;
-using VKR.Utils.IOService;
-using VKR.Utils.MainWindowControlChanger;
-using VKR.Utils.MessageBoxService;
-using VKR.Utils.UserService;
-using FrameworkElementFactory = VKR.Utils.FrameworkFactory.FrameworkElementFactory;
+using MeatCountefeitDetector.UserInterface;
+using MeatCountefeitDetector.UserInterface.Admin;
+using MeatCountefeitDetector.UserInterface.Admin.Counterfeit;
+using MeatCountefeitDetector.UserInterface.Admin.Gallery;
+using MeatCountefeitDetector.UserInterface.Admin.Result;
+using MeatCountefeitDetector.UserInterface.Admin.User;
+using MeatCountefeitDetector.UserInterface.Technologist;
+using MeatCountefeitDetector.Utils;
+using MeatCountefeitDetector.Utils.Dialog;
+using MeatCountefeitDetector.Utils.FrameworkFactory;
+using MeatCountefeitDetector.Utils.IOService;
+using MeatCountefeitDetector.Utils.MainWindowControlChanger;
+using MeatCountefeitDetector.Utils.MessageBoxService;
+using MeatCountefeitDetector.Utils.UserService;
+using FrameworkElementFactory = MeatCountefeitDetector.Utils.FrameworkFactory.FrameworkElementFactory;
 
 
-namespace VKR;
+namespace MeatCountefeitDetector;
 
 public partial class App : Application
 {

@@ -1,4 +1,4 @@
-﻿namespace VKR.Utils.Dialog.Abstract;
+﻿namespace MeatCountefeitDetector.Utils.Dialog.Abstract;
 
 public interface IDataHolder
 {

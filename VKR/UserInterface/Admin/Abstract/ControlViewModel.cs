@@ -1,7 +1,7 @@
 ﻿// using System.Windows.Controls;
 //
 //
-// namespace VKR.ViewModel;
+// namespace MeatCountefeitDetector.ViewModel;
 //
 // public class ControlViewModel : ViewModelBase
 // {

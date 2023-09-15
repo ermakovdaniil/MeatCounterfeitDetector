@@ -1,9 +1,9 @@
 ﻿using System.Windows.Controls;
 
-using VKR.Utils;
+using MeatCountefeitDetector.Utils;
 
 
-namespace VKR.UserInterface.Admin;
+namespace MeatCountefeitDetector.UserInterface.Admin;
 
 public partial class MainAdminControl : UserControl
 {

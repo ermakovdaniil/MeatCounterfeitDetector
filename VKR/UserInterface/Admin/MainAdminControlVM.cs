@@ -1,13 +1,13 @@
 ﻿using System.Windows;
 
-using VKR.UserInterface.Admin.Abstract;
-using VKR.Utils;
-using VKR.Utils.Dialog;
-using VKR.Utils.MainWindowControlChanger;
-using VKR.Utils.MessageBoxService;
+using MeatCountefeitDetector.UserInterface.Admin.Abstract;
+using MeatCountefeitDetector.Utils;
+using MeatCountefeitDetector.Utils.Dialog;
+using MeatCountefeitDetector.Utils.MainWindowControlChanger;
+using MeatCountefeitDetector.Utils.MessageBoxService;
 
 
-namespace VKR.UserInterface.Admin;
+namespace MeatCountefeitDetector.UserInterface.Admin;
 
 public class MainAdminControlVM : ViewModelBase
 {

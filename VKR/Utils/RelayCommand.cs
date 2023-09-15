@@ -2,7 +2,7 @@
 using System.Windows.Input;
 
 
-namespace VKR.Utils;
+namespace MeatCountefeitDetector.Utils;
 
 public class RelayCommand : ICommand
 {

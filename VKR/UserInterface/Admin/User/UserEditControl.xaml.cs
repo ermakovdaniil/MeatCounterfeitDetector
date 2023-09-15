@@ -1,7 +1,7 @@
-﻿using VKR.Utils;
+﻿using MeatCountefeitDetector.Utils;
 
 
-namespace VKR.UserInterface.Admin.User;
+namespace MeatCountefeitDetector.UserInterface.Admin.User;
 
 public partial class UserEditControl
 {

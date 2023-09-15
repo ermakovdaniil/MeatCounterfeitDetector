@@ -1,9 +1,9 @@
 ﻿using System.Windows.Controls;
 
-using VKR.Utils;
+using MeatCountefeitDetector.Utils;
 
 
-namespace VKR.UserInterface;
+namespace MeatCountefeitDetector.UserInterface;
 
 public partial class LoginControl : UserControl
 {

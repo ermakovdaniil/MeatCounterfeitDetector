@@ -7,15 +7,15 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Windows;
-using VKR.UserInterface.Admin.Abstract;
-using VKR.Utils;
-using VKR.Utils.Dialog;
-using VKR.Utils.IOService;
-using VKR.Utils.MainWindowControlChanger;
-using VKR.Utils.MessageBoxService;
-using VKR.Utils.UserService;
+using MeatCountefeitDetector.UserInterface.Admin.Abstract;
+using MeatCountefeitDetector.Utils;
+using MeatCountefeitDetector.Utils.Dialog;
+using MeatCountefeitDetector.Utils.IOService;
+using MeatCountefeitDetector.Utils.MainWindowControlChanger;
+using MeatCountefeitDetector.Utils.MessageBoxService;
+using MeatCountefeitDetector.Utils.UserService;
 
-namespace VKR.UserInterface.Technologist;
+namespace MeatCountefeitDetector.UserInterface.Technologist;
 
 public class TechnologistControlVM : ViewModelBase
 {

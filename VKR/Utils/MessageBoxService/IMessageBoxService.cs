@@ -1,7 +1,7 @@
 ﻿using System.Windows;
 
 
-namespace VKR.Utils.MessageBoxService;
+namespace MeatCountefeitDetector.Utils.MessageBoxService;
 
 public interface IMessageBoxService
 {
