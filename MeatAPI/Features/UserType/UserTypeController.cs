@@ -1,34 +1,34 @@
 ﻿using Mapster;
-using MeatAPI.Features.Counterfeit.DTO;
+using MeatAPI.Features.UserType.DTO;
 using MeatAPI.Repositories;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using WebAppWithReact.Controllers;
 
-namespace MeatAPI.Features.Counterfeit
+namespace MeatAPI.Features.UserType
 {
-    public class CounterfeitController : BaseAuthorizedController
+    public class UserTypeController : BaseAuthorizedController
     {
-        private readonly IGenericRepository<DataAccess.Models.Counterfeit> _counterfeitRepository;
-        private readonly CounterfeitService _counterfeitService;
+        private readonly IGenericRepository<DataAccess.Models.UserType> _userTypeRepository;
+        private readonly UserTypeService _userTypeService;
 
-        public CounterfeitController(IGenericRepository<DataAccess.Models.Counterfeit> counterfeitRepository,
-                               CounterfeitService counterfeitService)
+        public UserTypeController(IGenericRepository<DataAccess.Models.UserType> userTypeRepository,
+                               UserTypeService userTypeService)
         {
-            _counterfeitRepository = counterfeitRepository;
-            _counterfeitService = counterfeitService;
+            _userTypeRepository = userTypeRepository;
+            _userTypeService = userTypeService;
         }
 
         /// <summary>
         ///     Получение всех объектов
         /// </summary>
         [HttpGet]
-        public async Task<ActionResult<IReadOnlyCollection<GetCounterfeitDTO>>> GetAll()
+        public async Task<ActionResult<IReadOnlyCollection<GetUserTypeDTO>>> GetAll()
         {
-            var counterfeits = await _counterfeitRepository.Get();
-            var counterfeitsDTO = counterfeits.Adapt<List<GetCounterfeitDTO>>();
+            var userTypes = await _userTypeRepository.Get();
+            var userTypesDTO = userTypes.Adapt<List<GetUserTypeDTO>>();
 
-            return Ok(counterfeitsDTO);
+            return Ok(userTypesDTO);
         }
 
         /// <summary>
@@ -37,11 +37,11 @@ namespace MeatAPI.Features.Counterfeit
         /// <param name="id">ID объекта</param>
         [HttpGet("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<ActionResult<GetCounterfeitDTO>> Get(Guid id)
+        public async Task<ActionResult<GetUserTypeDTO>> Get(Guid id)
         {
-            var c = await _counterfeitService.Get(id);
+            var ut = await _userTypeService.Get(id);
 
-            return Ok(c);
+            return Ok(ut);
         }
 
         /// <summary>
@@ -50,9 +50,9 @@ namespace MeatAPI.Features.Counterfeit
         /// <param name="dto">DTO с информацией об объекте</param>
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<ActionResult<Guid>> Create([FromBody] CreateCounterfeitDTO dto)
+        public async Task<ActionResult<Guid>> Create([FromBody] CreateUserTypeDTO dto)
         {
-            var id = await _counterfeitRepository.Create(dto);
+            var id = await _userTypeRepository.Create(dto);
 
             return Ok(id);
         }
@@ -63,11 +63,11 @@ namespace MeatAPI.Features.Counterfeit
         /// <param name="dto">DTO с информацией об объекте</param>
         [HttpPut]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<ActionResult> Update([FromBody] UpdateCounterfeitDTO dto)
+        public async Task<ActionResult> Update([FromBody] UpdateUserTypeDTO dto)
         {
-            var obj = await _counterfeitRepository.FindById((Guid)dto.Id);
+            var obj = await _userTypeRepository.FindById((Guid)dto.Id);
 
-            await _counterfeitRepository.Update(dto);
+            await _userTypeRepository.Update(dto);
 
             return Ok();
         }
@@ -81,7 +81,7 @@ namespace MeatAPI.Features.Counterfeit
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<ActionResult> Delete(Guid id)
         {
-            await _counterfeitService.Delete(id);
+            await _userTypeService.Delete(id);
 
             return Ok();
         }

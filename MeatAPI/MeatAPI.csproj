@@ -9,6 +9,8 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Mapster" Version="7.3.0" />
+    <PackageReference Include="Mapster.EFCore" Version="5.1.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="6.0.21" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="6.0.21" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="6.0.21">
@@ -23,15 +25,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\DataAccess\DataAccess.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Features\OriginalPath\" />
-    <Folder Include="Features\Result\" />
-    <Folder Include="Features\ResultPath\" />
-    <Folder Include="Features\User\" />
-    <Folder Include="Features\UserType\" />
-    <Folder Include="Features\CounterfeitPath\" />
   </ItemGroup>
 
 </Project>

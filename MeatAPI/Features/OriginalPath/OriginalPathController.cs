@@ -1,32 +1,32 @@
 ﻿using Mapster;
-using MeatAPI.Features.Counterfeit.DTO;
+using MeatAPI.Features.OriginalPath.DTO;
 using MeatAPI.Repositories;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using WebAppWithReact.Controllers;
 
-namespace MeatAPI.Features.Counterfeit
+namespace MeatAPI.Features.OriginalPath
 {
-    public class CounterfeitController : BaseAuthorizedController
+    public class OriginalPathController : BaseAuthorizedController
     {
-        private readonly IGenericRepository<DataAccess.Models.Counterfeit> _counterfeitRepository;
-        private readonly CounterfeitService _counterfeitService;
+        private readonly IGenericRepository<DataAccess.Models.OriginalPath> _counterfeitPathRepository;
+        private readonly OriginalPathService _counterfeitPathService;
 
-        public CounterfeitController(IGenericRepository<DataAccess.Models.Counterfeit> counterfeitRepository,
-                               CounterfeitService counterfeitService)
+        public OriginalPathController(IGenericRepository<DataAccess.Models.OriginalPath> counterfeitRepository,
+                               OriginalPathService counterfeitService)
         {
-            _counterfeitRepository = counterfeitRepository;
-            _counterfeitService = counterfeitService;
+            _counterfeitPathRepository = counterfeitRepository;
+            _counterfeitPathService = counterfeitService;
         }
 
         /// <summary>
         ///     Получение всех объектов
         /// </summary>
         [HttpGet]
-        public async Task<ActionResult<IReadOnlyCollection<GetCounterfeitDTO>>> GetAll()
+        public async Task<ActionResult<IReadOnlyCollection<GetOriginalPathDTO>>> GetAll()
         {
-            var counterfeits = await _counterfeitRepository.Get();
-            var counterfeitsDTO = counterfeits.Adapt<List<GetCounterfeitDTO>>();
+            var counterfeits = await _counterfeitPathRepository.Get();
+            var counterfeitsDTO = counterfeits.Adapt<List<GetOriginalPathDTO>>();
 
             return Ok(counterfeitsDTO);
         }
@@ -37,11 +37,11 @@ namespace MeatAPI.Features.Counterfeit
         /// <param name="id">ID объекта</param>
         [HttpGet("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<ActionResult<GetCounterfeitDTO>> Get(Guid id)
+        public async Task<ActionResult<GetOriginalPathDTO>> Get(Guid id)
         {
-            var c = await _counterfeitService.Get(id);
+            var cp = await _counterfeitPathService.Get(id);
 
-            return Ok(c);
+            return Ok(cp);
         }
 
         /// <summary>
@@ -50,11 +50,11 @@ namespace MeatAPI.Features.Counterfeit
         /// <param name="dto">DTO с информацией об объекте</param>
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<ActionResult<Guid>> Create([FromBody] CreateCounterfeitDTO dto)
+        public async Task<ActionResult<Guid>> Create([FromBody] CreateOriginalPathDTO dto)
         {
-            var id = await _counterfeitRepository.Create(dto);
+            var id = await _counterfeitPathRepository.Create(dto);
 
-            return Ok(id);
+            return Ok(dto);
         }
 
         /// <summary>
@@ -63,11 +63,11 @@ namespace MeatAPI.Features.Counterfeit
         /// <param name="dto">DTO с информацией об объекте</param>
         [HttpPut]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<ActionResult> Update([FromBody] UpdateCounterfeitDTO dto)
+        public async Task<ActionResult> Update([FromBody] UpdateOriginalPathDTO dto)
         {
-            var obj = await _counterfeitRepository.FindById((Guid)dto.Id);
+            var obj = await _counterfeitPathRepository.FindById((Guid)dto.Id);
 
-            await _counterfeitRepository.Update(dto);
+            await _counterfeitPathRepository.Update(dto);
 
             return Ok();
         }
@@ -81,7 +81,7 @@ namespace MeatAPI.Features.Counterfeit
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<ActionResult> Delete(Guid id)
         {
-            await _counterfeitService.Delete(id);
+            await _counterfeitPathService.Delete(id);
 
             return Ok();
         }

@@ -1,8 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace MeatAPI.Features.Counterfeit.DTO
+namespace MeatAPI.Features.UserType.DTO
 {
-    public class CreateCounterfeitDTO
+    public class CreateUserTypeDTO
     {
         [Required(ErrorMessage = "Name is required")]
         public string Name { get; set; }
