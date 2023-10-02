@@ -52,7 +52,6 @@ namespace MeatAPI.Features.Result
             return r.Id;
         }
 
-
         /// <summary>
         ///     Удаление объекта по ID
         /// </summary>

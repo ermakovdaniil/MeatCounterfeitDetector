@@ -52,9 +52,9 @@ namespace MeatAPI.Features.OriginalPath
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<ActionResult<Guid>> Create([FromBody] CreateOriginalPathDTO dto)
         {
-            var id = await _counterfeitPathRepository.Create(dto);
+            var id = await _counterfeitPathService.Create(dto);
 
-            return Ok(dto);
+            return Ok(id);
         }
 
         /// <summary>
@@ -65,9 +65,7 @@ namespace MeatAPI.Features.OriginalPath
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<ActionResult> Update([FromBody] UpdateOriginalPathDTO dto)
         {
-            var obj = await _counterfeitPathRepository.FindById((Guid)dto.Id);
-
-            await _counterfeitPathRepository.Update(dto);
+            await _counterfeitPathService.Update(dto);
 
             return Ok();
         }

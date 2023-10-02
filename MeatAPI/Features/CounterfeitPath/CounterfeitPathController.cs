@@ -45,19 +45,6 @@ namespace MeatAPI.Features.CounterfeitPath
         }
 
         /// <summary>
-        ///     Получение объекта по ID
-        /// </summary>
-        /// <param name="id">ID объекта</param>
-        [HttpGet("{id}")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<ActionResult<GetCounterfeitPathDTO>> Get(GetCounterfeitPathDTO dto)
-        {
-            var cp = await _counterfeitPathService.Get(dto);
-
-            return Ok(cp);
-        }
-
-        /// <summary>
         ///     Создание объекта
         /// </summary>
         /// <param name="dto">DTO с информацией об объекте</param>
@@ -65,9 +52,9 @@ namespace MeatAPI.Features.CounterfeitPath
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<ActionResult<Guid>> Create([FromBody] CreateCounterfeitPathDTO dto)
         {
-            var id = await _counterfeitPathRepository.Create(dto);
+            var id = await _counterfeitPathService.Create(dto);
 
-            return Ok(dto);
+            return Ok(id);
         }
 
         /// <summary>
@@ -78,9 +65,7 @@ namespace MeatAPI.Features.CounterfeitPath
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<ActionResult> Update([FromBody] UpdateCounterfeitPathDTO dto)
         {
-            var obj = await _counterfeitPathRepository.FindById((Guid)dto.Id);
-
-            await _counterfeitPathRepository.Update(dto);
+            await _counterfeitPathService.Update(dto);
 
             return Ok();
         }
@@ -95,20 +80,6 @@ namespace MeatAPI.Features.CounterfeitPath
         public async Task<ActionResult> Delete(Guid id)
         {
             await _counterfeitPathService.Delete(id);
-
-            return Ok();
-        }
-
-        /// <summary>
-        ///     Удаление объекта по ID
-        /// </summary>
-        /// <param name="id">ID объекта</param>
-        /// <returns></returns>
-        [HttpDelete("{id}")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<ActionResult> Delete([FromBody] DeleteCounterfeitPathDTO dto)
-        {
-            await _counterfeitPathService.Delete(dto);
 
             return Ok();
         }

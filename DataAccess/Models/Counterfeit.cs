@@ -9,7 +9,7 @@ public class Counterfeit
         CounterfeitPaths = new ObservableCollection<CounterfeitPath>();
     }
 
-    public long Id { get; set; }
+    public Guid Id { get; set; }
     public string Name { get; set; } = null!;
 
     public virtual ObservableCollection<CounterfeitPath> CounterfeitPaths { get; set; }

@@ -9,7 +9,7 @@ namespace DataAccess.Models
             Users = new ObservableCollection<User>();
         }
 
-        public long Id { get; set; }
+        public Guid Id { get; set; }
         public string Name { get; set; } = null!;
 
         public virtual ObservableCollection<User> Users { get; set; }

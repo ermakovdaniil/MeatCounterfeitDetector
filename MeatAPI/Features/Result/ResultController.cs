@@ -1,4 +1,5 @@
 ﻿using Mapster;
+using MeatAPI.Features.CounterfeitPath;
 using MeatAPI.Features.Result.DTO;
 using MeatAPI.Repositories;
 using Microsoft.AspNetCore.Authorization;
@@ -45,19 +46,6 @@ namespace MeatAPI.Features.Result
         }
 
         /// <summary>
-        ///     Получение объекта по ID
-        /// </summary>
-        /// <param name="id">ID объекта</param>
-        [HttpGet("{id}")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<ActionResult<GetResultDTO>> Get(GetResultDTO dto)
-        {
-            var r = await _resultService.Get(dto);
-
-            return Ok(r);
-        }
-
-        /// <summary>
         ///     Создание объекта
         /// </summary>
         /// <param name="dto">DTO с информацией об объекте</param>
@@ -65,9 +53,9 @@ namespace MeatAPI.Features.Result
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<ActionResult<Guid>> Create([FromBody] CreateResultDTO dto)
         {
-            var id = await _resultRepository.Create(dto);
+            var id = await _resultService.Create(dto);
 
-            return Ok(dto);
+            return Ok(id);
         }
 
         /// <summary>
@@ -80,20 +68,6 @@ namespace MeatAPI.Features.Result
         public async Task<ActionResult> Delete(Guid id)
         {
             await _resultService.Delete(id);
-
-            return Ok();
-        }
-
-        /// <summary>
-        ///     Удаление объекта по ID
-        /// </summary>
-        /// <param name="id">ID объекта</param>
-        /// <returns></returns>
-        [HttpDelete("{id}")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<ActionResult> Delete([FromBody] DeleteResultDTO dto)
-        {
-            await _resultService.Delete(dto);
 
             return Ok();
         }

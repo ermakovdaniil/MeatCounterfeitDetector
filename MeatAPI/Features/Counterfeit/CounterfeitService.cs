@@ -1,24 +1,25 @@
-﻿using DataAccess.Models;
+﻿using DataAccess.Data;
+using DataAccess.Models;
 using Mapster;
 using MeatAPI.Features.Counterfeit.DTO;
 using MeatAPI.Repositories;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.EntityFrameworkCore;
 
 namespace MeatAPI.Features.Counterfeit
 {
     public class CounterfeitService
     {
-        private readonly IGenericRepository<DataAccess.Models.Counterfeit> _counterfeitRepository;
+        private readonly CounterfeitKBContext _counterfeitKBContext;
 
-
-        public CounterfeitService(IGenericRepository<DataAccess.Models.Counterfeit> counterfeitRepository)
+        public CounterfeitService(CounterfeitKBContext counterfeitKBContext)
         {
-            _counterfeitRepository = counterfeitRepository;
+            _counterfeitKBContext = counterfeitKBContext;
         }
 
         public async Task<IReadOnlyCollection<GetCounterfeitDTO>> GetAll()
         {
-            var c = await _counterfeitRepository.Get();
+            var c = await _counterfeitKBContext.Counterfeits.AsNoTracking().ToListAsync();
             var dtos = c.Adapt<List<GetCounterfeitDTO>>();
 
             return dtos;
@@ -31,7 +32,7 @@ namespace MeatAPI.Features.Counterfeit
         /// <returns>Информация о найденном объекте</returns>
         public async Task<GetCounterfeitDTO> Get(Guid id)
         {
-            var c = await _counterfeitRepository.FindById(id);
+            var c = await _counterfeitKBContext.Counterfeits.AsNoTracking().FirstAsync(c => c.Id == id);
 
             var cDto = c.Adapt<GetCounterfeitDTO>();
 
@@ -46,8 +47,9 @@ namespace MeatAPI.Features.Counterfeit
         public async Task<Guid> Create(CreateCounterfeitDTO dto)
         {
             var c = dto.Adapt<DataAccess.Models.Counterfeit>();
-            //c.AppUserId = userId;
-            await _counterfeitRepository.Create(c);
+
+            await _counterfeitKBContext.Counterfeits.AddAsync(c);
+            await _counterfeitKBContext.SaveChangesAsync();
 
             return c.Id;
         }
@@ -58,9 +60,10 @@ namespace MeatAPI.Features.Counterfeit
         /// <param name="dto"> DTO с обновленной информацией об объекте</param>
         public async Task Update(UpdateCounterfeitDTO dto)
         {
-            var c = await _counterfeitRepository.FindById((Guid)dto.Id);
+            var c = await _counterfeitKBContext.Counterfeits.FirstAsync(c => c.Id == (Guid)dto.Id);
             dto.Adapt(c);
-            await _counterfeitRepository.Update(c);
+            //await _counterfeitKBContext.Counterfeits.Update(c);
+            await _counterfeitKBContext.SaveChangesAsync();
         }
 
         /// <summary>
@@ -69,8 +72,9 @@ namespace MeatAPI.Features.Counterfeit
         /// <param name="id">ID объекта</param>
         public async Task Delete(Guid id)
         {
-            var c = await _counterfeitRepository.FindById(id);
-            await _counterfeitRepository.Remove(c);
+            var c = await _counterfeitKBContext.Counterfeits.FirstAsync(c => c.Id == id);
+            _counterfeitKBContext.Remove(c);
+            await _counterfeitKBContext.SaveChangesAsync();
         }
     }
 }

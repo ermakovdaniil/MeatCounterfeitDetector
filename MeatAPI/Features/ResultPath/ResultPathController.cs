@@ -45,19 +45,6 @@ namespace MeatAPI.Features.ResultPath
         }
 
         /// <summary>
-        ///     Получение объекта по ID
-        /// </summary>
-        /// <param name="id">ID объекта</param>
-        [HttpGet("{id}")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<ActionResult<GetResultPathDTO>> Get(GetResultPathDTO dto)
-        {
-            var rp = await _resultPathService.Get(dto);
-
-            return Ok(rp);
-        }
-
-        /// <summary>
         ///     Создание объекта
         /// </summary>
         /// <param name="dto">DTO с информацией об объекте</param>
@@ -65,9 +52,9 @@ namespace MeatAPI.Features.ResultPath
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<ActionResult<Guid>> Create([FromBody] CreateResultPathDTO dto)
         {
-            var id = await _resultPathRepository.Create(dto);
+            var id = await _resultPathService.Create(dto);
 
-            return Ok(dto);
+            return Ok(id);
         }
 
         /// <summary>
@@ -78,9 +65,7 @@ namespace MeatAPI.Features.ResultPath
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<ActionResult> Update([FromBody] UpdateResultPathDTO dto)
         {
-            var obj = await _resultPathRepository.FindById((Guid)dto.Id);
-
-            await _resultPathRepository.Update(dto);
+            await _resultPathService.Update(dto);
 
             return Ok();
         }
@@ -95,20 +80,6 @@ namespace MeatAPI.Features.ResultPath
         public async Task<ActionResult> Delete(Guid id)
         {
             await _resultPathService.Delete(id);
-
-            return Ok();
-        }
-
-        /// <summary>
-        ///     Удаление объекта по ID
-        /// </summary>
-        /// <param name="id">ID объекта</param>
-        /// <returns></returns>
-        [HttpDelete("{id}")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<ActionResult> Delete([FromBody] DeleteResultPathDTO dto)
-        {
-            await _resultPathService.Delete(dto);
 
             return Ok();
         }

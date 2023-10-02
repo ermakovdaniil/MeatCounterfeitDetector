@@ -10,7 +10,7 @@ namespace DataAccess.Models
             Results = new ObservableCollection<Result>();
         }
 
-        public long Id { get; set; }
+        public Guid Id { get; set; }
         public string Path { get; set; } = null!;
 
         public virtual ObservableCollection<ResultPath> ResultPaths { get; set; }

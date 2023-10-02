@@ -45,19 +45,6 @@ namespace MeatAPI.Features.User
         }
 
         /// <summary>
-        ///     Получение объекта по ID
-        /// </summary>
-        /// <param name="id">ID объекта</param>
-        [HttpGet("{id}")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<ActionResult<GetUserDTO>> Get(GetUserDTO dto)
-        {
-            var u = await _userService.Get(dto);
-
-            return Ok(u);
-        }
-
-        /// <summary>
         ///     Создание объекта
         /// </summary>
         /// <param name="dto">DTO с информацией об объекте</param>
@@ -65,9 +52,9 @@ namespace MeatAPI.Features.User
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<ActionResult<Guid>> Create([FromBody] CreateUserDTO dto)
         {
-            var id = await _userRepository.Create(dto);
+            var id = await _userService.Create(dto);
 
-            return Ok(dto);
+            return Ok(id);
         }
 
         /// <summary>
@@ -78,9 +65,7 @@ namespace MeatAPI.Features.User
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<ActionResult> Update([FromBody] UpdateUserDTO dto)
         {
-            var obj = await _userRepository.FindById((Guid)dto.Id);
-
-            await _userRepository.Update(dto);
+            await _userService.Update(dto);
 
             return Ok();
         }
@@ -95,20 +80,6 @@ namespace MeatAPI.Features.User
         public async Task<ActionResult> Delete(Guid id)
         {
             await _userService.Delete(id);
-
-            return Ok();
-        }
-
-        /// <summary>
-        ///     Удаление объекта по ID
-        /// </summary>
-        /// <param name="id">ID объекта</param>
-        /// <returns></returns>
-        [HttpDelete("{id}")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<ActionResult> Delete([FromBody] DeleteUserDTO dto)
-        {
-            await _userService.Delete(dto);
 
             return Ok();
         }

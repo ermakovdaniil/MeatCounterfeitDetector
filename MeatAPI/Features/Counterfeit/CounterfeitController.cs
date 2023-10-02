@@ -52,7 +52,7 @@ namespace MeatAPI.Features.Counterfeit
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<ActionResult<Guid>> Create([FromBody] CreateCounterfeitDTO dto)
         {
-            var id = await _counterfeitRepository.Create(dto);
+            var id = await _counterfeitService.Create(dto);
 
             return Ok(id);
         }
@@ -65,9 +65,7 @@ namespace MeatAPI.Features.Counterfeit
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<ActionResult> Update([FromBody] UpdateCounterfeitDTO dto)
         {
-            var obj = await _counterfeitRepository.FindById((Guid)dto.Id);
-
-            await _counterfeitRepository.Update(dto);
+            await _counterfeitService.Update(dto);
 
             return Ok();
         }

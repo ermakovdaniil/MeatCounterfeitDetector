@@ -52,7 +52,7 @@ namespace MeatAPI.Features.UserType
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<ActionResult<Guid>> Create([FromBody] CreateUserTypeDTO dto)
         {
-            var id = await _userTypeRepository.Create(dto);
+            var id = await _userTypeService.Create(dto);
 
             return Ok(id);
         }
@@ -65,9 +65,7 @@ namespace MeatAPI.Features.UserType
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<ActionResult> Update([FromBody] UpdateUserTypeDTO dto)
         {
-            var obj = await _userTypeRepository.FindById((Guid)dto.Id);
-
-            await _userTypeRepository.Update(dto);
+            await _userTypeService.Update(dto);
 
             return Ok();
         }
