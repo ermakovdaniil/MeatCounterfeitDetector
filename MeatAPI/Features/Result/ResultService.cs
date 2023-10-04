@@ -1,26 +1,23 @@
-﻿using DataAccess.Models;
+﻿using DataAccess.Data;
 using Mapster;
 using MeatAPI.Features.Result.DTO;
-using MeatAPI.Repositories;
-using Microsoft.AspNetCore.Authorization;
+using Microsoft.EntityFrameworkCore;
 
 namespace MeatAPI.Features.Result
 {
     public class ResultService
     {
-        private readonly IGenericRepository<DataAccess.Models.Result> _resultRepository;
+        private readonly ResultDBContext _resultDBContext;
 
-
-        public ResultService(IGenericRepository<DataAccess.Models.Result> resultRepository)
+        public ResultService(ResultDBContext resultDBContext)
         {
-            _resultRepository = resultRepository;
+            _resultDBContext = resultDBContext;
         }
 
         public async Task<IReadOnlyCollection<GetResultDTO>> GetAll()
         {
-            var r = await _resultRepository.Get();
+            var r = await _resultDBContext.Results.AsNoTracking().ToListAsync();
             var dtos = r.Adapt<List<GetResultDTO>>();
-
             return dtos;
         }
 
@@ -31,10 +28,8 @@ namespace MeatAPI.Features.Result
         /// <returns>Информация о найденном объекте</returns>
         public async Task<GetResultDTO> Get(Guid id)
         {
-            var r = await _resultRepository.FindById(id);
-
+            var r = await _resultDBContext.Results.AsNoTracking().FirstAsync(r => r.Id == id);
             var rDto = r.Adapt<GetResultDTO>();
-
             return rDto;
         }
 
@@ -46,9 +41,8 @@ namespace MeatAPI.Features.Result
         public async Task<Guid> Create(CreateResultDTO dto)
         {
             var r = dto.Adapt<DataAccess.Models.Result>();
-            //r.AppResultId = resultId;
-            await _resultRepository.Create(r);
-
+            await _resultDBContext.Results.AddAsync(r);
+            await _resultDBContext.SaveChangesAsync();
             return r.Id;
         }
 
@@ -58,8 +52,9 @@ namespace MeatAPI.Features.Result
         /// <param name="id">ID объекта</param>
         public async Task Delete(Guid id)
         {
-            var r = await _resultRepository.FindById(id);
-            await _resultRepository.Remove(r);
+            var r = await _resultDBContext.Results.FirstAsync(r => r.Id == id);
+            _resultDBContext.Remove(r);
+            await _resultDBContext.SaveChangesAsync();
         }
     }
 }

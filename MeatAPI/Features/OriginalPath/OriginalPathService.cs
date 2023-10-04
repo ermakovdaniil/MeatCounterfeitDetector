@@ -1,26 +1,23 @@
-﻿using DataAccess.Models;
+﻿using DataAccess.Data;
 using Mapster;
 using MeatAPI.Features.OriginalPath.DTO;
-using MeatAPI.Repositories;
-using Microsoft.AspNetCore.Authorization;
+using Microsoft.EntityFrameworkCore;
 
 namespace MeatAPI.Features.OriginalPath
 {
     public class OriginalPathService
     {
-        private readonly IGenericRepository<DataAccess.Models.OriginalPath> _originalPathRepository;
+        private readonly ResultDBContext _resultDBContext;
 
-
-        public OriginalPathService(IGenericRepository<DataAccess.Models.OriginalPath> originalPathRepository)
+        public OriginalPathService(ResultDBContext resultDBContext)
         {
-            _originalPathRepository = originalPathRepository;
+            _resultDBContext = resultDBContext;
         }
 
         public async Task<IReadOnlyCollection<GetOriginalPathDTO>> GetAll()
         {
-            var op = await _originalPathRepository.Get();
+            var op = await _resultDBContext.OriginalPaths.AsNoTracking().ToListAsync();
             var dtos = op.Adapt<List<GetOriginalPathDTO>>();
-
             return dtos;
         }
 
@@ -31,10 +28,8 @@ namespace MeatAPI.Features.OriginalPath
         /// <returns>Информация о найденном объекте</returns>
         public async Task<GetOriginalPathDTO> Get(Guid id)
         {
-            var op = await _originalPathRepository.FindById(id);
-
+            var op = await _resultDBContext.OriginalPaths.AsNoTracking().FirstAsync(op => op.Id == id);
             var opDto = op.Adapt<GetOriginalPathDTO>();
-
             return opDto;
         }
 
@@ -46,9 +41,8 @@ namespace MeatAPI.Features.OriginalPath
         public async Task<Guid> Create(CreateOriginalPathDTO dto)
         {
             var op = dto.Adapt<DataAccess.Models.OriginalPath>();
-            //op.AppUserId = userId;
-            await _originalPathRepository.Create(op);
-
+            await _resultDBContext.OriginalPaths.AddAsync(op);
+            await _resultDBContext.SaveChangesAsync();
             return op.Id;
         }
 
@@ -58,9 +52,9 @@ namespace MeatAPI.Features.OriginalPath
         /// <param name="dto"> DTO с обновленной информацией об объекте</param>
         public async Task Update(UpdateOriginalPathDTO dto)
         {
-            var op = await _originalPathRepository.FindById((Guid)dto.Id);
+            var op = await _resultDBContext.OriginalPaths.FirstAsync(op => op.Id == (Guid)dto.Id);
             dto.Adapt(op);
-            await _originalPathRepository.Update(op);
+            await _resultDBContext.SaveChangesAsync();
         }
 
         /// <summary>
@@ -69,8 +63,9 @@ namespace MeatAPI.Features.OriginalPath
         /// <param name="id">ID объекта</param>
         public async Task Delete(Guid id)
         {
-            var op = await _originalPathRepository.FindById(id);
-            await _originalPathRepository.Remove(op);
+            var op = await _resultDBContext.OriginalPaths.FirstAsync(op => op.Id == id);
+            _resultDBContext.Remove(op);
+            await _resultDBContext.SaveChangesAsync();
         }
     }
 }

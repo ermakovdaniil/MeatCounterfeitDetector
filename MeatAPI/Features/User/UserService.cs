@@ -1,26 +1,23 @@
-﻿using DataAccess.Models;
+﻿using DataAccess.Data;
 using Mapster;
 using MeatAPI.Features.User.DTO;
-using MeatAPI.Repositories;
-using Microsoft.AspNetCore.Authorization;
+using Microsoft.EntityFrameworkCore;
 
 namespace MeatAPI.Features.User
 {
     public class UserService
     {
-        private readonly IGenericRepository<DataAccess.Models.User> _userRepository;
+        private readonly ResultDBContext _resultDBContext;
 
-
-        public UserService(IGenericRepository<DataAccess.Models.User> userRepository)
+        public UserService(ResultDBContext resultDBContext)
         {
-            _userRepository = userRepository;
+            _resultDBContext = resultDBContext;
         }
 
         public async Task<IReadOnlyCollection<GetUserDTO>> GetAll()
         {
-            var u = await _userRepository.Get();
+            var u = await _resultDBContext.Users.AsNoTracking().ToListAsync();
             var dtos = u.Adapt<List<GetUserDTO>>();
-
             return dtos;
         }
 
@@ -31,10 +28,8 @@ namespace MeatAPI.Features.User
         /// <returns>Информация о найденном объекте</returns>
         public async Task<GetUserDTO> Get(Guid id)
         {
-            var u = await _userRepository.FindById(id);
-
+            var u = await _resultDBContext.Users.AsNoTracking().FirstAsync(u => u.Id == id);
             var uDto = u.Adapt<GetUserDTO>();
-
             return uDto;
         }
 
@@ -46,9 +41,8 @@ namespace MeatAPI.Features.User
         public async Task<Guid> Create(CreateUserDTO dto)
         {
             var u = dto.Adapt<DataAccess.Models.User>();
-            //u.AppUserId = userId;
-            await _userRepository.Create(u);
-
+            await _resultDBContext.Users.AddAsync(u);
+            await _resultDBContext.SaveChangesAsync();
             return u.Id;
         }
 
@@ -58,9 +52,9 @@ namespace MeatAPI.Features.User
         /// <param name="dto"> DTO с обновленной информацией об объекте</param>
         public async Task Update(UpdateUserDTO dto)
         {
-            var u = await _userRepository.FindById((Guid)dto.Id);
+            var u = await _resultDBContext.Users.FirstAsync(u => u.Id == (Guid)dto.Id);
             dto.Adapt(u);
-            await _userRepository.Update(u);
+            await _resultDBContext.SaveChangesAsync();
         }
 
         /// <summary>
@@ -69,8 +63,9 @@ namespace MeatAPI.Features.User
         /// <param name="id">ID объекта</param>
         public async Task Delete(Guid id)
         {
-            var u = await _userRepository.FindById(id);
-            await _userRepository.Remove(u);
+            var u = await _resultDBContext.Users.FirstAsync(u => u.Id == id);
+            _resultDBContext.Remove(u);
+            await _resultDBContext.SaveChangesAsync();
         }
     }
 }

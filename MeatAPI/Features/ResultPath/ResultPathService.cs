@@ -1,26 +1,23 @@
-﻿using DataAccess.Models;
+﻿using DataAccess.Data;
 using Mapster;
 using MeatAPI.Features.ResultPath.DTO;
-using MeatAPI.Repositories;
-using Microsoft.AspNetCore.Authorization;
+using Microsoft.EntityFrameworkCore;
 
 namespace MeatAPI.Features.ResultPath
 {
     public class ResultPathService
     {
-        private readonly IGenericRepository<DataAccess.Models.ResultPath> _resultPathRepository;
+        private readonly ResultDBContext _resultDBContext;
 
-
-        public ResultPathService(IGenericRepository<DataAccess.Models.ResultPath> resultPathRepository)
+        public ResultPathService(ResultDBContext resultDBContext)
         {
-            _resultPathRepository = resultPathRepository;
+            _resultDBContext = resultDBContext;
         }
 
         public async Task<IReadOnlyCollection<GetResultPathDTO>> GetAll()
         {
-            var rp = await _resultPathRepository.Get();
+            var rp = await _resultDBContext.ResultPaths.AsNoTracking().ToListAsync();
             var dtos = rp.Adapt<List<GetResultPathDTO>>();
-
             return dtos;
         }
 
@@ -31,10 +28,8 @@ namespace MeatAPI.Features.ResultPath
         /// <returns>Информация о найденном объекте</returns>
         public async Task<GetResultPathDTO> Get(Guid id)
         {
-            var rp = await _resultPathRepository.FindById(id);
-
+            var rp = await _resultDBContext.ResultPaths.AsNoTracking().FirstAsync(rp => rp.Id == id);
             var rpDto = rp.Adapt<GetResultPathDTO>();
-
             return rpDto;
         }
 
@@ -46,9 +41,8 @@ namespace MeatAPI.Features.ResultPath
         public async Task<Guid> Create(CreateResultPathDTO dto)
         {
             var rp = dto.Adapt<DataAccess.Models.ResultPath>();
-            //rp.AppUserId = userId;
-            await _resultPathRepository.Create(rp);
-
+            await _resultDBContext.ResultPaths.AddAsync(rp);
+            await _resultDBContext.SaveChangesAsync();
             return rp.Id;
         }
 
@@ -58,9 +52,9 @@ namespace MeatAPI.Features.ResultPath
         /// <param name="dto"> DTO с обновленной информацией об объекте</param>
         public async Task Update(UpdateResultPathDTO dto)
         {
-            var rp = await _resultPathRepository.FindById((Guid)dto.Id);
+            var rp = await _resultDBContext.ResultPaths.FirstAsync(rp => rp.Id == (Guid)dto.Id);
             dto.Adapt(rp);
-            await _resultPathRepository.Update(rp);
+            await _resultDBContext.SaveChangesAsync();
         }
 
         /// <summary>
@@ -69,8 +63,9 @@ namespace MeatAPI.Features.ResultPath
         /// <param name="id">ID объекта</param>
         public async Task Delete(Guid id)
         {
-            var rp = await _resultPathRepository.FindById(id);
-            await _resultPathRepository.Remove(rp);
+            var rp = await _resultDBContext.ResultPaths.FirstAsync(rp => rp.Id == id);
+            _resultDBContext.Remove(rp);
+            await _resultDBContext.SaveChangesAsync();
         }
     }
 }
