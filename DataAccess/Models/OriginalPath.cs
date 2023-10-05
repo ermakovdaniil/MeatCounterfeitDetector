@@ -1,8 +1,9 @@
-﻿using System.Collections.ObjectModel;
+﻿using DataAccess.Interfaces;
+using System.Collections.ObjectModel;
 
 namespace DataAccess.Models
 {
-    public partial class OriginalPath
+    public partial class OriginalPath : IBaseEntity
     {
         public OriginalPath()
         {

@@ -1,14 +1,8 @@
 using DataAccess.Data;
-using MeatAPI.Features.Counterfeit;
-using MeatAPI.Features.CounterfeitPath;
-using MeatAPI.Features.OriginalPath;
-using MeatAPI.Features.Result;
-using MeatAPI.Features.ResultPath;
-using MeatAPI.Features.User;
-using MeatAPI.Features.UserType;
+using DataAccess.Models;
+using MeatAPI.Features;
 using MeatAPI.Repositories;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Options;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -23,13 +17,21 @@ builder.Services.AddHttpContextAccessor();
 
 builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(EFGenericRepository<>));
 
-builder.Services.AddTransient<CounterfeitService>();
-builder.Services.AddTransient<CounterfeitPathService>();
-builder.Services.AddTransient<OriginalPathService>();
-builder.Services.AddTransient<ResultService>();
-builder.Services.AddTransient<ResultPathService>();
-builder.Services.AddTransient<UserService>();
-builder.Services.AddTransient<UserTypeService>();
+//builder.Services.AddTransient<CounterfeitService>();
+//builder.Services.AddTransient<CounterfeitPathService>();
+//builder.Services.AddTransient<OriginalPathService>();
+//builder.Services.AddTransient<ResultService>();
+//builder.Services.AddTransient<ResultPathService>();
+//builder.Services.AddTransient<UserService>();
+//builder.Services.AddTransient<UserTypeService>();
+
+builder.Services.AddTransient<EntityAccessServiceBase<CounterfeitKBContext, Counterfeit>>();
+builder.Services.AddTransient<EntityAccessServiceBase<CounterfeitKBContext, CounterfeitPath>>();
+builder.Services.AddTransient<EntityAccessServiceBase<ResultDBContext, Result>>();
+builder.Services.AddTransient<EntityAccessServiceBase<ResultDBContext, OriginalPath>>();
+builder.Services.AddTransient<EntityAccessServiceBase<ResultDBContext, ResultPath>>();
+builder.Services.AddTransient<EntityAccessServiceBase<ResultDBContext, User>>();
+builder.Services.AddTransient<EntityAccessServiceBase<ResultDBContext, UserType>>();
 
 builder.Services.AddDbContext<ResultDBContext>(options =>
 {

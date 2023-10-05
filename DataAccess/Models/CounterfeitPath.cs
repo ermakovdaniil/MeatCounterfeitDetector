@@ -1,6 +1,8 @@
-﻿namespace DataAccess.Models;
+﻿using DataAccess.Interfaces;
 
-public class CounterfeitPath
+namespace DataAccess.Models;
+
+public class CounterfeitPath : IBaseEntity
 {
     public Guid Id { get; set; }
     public Guid CounterfeitId { get; set; }

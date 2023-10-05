@@ -1,7 +1,6 @@
-﻿using Mapster;
-using MeatAPI.Features.Counterfeit.DTO;
-using MeatAPI.Repositories;
-using Microsoft.AspNetCore.Authorization;
+﻿using ClientAPI.DTO.Counterfeit;
+using DataAccess.Data;
+using Mapster;
 using Microsoft.AspNetCore.Mvc;
 using WebAppWithReact.Controllers;
 
@@ -9,78 +8,53 @@ namespace MeatAPI.Features.Counterfeit
 {
     public class CounterfeitController : BaseAuthorizedController
     {
-        private readonly IGenericRepository<DataAccess.Models.Counterfeit> _counterfeitRepository;
-        private readonly CounterfeitService _counterfeitService;
+        private readonly EntityAccessServiceBase<CounterfeitKBContext, DataAccess.Models.Counterfeit> _counterfeitService;
 
-        public CounterfeitController(IGenericRepository<DataAccess.Models.Counterfeit> counterfeitRepository,
-                               CounterfeitService counterfeitService)
+        public CounterfeitController(EntityAccessServiceBase<CounterfeitKBContext, DataAccess.Models.Counterfeit> counterfeitService)
         {
-            _counterfeitRepository = counterfeitRepository;
             _counterfeitService = counterfeitService;
         }
 
-        /// <summary>
-        ///     Получение всех объектов
-        /// </summary>
         [HttpGet]
         public async Task<ActionResult<IReadOnlyCollection<GetCounterfeitDTO>>> GetAll()
         {
-            var counterfeits = await _counterfeitRepository.Get();
+            var counterfeits = await _counterfeitService.GetAll();
             var counterfeitsDTO = counterfeits.Adapt<List<GetCounterfeitDTO>>();
-
             return Ok(counterfeitsDTO);
         }
 
-        /// <summary>
-        ///     Получение объекта по ID
-        /// </summary>
-        /// <param name="id">ID объекта</param>
         [HttpGet("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<ActionResult<GetCounterfeitDTO>> Get(Guid id)
         {
             var c = await _counterfeitService.Get(id);
-
-            return Ok(c);
+            var cDto = c.Adapt<GetCounterfeitDTO>();
+            return Ok(cDto);
         }
 
-        /// <summary>
-        ///     Создание объекта
-        /// </summary>
-        /// <param name="dto">DTO с информацией об объекте</param>
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<ActionResult<Guid>> Create([FromBody] CreateCounterfeitDTO dto)
         {
-            var id = await _counterfeitService.Create(dto);
-
+            var c = dto.Adapt<DataAccess.Models.Counterfeit>();
+            var id = await _counterfeitService.Create(c);
             return Ok(id);
         }
 
-        /// <summary>
-        ///     Обновление объекта
-        /// </summary>
-        /// <param name="dto">DTO с информацией об объекте</param>
         [HttpPut]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<ActionResult> Update([FromBody] UpdateCounterfeitDTO dto)
         {
-            await _counterfeitService.Update(dto);
-
+            var c = dto.Adapt<DataAccess.Models.Counterfeit>();
+            await _counterfeitService.Update(c);
             return Ok();
         }
 
-        /// <summary>
-        ///     Удаление объекта по ID
-        /// </summary>
-        /// <param name="id">ID объекта</param>
-        /// <returns></returns>
         [HttpDelete("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<ActionResult> Delete(Guid id)
         {
             await _counterfeitService.Delete(id);
-
             return Ok();
         }
     }

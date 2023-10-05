@@ -1,7 +1,6 @@
-﻿using Mapster;
-using MeatAPI.Features.UserType.DTO;
-using MeatAPI.Repositories;
-using Microsoft.AspNetCore.Authorization;
+﻿using ClientAPI.DTO.UserType;
+using DataAccess.Data;
+using Mapster;
 using Microsoft.AspNetCore.Mvc;
 using WebAppWithReact.Controllers;
 
@@ -9,78 +8,53 @@ namespace MeatAPI.Features.UserType
 {
     public class UserTypeController : BaseAuthorizedController
     {
-        private readonly IGenericRepository<DataAccess.Models.UserType> _userTypeRepository;
-        private readonly UserTypeService _userTypeService;
+        private readonly EntityAccessServiceBase<ResultDBContext, DataAccess.Models.UserType> _userTypeService;
 
-        public UserTypeController(IGenericRepository<DataAccess.Models.UserType> userTypeRepository,
-                               UserTypeService userTypeService)
+        public UserTypeController(EntityAccessServiceBase<ResultDBContext, DataAccess.Models.UserType> userTypeService)
         {
-            _userTypeRepository = userTypeRepository;
             _userTypeService = userTypeService;
         }
 
-        /// <summary>
-        ///     Получение всех объектов
-        /// </summary>
         [HttpGet]
         public async Task<ActionResult<IReadOnlyCollection<GetUserTypeDTO>>> GetAll()
         {
-            var userTypes = await _userTypeRepository.Get();
+            var userTypes = await _userTypeService.GetAll();
             var userTypesDTO = userTypes.Adapt<List<GetUserTypeDTO>>();
-
             return Ok(userTypesDTO);
         }
 
-        /// <summary>
-        ///     Получение объекта по ID
-        /// </summary>
-        /// <param name="id">ID объекта</param>
         [HttpGet("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<ActionResult<GetUserTypeDTO>> Get(Guid id)
         {
             var ut = await _userTypeService.Get(id);
-
-            return Ok(ut);
+            var utDto = ut.Adapt<GetUserTypeDTO>();
+            return Ok(utDto);
         }
 
-        /// <summary>
-        ///     Создание объекта
-        /// </summary>
-        /// <param name="dto">DTO с информацией об объекте</param>
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<ActionResult<Guid>> Create([FromBody] CreateUserTypeDTO dto)
         {
-            var id = await _userTypeService.Create(dto);
-
+            var ut = dto.Adapt<DataAccess.Models.UserType>();
+            var id = await _userTypeService.Create(ut);
             return Ok(id);
         }
 
-        /// <summary>
-        ///     Обновление объекта
-        /// </summary>
-        /// <param name="dto">DTO с информацией об объекте</param>
         [HttpPut]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<ActionResult> Update([FromBody] UpdateUserTypeDTO dto)
         {
-            await _userTypeService.Update(dto);
-
+            var ut = dto.Adapt<DataAccess.Models.UserType>();
+            await _userTypeService.Update(ut);
             return Ok();
         }
 
-        /// <summary>
-        ///     Удаление объекта по ID
-        /// </summary>
-        /// <param name="id">ID объекта</param>
-        /// <returns></returns>
         [HttpDelete("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<ActionResult> Delete(Guid id)
         {
             await _userTypeService.Delete(id);
-
             return Ok();
         }
     }

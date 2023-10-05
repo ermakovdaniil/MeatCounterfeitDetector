@@ -1,7 +1,6 @@
-﻿using Mapster;
-using MeatAPI.Features.ResultPath.DTO;
-using MeatAPI.Repositories;
-using Microsoft.AspNetCore.Authorization;
+﻿using ClientAPI.DTO.ResultPath;
+using DataAccess.Data;
+using Mapster;
 using Microsoft.AspNetCore.Mvc;
 using WebAppWithReact.Controllers;
 
@@ -9,78 +8,53 @@ namespace MeatAPI.Features.ResultPath
 {
     public class ResultPathController : BaseAuthorizedController
     {
-        private readonly IGenericRepository<DataAccess.Models.ResultPath> _resultPathRepository;
-        private readonly ResultPathService _resultPathService;
+        private readonly EntityAccessServiceBase<ResultDBContext, DataAccess.Models.ResultPath> _resultPathService;
 
-        public ResultPathController(IGenericRepository<DataAccess.Models.ResultPath> resultPathRepository,
-                               ResultPathService resultPathService)
+        public ResultPathController(EntityAccessServiceBase<ResultDBContext, DataAccess.Models.ResultPath> resultPathService)
         {
-            _resultPathRepository = resultPathRepository;
             _resultPathService = resultPathService;
         }
 
-        /// <summary>
-        ///     Получение всех объектов
-        /// </summary>
         [HttpGet]
         public async Task<ActionResult<IReadOnlyCollection<GetResultPathDTO>>> GetAll()
         {
-            var resultPaths = await _resultPathRepository.Get();
+            var resultPaths = await _resultPathService.GetAll();
             var resultPathsDTO = resultPaths.Adapt<List<GetResultPathDTO>>();
-
             return Ok(resultPathsDTO);
         }
 
-        /// <summary>
-        ///     Получение объекта по ID
-        /// </summary>
-        /// <param name="id">ID объекта</param>
         [HttpGet("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<ActionResult<GetResultPathDTO>> Get(Guid id)
         {
             var rp = await _resultPathService.Get(id);
-
-            return Ok(rp);
+            var rpDto = rp.Adapt<GetResultPathDTO>();
+            return Ok(rpDto);
         }
 
-        /// <summary>
-        ///     Создание объекта
-        /// </summary>
-        /// <param name="dto">DTO с информацией об объекте</param>
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<ActionResult<Guid>> Create([FromBody] CreateResultPathDTO dto)
         {
-            var id = await _resultPathService.Create(dto);
-
+            var rp = dto.Adapt<DataAccess.Models.ResultPath>();
+            var id = await _resultPathService.Create(rp);
             return Ok(id);
         }
 
-        /// <summary>
-        ///     Обновление объекта
-        /// </summary>
-        /// <param name="dto">DTO с информацией об объекте</param>
         [HttpPut]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<ActionResult> Update([FromBody] UpdateResultPathDTO dto)
         {
-            await _resultPathService.Update(dto);
-
+            var rp = dto.Adapt<DataAccess.Models.ResultPath>();
+            await _resultPathService.Update(rp);
             return Ok();
         }
 
-        /// <summary>
-        ///     Удаление объекта по ID
-        /// </summary>
-        /// <param name="id">ID объекта</param>
-        /// <returns></returns>
         [HttpDelete("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<ActionResult> Delete(Guid id)
         {
             await _resultPathService.Delete(id);
-
             return Ok();
         }
     }

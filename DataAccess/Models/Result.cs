@@ -1,6 +1,8 @@
-﻿namespace DataAccess.Models
+﻿using DataAccess.Interfaces;
+
+namespace DataAccess.Models
 {
-    public partial class Result
+    public partial class Result : IBaseEntity
     {
         public Guid Id { get; set; }
         public string Date { get; set; } = null!;

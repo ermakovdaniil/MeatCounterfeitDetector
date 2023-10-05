@@ -1,7 +1,6 @@
-﻿using Mapster;
-using MeatAPI.Features.OriginalPath.DTO;
-using MeatAPI.Repositories;
-using Microsoft.AspNetCore.Authorization;
+﻿using ClientAPI.DTO.OriginalPath;
+using DataAccess.Data;
+using Mapster;
 using Microsoft.AspNetCore.Mvc;
 using WebAppWithReact.Controllers;
 
@@ -9,78 +8,53 @@ namespace MeatAPI.Features.OriginalPath
 {
     public class OriginalPathController : BaseAuthorizedController
     {
-        private readonly IGenericRepository<DataAccess.Models.OriginalPath> _counterfeitPathRepository;
-        private readonly OriginalPathService _counterfeitPathService;
+        private readonly EntityAccessServiceBase<ResultDBContext, DataAccess.Models.OriginalPath> _originalPathService;
 
-        public OriginalPathController(IGenericRepository<DataAccess.Models.OriginalPath> counterfeitRepository,
-                               OriginalPathService counterfeitService)
+        public OriginalPathController(EntityAccessServiceBase<ResultDBContext, DataAccess.Models.OriginalPath> originalPathService)
         {
-            _counterfeitPathRepository = counterfeitRepository;
-            _counterfeitPathService = counterfeitService;
+            _originalPathService = originalPathService;
         }
 
-        /// <summary>
-        ///     Получение всех объектов
-        /// </summary>
         [HttpGet]
         public async Task<ActionResult<IReadOnlyCollection<GetOriginalPathDTO>>> GetAll()
         {
-            var counterfeits = await _counterfeitPathRepository.Get();
-            var counterfeitsDTO = counterfeits.Adapt<List<GetOriginalPathDTO>>();
-
-            return Ok(counterfeitsDTO);
+            var originalPaths = await _originalPathService.GetAll();
+            var originalPathsDTO = originalPaths.Adapt<List<GetOriginalPathDTO>>();
+            return Ok(originalPathsDTO);
         }
 
-        /// <summary>
-        ///     Получение объекта по ID
-        /// </summary>
-        /// <param name="id">ID объекта</param>
         [HttpGet("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<ActionResult<GetOriginalPathDTO>> Get(Guid id)
         {
-            var cp = await _counterfeitPathService.Get(id);
-
-            return Ok(cp);
+            var op = await _originalPathService.Get(id);
+            var opDto = op.Adapt<GetOriginalPathDTO>();
+            return Ok(opDto);
         }
 
-        /// <summary>
-        ///     Создание объекта
-        /// </summary>
-        /// <param name="dto">DTO с информацией об объекте</param>
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<ActionResult<Guid>> Create([FromBody] CreateOriginalPathDTO dto)
         {
-            var id = await _counterfeitPathService.Create(dto);
-
+            var op = dto.Adapt<DataAccess.Models.OriginalPath>();
+            var id = await _originalPathService.Create(op);
             return Ok(id);
         }
 
-        /// <summary>
-        ///     Обновление объекта
-        /// </summary>
-        /// <param name="dto">DTO с информацией об объекте</param>
         [HttpPut]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<ActionResult> Update([FromBody] UpdateOriginalPathDTO dto)
         {
-            await _counterfeitPathService.Update(dto);
-
+            var op = dto.Adapt<DataAccess.Models.OriginalPath>();
+            await _originalPathService.Update(op);
             return Ok();
         }
 
-        /// <summary>
-        ///     Удаление объекта по ID
-        /// </summary>
-        /// <param name="id">ID объекта</param>
-        /// <returns></returns>
         [HttpDelete("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<ActionResult> Delete(Guid id)
         {
-            await _counterfeitPathService.Delete(id);
-
+            await _originalPathService.Delete(id);
             return Ok();
         }
     }

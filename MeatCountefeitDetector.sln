@@ -10,6 +10,11 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ImageAnalyzer", "ImageAnalyzer\ImageAnalyzer.csproj", "{6FBA09F9-2652-49D9-91A6-1A53ED14A20A}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MeatAPI", "MeatAPI\MeatAPI.csproj", "{F15373C5-28E6-4EFF-BECD-34A6A8C4A33B}"
+	ProjectSection(ProjectDependencies) = postProject
+		{62CF7F90-7C21-4E01-987F-66602969C5DD} = {62CF7F90-7C21-4E01-987F-66602969C5DD}
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClientAPI", "ClientAPI\ClientAPI.csproj", "{62CF7F90-7C21-4E01-987F-66602969C5DD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +38,10 @@ Global
 		{F15373C5-28E6-4EFF-BECD-34A6A8C4A33B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F15373C5-28E6-4EFF-BECD-34A6A8C4A33B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F15373C5-28E6-4EFF-BECD-34A6A8C4A33B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{62CF7F90-7C21-4E01-987F-66602969C5DD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{62CF7F90-7C21-4E01-987F-66602969C5DD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{62CF7F90-7C21-4E01-987F-66602969C5DD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{62CF7F90-7C21-4E01-987F-66602969C5DD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
