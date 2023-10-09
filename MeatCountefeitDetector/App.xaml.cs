@@ -2,8 +2,10 @@
 using DataAccess.Data;
 using ImageAnalyzis;
 using System.Globalization;
+using System.Net.Http;
 using System.Threading;
 using System.Windows;
+using ClientAPI;
 using MeatCountefeitDetector.UserInterface;
 using MeatCountefeitDetector.UserInterface.Admin;
 using MeatCountefeitDetector.UserInterface.Admin.Counterfeit;
@@ -18,6 +20,7 @@ using MeatCountefeitDetector.Utils.IOService;
 using MeatCountefeitDetector.Utils.MainWindowControlChanger;
 using MeatCountefeitDetector.Utils.MessageBoxService;
 using MeatCountefeitDetector.Utils.UserService;
+using Microsoft.Extensions.DependencyInjection;
 using FrameworkElementFactory = MeatCountefeitDetector.Utils.FrameworkFactory.FrameworkElementFactory;
 
 
@@ -30,6 +33,7 @@ public partial class App : Application
     protected override void OnStartup(StartupEventArgs e)
     {
         base.OnStartup(e);
+        var baseUrl = "https://localhost:7140/";
         CultureInfo.DefaultThreadCurrentUICulture = CultureInfo.InvariantCulture;
         Thread.CurrentThread.CurrentCulture = CultureInfo.DefaultThreadCurrentUICulture;
         var builder = new ContainerBuilder();
@@ -47,6 +51,45 @@ public partial class App : Application
         builder.RegisterAssemblyTypes(typeof(App).Assembly)
                .Where(t => t.Name.EndsWith("Window"))
                .AsSelf();
+
+        builder.RegisterType<CounterfeitClient>()
+            .As<CounterfeitClient>()
+            .WithParameter("baseUrl", baseUrl);
+
+        builder.RegisterType<CounterfeitPathClient>()
+            .As<CounterfeitPathClient>()
+            .WithParameter("baseUrl", baseUrl);
+
+        builder.RegisterType<ResultClient>()
+            .As<ResultClient>()
+            .WithParameter("baseUrl", baseUrl);
+
+        builder.RegisterType<OriginalPathClient>()
+            .As<OriginalPathClient>()
+            .WithParameter("baseUrl", baseUrl);
+
+        builder.RegisterType<ResultPathClient>()
+            .As<ResultPathClient>()
+            .WithParameter("baseUrl", baseUrl);
+
+        builder.RegisterType<UserClient>()
+            .As<UserClient>()
+            .WithParameter("baseUrl", baseUrl);
+
+        builder.RegisterType<UserTypeClient>()
+            .As<UserTypeClient>()
+            .WithParameter("baseUrl", baseUrl);
+
+        builder.Register<IHttpClientFactory>(_ =>
+        {
+            var services = new ServiceCollection();
+            services.AddHttpClient();
+            var provider = services.BuildServiceProvider();
+            return provider.GetRequiredService<IHttpClientFactory>();
+        });
+
+        builder.Register(c => c.Resolve<IHttpClientFactory>().CreateClient())
+            .As<HttpClient>();
 
         builder.RegisterType<MainWindow>().AsSelf().SingleInstance();
         builder.RegisterType<MainWindowVM>().AsSelf().SingleInstance();

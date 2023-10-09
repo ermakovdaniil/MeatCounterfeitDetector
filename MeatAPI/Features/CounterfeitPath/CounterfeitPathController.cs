@@ -8,9 +8,9 @@ namespace MeatAPI.Features.CounterfeitPath
 {
     public class CounterfeitPathController : BaseAuthorizedController
     {
-        private readonly EntityAccessServiceBase<CounterfeitKBContext, DataAccess.Models.CounterfeitPath> _counterfeitPathService;
+        private readonly CounterfeitPathService _counterfeitPathService;
 
-        public CounterfeitPathController(EntityAccessServiceBase<CounterfeitKBContext, DataAccess.Models.CounterfeitPath> counterfeitPathService)
+        public CounterfeitPathController(CounterfeitPathService counterfeitPathService)
         {
             _counterfeitPathService = counterfeitPathService;
         }
@@ -22,6 +22,17 @@ namespace MeatAPI.Features.CounterfeitPath
             var counterfeitPathsDTO = counterfeitPaths.Adapt<List<GetCounterfeitPathDTO>>();
             return Ok(counterfeitPathsDTO);
         }
+
+
+        [HttpGet]
+        [Route("GetAllByCounterfeitId/{counterfeitId}")]
+        public async Task<ActionResult<IReadOnlyCollection<GetCounterfeitPathDTO>>> GetAllByCounterfeitId(Guid counterfeitId)
+        {
+            var counterfeitPaths = await _counterfeitPathService.GetPathsByCounterfeitId(counterfeitId);
+            var counterfeitPathsDTO = counterfeitPaths.Adapt<List<GetCounterfeitPathDTO>>();
+            return Ok(counterfeitPathsDTO);
+        }
+
 
         [HttpGet("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]

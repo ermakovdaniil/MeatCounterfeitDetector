@@ -1,6 +1,7 @@
 using DataAccess.Data;
 using DataAccess.Models;
 using MeatAPI.Features;
+using MeatAPI.Features.CounterfeitPath;
 using MeatAPI.Repositories;
 using Microsoft.EntityFrameworkCore;
 
@@ -26,7 +27,7 @@ builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(EFGenericReposit
 //builder.Services.AddTransient<UserTypeService>();
 
 builder.Services.AddTransient<EntityAccessServiceBase<CounterfeitKBContext, Counterfeit>>();
-builder.Services.AddTransient<EntityAccessServiceBase<CounterfeitKBContext, CounterfeitPath>>();
+builder.Services.AddTransient<CounterfeitPathService>();
 builder.Services.AddTransient<EntityAccessServiceBase<ResultDBContext, Result>>();
 builder.Services.AddTransient<EntityAccessServiceBase<ResultDBContext, OriginalPath>>();
 builder.Services.AddTransient<EntityAccessServiceBase<ResultDBContext, ResultPath>>();

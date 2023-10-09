@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using ClientAPI.DTO.Counterfeit;
 
 namespace ClientAPI.DTO.CounterfeitPath
 {
@@ -12,5 +13,7 @@ namespace ClientAPI.DTO.CounterfeitPath
 
         [Required(ErrorMessage = "Name is required")]
         public string ImagePath { get; set; }
+
+        public IReadOnlyCollection<GetCounterfeitDTO> CountefeitDTOs { get; set; }
     }
 }

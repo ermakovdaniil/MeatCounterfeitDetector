@@ -6,7 +6,13 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows;
+using ClientAPI;
+using ClientAPI.DTO.Counterfeit;
+using ClientAPI.DTO.CounterfeitPath;
+using ClientAPI.DTO.Result;
+using Mapster;
 using MeatCountefeitDetector.UserInterface.Admin.Abstract;
 using MeatCountefeitDetector.Utils;
 using MeatCountefeitDetector.Utils.Dialog;
@@ -14,38 +20,44 @@ using MeatCountefeitDetector.Utils.IOService;
 using MeatCountefeitDetector.Utils.MainWindowControlChanger;
 using MeatCountefeitDetector.Utils.MessageBoxService;
 using MeatCountefeitDetector.Utils.UserService;
+using ClientAPI.DTO.ResultPath;
 
 namespace MeatCountefeitDetector.UserInterface.Technologist;
 
 public class TechnologistControlVM : ViewModelBase
 {
-    private object _data;
     private readonly IImageAnalyzer _analyzer;
     private readonly IFileDialogService _dialogService;
     private readonly IMessageBoxService _messageBoxService;
+    private readonly CounterfeitClient _counterfeitClient;
+    private readonly CounterfeitPathClient _counterfeitPathClient;
+    private readonly ResultClient _resultClient;
     private readonly NavigationManager _navigationManager;
     private readonly IUserService _userService;
 
+
     #region Functions
 
-    public TechnologistControlVM(ResultDBContext resultContext,
-                                 CounterfeitKBContext counterfeitsContext,
+    public TechnologistControlVM(CounterfeitClient counterfeitClient, 
+                                 CounterfeitPathClient counterfeitPathClient,
+                                 ResultClient resultClient,
                                  NavigationManager navigationManager,
                                  IImageAnalyzer analyzer,
                                  IFileDialogService dialogService,
                                  IMessageBoxService messageBoxService,
                                  IUserService userService)
     {
-        _resultContext = resultContext;
-        _counterfeitsContext = counterfeitsContext;
-        _counterfeitsContext.Counterfeits.Load();
-        _resultContext.OriginalPaths.Load();
-        _resultContext.ResultPaths.Load();
+        _counterfeitClient = counterfeitClient;
+        _counterfeitPathClient = counterfeitPathClient;
+        _resultClient = resultClient;
         _navigationManager = navigationManager;
         _analyzer = analyzer;
         _dialogService = dialogService;
         _messageBoxService = messageBoxService;
         _userService = userService;
+        Task.Run(async () => {
+            Counterfeits = (await _counterfeitClient.CounterfeitGetAsync()).ToList();
+        });
     }
 
     private string CreateSearchResult(Result AnalysisResult)
@@ -63,10 +75,7 @@ public class TechnologistControlVM : ViewModelBase
 
     #region Properties
 
-    private readonly ResultDBContext _resultContext;
-    private readonly CounterfeitKBContext _counterfeitsContext;
-    public List<Counterfeit> Counterfeits => _counterfeitsContext.Counterfeits.ToList();
-
+    public List<GetCounterfeitDTO> Counterfeits { get; set; }
     public Counterfeit SelectedCounterfeit { get; set; }
     public double PercentOfSimilarity { get; set; }
     public string DisplayedImagePath { get; set; }
@@ -104,7 +113,7 @@ public class TechnologistControlVM : ViewModelBase
     {
         get
         {
-            return _scanImage ??= new RelayCommand(_ =>
+            return _scanImage ??= new RelayCommand(async _ =>
             {
                 if (DisplayedImagePath is null)
                 {
@@ -114,15 +123,21 @@ public class TechnologistControlVM : ViewModelBase
                 {
                     try
                     {
-                        List<CounterfeitPath> counterfeitPaths = new List<CounterfeitPath>();
+                        List<GetCounterfeitPathDTO> counterfeitPathsDTOs = new List<GetCounterfeitPathDTO>();
                         if (SelectedCounterfeit is null)
                         {
-                            counterfeitPaths = _counterfeitsContext.CounterfeitPaths.ToList();
+                            counterfeitPathsDTOs = (await _counterfeitPathClient.CounterfeitPathGetAsync()).ToList();
                         }
                         else
                         {
-                            counterfeitPaths = _counterfeitsContext.CounterfeitPaths.Include(c => c.Counterfeit).Where(c => c.CounterfeitId == SelectedCounterfeit.Id).ToList();
+                            counterfeitPathsDTOs = (await _counterfeitPathClient.GetAllByCounterfeitIdAsync(SelectedCounterfeit.Id)).ToList();
+                            
+                            //counterfeitPaths = _counterfeitsContext.CounterfeitPaths
+                            //    .Include(c => c.Counterfeit)
+                            //    .Where(c => c.CounterfeitId == SelectedCounterfeit.Id).ToList();
                         }
+
+                        var counterfeitPaths = counterfeitPathsDTOs.Adapt<List<CounterfeitPath>>();
 
                         AnalysisResult = _analyzer.RunAnalysis(DisplayedImagePath, counterfeitPaths, PercentOfSimilarity, _userService.User);                       
                         SearchResult = CreateSearchResult(AnalysisResult);
@@ -134,8 +149,11 @@ public class TechnologistControlVM : ViewModelBase
                             string combinedPath = Path.Combine(pathToBase, AnalysisResult.ResPath.Path);
                             ResultImagePath = combinedPath;
                         }
-                        _resultContext.Results.Add(AnalysisResult);
-                        _resultContext.SaveChanges();
+
+                        var analysisResultDTO = AnalysisResult.Adapt<CreateResultDTO>();
+
+                        var res = ( await _resultClient.ResultPostAsync(analysisResultDTO));
+
                     }
                     catch (ArgumentException)
                     {

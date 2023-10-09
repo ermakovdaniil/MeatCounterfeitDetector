@@ -8,8 +8,8 @@ namespace MeatAPI.Features
 {
     public class EntityAccessServiceBase<TContext, TEntity> where TContext : DbContext where TEntity : class, IBaseEntity
     {
-        private readonly TContext _dbContext;
-        private DbSet<TEntity> _dbSet;
+        protected readonly TContext _dbContext;
+        protected DbSet<TEntity> _dbSet;
 
         public EntityAccessServiceBase(TContext dbContext)
         {

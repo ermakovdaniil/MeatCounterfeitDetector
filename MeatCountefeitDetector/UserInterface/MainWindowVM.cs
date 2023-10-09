@@ -10,8 +10,6 @@ namespace MeatCountefeitDetector.UserInterface;
 
 public class MainWindowVM : ViewModelBase
 {
-    private UserControl _content;
-
     public MainWindowVM()
     {
         Parameters = new WindowParameters
@@ -22,15 +20,7 @@ public class MainWindowVM : ViewModelBase
         };
     }
 
-    public UserControl ContentWindow
-    {
-        get => _content;
-        set
-        {
-            _content = value;
-            OnPropertyChanged();
-        }
-    }
+    public UserControl ContentWindow { get; set; }
 
     public Menu? Menu
     {
