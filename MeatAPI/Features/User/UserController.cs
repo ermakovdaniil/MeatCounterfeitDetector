@@ -8,9 +8,9 @@ namespace MeatAPI.Features.User
 {
     public class UserController : BaseAuthorizedController
     {
-        private readonly EntityAccessServiceBase<ResultDBContext, DataAccess.Models.User> _userService;
+        private readonly UserService _userService;
 
-        public UserController(EntityAccessServiceBase<ResultDBContext, DataAccess.Models.User> userService)
+        public UserController(UserService userService)
         {
             _userService = userService;
         }
@@ -21,6 +21,15 @@ namespace MeatAPI.Features.User
             var users = await _userService.GetAll();
             var usersDTO = users.Adapt<List<GetUserDTO>>();
             return Ok(usersDTO);
+        }
+
+        [HttpGet]
+        [Route("GetUserByLoginAndPassword/{userId}")]
+        public async Task<ActionResult<IReadOnlyCollection<GetUserDTO>>> GetUserByLoginAndPassword(string login, string password)
+        {
+            var u = await _userService.GetUserByLoginAndPassword(login, password);
+            var uDto = u.Adapt<GetUserDTO>();
+            return Ok(uDto);
         }
 
         [HttpGet("{id}")]

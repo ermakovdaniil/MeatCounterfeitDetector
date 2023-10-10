@@ -152,7 +152,7 @@ public class TechnologistControlVM : ViewModelBase
 
                         var analysisResultDTO = AnalysisResult.Adapt<CreateResultDTO>();
 
-                        var res = ( await _resultClient.ResultPostAsync(analysisResultDTO));
+                        var res = (await _resultClient.ResultPostAsync(analysisResultDTO));
 
                     }
                     catch (ArgumentException)
