@@ -74,31 +74,31 @@ public class LoginControlVM : ViewModelBase
                 {
                     //var user = _context.Users.Include(u => u.Type).First(u => u.Login == User.Login && u.Password == User.Password);
 
-                    var user = _userClient.GetUserByLoginAndPassword(User.Login, User.Password);
+                    //var user = _userClient.GetUserByLoginAndPassword(User.Login, User.Password);
 
-                    var userType = _userClient.GetType(User.TypeId);
+                    //var userType = _userClient.GetType(User.TypeId);
 
                     // getUserIdByLoginAndPassword
                     // getUserTypeById public async Task<ActionResult<GetUserTypeDTO>> Get(Guid id)
 
-                    if (user.Type.Name == "Администратор")
-                    {
-                        _navigationManager.Navigate<MainAdminControl>(new WindowParameters
-                        {
-                            WindowState = WindowState.Maximized,
-                            Title = " | Панель администратора | ",
-                        });
-                    }
+                    //if (user.Type.Name == "Администратор")
+                    //{
+                    //    _navigationManager.Navigate<MainAdminControl>(new WindowParameters
+                    //    {
+                    //        WindowState = WindowState.Maximized,
+                    //        Title = " | Панель администратора | ",
+                    //    });
+                    //}
 
-                    if (user.Type.Name == "Технолог")
-                    {
+                    //if (user.Type.Name == "Технолог")
+                    //{
                         _navigationManager.Navigate<TechnologistControl>(new WindowParameters
                         {
                             WindowState = WindowState.Maximized,
                             Title = " | Панель технолога | ",
                         });
-                    }
-                    _userService.User = user;
+                    //}
+                    //_userService.User = user;
                 }
                 catch (Exception ex)
                 {

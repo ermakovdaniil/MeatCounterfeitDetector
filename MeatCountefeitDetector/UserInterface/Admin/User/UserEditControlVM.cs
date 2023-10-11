@@ -22,7 +22,7 @@ public class UserEditControlVM : ViewModelBase, IDataHolder, IResultHolder, IInt
     public UserEditControlVM(ResultDBContext context)
     {
         _context = context;
-        UserTypes = new ObservableCollection<UserType>(_context.UserTypes.ToList());
+        //UserTypes = new ObservableCollection<UserType>(_context.UserTypes.ToList());
     }
 
     #endregion
@@ -42,7 +42,7 @@ public class UserEditControlVM : ViewModelBase, IDataHolder, IResultHolder, IInt
                 Login = EditingUser.Login,
                 Password = EditingUser.Password,
                 Name = EditingUser.Name,
-                Type = EditingUser.Type,
+                //Type = EditingUser.Type,
             };
 
             OnPropertyChanged(nameof(TempUser));
@@ -72,7 +72,7 @@ public class UserEditControlVM : ViewModelBase, IDataHolder, IResultHolder, IInt
 
     private readonly ResultDBContext _context;
 
-    public ObservableCollection<UserType> UserTypes { get; set; }
+    //public ObservableCollection<UserType> UserTypes { get; set; }
 
     #endregion
 
@@ -94,7 +94,7 @@ public class UserEditControlVM : ViewModelBase, IDataHolder, IResultHolder, IInt
                 EditingUser.Login = TempUser.Login;
                 EditingUser.Password = TempUser.Password;
                 EditingUser.Name = TempUser.Name;
-                EditingUser.Type = TempUser.Type;
+                //EditingUser.Type = TempUser.Type;
 
                 if (!_context.Users.Contains(EditingUser))
                 {

@@ -6,6 +6,6 @@ namespace MeatCountefeitDetector.Utils.UserService
     {
         User User { get; set; }
 
-        bool IsAdmin { get; }
+        //bool IsAdmin { get; }
     }
 }

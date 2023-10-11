@@ -3,6 +3,7 @@ using System;
 using DataAccess.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,10 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace DataAccess.Migrations.ResultDB
 {
     [DbContext(typeof(ResultDBContext))]
-    partial class ResultDBContextModelSnapshot : ModelSnapshot
+    [Migration("20231011214943_InitialMigration")]
+    partial class InitialMigration
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -168,27 +170,24 @@ namespace DataAccess.Migrations.ResultDB
 
                     b.HasKey("Id");
 
+                    b.HasIndex("TypeId");
+
                     b.ToTable("Users");
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole<System.Guid>", b =>
+            modelBuilder.Entity("DataAccess.Models.UserType", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
-                    b.Property<string>("ConcurrencyStamp")
-                        .HasColumnType("text");
-
                     b.Property<string>("Name")
-                        .HasColumnType("text");
-
-                    b.Property<string>("NormalizedName")
+                        .IsRequired()
                         .HasColumnType("text");
 
                     b.HasKey("Id");
 
-                    b.ToTable("UserRoles");
+                    b.ToTable("UserTypes");
                 });
 
             modelBuilder.Entity("DataAccess.Models.Result", b =>
@@ -225,6 +224,17 @@ namespace DataAccess.Migrations.ResultDB
                     b.Navigation("Init");
                 });
 
+            modelBuilder.Entity("DataAccess.Models.User", b =>
+                {
+                    b.HasOne("DataAccess.Models.UserType", "Type")
+                        .WithMany("Users")
+                        .HasForeignKey("TypeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Type");
+                });
+
             modelBuilder.Entity("DataAccess.Models.OriginalPath", b =>
                 {
                     b.Navigation("ResultPaths");
@@ -240,6 +250,11 @@ namespace DataAccess.Migrations.ResultDB
             modelBuilder.Entity("DataAccess.Models.User", b =>
                 {
                     b.Navigation("Results");
+                });
+
+            modelBuilder.Entity("DataAccess.Models.UserType", b =>
+                {
+                    b.Navigation("Users");
                 });
 #pragma warning restore 612, 618
         }

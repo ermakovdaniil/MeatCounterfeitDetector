@@ -1,4 +1,5 @@
 ﻿using DataAccess.Models;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 namespace DataAccess.Data
@@ -18,15 +19,6 @@ namespace DataAccess.Data
         public virtual DbSet<Result> Results { get; set; } = null!;
         public virtual DbSet<ResultPath> ResultPaths { get; set; } = null!;
         public virtual DbSet<User> Users { get; set; } = null!;
-        public virtual DbSet<UserType> UserTypes { get; set; } = null!;
-
-        // TODO: скрыть
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            if (!optionsBuilder.IsConfigured)
-            {
-                optionsBuilder.UseNpgsql("Host=localhost;Port=5432;Database=ResultDB;Username=postgres;Password=sword-fish");
-            }
-        }
+        public virtual DbSet<IdentityRole<Guid>> UserRoles { get; set; } = null!;
     }
 }

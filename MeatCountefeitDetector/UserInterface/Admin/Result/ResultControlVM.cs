@@ -62,7 +62,8 @@ public class ResultControlVM : ViewModelBase
             {
                 try
                 {
-                    if (_messageBoxService.ShowMessage("Вы действительно хотите удалить запись?", "Удаление записи", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
+                    if (_messageBoxService.ShowMessage("Вы действительно хотите удалить запись?", "Удаление записи",
+                            MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
                     {
                         string pathToBase = Directory.GetCurrentDirectory();
                         string combinedPath = Path.Combine(pathToBase, SelectedResult.OrigPath.Path);
@@ -72,18 +73,22 @@ public class ResultControlVM : ViewModelBase
                             combinedPath = Path.Combine(pathToBase, SelectedResult.ResPath.Path);
                             File.Delete(combinedPath);
                         }
+
                         _context.Results.Remove(SelectedResult);
                         _context.SaveChanges();
                     }
+
                     OnPropertyChanged(nameof(Results));
                 }
                 catch (IOException)
                 {
-                    _messageBoxService.ShowMessage("Данную запись нельзя удалить в данный момент,\nтак как она используется в программе.", "Ошибка!", MessageBoxButton.OK, MessageBoxImage.Error);
+                    _messageBoxService.ShowMessage(
+                        "Данную запись нельзя удалить в данный момент,\nтак как она используется в программе.",
+                        "Ошибка!", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
 
 
-            }, _ => SelectedResult is not null && _userService.IsAdmin);
+            });
 
         }
     }

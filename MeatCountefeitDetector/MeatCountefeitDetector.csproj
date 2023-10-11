@@ -44,17 +44,16 @@
         <PackageReference Include="HandyControls.Lang.ru" Version="3.4.5" />
         <PackageReference Include="itext7" Version="8.0.1" />
         <PackageReference Include="Mapster" Version="7.4.0" />
-        <PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.10" />
-        <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="7.0.10">
+        <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.21" />
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="6.0.21">
             <PrivateAssets>all</PrivateAssets>
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
-        <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="7.0.10">
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="6.0.21">
             <PrivateAssets>all</PrivateAssets>
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
         <PackageReference Include="Microsoft.Extensions.Http" Version="7.0.0" />
-        <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="7.0.4" />
         <PackageReference Include="PropertyChanged.Fody" Version="4.1.0" />
     </ItemGroup>
 

@@ -21,7 +21,7 @@ public class UserExplorerControlVM : ViewModelBase
     {
         _messageBoxService = messageBoxService;
         _context = context;
-        _context.UserTypes.Load();
+        //_context.UserTypes.Load();
         _ds = ds;
     }
 

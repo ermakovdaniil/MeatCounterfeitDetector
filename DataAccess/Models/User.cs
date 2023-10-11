@@ -1,9 +1,11 @@
 ﻿using DataAccess.Interfaces;
 using System.Collections.ObjectModel;
 
+using Microsoft.AspNetCore.Identity;
+
 namespace DataAccess.Models
 {
-    public partial class User : IBaseEntity
+    public partial class User : IdentityUser<Guid>, IBaseEntity
     {
         public User()
         {
@@ -16,7 +18,9 @@ namespace DataAccess.Models
         public string Name { get; set; } = null!;
         public Guid TypeId { get; set; }
 
-        public virtual UserType Type { get; set; } = null!;
+        public string? RefreshToken { get; set; }
+        public DateTime RefreshTokenExpiryTime { get; set; }
+
         public virtual ObservableCollection<Result> Results { get; set; }
     }
 }

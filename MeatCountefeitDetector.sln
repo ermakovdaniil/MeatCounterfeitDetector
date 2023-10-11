@@ -14,7 +14,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MeatAPI", "MeatAPI\MeatAPI.
 		{62CF7F90-7C21-4E01-987F-66602969C5DD} = {62CF7F90-7C21-4E01-987F-66602969C5DD}
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClientAPI", "ClientAPI\ClientAPI.csproj", "{62CF7F90-7C21-4E01-987F-66602969C5DD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ClientAPI", "ClientAPI\ClientAPI.csproj", "{62CF7F90-7C21-4E01-987F-66602969C5DD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

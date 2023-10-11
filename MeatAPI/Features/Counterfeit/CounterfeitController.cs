@@ -1,6 +1,8 @@
 ﻿using ClientAPI.DTO.Counterfeit;
 using DataAccess.Data;
+using DataAccess.Models;
 using Mapster;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using WebAppWithReact.Controllers;
 
@@ -16,6 +18,7 @@ namespace MeatAPI.Features.Counterfeit
         }
 
         [HttpGet]
+        [Authorize(Roles = UserRoles.User)]
         public async Task<ActionResult<IReadOnlyCollection<GetCounterfeitDTO>>> GetAll()
         {
             var counterfeits = await _counterfeitService.GetAll();
