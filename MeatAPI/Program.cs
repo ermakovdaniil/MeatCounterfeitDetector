@@ -31,6 +31,7 @@ builder.Services.AddTransient<EntityAccessServiceBase<ResultDBContext, Result>>(
 builder.Services.AddTransient<EntityAccessServiceBase<ResultDBContext, OriginalPath>>();
 builder.Services.AddTransient<EntityAccessServiceBase<ResultDBContext, ResultPath>>();
 builder.Services.AddTransient<EntityAccessServiceBase<ResultDBContext, User>>();
+
 //builder.Services.AddTransient<EntityAccessServiceBase<ResultDBContext, UserType>>();
 
 builder.Services.AddDbContext<ResultDBContext>(options =>

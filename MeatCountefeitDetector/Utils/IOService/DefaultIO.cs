@@ -1,7 +1,7 @@
 ﻿using Microsoft.Win32;
 
 
-namespace MeatCountefeitDetector.Utils.IOService;
+namespace MeatCounterfeitDetector.Utils.IOService;
 
 public class FileDialogService : IFileDialogService
 {

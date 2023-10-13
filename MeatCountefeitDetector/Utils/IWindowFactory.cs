@@ -1,7 +1,7 @@
 ﻿using System.Windows;
 
 
-namespace MeatCountefeitDetector.Utils;
+namespace MeatCounterfeitDetector.Utils;
 
 internal interface IWindowFactory<T> where T : Window
 {

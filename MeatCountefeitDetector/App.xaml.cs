@@ -1,34 +1,40 @@
-﻿using Autofac;
+﻿using System.Configuration;
+using Autofac;
 using DataAccess.Data;
 using ImageAnalyzis;
 using System.Globalization;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Threading;
 using System.Windows;
 using ClientAPI;
-using MeatCountefeitDetector.UserInterface;
-using MeatCountefeitDetector.UserInterface.Admin;
-using MeatCountefeitDetector.UserInterface.Admin.Counterfeit;
-using MeatCountefeitDetector.UserInterface.Admin.Gallery;
-using MeatCountefeitDetector.UserInterface.Admin.Result;
-using MeatCountefeitDetector.UserInterface.Admin.User;
-using MeatCountefeitDetector.UserInterface.Technologist;
-using MeatCountefeitDetector.Utils;
-using MeatCountefeitDetector.Utils.Dialog;
-using MeatCountefeitDetector.Utils.FrameworkFactory;
-using MeatCountefeitDetector.Utils.IOService;
-using MeatCountefeitDetector.Utils.MainWindowControlChanger;
-using MeatCountefeitDetector.Utils.MessageBoxService;
-using MeatCountefeitDetector.Utils.UserService;
+using MeatCounterfeitDetector.UserInterface;
+using MeatCounterfeitDetector.UserInterface.Admin;
+using MeatCounterfeitDetector.UserInterface.Admin.Counterfeit;
+using MeatCounterfeitDetector.UserInterface.Admin.Gallery;
+using MeatCounterfeitDetector.UserInterface.Admin.Result;
+using MeatCounterfeitDetector.UserInterface.Admin.User;
+using MeatCounterfeitDetector.UserInterface.Technologist;
+using MeatCounterfeitDetector.Utils;
+using MeatCounterfeitDetector.Utils.Dialog;
+using MeatCounterfeitDetector.Utils.FrameworkFactory;
+using MeatCounterfeitDetector.Utils.IOService;
+using MeatCounterfeitDetector.Utils.MainWindowControlChanger;
+using MeatCounterfeitDetector.Utils.MessageBoxService;
+using MeatCounterfeitDetector.Utils.UserService;
+using Microsoft.AspNetCore.Http.Internal;
 using Microsoft.Extensions.DependencyInjection;
-using FrameworkElementFactory = MeatCountefeitDetector.Utils.FrameworkFactory.FrameworkElementFactory;
+using FrameworkElementFactory = MeatCounterfeitDetector.Utils.FrameworkFactory.FrameworkElementFactory;
+using Microsoft.Extensions.Configuration;
+using MeatCountefeitDetector.Utils.AuthService;
 
-
-namespace MeatCountefeitDetector;
+namespace MeatCounterfeitDetector;
 
 public partial class App : Application
 {
     private IContainer Container { get; set; }
+
+    public IConfiguration Configuration { get; }
 
     protected override void OnStartup(StartupEventArgs e)
     {
@@ -83,7 +89,17 @@ public partial class App : Application
         builder.Register<IHttpClientFactory>(_ =>
         {
             var services = new ServiceCollection();
-            services.AddHttpClient();
+            //services.AddHttpClient();
+
+            //string jwtBearerToken = services.Configure<Configuration>(Configuration.GetSection("jwt"));
+            
+            string jwtBearerToken = Configuration.GetSection("AppSettings:JWT").Value;
+
+            services.AddHttpClient("MyApi", client =>
+            {
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", jwtBearerToken);
+            });
+
             var provider = services.BuildServiceProvider();
             return provider.GetRequiredService<IHttpClientFactory>();
         });
@@ -101,6 +117,8 @@ public partial class App : Application
         builder.RegisterType<FileDialogService>().As<IFileDialogService>();
         builder.RegisterType<HandyMessageBoxService>().As<IMessageBoxService>();
         builder.RegisterType<UserService>().As<IUserService>().SingleInstance();
+
+        builder.RegisterType<AuthService>().As<IAuthService>().SingleInstance();
 
         Container = builder.Build();
 

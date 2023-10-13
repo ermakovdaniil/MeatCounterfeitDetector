@@ -1,12 +1,12 @@
 ﻿using System.Windows.Controls;
 
-using MeatCountefeitDetector.UserInterface;
-using MeatCountefeitDetector.Utils.Dialog;
-using MeatCountefeitDetector.Utils.Dialog.Abstract;
-using MeatCountefeitDetector.Utils.FrameworkFactory;
+using MeatCounterfeitDetector.UserInterface;
+using MeatCounterfeitDetector.Utils.Dialog;
+using MeatCounterfeitDetector.Utils.Dialog.Abstract;
+using MeatCounterfeitDetector.Utils.FrameworkFactory;
 
 
-namespace MeatCountefeitDetector.Utils.MainWindowControlChanger;
+namespace MeatCounterfeitDetector.Utils.MainWindowControlChanger;
 
 public class NavigationManager
 {

@@ -3,13 +3,13 @@ using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
-using MeatCountefeitDetector.UserInterface.Admin.Abstract;
-using MeatCountefeitDetector.Utils;
-using MeatCountefeitDetector.Utils.Dialog;
-using MeatCountefeitDetector.Utils.MessageBoxService;
+using MeatCounterfeitDetector.UserInterface.Admin.Abstract;
+using MeatCounterfeitDetector.Utils;
+using MeatCounterfeitDetector.Utils.Dialog;
+using MeatCounterfeitDetector.Utils.MessageBoxService;
 
 
-namespace MeatCountefeitDetector.UserInterface.Admin.User;
+namespace MeatCounterfeitDetector.UserInterface.Admin.User;
 
 public class UserExplorerControlVM : ViewModelBase
 {

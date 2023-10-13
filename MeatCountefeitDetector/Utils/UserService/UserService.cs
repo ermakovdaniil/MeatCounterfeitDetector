@@ -1,6 +1,6 @@
 ﻿using DataAccess.Models;
 
-namespace MeatCountefeitDetector.Utils.UserService
+namespace MeatCounterfeitDetector.Utils.UserService
 {
     public class UserService : IUserService
     {

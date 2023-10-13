@@ -1,7 +1,7 @@
-﻿using MeatCountefeitDetector.UserInterface.Admin.Abstract;
+﻿using MeatCounterfeitDetector.UserInterface.Admin.Abstract;
 
 
-namespace MeatCountefeitDetector.Utils;
+namespace MeatCounterfeitDetector.Utils;
 
 internal interface IViewModelFactory<TViewModel> where TViewModel : ViewModelBase
 {

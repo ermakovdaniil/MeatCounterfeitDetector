@@ -1,9 +1,9 @@
 ﻿using System.Windows.Controls;
 
-using MeatCountefeitDetector.Utils;
+using MeatCounterfeitDetector.Utils;
 
 
-namespace MeatCountefeitDetector.UserInterface.Admin;
+namespace MeatCounterfeitDetector.UserInterface.Admin;
 
 public partial class MainAdminControl : UserControl
 {

@@ -1,7 +1,7 @@
-﻿using MeatCountefeitDetector.Utils;
+﻿using MeatCounterfeitDetector.Utils;
 
 
-namespace MeatCountefeitDetector.UserInterface.Admin.Gallery;
+namespace MeatCounterfeitDetector.UserInterface.Admin.Gallery;
 
 public partial class GalleryEditControl
 {

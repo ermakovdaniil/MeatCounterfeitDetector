@@ -5,12 +5,12 @@ using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Windows;
-using MeatCountefeitDetector.UserInterface.Admin.Abstract;
-using MeatCountefeitDetector.Utils;
-using MeatCountefeitDetector.Utils.MessageBoxService;
-using MeatCountefeitDetector.Utils.UserService;
+using MeatCounterfeitDetector.UserInterface.Admin.Abstract;
+using MeatCounterfeitDetector.Utils;
+using MeatCounterfeitDetector.Utils.MessageBoxService;
+using MeatCounterfeitDetector.Utils.UserService;
 
-namespace MeatCountefeitDetector.UserInterface.Admin.Result;
+namespace MeatCounterfeitDetector.UserInterface.Admin.Result;
 
 public class ResultControlVM : ViewModelBase
 {

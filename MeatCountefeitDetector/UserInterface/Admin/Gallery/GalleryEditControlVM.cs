@@ -5,13 +5,13 @@ using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Windows;
-using MeatCountefeitDetector.UserInterface.Admin.Abstract;
-using MeatCountefeitDetector.Utils;
-using MeatCountefeitDetector.Utils.Dialog.Abstract;
-using MeatCountefeitDetector.Utils.IOService;
-using MeatCountefeitDetector.Utils.MessageBoxService;
+using MeatCounterfeitDetector.UserInterface.Admin.Abstract;
+using MeatCounterfeitDetector.Utils;
+using MeatCounterfeitDetector.Utils.Dialog.Abstract;
+using MeatCounterfeitDetector.Utils.IOService;
+using MeatCounterfeitDetector.Utils.MessageBoxService;
 
-namespace MeatCountefeitDetector.UserInterface.Admin.Gallery;
+namespace MeatCounterfeitDetector.UserInterface.Admin.Gallery;
 
 public class GalleryEditControlVM : ViewModelBase, IDataHolder, IResultHolder, IInteractionAware
 {

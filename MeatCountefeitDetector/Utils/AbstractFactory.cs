@@ -1,7 +1,7 @@
 ﻿using System;
 
 
-namespace MeatCountefeitDetector.Utils;
+namespace MeatCounterfeitDetector.Utils;
 
 public class AbstractFactory<T> : IAbstractFactory<T>
 {

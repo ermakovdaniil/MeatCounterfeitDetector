@@ -2,7 +2,7 @@
 using System.Runtime.CompilerServices;
 
 
-namespace MeatCountefeitDetector.UserInterface.Admin.Abstract;
+namespace MeatCounterfeitDetector.UserInterface.Admin.Abstract;
 
 /// <summary>
 ///     Абстрактный класс для VM

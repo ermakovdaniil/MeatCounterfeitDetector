@@ -1,9 +1,9 @@
 ﻿using System.Windows.Controls;
 
-using MeatCountefeitDetector.Utils;
+using MeatCounterfeitDetector.Utils;
 
 
-namespace MeatCountefeitDetector.UserInterface.Technologist;
+namespace MeatCounterfeitDetector.UserInterface.Technologist;
 
 public partial class TechnologistControl : UserControl
 {

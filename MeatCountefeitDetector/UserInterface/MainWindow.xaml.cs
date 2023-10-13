@@ -1,4 +1,4 @@
-﻿namespace MeatCountefeitDetector.UserInterface;
+﻿namespace MeatCounterfeitDetector.UserInterface;
 
 public partial class MainWindow
 {

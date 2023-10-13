@@ -3,12 +3,12 @@ using DataAccess.Models;
 using System;
 using System.Collections.ObjectModel;
 using System.Linq;
-using MeatCountefeitDetector.UserInterface.Admin.Abstract;
-using MeatCountefeitDetector.Utils;
-using MeatCountefeitDetector.Utils.Dialog.Abstract;
+using MeatCounterfeitDetector.UserInterface.Admin.Abstract;
+using MeatCounterfeitDetector.Utils;
+using MeatCounterfeitDetector.Utils.Dialog.Abstract;
 
 
-namespace MeatCountefeitDetector.UserInterface.Admin.User;
+namespace MeatCounterfeitDetector.UserInterface.Admin.User;
 
 public class UserEditControlVM : ViewModelBase, IDataHolder, IResultHolder, IInteractionAware
 {

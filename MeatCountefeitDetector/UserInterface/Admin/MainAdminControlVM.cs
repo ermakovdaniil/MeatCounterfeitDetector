@@ -1,13 +1,13 @@
 ﻿using System.Windows;
 
-using MeatCountefeitDetector.UserInterface.Admin.Abstract;
-using MeatCountefeitDetector.Utils;
-using MeatCountefeitDetector.Utils.Dialog;
-using MeatCountefeitDetector.Utils.MainWindowControlChanger;
-using MeatCountefeitDetector.Utils.MessageBoxService;
+using MeatCounterfeitDetector.UserInterface.Admin.Abstract;
+using MeatCounterfeitDetector.Utils;
+using MeatCounterfeitDetector.Utils.Dialog;
+using MeatCounterfeitDetector.Utils.MainWindowControlChanger;
+using MeatCounterfeitDetector.Utils.MessageBoxService;
 
 
-namespace MeatCountefeitDetector.UserInterface.Admin;
+namespace MeatCounterfeitDetector.UserInterface.Admin;
 
 public class MainAdminControlVM : ViewModelBase
 {

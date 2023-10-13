@@ -2,7 +2,7 @@
 using System.Windows;
 
 
-namespace MeatCountefeitDetector.Utils;
+namespace MeatCounterfeitDetector.Utils;
 
 public class GenericWindowFactory<T> : IWindowFactory<T> where T : Window
 {

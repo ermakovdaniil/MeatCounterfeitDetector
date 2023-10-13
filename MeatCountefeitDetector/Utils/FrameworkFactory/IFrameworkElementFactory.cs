@@ -1,7 +1,7 @@
 ﻿using System.Windows;
 
 
-namespace MeatCountefeitDetector.Utils.FrameworkFactory;
+namespace MeatCounterfeitDetector.Utils.FrameworkFactory;
 
 public interface IFrameworkElementFactory
 {

@@ -1,7 +1,7 @@
 ﻿using System;
 
 
-namespace MeatCountefeitDetector.Utils.Dialog.Abstract;
+namespace MeatCounterfeitDetector.Utils.Dialog.Abstract;
 
 public interface IInteractionAware
 {

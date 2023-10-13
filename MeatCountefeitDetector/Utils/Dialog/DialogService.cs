@@ -1,10 +1,10 @@
 ﻿using HandyControl.Controls;
 using System.Windows.Controls;
-using MeatCountefeitDetector.Utils.Dialog.Abstract;
-using MeatCountefeitDetector.Utils.FrameworkFactory;
+using MeatCounterfeitDetector.Utils.Dialog.Abstract;
+using MeatCounterfeitDetector.Utils.FrameworkFactory;
 
 
-namespace MeatCountefeitDetector.Utils.Dialog;
+namespace MeatCounterfeitDetector.Utils.Dialog;
 
 public class DialogService
 {

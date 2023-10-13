@@ -1,7 +1,7 @@
 ﻿using System.Windows;
 
 
-namespace MeatCountefeitDetector.Utils.MessageBoxService;
+namespace MeatCounterfeitDetector.Utils.MessageBoxService;
 
 public interface IMessageBoxService
 {

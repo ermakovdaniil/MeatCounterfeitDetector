@@ -1,11 +1,11 @@
-﻿<UserControl x:Class="MeatCountefeitDetector.UserInterface.Admin.Gallery.GalleryEditControl"
+﻿<UserControl x:Class="MeatCounterfeitDetector.UserInterface.Admin.Gallery.GalleryEditControl"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:hc="https://handyorg.github.io/handycontrol"
-             xmlns:gallery="clr-namespace:MeatCountefeitDetector.UserInterface.Admin.Gallery"
-             xmlns:utils="clr-namespace:MeatCountefeitDetector.Utils"
+             xmlns:gallery="clr-namespace:MeatCounterfeitDetector.UserInterface.Admin.Gallery"
+             xmlns:utils="clr-namespace:MeatCounterfeitDetector.Utils"
              mc:Ignorable="d"
              d:DataContext="{d:DesignInstance gallery:GalleryEditControlVM}">
     <UserControl.Resources>

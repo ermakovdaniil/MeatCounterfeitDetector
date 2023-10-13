@@ -1,9 +1,9 @@
 ﻿using System.Windows.Controls;
 
-using MeatCountefeitDetector.Utils;
+using MeatCounterfeitDetector.Utils;
 
 
-namespace MeatCountefeitDetector.UserInterface;
+namespace MeatCounterfeitDetector.UserInterface;
 
 public partial class LoginControl : UserControl
 {

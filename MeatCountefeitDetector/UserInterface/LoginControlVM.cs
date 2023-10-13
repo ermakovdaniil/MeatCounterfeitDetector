@@ -4,17 +4,17 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Linq;
 using System.Windows;
-using MeatCountefeitDetector.UserInterface.Admin;
-using MeatCountefeitDetector.UserInterface.Admin.Abstract;
-using MeatCountefeitDetector.UserInterface.Technologist;
-using MeatCountefeitDetector.Utils;
-using MeatCountefeitDetector.Utils.Dialog;
-using MeatCountefeitDetector.Utils.MainWindowControlChanger;
-using MeatCountefeitDetector.Utils.MessageBoxService;
-using MeatCountefeitDetector.Utils.UserService;
+using MeatCounterfeitDetector.UserInterface.Admin;
+using MeatCounterfeitDetector.UserInterface.Admin.Abstract;
+using MeatCounterfeitDetector.UserInterface.Technologist;
+using MeatCounterfeitDetector.Utils;
+using MeatCounterfeitDetector.Utils.Dialog;
+using MeatCounterfeitDetector.Utils.MainWindowControlChanger;
+using MeatCounterfeitDetector.Utils.MessageBoxService;
+using MeatCounterfeitDetector.Utils.UserService;
 using ClientAPI;
 
-namespace MeatCountefeitDetector.UserInterface;
+namespace MeatCounterfeitDetector.UserInterface;
 
 public class LoginControlVM : ViewModelBase
 {

@@ -4,7 +4,7 @@ using System.IO;
 using System.Windows.Data;
 using System.Windows.Media.Imaging;
 
-namespace MeatCountefeitDetector.Utils
+namespace MeatCounterfeitDetector.Utils
 {
     public class PathToImageConverter : IValueConverter
     {

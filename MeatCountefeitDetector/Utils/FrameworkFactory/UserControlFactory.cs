@@ -1,7 +1,7 @@
 ﻿using System.Windows.Controls;
 
 
-namespace MeatCountefeitDetector.Utils.FrameworkFactory;
+namespace MeatCounterfeitDetector.Utils.FrameworkFactory;
 
 public class UserControlFactory
 {

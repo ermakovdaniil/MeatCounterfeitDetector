@@ -73,6 +73,16 @@ namespace MeatAPI.Controllers
             return Unauthorized();
         }
 
+
+        [HttpPost]
+        [Route("authorization")]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(LoginResponse))]
+        public async Task<IActionResult> AuthorizationWithLoginAndPassword([FromBody] LoginModel model)
+        {
+
+            return Unauthorized();
+        }
+
         //[HttpPost]
         //[Route("register")]
         //[ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Response))]

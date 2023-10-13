@@ -1,4 +1,4 @@
-﻿namespace MeatCountefeitDetector.Utils.IOService;
+﻿namespace MeatCounterfeitDetector.Utils.IOService;
 
 public interface IFileDialogService
 {

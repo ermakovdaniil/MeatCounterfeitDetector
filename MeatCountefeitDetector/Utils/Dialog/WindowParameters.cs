@@ -1,7 +1,7 @@
 ﻿using System.Windows;
 
 
-namespace MeatCountefeitDetector.Utils.Dialog;
+namespace MeatCounterfeitDetector.Utils.Dialog;
 
 public record WindowParameters
 {

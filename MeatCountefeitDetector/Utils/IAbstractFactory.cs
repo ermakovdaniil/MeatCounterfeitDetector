@@ -1,4 +1,4 @@
-﻿namespace MeatCountefeitDetector.Utils;
+﻿namespace MeatCounterfeitDetector.Utils;
 
 public interface IAbstractFactory<T>
 {

@@ -1,11 +1,11 @@
-﻿<UserControl x:Class="MeatCountefeitDetector.UserInterface.Technologist.TechnologistControl"
+﻿<UserControl x:Class="MeatCounterfeitDetector.UserInterface.Technologist.TechnologistControl"
              xmlns:hc="https://handyorg.github.io/handycontrol"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             xmlns:technologist="clr-namespace:MeatCountefeitDetector.UserInterface.Technologist"
-             xmlns:result="clr-namespace:MeatCountefeitDetector.UserInterface.Admin.Result"
+             xmlns:technologist="clr-namespace:MeatCounterfeitDetector.UserInterface.Technologist"
+             xmlns:result="clr-namespace:MeatCounterfeitDetector.UserInterface.Admin.Result"
              mc:Ignorable="d"
              d:DataContext="{d:DesignInstance technologist:TechnologistControlVM}">
     

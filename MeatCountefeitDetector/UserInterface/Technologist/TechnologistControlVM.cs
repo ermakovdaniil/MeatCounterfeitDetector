@@ -13,16 +13,16 @@ using ClientAPI.DTO.Counterfeit;
 using ClientAPI.DTO.CounterfeitPath;
 using ClientAPI.DTO.Result;
 using Mapster;
-using MeatCountefeitDetector.UserInterface.Admin.Abstract;
-using MeatCountefeitDetector.Utils;
-using MeatCountefeitDetector.Utils.Dialog;
-using MeatCountefeitDetector.Utils.IOService;
-using MeatCountefeitDetector.Utils.MainWindowControlChanger;
-using MeatCountefeitDetector.Utils.MessageBoxService;
-using MeatCountefeitDetector.Utils.UserService;
+using MeatCounterfeitDetector.UserInterface.Admin.Abstract;
+using MeatCounterfeitDetector.Utils;
+using MeatCounterfeitDetector.Utils.Dialog;
+using MeatCounterfeitDetector.Utils.IOService;
+using MeatCounterfeitDetector.Utils.MainWindowControlChanger;
+using MeatCounterfeitDetector.Utils.MessageBoxService;
+using MeatCounterfeitDetector.Utils.UserService;
 using ClientAPI.DTO.ResultPath;
 
-namespace MeatCountefeitDetector.UserInterface.Technologist;
+namespace MeatCounterfeitDetector.UserInterface.Technologist;
 
 public class TechnologistControlVM : ViewModelBase
 {

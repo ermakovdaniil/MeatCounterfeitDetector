@@ -2,11 +2,11 @@
 using System.Windows;
 using System.Windows.Controls;
 
-using MeatCountefeitDetector.UserInterface.Admin.Abstract;
-using MeatCountefeitDetector.Utils.Dialog;
+using MeatCounterfeitDetector.UserInterface.Admin.Abstract;
+using MeatCounterfeitDetector.Utils.Dialog;
 
 
-namespace MeatCountefeitDetector.UserInterface;
+namespace MeatCounterfeitDetector.UserInterface;
 
 public class MainWindowVM : ViewModelBase
 {

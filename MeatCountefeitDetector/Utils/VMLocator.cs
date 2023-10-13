@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 
 
-namespace MeatCountefeitDetector.Utils;
+namespace MeatCounterfeitDetector.Utils;
 
 public static class VmLocator
 {

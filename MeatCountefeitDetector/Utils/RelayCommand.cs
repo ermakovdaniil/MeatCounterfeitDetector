@@ -2,7 +2,7 @@
 using System.Windows.Input;
 
 
-namespace MeatCountefeitDetector.Utils;
+namespace MeatCounterfeitDetector.Utils;
 
 public class RelayCommand : ICommand
 {
