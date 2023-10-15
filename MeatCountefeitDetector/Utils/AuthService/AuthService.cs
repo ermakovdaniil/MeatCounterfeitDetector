@@ -12,7 +12,7 @@ namespace MeatCountefeitDetector.Utils.AuthService
     {
         private readonly AuthClient _authClient;
 
-        private RefreshTokenResponse _refreshTokenResponse;
+        private LoginResponse _LoginResponse;
 
         public AuthService(AuthClient authClient)
         {
@@ -21,23 +21,21 @@ namespace MeatCountefeitDetector.Utils.AuthService
 
         //public async Task<LoginResponse> GetToken()
         //{
-        //    if (_refreshTokenResponse is not null && _refreshTokenResponse.Expiration <= DateTime.Now)
+        //    if (_LoginResponse is not null && _LoginResponse.Expiration <= DateTime.Now)
         //    {
-        //        return _refreshTokenResponse;
+        //        return _LoginResponse;
         //    }
 
-        //    if (_refreshTokenResponse is not null)
+        //    if (_LoginResponse is not null)
         //    {
-        //        //_refreshTokenResponse = await _authClient.RefreshTokenAsync(new RefreshTokenModel{RefreshToken =_refreshTokenResponse.RefreshToken, AccessToken = _refreshTokenResponse.Token});
+        //        //_LoginResponse = await _authClient.RefreshTokenAsync(new RefreshTokenModel{RefreshToken =_LoginResponse.RefreshToken, AccessToken = _LoginResponse.Token});
         //    }
-        //    return _refreshTokenResponse;
+        //    return _LoginResponse;
         //}
 
-        public async Task<string> AuthorizationWithLoginAndPassword(LoginModel model)
+        public async Task<string> Login(LoginModel model)
         {
-
-
-
+            _authClient.LoginAsync(model);
             return null;
         }
 
@@ -45,12 +43,12 @@ namespace MeatCountefeitDetector.Utils.AuthService
         {
             try
             {
-                if (_refreshTokenResponse is not null && _refreshTokenResponse.Expiration <= DateTime.Now)
+                if (_LoginResponse is not null && _LoginResponse.Expiration <= DateTime.Now)
                 {
-                    _refreshTokenResponse = _authClient.RefreshTokenAsync(new RefreshTokenModel { RefreshToken = _refreshTokenResponse.RefreshToken, AccessToken = _refreshTokenResponse.Token }).GetAwaiter().GetResult();
+                    _LoginResponse = _authClient.RefreshTokenAsync(new RefreshTokenModel { RefreshToken = _LoginResponse.RefreshToken, AccessToken = _LoginResponse.Token }).GetAwaiter().GetResult();
                 }
 
-                return _refreshTokenResponse.Token;
+                return _LoginResponse.Token;
             }
             catch (Exception ex)
             {

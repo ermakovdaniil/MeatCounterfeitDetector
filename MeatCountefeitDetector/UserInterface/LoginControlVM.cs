@@ -24,14 +24,12 @@ public class LoginControlVM : ViewModelBase
     #region Constructors
 
     public LoginControlVM(UserClient userClient,
-                          UserTypeClient userTypeClient, 
                           NavigationManager navigationManager, 
                           IUserService userService, 
                           IMessageBoxService messageBoxService)
     {
         _messageBoxService = messageBoxService;
         _userClient = userClient;
-        _userTypeClient = userTypeClient;
         _navigationManager = navigationManager;
         _userService = userService;
         User = new User();
@@ -46,7 +44,6 @@ public class LoginControlVM : ViewModelBase
 
     public User User { get; set; }
     private readonly UserClient _userClient;
-    private readonly UserTypeClient _userTypeClient;
     private readonly NavigationManager _navigationManager;
     private readonly IMessageBoxService _messageBoxService;
     private readonly IUserService _userService;
