@@ -1,10 +1,11 @@
 ﻿using DataAccess.Models;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace DataAccess.Data
 {
-    public partial class ResultDBContext : DbContext
+    public partial class ResultDBContext : IdentityDbContext<User, IdentityRole<Guid>, Guid>
     {
         public ResultDBContext()
         {
@@ -19,6 +20,5 @@ namespace DataAccess.Data
         public virtual DbSet<Result> Results { get; set; } = null!;
         public virtual DbSet<ResultPath> ResultPaths { get; set; } = null!;
         public virtual DbSet<User> Users { get; set; } = null!;
-        public virtual DbSet<IdentityRole<Guid>> UserRoles { get; set; } = null!;
     }
 }

@@ -104,7 +104,7 @@ public partial class App : Application
 
         builder.Register(c =>
             {
-                var token = c.Resolve<AuthService>().GetToken();
+                var token = c.Resolve<IAuthService>().GetToken();
                 var httpClient = c.Resolve<IHttpClientFactory>().CreateClient();
                 if (token is not null)
                 {
