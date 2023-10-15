@@ -34,8 +34,6 @@ public partial class App : Application
 {
     private IContainer Container { get; set; }
 
-    public IConfiguration Configuration { get; }
-
     protected override void OnStartup(StartupEventArgs e)
     {
         base.OnStartup(e);
@@ -89,22 +87,30 @@ public partial class App : Application
         builder.Register<IHttpClientFactory>(_ =>
         {
             var services = new ServiceCollection();
-            //services.AddHttpClient();
-
-            //string jwtBearerToken = services.Configure<Configuration>(Configuration.GetSection("jwt"));
-            
-            string jwtBearerToken = Configuration.GetSection("AppSettings:JWT").Value;
-
-            services.AddHttpClient("MyApi", client =>
-            {
-                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", jwtBearerToken);
-            });
-
+            services.AddHttpClient();
             var provider = services.BuildServiceProvider();
             return provider.GetRequiredService<IHttpClientFactory>();
         });
 
-        builder.Register(c => c.Resolve<IHttpClientFactory>().CreateClient())
+        builder.Register(c =>
+            {
+                var client = c.Resolve<IHttpClientFactory>().CreateClient();
+                return new AuthClient(baseUrl, client);
+            })
+            .As<AuthClient>()
+            .SingleInstance();
+        
+        builder.Register(c =>
+            {
+                var token = c.Resolve<AuthService>().GetToken();
+                var httpClient = c.Resolve<IHttpClientFactory>().CreateClient();
+                if (token is not null)
+                {
+                    httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+                }
+
+                return httpClient;
+            })
             .As<HttpClient>();
 
         builder.RegisterType<MainWindow>().AsSelf().SingleInstance();
