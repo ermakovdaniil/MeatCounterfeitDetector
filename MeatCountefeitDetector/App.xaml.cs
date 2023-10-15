@@ -80,10 +80,6 @@ public partial class App : Application
             .As<UserClient>()
             .WithParameter("baseUrl", baseUrl);
 
-        builder.RegisterType<UserTypeClient>()
-            .As<UserTypeClient>()
-            .WithParameter("baseUrl", baseUrl);
-
         builder.Register<IHttpClientFactory>(_ =>
         {
             var services = new ServiceCollection();
