@@ -73,16 +73,6 @@ namespace MeatAPI.Controllers
             return Unauthorized();
         }
 
-
-        [HttpPost]
-        [Route("authorization")]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(LoginResponse))]
-        public async Task<IActionResult> AuthorizationWithLoginAndPassword([FromBody] LoginModel model)
-        {
-
-            return Unauthorized();
-        }
-
         //[HttpPost]
         //[Route("register")]
         //[ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Response))]
@@ -115,7 +105,7 @@ namespace MeatAPI.Controllers
 
         [HttpPost]
         [Route("refresh-token")]
-        public async Task<ActionResult<RefreshTokenResponse>> RefreshToken(RefreshTokenModel refreshTokenModel)
+        public async Task<ActionResult<LoginResponse>> RefreshToken(RefreshTokenModel refreshTokenModel)
         {
             if (refreshTokenModel is null)
             {
@@ -151,7 +141,7 @@ namespace MeatAPI.Controllers
             user.RefreshToken = newRefreshToken;
             await _userManager.UpdateAsync(user);
 
-            return Ok(new RefreshTokenResponse
+            return Ok(new LoginResponse
             {
                 Token = new JwtSecurityTokenHandler().WriteToken(newAccessToken),
                 RefreshToken = newRefreshToken,

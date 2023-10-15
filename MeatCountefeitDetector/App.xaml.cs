@@ -34,8 +34,6 @@ public partial class App : Application
 {
     private IContainer Container { get; set; }
 
-    public IConfiguration Configuration { get; }
-
     protected override void OnStartup(StartupEventArgs e)
     {
         base.OnStartup(e);
@@ -80,10 +78,6 @@ public partial class App : Application
 
         builder.RegisterType<UserClient>()
             .As<UserClient>()
-            .WithParameter("baseUrl", baseUrl);
-
-        builder.RegisterType<UserTypeClient>()
-            .As<UserTypeClient>()
             .WithParameter("baseUrl", baseUrl);
 
         builder.Register<IHttpClientFactory>(_ =>
