@@ -48,7 +48,6 @@ builder.Services.AddEntityFrameworkNpgsql();
 
 builder.Services.AddIdentity<User, IdentityRole<Guid>>()
     .AddEntityFrameworkStores<ResultDBContext>()
-    .AddRoles<IdentityRole<Guid>>()
     .AddDefaultTokenProviders();
 
 builder.Services.AddAuthentication(options =>

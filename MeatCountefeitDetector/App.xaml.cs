@@ -95,16 +95,15 @@ public partial class App : Application
             })
             .As<AuthClient>()
             .SingleInstance();
-        
+
         builder.Register(c =>
             {
-                var token = c.Resolve<AuthService>().GetToken();
+                var token = c.Resolve<IAuthService>().GetToken();
                 var httpClient = c.Resolve<IHttpClientFactory>().CreateClient();
                 if (token is not null)
                 {
                     httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
                 }
-
                 return httpClient;
             })
             .As<HttpClient>();

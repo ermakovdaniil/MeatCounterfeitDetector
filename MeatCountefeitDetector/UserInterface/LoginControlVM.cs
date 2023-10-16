@@ -61,11 +61,11 @@ public class LoginControlVM : ViewModelBase
         {
             return _enterCommand ??= new RelayCommand(o =>
             {
-                if (string.IsNullOrEmpty(User.Login) || string.IsNullOrEmpty(User.Password))
-                {
-                    _messageBoxService.ShowMessage("Введите имя пользователя и пароль!", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
-                    return;
-                }
+                // if (string.IsNullOrEmpty(User.Login) || string.IsNullOrEmpty(User.Password))
+                // {
+                //     _messageBoxService.ShowMessage("Введите имя пользователя и пароль!", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                //     return;
+                // }
 
                 try
                 {

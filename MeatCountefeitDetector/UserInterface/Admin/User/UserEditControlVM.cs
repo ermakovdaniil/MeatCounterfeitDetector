@@ -38,11 +38,11 @@ public class UserEditControlVM : ViewModelBase, IDataHolder, IResultHolder, IInt
 
             TempUser = new DataAccess.Models.User
             {
-                Id = EditingUser.Id,
-                Login = EditingUser.Login,
-                Password = EditingUser.Password,
-                Name = EditingUser.Name,
-                //Type = EditingUser.Type,
+                // Id = EditingUser.Id,
+                // Login = EditingUser.Login,
+                // Password = EditingUser.Password,
+                // Name = EditingUser.Name,
+                // //Type = EditingUser.Type,
             };
 
             OnPropertyChanged(nameof(TempUser));
@@ -90,19 +90,19 @@ public class UserEditControlVM : ViewModelBase, IDataHolder, IResultHolder, IInt
         {
             return _saveUser ??= new RelayCommand(o =>
             {
-                EditingUser.Id = TempUser.Id;
-                EditingUser.Login = TempUser.Login;
-                EditingUser.Password = TempUser.Password;
-                EditingUser.Name = TempUser.Name;
-                //EditingUser.Type = TempUser.Type;
-
-                if (!_context.Users.Contains(EditingUser))
-                {
-                    _context.Users.Add(EditingUser);
-                }
-
-                _context.SaveChanges();
-                FinishInteraction();
+                // EditingUser.Id = TempUser.Id;
+                // EditingUser.Login = TempUser.Login;
+                // EditingUser.Password = TempUser.Password;
+                // EditingUser.Name = TempUser.Name;
+                // //EditingUser.Type = TempUser.Type;
+                //
+                // if (!_context.Users.Contains(EditingUser))
+                // {
+                //     _context.Users.Add(EditingUser);
+                // }
+                //
+                // _context.SaveChanges();
+                // FinishInteraction();
             });
         }
     }
