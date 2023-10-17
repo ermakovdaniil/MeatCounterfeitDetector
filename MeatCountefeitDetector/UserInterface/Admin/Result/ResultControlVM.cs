@@ -22,12 +22,12 @@ public class ResultControlVM : ViewModelBase
     {
         _userService = userService;
         _messageBoxService = messageBoxService;
-        _context = context;
-        _context.Users.Load();
-        _context.OriginalPaths.Load();
-        _context.ResultPaths.Load();
-        Results = new ObservableCollection<DataAccess.Models.Result>(_context.Results.ToList());
-        _context.SavedChanges += (s, e) => Results = new ObservableCollection<DataAccess.Models.Result>(_context.Results.ToList());
+        //_context = context;
+        //_context.Users.Load();
+        //_context.OriginalPaths.Load();
+        //_context.ResultPaths.Load();
+        //Results = new ObservableCollection<DataAccess.Models.Result>(_context.Results.ToList());
+        //_context.SavedChanges += (s, e) => Results = new ObservableCollection<DataAccess.Models.Result>(_context.Results.ToList());
     }
 
     #endregion
@@ -37,7 +37,7 @@ public class ResultControlVM : ViewModelBase
 
     #region Properties
 
-    private readonly ResultDBContext _context;
+    //private readonly ResultDBContext _context;
     private readonly IMessageBoxService _messageBoxService;
     private readonly IUserService _userService;
     public DataAccess.Models.Result SelectedResult { get; set; }
@@ -74,8 +74,8 @@ public class ResultControlVM : ViewModelBase
                             File.Delete(combinedPath);
                         }
 
-                        _context.Results.Remove(SelectedResult);
-                        _context.SaveChanges();
+                        //_context.Results.Remove(SelectedResult);
+                        //_context.SaveChanges();
                     }
 
                     OnPropertyChanged(nameof(Results));

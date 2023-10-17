@@ -5,7 +5,7 @@ namespace MeatCountefeitDetector.Utils.AuthService
 {
     public interface IAuthService
     {
-        public Task<string> Login(LoginModel model);
+        public Task LoginAsync(LoginModel model);
 
         public string GetToken();
     }

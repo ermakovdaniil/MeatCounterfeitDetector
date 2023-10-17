@@ -18,7 +18,7 @@ namespace MeatAPI.Features.Counterfeit
         }
 
         [HttpGet]
-        [Authorize(Roles = UserRoles.User)]
+        [Authorize(Roles = UserRoles.Admin)]
         public async Task<ActionResult<IReadOnlyCollection<GetCounterfeitDTO>>> GetAll()
         {
             var counterfeits = await _counterfeitService.GetAll();

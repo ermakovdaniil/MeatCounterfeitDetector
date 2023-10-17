@@ -13,6 +13,10 @@ using MeatCounterfeitDetector.Utils.MainWindowControlChanger;
 using MeatCounterfeitDetector.Utils.MessageBoxService;
 using MeatCounterfeitDetector.Utils.UserService;
 using ClientAPI;
+using MeatCountefeitDetector.Utils.AuthService;
+using ClientAPI.DTO.Login;
+using System.Diagnostics;
+using System.IdentityModel.Tokens.Jwt;
 
 namespace MeatCounterfeitDetector.UserInterface;
 
@@ -24,15 +28,16 @@ public class LoginControlVM : ViewModelBase
     #region Constructors
 
     public LoginControlVM(UserClient userClient,
-                          NavigationManager navigationManager, 
-                          IUserService userService, 
-                          IMessageBoxService messageBoxService)
+                          NavigationManager navigationManager,
+                          IUserService userService,
+                          IMessageBoxService messageBoxService,
+                          IAuthService authService)
     {
         _messageBoxService = messageBoxService;
         _userClient = userClient;
         _navigationManager = navigationManager;
         _userService = userService;
-        User = new User();
+        _authService = authService;
     }
 
     #endregion
@@ -40,16 +45,18 @@ public class LoginControlVM : ViewModelBase
     #endregion
 
 
-    #region Properties
+    #region Fields
 
-    public User User { get; set; }
     private readonly UserClient _userClient;
     private readonly NavigationManager _navigationManager;
     private readonly IMessageBoxService _messageBoxService;
     private readonly IUserService _userService;
+    private readonly IAuthService _authService;
 
     #endregion
 
+    public string Username { get; set; } = "admin";
+    public string Password { get; set; } = "SuperMegaSecretPassword123!!!";
 
     #region Commands
 
@@ -59,19 +66,40 @@ public class LoginControlVM : ViewModelBase
     {
         get
         {
-            return _enterCommand ??= new RelayCommand(o =>
+            return _enterCommand ??= new RelayCommand(async o =>
             {
-                // if (string.IsNullOrEmpty(User.Login) || string.IsNullOrEmpty(User.Password))
-                // {
-                //     _messageBoxService.ShowMessage("Введите имя пользователя и пароль!", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
-                //     return;
-                // }
-
                 try
                 {
-                    //var user = _context.Users.Include(u => u.Type).First(u => u.Login == User.Login && u.Password == User.Password);
+                    try
+                    {
+                        await _authService.LoginAsync(new LoginModel { Password = Password, Username = Username });
 
-                    //var user = _userClient.GetUserByLoginAndPassword(User.Login, User.Password);
+                        var token = _authService.GetToken();
+                        _userService.SetUserByToken(token);
+
+                        if (_userService.IsAdmin)
+                        {
+                            _navigationManager.Navigate<MainAdminControl>(new WindowParameters
+                            {
+                                WindowState = WindowState.Maximized,
+                                Title = " | Панель администратора | ",
+                            });
+                        }
+                        else
+                        {
+                            _navigationManager.Navigate<TechnologistControl>(new WindowParameters
+                            {
+                                WindowState = WindowState.Maximized,
+                                Title = " | Панель технолога | ",
+                            });
+                        }
+                    }
+                    catch (Exception e)
+                    {
+                        //todo как-то обработать, месаг бох например, на разные эксепшены разные кэтчи и разные месаг бохи
+                        Debug.WriteLine(e);
+                    };
+
 
                     //var userType = _userClient.GetType(User.TypeId);
 
@@ -89,11 +117,11 @@ public class LoginControlVM : ViewModelBase
 
                     //if (user.Type.Name == "Технолог")
                     //{
-                        _navigationManager.Navigate<TechnologistControl>(new WindowParameters
-                        {
-                            WindowState = WindowState.Maximized,
-                            Title = " | Панель технолога | ",
-                        });
+                    //_navigationManager.Navigate<TechnologistControl>(new WindowParameters
+                    //{
+                    //    WindowState = WindowState.Maximized,
+                    //    Title = " | Панель технолога | ",
+                    //});
                     //}
                     //_userService.User = user;
                 }
@@ -101,7 +129,7 @@ public class LoginControlVM : ViewModelBase
                 {
                     _messageBoxService.ShowMessage("Неверное имя пользователя или пароль! Повторите попытку.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
-            });
+            }, _ => !(string.IsNullOrEmpty(Username) || string.IsNullOrEmpty(Password)));
         }
     }
 

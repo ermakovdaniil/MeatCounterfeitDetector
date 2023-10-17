@@ -22,8 +22,8 @@ public class GalleryControlVM : ViewModelBase
     public GalleryControlVM(CounterfeitKBContext context, DialogService ds, IMessageBoxService messageBoxService)
     {
         _messageBoxService = messageBoxService;
-        _context = context;
-        _context.Counterfeits.Load();
+        //_context = context;
+        //_context.Counterfeits.Load();
         _ds = ds;
     }
 

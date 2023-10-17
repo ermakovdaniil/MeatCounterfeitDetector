@@ -17,10 +17,10 @@
             <StackPanel Orientation="Vertical" HorizontalAlignment="Center" Width="180">
                 <hc:TextBox hc:InfoElement.Title="Имя пользователя" Margin="10,0,10,10"
                             Background="{StaticResource Style3}"
-                            Text="{Binding User.Login, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                            Text="{Binding Username, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                 <hc:PasswordBox hc:InfoElement.Title="Пароль" Margin="10,0,10,10" Background="{StaticResource Style3}"
                                 IsSafeEnabled="false"
-                                UnsafePassword="{Binding User.Password, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                                UnsafePassword="{Binding Password, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                 <Button x:Name="EnterButton" Width="100" hc:BorderElement.CornerRadius="10"
                         Command="{Binding EnterCommand }" Content="{StaticResource EnterButton}"
                         Margin="0,0,10,0" Background="{StaticResource Style3}" />

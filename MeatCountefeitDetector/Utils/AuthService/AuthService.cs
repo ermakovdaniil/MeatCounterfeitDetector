@@ -12,7 +12,8 @@ namespace MeatCountefeitDetector.Utils.AuthService
     {
         private readonly AuthClient _authClient;
 
-        private LoginResponse _LoginResponse;
+        //todo L МАЛЕНЬКАЯ!!!!!
+        private LoginResponse _loginResponse;
 
         public AuthService(AuthClient authClient)
         {
@@ -33,27 +34,22 @@ namespace MeatCountefeitDetector.Utils.AuthService
         //    return _LoginResponse;
         //}
 
-        public async Task<string> Login(LoginModel model)
+        public async Task LoginAsync(LoginModel model)
         {
-            _authClient.LoginAsync(model);
-            return null;
+            _loginResponse = await _authClient.LoginAsync(model);
         }
 
         public string GetToken()
         {
-            try
+            if (_loginResponse is not null && _loginResponse.Expiration <= DateTime.Now)
             {
-                if (_LoginResponse is not null && _LoginResponse.Expiration <= DateTime.Now)
-                {
-                    _LoginResponse = _authClient.RefreshTokenAsync(new RefreshTokenModel { RefreshToken = _LoginResponse.RefreshToken, AccessToken = _LoginResponse.Token }).GetAwaiter().GetResult();
-                }
-
-                return _LoginResponse.Token;
+                _loginResponse = _authClient.RefreshTokenAsync(new RefreshTokenModel { RefreshToken = _loginResponse.RefreshToken, AccessToken = _loginResponse.Token }).Result;
             }
-            catch (Exception ex)
+            if (_loginResponse is not null)
             {
-                return null;
+                return _loginResponse.Token;
             }
+            return null;
         }
     }
 }

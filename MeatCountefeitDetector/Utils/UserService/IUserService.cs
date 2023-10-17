@@ -4,8 +4,7 @@ namespace MeatCounterfeitDetector.Utils.UserService
 {
     public interface IUserService
     {
-        User User { get; set; }
-
-        //bool IsAdmin { get; }
+        void SetUserByToken(string token);
+        bool IsAdmin { get; }
     }
 }

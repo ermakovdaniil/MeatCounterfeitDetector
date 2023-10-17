@@ -54,30 +54,10 @@ public class Program
     {
 
         var adminName = "admin";
+        var userName = "user";
         var userManager = sp.GetRequiredService<UserManager<User>>();
         var roleManager = sp.GetRequiredService<RoleManager<IdentityRole<Guid>>>();
 
-        var adminUserExists = await userManager.FindByNameAsync(adminName) is not null;
-        if (adminUserExists)
-        {
-            return;
-        }
-        User appUser = new()
-        {
-            Email = "admin@kys.quick",
-            SecurityStamp = Guid.NewGuid().ToString(),
-            UserName = adminName,
-            Name = "admin" // REQUIRED!!!!!!!
-        };
-        
-        
-        var result = await userManager.CreateAsync(appUser, "SuperMegaSecretPassword123!!!");
-
-        if (!result.Succeeded)
-        {
-            return;
-        }
-        
         if (!await roleManager.RoleExistsAsync(UserRoles.Admin))
         {
             await roleManager.CreateAsync(new IdentityRole<Guid>(UserRoles.Admin));
@@ -88,15 +68,60 @@ public class Program
             await roleManager.CreateAsync(new IdentityRole<Guid>(UserRoles.User));
         }
 
-        if (await roleManager.RoleExistsAsync(UserRoles.Admin))
+        var adminUserExists = await userManager.FindByNameAsync(adminName) is not null;
+        if (!adminUserExists)
         {
-            await userManager.AddToRoleAsync(appUser, UserRoles.Admin);
-        }
+            User admin = new()
+            {
+                Email = "admin@kys.quick",
+                SecurityStamp = Guid.NewGuid().ToString(),
+                UserName = adminName,
+                Name = "admin" // REQUIRED!!!!!!!
+            };
 
-        if (await roleManager.RoleExistsAsync(UserRoles.User))
-        {
-            await userManager.AddToRoleAsync(appUser, UserRoles.User);
+
+            var result = await userManager.CreateAsync(admin, "SuperMegaSecretPassword123!!!");
+
+            if (!result.Succeeded)
+            {
+                return;
+            }
+
+            if (await roleManager.RoleExistsAsync(UserRoles.Admin))
+            {
+                await userManager.AddToRoleAsync(admin, UserRoles.Admin);
+            }
+
+            if (await roleManager.RoleExistsAsync(UserRoles.User))
+            {
+                await userManager.AddToRoleAsync(admin, UserRoles.User);
+            }
         }
+        
+
+        var userExists = await userManager.FindByNameAsync(userName) is not null;
+        if (!userExists)
+        {
+            User user = new()
+            {
+                Email = "user@kys.quick",
+                SecurityStamp = Guid.NewGuid().ToString(),
+                UserName = userName,
+                Name = "user" // REQUIRED!!!!!!!
+            };
+
+            var userResult = await userManager.CreateAsync(user, "SuperMegaSecretPassword123!!!");
+
+            if (!userResult.Succeeded)
+            {
+                return;
+            }
+
+            if (await roleManager.RoleExistsAsync(UserRoles.User))
+            {
+                await userManager.AddToRoleAsync(user, UserRoles.User);
+            }
+        }       
     }
 }
 

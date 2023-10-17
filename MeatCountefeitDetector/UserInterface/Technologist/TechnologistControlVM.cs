@@ -139,7 +139,8 @@ public class TechnologistControlVM : ViewModelBase
 
                         var counterfeitPaths = counterfeitPathsDTOs.Adapt<List<CounterfeitPath>>();
 
-                        AnalysisResult = _analyzer.RunAnalysis(DisplayedImagePath, counterfeitPaths, PercentOfSimilarity, _userService.User);                       
+                        //AnalysisResult = _analyzer.RunAnalysis(DisplayedImagePath, counterfeitPaths, PercentOfSimilarity, _userService.User);                       
+                        
                         SearchResult = CreateSearchResult(AnalysisResult);
 
                         if (AnalysisResult.ResPath.Path is not null)
@@ -186,7 +187,7 @@ public class TechnologistControlVM : ViewModelBase
                     var filePath = _dialogService.SaveFileDialog(filename, ext: ".pdf");
                     if (!string.IsNullOrEmpty(filePath))
                     {
-                        FileSystem.ExportPdf(filePath, AnalysisResult, _userService.User);
+                        //FileSystem.ExportPdf(filePath, AnalysisResult, _userService.User);
                     }
                 }
             });
