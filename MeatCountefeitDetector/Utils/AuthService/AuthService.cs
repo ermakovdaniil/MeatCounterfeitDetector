@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using ClientAPI.DTO.Login;
 
-namespace MeatCountefeitDetector.Utils.AuthService
+namespace MeatCounterfeitDetector.Utils.AuthService
 {
     public class AuthService : IAuthService
     {

@@ -1,0 +1,78 @@
+﻿<UserControl x:Class="MeatCounterfeitDetector.UserInterface.Technologist.Analysis.AnalysisControl"
+             xmlns:hc="https://handyorg.github.io/handycontrol"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:analysis="clr-namespace:MeatCounterfeitDetector.UserInterface.Technologist.Analysis"
+             mc:Ignorable="d"
+             d:DataContext="{d:DesignInstance analysis:AnalysisControlVM}">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="80" />
+            <RowDefinition />
+            <RowDefinition Height="170" />
+        </Grid.RowDefinitions>
+
+        <Grid Grid.Row="0" Background="{StaticResource Style2}">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+
+            <hc:ComboBox hc:InfoElement.Title="Вид фальсификата для поиска"
+             Grid.Column="0" FontSize="17"
+             Text="Любой"
+             ShowClearButton="True"
+             ItemsSource="{Binding Counterfeits}"
+             hc:InfoElement.TitlePlacement="Top"
+             SelectedItem="{Binding SelectedCounterfeit}"
+             DisplayMemberPath="Name"
+             Background="{StaticResource Style3}"
+             Margin="10 5" />
+
+            <hc:NumericUpDown ValueFormat="N2" Grid.Column="1" 
+                  FontSize="17" Height="70" Width="180"
+                  Minimum="0.01" Maximum="100" Value="{Binding PercentOfSimilarity}" Increment="0.01"
+                  hc:InfoElement.TitleWidth="140" 
+                  hc:InfoElement.Title="Процент сходства" 
+                  hc:InfoElement.TitlePlacement="Top"
+                  HorizontalAlignment="Left" Margin="10 5"
+                  Style="{StaticResource NumericUpDownExtend}"
+                  Background="{StaticResource Style3}" />
+        </Grid>
+
+        <Grid Grid.Row="1" Background="{StaticResource Style2}">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+
+            <Border Grid.Column="0" BorderThickness="1" Margin="10" BorderBrush="#FF000000"
+        Background="{StaticResource Style3}">
+                <Image Source="{Binding DisplayedImagePath, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Stretch="Fill"/>
+            </Border>
+
+            <Border Grid.Column="1" BorderThickness="1" Margin="10" BorderBrush="#FF000000"
+        Background="{StaticResource Style3}">
+                <Image Source="{Binding ResultImagePath, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Stretch="Fill"/>
+            </Border>
+        </Grid>
+
+        <Grid Grid.Row="2" Background="{StaticResource Style2}">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="30" />
+                <RowDefinition />
+            </Grid.RowDefinitions>
+
+            <Border Grid.Row="0" Grid.Column="0" Background="{StaticResource Style3}">
+                <hc:Divider Content="Результат анализа изображения" Margin="0 5" FontSize="17" />
+            </Border>
+
+            <hc:TextBox Grid.Row="1" IsReadOnly="True" Margin="10" FontSize="20.0" FontFamily="Courier New"
+            Text="{Binding SearchResult, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+            Background="{StaticResource Style3}" HorizontalAlignment="Stretch" />
+        </Grid>
+    </Grid>
+</UserControl>

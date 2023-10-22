@@ -24,7 +24,7 @@ using ClientAPI.DTO.ResultPath;
 
 namespace MeatCounterfeitDetector.UserInterface.Technologist;
 
-public class TechnologistControlVM : ViewModelBase
+public class MainTechnologistControlVM : ViewModelBase
 {
     private readonly IImageAnalyzer _analyzer;
     private readonly IFileDialogService _dialogService;
@@ -38,7 +38,7 @@ public class TechnologistControlVM : ViewModelBase
 
     #region Functions
 
-    public TechnologistControlVM(CounterfeitClient counterfeitClient, 
+    public MainTechnologistControlVM(CounterfeitClient counterfeitClient,
                                  CounterfeitPathClient counterfeitPathClient,
                                  ResultClient resultClient,
                                  NavigationManager navigationManager,
@@ -58,16 +58,6 @@ public class TechnologistControlVM : ViewModelBase
         Task.Run(async () => {
             Counterfeits = (await _counterfeitClient.CounterfeitGetAsync()).ToList();
         });
-    }
-
-    private string CreateSearchResult(Result AnalysisResult)
-    {
-        string searchResult;
-        searchResult = AnalysisResult.AnRes + "\n" +
-                       "Дата проведения анализа: " + AnalysisResult.Date + "\n" +
-                       "Время проведения: " + AnalysisResult.Time + " с\n" +
-                       "Процент сходства: " + AnalysisResult.PercentOfSimilarity + "%";
-        return searchResult;
     }
 
     #endregion
@@ -131,7 +121,7 @@ public class TechnologistControlVM : ViewModelBase
                         else
                         {
                             counterfeitPathsDTOs = (await _counterfeitPathClient.GetAllByCounterfeitIdAsync(SelectedCounterfeit.Id)).ToList();
-                            
+
                             //counterfeitPaths = _counterfeitsContext.CounterfeitPaths
                             //    .Include(c => c.Counterfeit)
                             //    .Where(c => c.CounterfeitId == SelectedCounterfeit.Id).ToList();
@@ -140,7 +130,7 @@ public class TechnologistControlVM : ViewModelBase
                         var counterfeitPaths = counterfeitPathsDTOs.Adapt<List<CounterfeitPath>>();
 
                         //AnalysisResult = _analyzer.RunAnalysis(DisplayedImagePath, counterfeitPaths, PercentOfSimilarity, _userService.User);                       
-                        
+
                         SearchResult = CreateSearchResult(AnalysisResult);
 
                         if (AnalysisResult.ResPath.Path is not null)
@@ -192,6 +182,16 @@ public class TechnologistControlVM : ViewModelBase
                 }
             });
         }
+    }
+
+    private string CreateSearchResult(Result AnalysisResult)
+    {
+        string searchResult;
+        searchResult = AnalysisResult.AnRes + "\n" +
+                       "Дата проведения анализа: " + AnalysisResult.Date + "\n" +
+                       "Время проведения: " + AnalysisResult.Time + " с\n" +
+                       "Процент сходства: " + AnalysisResult.PercentOfSimilarity + "%";
+        return searchResult;
     }
 
     private RelayCommand _changeUser;

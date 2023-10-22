@@ -1,0 +1,70 @@
+﻿<UserControl x:Class="MeatCounterfeitDetector.UserInterface.Technologist.MainTechnologistControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:analysis="clr-namespace:MeatCounterfeitDetector.UserInterface.Technologist.Analysis"
+             xmlns:result="clr-namespace:MeatCounterfeitDetector.UserInterface.Admin.Result"
+             xmlns:edit="clr-namespace:MeatCounterfeitDetector.UserInterface.Technologist.Edit"
+             xmlns:technologist="clr-namespace:MeatCounterfeitDetector.UserInterface.Technologist"
+             mc:Ignorable="d"
+             d:DataContext="{d:DesignInstance Type=technologist:MainTechnologistControlVM}">
+
+    <UserControl.Resources>
+        <Menu x:Key="Menu" Background="{Binding NonClientAreaBackground,RelativeSource={RelativeSource FindAncestor,AncestorType=Window}}" Grid.ColumnSpan="3">
+            <MenuItem Height="40" ToolTip="Открыть изображение" Command="{Binding ChangePathImageCommand}">
+                <MenuItem.Icon>
+                    <Image Height="20" Source="pack://application:,,,/resources/icons/open.png" />
+                </MenuItem.Icon>
+            </MenuItem>
+
+            <MenuItem ToolTip="Сканировать изображениие" Command="{Binding ScanImage}">
+                <MenuItem.Icon>
+                    <Image Height="20" Source="pack://application:,,,/resources/icons/scanning.png" />
+                </MenuItem.Icon>
+            </MenuItem>
+
+            <MenuItem ToolTip="Экспортировать результат" Command="{Binding CreateFile}">
+                <MenuItem.Icon>
+                    <Image Height="20" Source="pack://application:,,,/resources/icons/save.png" />
+                </MenuItem.Icon>
+            </MenuItem>
+
+            <MenuItem ToolTip="Сменить учётную запись" Command="{Binding ChangeUser}">
+                <MenuItem.Icon>
+                    <Image Height="20" Source="pack://application:,,,/resources/icons/user.png" />
+                </MenuItem.Icon>
+            </MenuItem>
+
+            <MenuItem ToolTip="Справка о программе" Command="{Binding ShowInfo}">
+                <MenuItem.Icon>
+                    <Image Height="20" Source="pack://application:,,,/resources/icons/info.png" />
+                </MenuItem.Icon>
+            </MenuItem>
+
+            <MenuItem ToolTip="Выход" Command="{Binding Exit}">
+                <MenuItem.Icon>
+                    <Image Height="20" Source="pack://application:,,,/resources/icons/exit.png" />
+                </MenuItem.Icon>
+            </MenuItem>
+        </Menu>
+    </UserControl.Resources>
+    
+    <Grid>
+        <TabControl x:Name="tabs"
+                    Visibility="{Binding TabControlVisibility, UpdateSourceTrigger=PropertyChanged}"
+                    Style="{StaticResource TabControlInLine}"
+                    Background="{StaticResource Style3}">
+            <TabItem Header="Анализ изображения" Background="{StaticResource Style2}">
+                <analysis:AnalysisControl />
+            </TabItem>
+
+            <TabItem Header="Журнала результатов" Background="{StaticResource Style2}">
+                <result:ResultControl />
+            </TabItem>
+            <TabItem Header="Редактирование изображения" Background="{StaticResource Style2}">
+                <edit:ImageEditingControl />
+            </TabItem>
+        </TabControl>
+    </Grid>
+</UserControl>

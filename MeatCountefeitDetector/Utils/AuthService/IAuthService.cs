@@ -1,7 +1,7 @@
 ﻿using ClientAPI.DTO.Login;
 using System.Threading.Tasks;
 
-namespace MeatCountefeitDetector.Utils.AuthService
+namespace MeatCounterfeitDetector.Utils.AuthService
 {
     public interface IAuthService
     {

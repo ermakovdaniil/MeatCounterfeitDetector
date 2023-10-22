@@ -13,7 +13,7 @@ using MeatCounterfeitDetector.Utils.MainWindowControlChanger;
 using MeatCounterfeitDetector.Utils.MessageBoxService;
 using MeatCounterfeitDetector.Utils.UserService;
 using ClientAPI;
-using MeatCountefeitDetector.Utils.AuthService;
+using MeatCounterfeitDetector.Utils.AuthService;
 using ClientAPI.DTO.Login;
 using System.Diagnostics;
 using System.IdentityModel.Tokens.Jwt;
@@ -87,7 +87,7 @@ public class LoginControlVM : ViewModelBase
                         }
                         else
                         {
-                            _navigationManager.Navigate<TechnologistControl>(new WindowParameters
+                            _navigationManager.Navigate<MainTechnologistControl>(new WindowParameters
                             {
                                 WindowState = WindowState.Maximized,
                                 Title = " | Панель технолога | ",

@@ -26,7 +26,10 @@ using Microsoft.AspNetCore.Http.Internal;
 using Microsoft.Extensions.DependencyInjection;
 using FrameworkElementFactory = MeatCounterfeitDetector.Utils.FrameworkFactory.FrameworkElementFactory;
 using Microsoft.Extensions.Configuration;
-using MeatCountefeitDetector.Utils.AuthService;
+using MeatCounterfeitDetector.Utils.AuthService;
+using MeatCounterfeitDetector.UserInterface.Technologist;
+using MeatCounterfeitDetector.UserInterface.Technologist.Analysis;
+using MeatCounterfeitDetector.UserInterface.Technologist.Edit;
 
 namespace MeatCounterfeitDetector;
 
@@ -126,7 +129,11 @@ public partial class App : Application
         VmLocator.Container = Container;
         VmLocator.Register<MainWindow, MainWindowVM>();
         VmLocator.Register<LoginControl, LoginControlVM>();
-        VmLocator.Register<TechnologistControl, TechnologistControlVM>();
+
+        VmLocator.Register<MainTechnologistControl, MainTechnologistControlVM>();
+        VmLocator.Register<AnalysisControl, AnalysisControlVM>();
+        VmLocator.Register<ImageEditingControl, ImageEditingControlVM>();
+
         VmLocator.Register<MainAdminControl, MainAdminControlVM>();
         VmLocator.Register<UserExplorerControl, UserExplorerControlVM>();
         VmLocator.Register<ResultControl, ResultControlVM>();
