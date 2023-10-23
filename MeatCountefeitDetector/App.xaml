@@ -58,11 +58,13 @@
             <SolidColorBrush x:Key="Style2" Color="#e1e5ea" />
             <SolidColorBrush x:Key="Style3" Color="#faf3f3" />
             <SolidColorBrush x:Key="Style4" Color="#a1adb5" />
+
             <DataTemplate x:Key="expanderHeader">
                 <TextBlock Text="{Binding}"
                            FontSize="16"
                            TextWrapping="Wrap" />
             </DataTemplate>
+
         </ResourceDictionary>
     </Application.Resources>
 </Application>

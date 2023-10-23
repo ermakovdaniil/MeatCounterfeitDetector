@@ -22,15 +22,15 @@
             </Grid.ColumnDefinitions>
 
             <hc:ComboBox hc:InfoElement.Title="Вид фальсификата для поиска"
-             Grid.Column="0" FontSize="17"
-             Text="Любой"
-             ShowClearButton="True"
-             ItemsSource="{Binding Counterfeits}"
-             hc:InfoElement.TitlePlacement="Top"
-             SelectedItem="{Binding SelectedCounterfeit}"
-             DisplayMemberPath="Name"
-             Background="{StaticResource Style3}"
-             Margin="10 5" />
+                            Grid.Column="0" FontSize="17"
+                            Text="Любой"
+                            ShowClearButton="True"
+                            ItemsSource="{Binding Counterfeits}"
+                            hc:InfoElement.TitlePlacement="Top"
+                            SelectedItem="{Binding SelectedCounterfeit}"
+                            DisplayMemberPath="Name"
+                            Background="{StaticResource Style3}"
+                            Margin="10 5" />
 
             <hc:NumericUpDown ValueFormat="N2" Grid.Column="1" 
                   FontSize="17" Height="70" Width="180"
