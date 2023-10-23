@@ -196,61 +196,7 @@ public class AnalysisControlVM : ViewModelBase
         }
     }
 
-    private RelayCommand _changeUser;
 
-    public RelayCommand ChangeUser
-    {
-        get
-        {
-            return _changeUser ??= new RelayCommand(_ =>
-            {
-                _navigationManager.Navigate<LoginControl>(new WindowParameters
-                {
-                    Height = 300,
-                    Width = 350,
-                    Title = "Вход в систему",
-                    StartupLocation = WindowStartupLocation.CenterScreen,
-                });
-            });
-        }
-    }
-
-    private RelayCommand _showInfo;
-
-    public RelayCommand ShowInfo
-    {
-        get
-        {
-            return _showInfo ??= new RelayCommand(_ =>
-            {
-                _messageBoxService.ShowMessage("Данный программный комплекс предназначен для обработки\n" +
-                                               "входного изображения среза мясной продукции в задаче\n" +
-                                               "обнаружения фальсификата.\n" +
-                                               "\n" +
-                                               "Вам доступны следующие возможности:\n" +
-                                               "   * Анализ изображения.\n" +
-                                               "   * Сохранение результата анализа в виде отчёта.\n" +
-                                               "\n" +
-                                               "Автор:  Ермаков Даниил Игоревич\n" +
-                                               "Группа: 494\n" +
-                                               "Учебное заведение: СПбГТИ (ТУ)", "Справка о программе",
-                                               MessageBoxButton.OK, MessageBoxImage.Information);
-            });
-        }
-    }
-
-    private RelayCommand _exit;
-
-    public RelayCommand Exit
-    {
-        get
-        {
-            return _exit ??= new RelayCommand(_ =>
-            {
-                Application.Current.Shutdown();
-            });
-        }
-    }
 
     #endregion
 }
