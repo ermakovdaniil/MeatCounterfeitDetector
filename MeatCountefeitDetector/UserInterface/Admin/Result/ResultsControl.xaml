@@ -17,7 +17,9 @@
             <RowDefinition />
             <RowDefinition Height="50" />
         </Grid.RowDefinitions>
-        <DataGrid AutoGenerateColumns="False" ItemsSource="{Binding Results}" CanUserAddRows="False"
+
+        <hc:ScrollViewer Grid.Row="0" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Hidden" Background="{StaticResource Style2}">
+            <DataGrid AutoGenerateColumns="False" ItemsSource="{Binding Results}" CanUserAddRows="False"
                   IsReadOnly="True"
                   SelectionMode="Single"
                   RowHeight="400"
@@ -46,11 +48,12 @@
                 </DataGridTemplateColumn>
             </DataGrid.Columns>
         </DataGrid>
+        </hc:ScrollViewer>
+        
         <Grid Row="1" Background="{StaticResource Style2}">
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                 <Button x:Name="ExitButton" Width="100" hc:BorderElement.CornerRadius="10"
-                        Margin="10,0,0,0"
-                        Command="{Binding DeleteResult}"
+                        Margin="10,0,0,0" Command="{Binding DeleteResult}"
                         Background="{StaticResource Style3}" Content="{StaticResource DeleteButton}" />
             </StackPanel>
         </Grid>

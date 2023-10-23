@@ -10,56 +10,44 @@
 
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition />
+            <RowDefinition Height="120"/>
             <RowDefinition Height="80" />
             <RowDefinition />
             <RowDefinition Height="170" />
         </Grid.RowDefinitions>
 
-        <Grid Grid.Row="0">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition />
-                <ColumnDefinition />
-                <ColumnDefinition />
-            </Grid.ColumnDefinitions>
+        <Grid Grid.Row="0" Background="{StaticResource Style1}">
+            <StackPanel Orientation="Horizontal">
+                <Button Background="{StaticResource Style3}" Height="100" Margin="10" Command="{Binding ChangePathImageCommand}">
+                    <StackPanel Orientation="Vertical">
+                        <Image Source="pack://application:,,,/resources/icons/open.png"
+                           RenderOptions.BitmapScalingMode="HighQuality" Width="30" Height="30" Margin="5" />
+                        <TextBlock Text="Открыть&#x0a;изображение" FontSize="17" TextAlignment="Center"/>
+                    </StackPanel>
+                </Button>
 
-            <Button Grid.Column="0"
-                                Background="{StaticResource Style3}" Width="150" Height="50" Click="Button_Click" >
-                <StackPanel Orientation="Horizontal">
-                    <Image Source="pack://application:,,,/resources/icons/graph.png"
-                                       RenderOptions.BitmapScalingMode="HighQuality" Width="15" Height="15" Margin="0,0,5,0" />
-                    <TextBlock Text="Рассчитать" FontSize="15" />
-                </StackPanel>
-            </Button>
+                <Button Background="{StaticResource Style3}" Height="100" Margin="10" Command="{Binding ScanImage}">
+                    <StackPanel Orientation="Vertical">
+                        <Image Source="pack://application:,,,/resources/icons/scanning.png"
+                           RenderOptions.BitmapScalingMode="HighQuality" Width="30" Height="30" Margin="5" />
+                        <TextBlock Text="Сканировать&#x0a;изображение" FontSize="17" TextAlignment="Center"/>
+                    </StackPanel>
+                </Button>
 
-            <Button Grid.Column="1"
-                                Background="{StaticResource Style3}" Width="150" Height="50" Click="Button_Click" >
-                <StackPanel Orientation="Horizontal">
-                    <Image Source="pack://application:,,,/resources/icons/graph.png"
-                                       RenderOptions.BitmapScalingMode="HighQuality" Width="15" Height="15" Margin="0,0,5,0" />
-                    <TextBlock Text="Рассчитать" FontSize="15" />
-                </StackPanel>
-            </Button>
-
-            <Button Grid.Column="2"
-                                Background="{StaticResource Style3}" Width="150" Height="50" Click="Button_Click" >
-                <StackPanel Orientation="Horizontal">
-                    <Image Source="pack://application:,,,/resources/icons/graph.png"
-                                       RenderOptions.BitmapScalingMode="HighQuality" Width="15" Height="15" Margin="0,0,5,0" />
-                    <TextBlock Text="Рассчитать" FontSize="15" />
-                </StackPanel>
-            </Button>
+                <Button Background="{StaticResource Style3}" Height="100" Margin="10" Command="{Binding CreateFile}">
+                    <StackPanel Orientation="Vertical">
+                        <Image Source="pack://application:,,,/resources/icons/save.png"
+                           RenderOptions.BitmapScalingMode="HighQuality" Width="30" Height="30" Margin="5" />
+                        <TextBlock Text="Экспортировать&#x0a;результат" FontSize="17" TextAlignment="Center"/>
+                    </StackPanel>
+                </Button>
+            </StackPanel>
         </Grid>
-        
-        
-        <Grid Grid.Row="1" Background="{StaticResource Style2}">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition />
-                <ColumnDefinition />
-            </Grid.ColumnDefinitions>
 
-            <hc:ComboBox hc:InfoElement.Title="Вид фальсификата для поиска"
-                            Grid.Column="0" FontSize="17"
+        <Grid Grid.Row="1" Background="{StaticResource Style2}">
+            <StackPanel Orientation="Horizontal">
+                <hc:ComboBox hc:InfoElement.Title="Вид фальсификата для поиска"
+                            FontSize="17"
                             Text="Любой"
                             ShowClearButton="True"
                             ItemsSource="{Binding Counterfeits}"
@@ -69,7 +57,21 @@
                             Background="{StaticResource Style3}"
                             Margin="10 5" />
 
-            <hc:NumericUpDown ValueFormat="N2" Grid.Column="1" 
+                <hc:ComboBox hc:InfoElement.Title="Алгоритм поиска фальсификата"
+                            FontSize="17"
+                            ItemsSource="{Binding Algorithms}"
+                            hc:InfoElement.TitlePlacement="Top"
+                            SelectedItem="{Binding SelectedCounterfeit}"
+                            DisplayMemberPath="Name"
+                            Background="{StaticResource Style3}"
+                            Margin="10 5" />
+
+                <Button Background="{StaticResource Style3}" Command="{Binding ShowAlgInfo}"
+                    ToolTip="Справка о программе" Height="35" Margin="0,40,0,0" VerticalAlignment="Top">
+                    <Image Height="20" Source="pack://application:,,,/resources/icons/info.png" />
+                </Button>
+
+                <hc:NumericUpDown ValueFormat="N2"
                   FontSize="17" Height="70" Width="180"
                   Minimum="0.01" Maximum="100" Value="{Binding PercentOfSimilarity}" Increment="0.01"
                   hc:InfoElement.TitleWidth="140" 
@@ -78,6 +80,7 @@
                   HorizontalAlignment="Left" Margin="10 5"
                   Style="{StaticResource NumericUpDownExtend}"
                   Background="{StaticResource Style3}" />
+            </StackPanel>
         </Grid>
 
         <Grid Grid.Row="2" Background="{StaticResource Style2}">
@@ -111,5 +114,6 @@
             Text="{Binding SearchResult, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
             Background="{StaticResource Style3}" HorizontalAlignment="Stretch" />
         </Grid>
+
     </Grid>
 </UserControl>

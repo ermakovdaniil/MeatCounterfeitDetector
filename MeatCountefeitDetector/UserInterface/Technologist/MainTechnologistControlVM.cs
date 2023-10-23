@@ -25,11 +25,6 @@ public class MainTechnologistControlVM : ViewModelBase
     #endregion
 
 
-    #region Properties
-
-    #endregion
-
-
     #region Commands
 
     private RelayCommand _changeUser;

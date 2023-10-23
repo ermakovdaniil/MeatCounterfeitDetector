@@ -12,24 +12,6 @@
 
     <UserControl.Resources>
         <Menu x:Key="Menu" Background="{Binding NonClientAreaBackground,RelativeSource={RelativeSource FindAncestor,AncestorType=Window}}" Grid.ColumnSpan="3">
-            <MenuItem Height="40" ToolTip="Открыть изображение" Command="{Binding ChangePathImageCommand}">
-                <MenuItem.Icon>
-                    <Image Height="20" Source="pack://application:,,,/resources/icons/open.png" />
-                </MenuItem.Icon>
-            </MenuItem>
-
-            <MenuItem ToolTip="Сканировать изображениие" Command="{Binding ScanImage}">
-                <MenuItem.Icon>
-                    <Image Height="20" Source="pack://application:,,,/resources/icons/scanning.png" />
-                </MenuItem.Icon>
-            </MenuItem>
-
-            <MenuItem ToolTip="Экспортировать результат" Command="{Binding CreateFile}">
-                <MenuItem.Icon>
-                    <Image Height="20" Source="pack://application:,,,/resources/icons/save.png" />
-                </MenuItem.Icon>
-            </MenuItem>
-
             <MenuItem ToolTip="Сменить учётную запись" Command="{Binding ChangeUser}">
                 <MenuItem.Icon>
                     <Image Height="20" Source="pack://application:,,,/resources/icons/user.png" />

@@ -8,6 +8,8 @@
                 <ResourceDictionary Source="pack://application:,,,/HandyControl;component/Themes/Theme.xaml" />
             </ResourceDictionary.MergedDictionaries>
 
+            <!--#region Database Buttons-->
+            
             <StackPanel x:Shared="False" x:Key="CancelButton" Orientation="Horizontal">
                 <Image Source="pack://application:,,,/resources/icons/cancel.png"
                        RenderOptions.BitmapScalingMode="HighQuality" Width="8" Height="8" Margin="0,2,5,0" />
@@ -46,6 +48,8 @@
                        Margin="0,1,5,0" />
                 <TextBlock Text="Удалить" />
             </StackPanel>
+            
+            <!--#endregion-->
 
             <StackPanel x:Shared="False" x:Key="EnterButton" Orientation="Horizontal">
                 <Image Source="pack://application:,,,/resources/icons/enter.png"
@@ -54,11 +58,37 @@
                 <TextBlock Text="Войти" />
             </StackPanel>
 
+            <!--#region Analysis Buttons-->
+
+            <StackPanel x:Shared="False" x:Key="OpenImageButton" Orientation="Vertical" Height="100" >
+                <Image Source="pack://application:,,,/resources/icons/open.png"
+                           RenderOptions.BitmapScalingMode="HighQuality" Width="30" Height="30" Margin="5" />
+                <TextBlock Text="Открыть&#x0a;изображение" FontSize="17" TextAlignment="Center"/>
+            </StackPanel>
+
+            <StackPanel x:Shared="False" x:Key="ScanButton" Orientation="Vertical">
+                <Image Source="pack://application:,,,/resources/icons/scanning.png"
+                           RenderOptions.BitmapScalingMode="HighQuality" Width="30" Height="30" Margin="5" />
+                <TextBlock Text="Сканировать&#x0a;изображение" FontSize="17" TextAlignment="Center"/>
+            </StackPanel>
+
+            <StackPanel x:Shared="False" x:Key="ExportAnalysisResultToPdfButton" Orientation="Vertical">
+                <Image Source="pack://application:,,,/resources/icons/save.png"
+                           RenderOptions.BitmapScalingMode="HighQuality" Width="30" Height="30" Margin="5" />
+                <TextBlock Text="Экспортировать&#x0a;результат" FontSize="17" TextAlignment="Center"/>
+            </StackPanel>
+
+            <!--#endregion-->
+
+            <!--#region Backgrounds-->
+            
             <SolidColorBrush x:Key="Style1" Color="#c0ced7" />
             <SolidColorBrush x:Key="Style2" Color="#e1e5ea" />
             <SolidColorBrush x:Key="Style3" Color="#faf3f3" />
             <SolidColorBrush x:Key="Style4" Color="#a1adb5" />
 
+            <!--#endregion-->
+            
             <DataTemplate x:Key="expanderHeader">
                 <TextBlock Text="{Binding}"
                            FontSize="16"
