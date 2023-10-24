@@ -68,7 +68,7 @@
 
                 <Button Background="{StaticResource Style3}" Command="{Binding ShowAlgInfo}"
                     ToolTip="Справка о программе" Height="35" Margin="0,40,0,0" VerticalAlignment="Top">
-                    <Image Height="20" Source="pack://application:,,,/resources/icons/info.png" />
+                    <Image Height="20" Source="pack://application:,,,/resources/icons/info.png" RenderOptions.BitmapScalingMode="HighQuality" />
                 </Button>
 
                 <hc:NumericUpDown ValueFormat="N2"

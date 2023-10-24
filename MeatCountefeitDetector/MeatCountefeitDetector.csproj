@@ -15,6 +15,7 @@
     </ItemGroup>
 
     <ItemGroup>
+        <None Remove="resources\icons\admin.png" />
         <None Remove="resources\icons\cancel.png" />
         <None Remove="resources\icons\delete.png" />
         <None Remove="resources\icons\editing.png" />
@@ -31,6 +32,8 @@
         <None Remove="resources\icons\plus.png" />
         <None Remove="resources\icons\save.png" />
         <None Remove="resources\icons\scanning.png" />
+        <None Remove="resources\icons\technologist.png" />
+        <None Remove="resources\icons\transfer.png" />
         <None Remove="resources\icons\upload.png" />
         <None Remove="resources\icons\user.png" />
         <None Remove="resources\origImages\orig.jpg" />
@@ -58,6 +61,9 @@
     </ItemGroup>
 
     <ItemGroup>
+        <Resource Include="resources\icons\admin.png">
+          <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+        </Resource>
         <Resource Include="resources\icons\cancel.png">
             <CopyToOutputDirectory>Never</CopyToOutputDirectory>
         </Resource>
@@ -100,6 +106,12 @@
         <Resource Include="resources\icons\scanning.png">
             <CopyToOutputDirectory>Never</CopyToOutputDirectory>
         </Resource>
+        <Resource Include="resources\icons\technologist.png">
+          <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+        </Resource>
+        <Resource Include="resources\icons\transfer.png">
+          <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+        </Resource>
         <Resource Include="resources\icons\user.png">
             <CopyToOutputDirectory>Never</CopyToOutputDirectory>
         </Resource>
@@ -124,6 +136,12 @@
     <ItemGroup>
       <Folder Include="resources\origImages\" />
       <Folder Include="resources\resImages\" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Page Update="UserInterface\UserInterfaceSelectControl.xaml">
+        <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+      </Page>
     </ItemGroup>
 
 </Project>

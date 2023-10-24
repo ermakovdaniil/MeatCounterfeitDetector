@@ -12,7 +12,6 @@ namespace MeatCounterfeitDetector.Utils.AuthService
     {
         private readonly AuthClient _authClient;
 
-        //todo L МАЛЕНЬКАЯ!!!!!
         private LoginResponse _loginResponse;
 
         public AuthService(AuthClient authClient)

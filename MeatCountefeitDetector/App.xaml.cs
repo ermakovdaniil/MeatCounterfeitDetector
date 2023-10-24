@@ -129,6 +129,7 @@ public partial class App : Application
         VmLocator.Container = Container;
         VmLocator.Register<MainWindow, MainWindowVM>();
         VmLocator.Register<LoginControl, LoginControlVM>();
+        VmLocator.Register<UserInterfaceSelectControl, UserInterfaceSelectControlVM>();
 
         VmLocator.Register<MainTechnologistControl, MainTechnologistControlVM>();
         VmLocator.Register<AnalysisControl, AnalysisControlVM>();

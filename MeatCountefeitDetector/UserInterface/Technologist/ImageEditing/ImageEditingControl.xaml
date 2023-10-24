@@ -233,19 +233,26 @@
                 </hc:ScrollViewer>
 
                 <StackPanel Grid.Row="2" Orientation="Horizontal">
-                    <Button Background="{StaticResource Style3}" Height="100" Margin="10" Command="{Binding ChangePathImageCommand}">
+                    <Button Background="{StaticResource Style3}" Height="150" Margin="10" Command="{Binding ChangePathImageCommand}">
                         <StackPanel Orientation="Vertical">
                             <Image Source="pack://application:,,,/resources/icons/open.png"
                            RenderOptions.BitmapScalingMode="HighQuality" Width="30" Height="30" Margin="5" />
-                            <TextBlock Text="Использовать изображение&#x0a;для анализа" FontSize="16" TextAlignment="Center"/>
+                            <TextBlock Text="Открыть&#x0a;изображение&#x0a;" FontSize="17" TextAlignment="Center"/>
                         </StackPanel>
                     </Button>
 
-                    <Button Background="{StaticResource Style3}" Height="100" Margin="10" Command="{Binding ChangePathImageCommand}">
+                    <Button Background="{StaticResource Style3}" Height="150" Margin="10" Command="{Binding ChangePathImageCommand}">
                         <StackPanel Orientation="Vertical">
-                            <Image Source="pack://application:,,,/resources/icons/open.png"
+                            <Image Source="pack://application:,,,/resources/icons/transfer.png" RenderOptions.BitmapScalingMode="HighQuality" Width="30" Height="30" Margin="5" />
+                            <TextBlock Text="Использовать&#x0a;изображение&#x0a;для анализа" FontSize="17" TextAlignment="Center"/>
+                        </StackPanel>
+                    </Button>
+
+                    <Button Background="{StaticResource Style3}" Height="150" Margin="10" Command="{Binding ChangePathImageCommand}">
+                        <StackPanel Orientation="Vertical">
+                            <Image Source="pack://application:,,,/resources/icons/save.png"
                            RenderOptions.BitmapScalingMode="HighQuality" Width="30" Height="30" Margin="5" />
-                            <TextBlock Text="Сохранить&#x0a;изображение" FontSize="16" TextAlignment="Center"/>
+                            <TextBlock Text="Сохранить&#x0a;изображение&#x0a;" FontSize="17" TextAlignment="Center"/>
                         </StackPanel>
                     </Button>
                 </StackPanel>

@@ -14,19 +14,19 @@
         <Menu x:Key="Menu" Background="{Binding NonClientAreaBackground,RelativeSource={RelativeSource FindAncestor,AncestorType=Window}}" Grid.ColumnSpan="3">
             <MenuItem ToolTip="Сменить учётную запись" Command="{Binding ChangeUser}">
                 <MenuItem.Icon>
-                    <Image Height="20" Source="pack://application:,,,/resources/icons/user.png" />
+                    <Image Height="20" Source="pack://application:,,,/resources/icons/user.png" RenderOptions.BitmapScalingMode="HighQuality"/>
                 </MenuItem.Icon>
             </MenuItem>
 
             <MenuItem ToolTip="Справка о программе" Command="{Binding ShowInfo}">
                 <MenuItem.Icon>
-                    <Image Height="20" Source="pack://application:,,,/resources/icons/info.png" />
+                    <Image Height="20" Source="pack://application:,,,/resources/icons/info.png" RenderOptions.BitmapScalingMode="HighQuality"/>
                 </MenuItem.Icon>
             </MenuItem>
 
             <MenuItem ToolTip="Выход" Command="{Binding Exit}">
                 <MenuItem.Icon>
-                    <Image Height="20" Source="pack://application:,,,/resources/icons/exit.png" />
+                    <Image Height="20" Source="pack://application:,,,/resources/icons/exit.png" RenderOptions.BitmapScalingMode="HighQuality"/>
                 </MenuItem.Icon>
             </MenuItem>
         </Menu>
@@ -41,7 +41,7 @@
                 <analysis:AnalysisControl />
             </TabItem>
 
-            <TabItem Header="Журнала результатов" Background="{StaticResource Style2}">
+            <TabItem Header="Журнал результатов" Background="{StaticResource Style2}">
                 <result:ResultControl />
             </TabItem>
             <TabItem Header="Редактирование изображения" Background="{StaticResource Style2}">

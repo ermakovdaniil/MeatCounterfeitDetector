@@ -1,0 +1,40 @@
+﻿<UserControl x:Class="MeatCounterfeitDetector.UserInterface.UserInterfaceSelectControl"
+             xmlns:hc="https://handyorg.github.io/handycontrol"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:userInterface="clr-namespace:MeatCounterfeitDetector.UserInterface"
+             mc:Ignorable="d"
+             d:DataContext="{d:DesignInstance userInterface:UserInterfaceSelectControlVM}">
+    <Grid Background="{StaticResource Style2}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="40" />
+            <RowDefinition />
+            <RowDefinition Height="40" />
+        </Grid.RowDefinitions>
+
+        <Label Grid.Row="0" FontSize="16" Content="В какой режим войти?" Background="{StaticResource Style2}" BorderThickness="0" Height="40" FontWeight="Bold" />
+
+        <Grid Row="1">
+            <StackPanel Orientation="Horizontal">
+                <Button Background="{StaticResource Style3}" Height="100" Width="150" Margin="10" Command="{Binding EnterAdmin}">
+                    <StackPanel Orientation="Vertical">
+                        <Image Source="pack://application:,,,/resources/icons/admin.png"
+                           RenderOptions.BitmapScalingMode="HighQuality" Width="50" Height="50" Margin="5" />
+                        <TextBlock Text="Администратор" FontSize="17" TextAlignment="Center"/>
+                    </StackPanel>
+                </Button>
+
+                <Button Background="{StaticResource Style3}" Height="100" Width="150" Margin="10" Command="{Binding EnterTechnologist}">
+                    <StackPanel Orientation="Vertical">
+                        <Image Source="pack://application:,,,/resources/icons/technologist.png"
+                           RenderOptions.BitmapScalingMode="HighQuality" Width="50" Height="50" Margin="5" />
+                        <TextBlock Text="Технолог" FontSize="17" TextAlignment="Center"/>
+                    </StackPanel>
+                </Button>
+            </StackPanel>
+
+        </Grid>
+    </Grid>
+</UserControl>

@@ -58,6 +58,20 @@
                 <TextBlock Text="Войти" />
             </StackPanel>
 
+            <StackPanel x:Shared="False" x:Key="EnterAdminButton" Orientation="Horizontal">
+                <Image Source="pack://application:,,,/resources/icons/admin.png"
+                       RenderOptions.BitmapScalingMode="HighQuality" Width="10" Height="10"
+                       Margin="0,2,5,0" />
+                <TextBlock Text="Администратор" />
+            </StackPanel>
+
+            <StackPanel x:Shared="False" x:Key="EnterTechnologistButton" Orientation="Horizontal">
+                <Image Source="pack://application:,,,/resources/icons/technologist.png"
+                       RenderOptions.BitmapScalingMode="HighQuality" Width="10" Height="10"
+                       Margin="0,2,5,0" />
+                <TextBlock Text="Технолог" />
+            </StackPanel>
+
             <!--#region Analysis Buttons-->
 
             <StackPanel x:Shared="False" x:Key="OpenImageButton" Orientation="Vertical" Height="100" >
@@ -91,7 +105,7 @@
             
             <DataTemplate x:Key="expanderHeader">
                 <TextBlock Text="{Binding}"
-                           FontSize="16"
+                           FontSize="17"
                            TextWrapping="Wrap" />
             </DataTemplate>
 
