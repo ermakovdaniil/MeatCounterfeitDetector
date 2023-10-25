@@ -17,8 +17,6 @@ namespace MeatCounterfeitDetector.Utils.UserService
         {
             get
             {
-                return false; // TODO УБРАТЬ
-
                 if (userJwtToken is null)
                 {
                     return false;

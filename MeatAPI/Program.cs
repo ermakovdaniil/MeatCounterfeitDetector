@@ -91,6 +91,6 @@ if (app.Environment.IsDevelopment())
 
 app.UseAuthorization();
 
-app.MapControllers().AllowAnonymous();
+app.MapControllers();
 
 app.Run();
