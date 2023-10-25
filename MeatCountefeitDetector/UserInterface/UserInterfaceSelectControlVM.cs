@@ -30,8 +30,7 @@ public class UserInterfaceSelectControlVM : ViewModelBase
     public UserInterfaceSelectControlVM(UserClient userClient,
                                         NavigationManager navigationManager,
                                         IUserService userService,
-                                        IMessageBoxService messageBoxService,
-                                        IAuthService authService)
+                                        IMessageBoxService messageBoxService)
     {
         _messageBoxService = messageBoxService;
         _userClient = userClient;
@@ -55,76 +54,37 @@ public class UserInterfaceSelectControlVM : ViewModelBase
 
     #region Commands
 
-    private RelayCommand _enterCommand;
+    private RelayCommand _enterAdmin;
 
-    public RelayCommand EnterCommand
+    public RelayCommand EnterAdmin
     {
         get
         {
-            return _enterCommand ??= new RelayCommand(async o =>
+            return _enterAdmin ??= new RelayCommand(_ =>
             {
-                try
+                _navigationManager.Navigate<MainAdminControl>(new WindowParameters
                 {
-                    try
-                    {
-                        await _authService.LoginAsync(new LoginModel { Password = Password, Username = Username });
+                    WindowState = WindowState.Maximized,
+                    Title = " | Панель администратора | ",
+                });
+            });
+        }
+    }
 
-                        var token = _authService.GetToken();
-                        _userService.SetUserByToken(token);
+    private RelayCommand _enterTechnologist;
 
-                        if (_userService.IsAdmin)
-                        {
-                            _navigationManager.Navigate<MainAdminControl>(new WindowParameters
-                            {
-                                WindowState = WindowState.Maximized,
-                                Title = " | Панель администратора | ",
-                            });
-                        }
-                        else
-                        {
-                            _navigationManager.Navigate<MainTechnologistControl>(new WindowParameters
-                            {
-                                WindowState = WindowState.Maximized,
-                                Title = " | Панель технолога | ",
-                            });
-                        }
-                    }
-                    catch (Exception e)
-                    {
-                        //todo как-то обработать, месаг бох например, на разные эксепшены разные кэтчи и разные месаг бохи
-                        Debug.WriteLine(e);
-                    };
-
-
-                    //var userType = _userClient.GetType(User.TypeId);
-
-                    // getUserIdByLoginAndPassword
-                    // getUserTypeById public async Task<ActionResult<GetUserTypeDTO>> Get(Guid id)
-
-                    //if (user.Type.Name == "Администратор")
-                    //{
-                    //    _navigationManager.Navigate<MainAdminControl>(new WindowParameters
-                    //    {
-                    //        WindowState = WindowState.Maximized,
-                    //        Title = " | Панель администратора | ",
-                    //    });
-                    //}
-
-                    //if (user.Type.Name == "Технолог")
-                    //{
-                    //_navigationManager.Navigate<TechnologistControl>(new WindowParameters
-                    //{
-                    //    WindowState = WindowState.Maximized,
-                    //    Title = " | Панель технолога | ",
-                    //});
-                    //}
-                    //_userService.User = user;
-                }
-                catch (Exception ex)
+    public RelayCommand EnterTechnologist
+    {
+        get
+        {
+            return _enterTechnologist ??= new RelayCommand(_ =>
+            {
+                _navigationManager.Navigate<MainTechnologistControl>(new WindowParameters
                 {
-                    _messageBoxService.ShowMessage("Неверное имя пользователя или пароль! Повторите попытку.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
-                }
-            }, _ => !(string.IsNullOrEmpty(Username) || string.IsNullOrEmpty(Password)));
+                    WindowState = WindowState.Maximized,
+                    Title = " | Панель технолога | ",
+                });
+            });
         }
     }
 

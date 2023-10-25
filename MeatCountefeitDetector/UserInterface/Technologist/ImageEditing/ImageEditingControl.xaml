@@ -67,7 +67,7 @@
                                     
                                         <Label Grid.Row="0" Grid.Column="0" FontSize="14"  Content="Яркость" Background="{StaticResource Style3}" VerticalAlignment="Center" HorizontalAlignment="Left" BorderThickness="0" />
 
-                                        <hc:PreviewSlider Grid.Row="0" Grid.Column="1" VerticalAlignment="Center" Value="50" Maximum="100" hc:TipElement.Visibility="Visible" hc:TipElement.Placement="BottomRight" Orientation="Horizontal">
+                                    <hc:PreviewSlider Grid.Row="0" Grid.Column="1" VerticalAlignment="Center" Value="{Binding Brightness, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Maximum="100" hc:TipElement.Visibility="Visible" hc:TipElement.Placement="BottomRight" Orientation="Horizontal">
 
                                         <hc:PreviewSlider.PreviewContent>
                                             <Label Style="{StaticResource LabelPrimary}" Content="{Binding Path=(hc:PreviewSlider.PreviewPosition),RelativeSource={RelativeSource Self}}" ContentStringFormat="#0" />
@@ -128,9 +128,9 @@
                                         <RowDefinition />
                                     </Grid.RowDefinitions>
 
-                                    <hc:CircleProgressBar Grid.Row="0" Value="{Binding Value,ElementName=SliderDemo}" ArcThickness="10" FontSize="30" Margin="16" />
+                                    <hc:CircleProgressBar Grid.Row="0" Value="{Binding Progress}" ArcThickness="10" FontSize="30" Margin="16" Minimum="0" Maximum="100"/>
 
-                                    <Button Grid.Row="1" Background="{StaticResource Style2}" Height="50" Margin="10" Command="{Binding ChangePathImageCommand}">
+                                    <Button Grid.Row="1" Background="{StaticResource Style2}" Height="50" Margin="10" Command="{Binding ChangePathImageCommand}" hc:BorderElement.CornerRadius="10">
                                         <StackPanel Orientation="Horizontal">
                                             <Image Source="pack://application:,,,/resources/icons/cancel.png" RenderOptions.BitmapScalingMode="HighQuality" Width="12" Height="12" Margin="0,0,10,0" />
                                             <TextBlock Text="Удалить блики" FontSize="16" TextAlignment="Center"/>
@@ -233,10 +233,9 @@
                 </hc:ScrollViewer>
 
                 <StackPanel Grid.Row="2" Orientation="Horizontal">
-                    <Button Background="{StaticResource Style3}" Height="150" Margin="10" Command="{Binding ChangePathImageCommand}">
+                    <Button Background="{StaticResource Style3}" Height="150" Margin="10" Command="{Binding ChangePathImageCommand}" >
                         <StackPanel Orientation="Vertical">
-                            <Image Source="pack://application:,,,/resources/icons/open.png"
-                           RenderOptions.BitmapScalingMode="HighQuality" Width="30" Height="30" Margin="5" />
+                            <Image Source="pack://application:,,,/resources/icons/open.png" RenderOptions.BitmapScalingMode="HighQuality" Width="30" Height="30" Margin="5" />
                             <TextBlock Text="Открыть&#x0a;изображение&#x0a;" FontSize="17" TextAlignment="Center"/>
                         </StackPanel>
                     </Button>

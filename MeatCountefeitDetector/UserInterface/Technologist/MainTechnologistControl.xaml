@@ -33,7 +33,7 @@
     </UserControl.Resources>
     
     <Grid>
-        <TabControl x:Name="tabs"
+        <TabControl x:Name="tabs" FontSize="16"
                     Visibility="{Binding TabControlVisibility, UpdateSourceTrigger=PropertyChanged}"
                     Style="{StaticResource TabControlInLine}"
                     Background="{StaticResource Style3}">

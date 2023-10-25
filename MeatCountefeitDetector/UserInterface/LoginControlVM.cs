@@ -79,10 +79,12 @@ public class LoginControlVM : ViewModelBase
 
                         if (_userService.IsAdmin)
                         {
-                            _navigationManager.Navigate<MainAdminControl>(new WindowParameters
+                            _navigationManager.Navigate<UserInterfaceSelectControl>(new WindowParameters
                             {
-                                WindowState = WindowState.Maximized,
-                                Title = " | Панель администратора | ",
+                                Height = 370,
+                                Width = 250,
+                                Title = "Выбор",
+                                StartupLocation = WindowStartupLocation.CenterScreen,
                             });
                         }
                         else

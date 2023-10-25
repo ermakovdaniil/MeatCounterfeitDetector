@@ -30,6 +30,8 @@ using MeatCounterfeitDetector.Utils.AuthService;
 using MeatCounterfeitDetector.UserInterface.Technologist;
 using MeatCounterfeitDetector.UserInterface.Technologist.Analysis;
 using MeatCounterfeitDetector.UserInterface.Technologist.Edit;
+using ImageAnalyzer.ProgressReporter;
+using MeatCountefeitDetector.Utils.EventAggregator;
 
 namespace MeatCounterfeitDetector;
 
@@ -121,6 +123,8 @@ public partial class App : Application
         builder.RegisterType<FileDialogService>().As<IFileDialogService>();
         builder.RegisterType<HandyMessageBoxService>().As<IMessageBoxService>();
         builder.RegisterType<UserService>().As<IUserService>().SingleInstance();
+        builder.RegisterType<EventAggregator>().As<IEventAggregator>().SingleInstance();
+        builder.RegisterType<ProgressReporter>().As<IProgressReporter>().SingleInstance();
 
         builder.RegisterType<AuthService>().As<IAuthService>().SingleInstance();
 

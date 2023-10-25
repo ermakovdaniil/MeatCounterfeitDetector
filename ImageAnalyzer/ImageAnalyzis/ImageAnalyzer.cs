@@ -1,5 +1,6 @@
 ﻿using DataAccess.Models;
 using Emgu.CV;
+using ImageAnalyzer.ProgressReporter;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -12,6 +13,13 @@ public class ImageAnalyzer : IImageAnalyzer
     private string previousPath;
     private double previousPercent = 0;
     private Mat origMat;
+
+    private readonly IProgressReporter _progressReporter;
+
+    public ImageAnalyzer(IProgressReporter progressReporter)
+    {
+        _progressReporter = progressReporter;
+    }
 
     public Result RunAnalysis(string pathToOrig, List<CounterfeitPath> counterfeitPaths, double percentOfSimilarity, User user)
     {
@@ -51,6 +59,8 @@ public class ImageAnalyzer : IImageAnalyzer
                 matchTime += tempTime;
                 anRes = "Фальсификат не обнаружен";
             }
+
+            _progressReporter.ReportProgress(i / counterfeitPaths.Count);
         }
         matchTime = Math.Round(matchTime, 2);
         var res = CreateResult(pathToOrig, resPath, anRes, user, matchTime, score);

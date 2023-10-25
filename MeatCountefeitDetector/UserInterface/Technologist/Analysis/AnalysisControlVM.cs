@@ -22,6 +22,9 @@ using MeatCounterfeitDetector.Utils.MessageBoxService;
 using MeatCounterfeitDetector.Utils.UserService;
 using ClientAPI.DTO.ResultPath;
 using MeatCounterfeitDetector.UserInterface;
+using ImageAnalyzer.ProgressReporter;
+using MeatCountefeitDetector.Utils.EventAggregator;
+using MeatCountefeitDetector.Utils;
 
 namespace MeatCounterfeitDetector.UserInterface.Technologist.Analysis;
 
@@ -35,7 +38,8 @@ public class AnalysisControlVM : ViewModelBase
     private readonly ResultClient _resultClient;
     private readonly NavigationManager _navigationManager;
     private readonly IUserService _userService;
-
+    private readonly IProgressReporter _progressReporter;
+    private readonly IEventAggregator _eventAggregator;
 
     #region Functions
 
@@ -46,7 +50,9 @@ public class AnalysisControlVM : ViewModelBase
                                  IImageAnalyzer analyzer,
                                  IFileDialogService dialogService,
                                  IMessageBoxService messageBoxService,
-                                 IUserService userService)
+                                 IUserService userService,
+                                 IProgressReporter progressReporter,
+                                 IEventAggregator eventAggregator)
     {
         _counterfeitClient = counterfeitClient;
         _counterfeitPathClient = counterfeitPathClient;
@@ -56,10 +62,20 @@ public class AnalysisControlVM : ViewModelBase
         _dialogService = dialogService;
         _messageBoxService = messageBoxService;
         _userService = userService;
+        _progressReporter = progressReporter;
+        _eventAggregator = eventAggregator;
+        _eventAggregator.Subscribe<DataEvent>(OnDataReceived);
         Task.Run(async () =>
         {
             Counterfeits = (await _counterfeitClient.CounterfeitGetAsync()).ToList();
         });
+
+    }
+
+    private void OnDataReceived(DataEvent eventData)
+    {
+        // Update your WPF element here using the received data
+        // ...
     }
 
     private string CreateSearchResult(Result AnalysisResult)
@@ -84,6 +100,7 @@ public class AnalysisControlVM : ViewModelBase
     public string ResultImagePath { get; set; }
     public string SearchResult { get; set; }
     public Result AnalysisResult { get; set; }
+    public int Progress { get; set; }
 
     #endregion
 

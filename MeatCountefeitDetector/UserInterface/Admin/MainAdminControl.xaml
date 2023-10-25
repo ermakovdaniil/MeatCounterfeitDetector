@@ -32,17 +32,17 @@
         </Menu>
     </UserControl.Resources>
     <Grid>
-        <TabControl x:Name="tabs"
+        <TabControl x:Name="tabs" FontSize="16"
                     Visibility="{Binding TabControlVisibility, UpdateSourceTrigger=PropertyChanged}"
                     Style="{StaticResource TabControlInLine}"
                     Background="{StaticResource Style3}">
-            <TabItem Header="Типы Фальсифкатов" Background="{StaticResource Style2}">
+            <TabItem Header="Типы фальсифкатов" Background="{StaticResource Style2}">
                 <counterfeit:CounterfeitExplorerControl />
             </TabItem>
             <TabItem Header="Изображения фальсифкатов" Background="{StaticResource Style2}">
                 <gallery:GalleryControl />
             </TabItem>
-            <TabItem Header="Журнала результатов" Background="{StaticResource Style2}">
+            <TabItem Header="Журнал результатов" Background="{StaticResource Style2}">
                 <result:ResultControl />
             </TabItem>
             <TabItem Header="Пользователи" Background="{StaticResource Style2}">
