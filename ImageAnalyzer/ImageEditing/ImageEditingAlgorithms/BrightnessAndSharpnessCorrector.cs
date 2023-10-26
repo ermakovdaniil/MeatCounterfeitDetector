@@ -35,7 +35,7 @@ namespace ImageWorker.ImageEditing.ImageEditingAlgorithms
 
             Image<Bgr, byte> outputImage;
 
-            outputImage = inputImage.Mul(contrast) + brightness;
+            outputImage = inputImage.Mul((double)contrast/20) + brightness;
 
             return outputImage.ToBitmapSource();
         }

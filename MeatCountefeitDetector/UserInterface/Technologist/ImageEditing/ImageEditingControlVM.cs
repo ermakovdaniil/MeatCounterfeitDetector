@@ -48,6 +48,7 @@ public class ImageEditingControlVM : ViewModelBase
     public void GetImageData(BitmapSource source)
     {
         Brightness = _editor.GetBrightness(source);
+        Contrast = _editor.GetContrast(source);
         originalBrightness = _editor.GetBrightness(source);
     }
 
