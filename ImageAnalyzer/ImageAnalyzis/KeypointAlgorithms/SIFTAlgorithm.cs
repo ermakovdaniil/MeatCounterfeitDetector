@@ -11,7 +11,7 @@ using System.Drawing;
 using System.Linq;
 
 
-namespace ImageAnalyzis
+namespace ImageAnalyzer.ImageAnalyzis.KeypointAlgorithms
 {
     public static class SIFTAlgorithm
     {
@@ -52,7 +52,7 @@ namespace ImageAnalyzis
                         };
                         pts = CvInvoke.PerspectiveTransform(pts, homography);
 
-                        Point[] points = Array.ConvertAll<PointF, Point>(pts, Point.Round);
+                        Point[] points = Array.ConvertAll(pts, Point.Round);
                         using (VectorOfPoint vp = new VectorOfPoint(points))
                         {
                             CvInvoke.Polylines(result, vp, true, new MCvScalar(255, 0, 0, 255), 0, LineType.EightConnected, 0);
@@ -78,17 +78,17 @@ namespace ImageAnalyzis
                 }
             }
 
-            List<double> scores = new List<double>();  
+            List<double> scores = new List<double>();
 
             double goodMatches = CountHowManyPairsExist(mask);
 
-            var temp = (double)mask.GetData().Length - goodMatches;
+            var temp = mask.GetData().Length - goodMatches;
             double fisrtScore = goodMatches / temp;
 
             scores.Add(fisrtScore);
 
             double secondScore = goodMatches / distMatches;
-            if(goodMatches == distMatches)
+            if (goodMatches == distMatches)
             {
                 secondScore = goodMatches / (distMatches + 3);
             }
@@ -109,8 +109,8 @@ namespace ImageAnalyzis
             scores.Add(thirdScore);
 
             Mat scoreImg = new Mat();
-            double minVal = Double.MaxValue;
-            double fourthScore = Double.MinValue;
+            double minVal = double.MaxValue;
+            double fourthScore = double.MinValue;
             var minLoc = new Point();
             var maxLoc = new Point();
             CvInvoke.MatchTemplate(modelImage, observedImage, scoreImg, TemplateMatchingType.CcoeffNormed);

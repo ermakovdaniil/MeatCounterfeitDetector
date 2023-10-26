@@ -25,6 +25,8 @@ using MeatCounterfeitDetector.UserInterface;
 using ImageAnalyzer.ProgressReporter;
 using MeatCountefeitDetector.Utils.EventAggregator;
 using MeatCountefeitDetector.Utils;
+using System.Windows.Media.Imaging;
+using MeatCountefeitDetector.Utils.BitmapService;
 
 namespace MeatCounterfeitDetector.UserInterface.Technologist.Analysis;
 
@@ -40,6 +42,9 @@ public class AnalysisControlVM : ViewModelBase
     private readonly IUserService _userService;
     private readonly IProgressReporter _progressReporter;
     private readonly IEventAggregator _eventAggregator;
+    private readonly IBitmapService _bitmapService;
+
+    public enum Algorithms { SIFT = 0, ORB, AKAZE, RANSAC, SURF, BRISK, MSER }
 
     #region Functions
 
@@ -52,7 +57,8 @@ public class AnalysisControlVM : ViewModelBase
                                  IMessageBoxService messageBoxService,
                                  IUserService userService,
                                  IProgressReporter progressReporter,
-                                 IEventAggregator eventAggregator)
+                                 IEventAggregator eventAggregator,
+                                 IBitmapService bitmapService)
     {
         _counterfeitClient = counterfeitClient;
         _counterfeitPathClient = counterfeitPathClient;
@@ -64,6 +70,7 @@ public class AnalysisControlVM : ViewModelBase
         _userService = userService;
         _progressReporter = progressReporter;
         _eventAggregator = eventAggregator;
+        _bitmapService = bitmapService;
         _eventAggregator.Subscribe<DataEvent>(OnDataReceived);
         Task.Run(async () =>
         {
@@ -74,8 +81,7 @@ public class AnalysisControlVM : ViewModelBase
 
     private void OnDataReceived(DataEvent eventData)
     {
-        // Update your WPF element here using the received data
-        // ...
+        DisplayedImage = _bitmapService.ConvertMatToBitmapSource(eventData.Data);
     }
 
     private string CreateSearchResult(Result AnalysisResult)
@@ -95,8 +101,13 @@ public class AnalysisControlVM : ViewModelBase
 
     public List<GetCounterfeitDTO> Counterfeits { get; set; }
     public Counterfeit SelectedCounterfeit { get; set; }
+    public Algorithms SelectedAlgorithm { get; set; } = Algorithms.SIFT;
+    public List<Algorithms> EnumAlgorithms
+    {
+        get { return Enum.GetValues(typeof(Algorithms)).Cast<Algorithms>().ToList(); }
+    }
     public double PercentOfSimilarity { get; set; }
-    public string DisplayedImagePath { get; set; }
+    public BitmapSource DisplayedImage { get; set; }
     public string ResultImagePath { get; set; }
     public string SearchResult { get; set; }
     public Result AnalysisResult { get; set; }
@@ -119,7 +130,7 @@ public class AnalysisControlVM : ViewModelBase
 
                 if (path != "")
                 {
-                    DisplayedImagePath = path;
+                    DisplayedImage = _bitmapService.LoadBitmap(path);
                     ResultImagePath = "";
                 }
             });
@@ -134,7 +145,7 @@ public class AnalysisControlVM : ViewModelBase
         {
             return _scanImage ??= new RelayCommand(async _ =>
             {
-                if (DisplayedImagePath is null)
+                if (DisplayedImage is null)
                 {
                     _messageBoxService.ShowMessage("Недостаточно данных для произведения анализа", "Ошибка!", MessageBoxButton.OK, MessageBoxImage.Error);
                 }

@@ -9,36 +9,36 @@
         <Grid Grid.Column="0" Background="{StaticResource Style2}">
 
             <Grid.RowDefinitions>
-                <RowDefinition Height="0.07*" />
+                <RowDefinition Height="0.045*" />
                 <RowDefinition />
             </Grid.RowDefinitions>
 
-            <CheckBox Grid.Row="0" Margin="10" VerticalAlignment="Bottom">
+            <CheckBox Grid.Row="0" IsChecked="{Binding CompareIsChecked, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="10" VerticalAlignment="Bottom">
                 <TextBlock Text="Режим сравнения" FontSize="16" />
             </CheckBox>
 
-            <Border Grid.Row="1" BorderThickness="1" Margin="10" BorderBrush="#FF000000" Background="{StaticResource Style3}">
-                <Image Source="{Binding ResultImagePath, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Stretch="Fill" />
-            </Border>
-
-            <Border Grid.Row="1" BorderThickness="1" Margin="10" BorderBrush="#FF000000" Background="{StaticResource Style3}">
-                <!--<Image Source="{Binding DisplayedImagePath, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Stretch="Fill"/>-->
+            <Border Grid.Row="1" BorderThickness="1" Margin="10" BorderBrush="{StaticResource Style4}" Background="{StaticResource Style3}" 
+                    Visibility="{Binding CompareVisibility, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
                 <hc:CompareSlider Value="5">
                     <hc:CompareSlider.TargetContent>
                         <Border>
                             <Border.Background>
-                                <ImageBrush ImageSource="{Binding DisplayedImagePath, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Stretch="Fill" />
+                                <ImageBrush ImageSource="{Binding OriginalImagePath, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Stretch="Fill" />
                             </Border.Background>
                         </Border>
                     </hc:CompareSlider.TargetContent>
                     <hc:CompareSlider.SourceContent>
                         <Border>
                             <Border.Background>
-                                <ImageBrush ImageSource="{Binding DisplayedImagePath, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Stretch="Fill" />
+                                <ImageBrush ImageSource="{Binding ResultImage, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Stretch="Fill" />
                             </Border.Background>
                         </Border>
                     </hc:CompareSlider.SourceContent>
                 </hc:CompareSlider>
+            </Border>
+
+            <Border Grid.Row="1" BorderThickness="1" Margin="10" BorderBrush="{StaticResource Style4}" Background="{StaticResource Style3}">
+                <Image Source="{Binding ResultImage, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Stretch="Fill"/>
             </Border>
         </Grid>
 
@@ -67,8 +67,8 @@
                                     
                                         <Label Grid.Row="0" Grid.Column="0" FontSize="14"  Content="Яркость" Background="{StaticResource Style3}" VerticalAlignment="Center" HorizontalAlignment="Left" BorderThickness="0" />
 
-                                    <hc:PreviewSlider Grid.Row="0" Grid.Column="1" VerticalAlignment="Center" Value="{Binding Brightness, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Maximum="100" hc:TipElement.Visibility="Visible" hc:TipElement.Placement="BottomRight" Orientation="Horizontal">
-
+                                    <hc:PreviewSlider Grid.Row="0" Grid.Column="1" VerticalAlignment="Center" Value="{Binding Brightness, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Maximum="100" 
+                                                      hc:TipElement.Visibility="Visible" hc:TipElement.Placement="BottomRight" Orientation="Horizontal" ValueChanged="{Binding BrightnessChangedCommand}">
                                         <hc:PreviewSlider.PreviewContent>
                                             <Label Style="{StaticResource LabelPrimary}" Content="{Binding Path=(hc:PreviewSlider.PreviewPosition),RelativeSource={RelativeSource Self}}" ContentStringFormat="#0" />
                                         </hc:PreviewSlider.PreviewContent>
@@ -247,7 +247,7 @@
                         </StackPanel>
                     </Button>
 
-                    <Button Background="{StaticResource Style3}" Height="150" Margin="10" Command="{Binding ChangePathImageCommand}">
+                    <Button Background="{StaticResource Style3}" Height="150" Margin="10" Command="{Binding CreateFile}">
                         <StackPanel Orientation="Vertical">
                             <Image Source="pack://application:,,,/resources/icons/save.png"
                            RenderOptions.BitmapScalingMode="HighQuality" Width="30" Height="30" Margin="5" />

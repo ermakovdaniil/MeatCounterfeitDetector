@@ -59,10 +59,10 @@
 
                 <hc:ComboBox hc:InfoElement.Title="Алгоритм поиска фальсификата"
                             FontSize="17"
-                            ItemsSource="{Binding Algorithms}"
+                            
+                            ItemsSource="{Binding EnumAlgorithms}"
                             hc:InfoElement.TitlePlacement="Top"
-                            SelectedItem="{Binding SelectedCounterfeit}"
-                            DisplayMemberPath="Name"
+                            SelectedItem="{Binding SelectedAlgorithm}"
                             Background="{StaticResource Style3}"
                             Margin="10 5" />
 
@@ -89,14 +89,11 @@
                 <ColumnDefinition />
             </Grid.ColumnDefinitions>
 
-            <Border Grid.Column="0" BorderThickness="1" Margin="10" BorderBrush="{StaticResource Style4}"
-        Background="{StaticResource Style3}">
-                <Image Source="{Binding DisplayedImagePath, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Stretch="Fill"/>
+            <Border Grid.Column="0" BorderThickness="1" Margin="10" BorderBrush="{StaticResource Style4}" Background="{StaticResource Style3}">
+                <Image Source="{Binding DisplayedImage, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Stretch="Fill"/>
             </Border>
 
-            <Border Grid.Column="1" BorderThickness="1" Margin="10" BorderBrush="{StaticResource Style4}"
-        Background="{StaticResource Style3}">
-                
+            <Border Grid.Column="1" BorderThickness="1" Margin="10" BorderBrush="{StaticResource Style4}" Background="{StaticResource Style3}">
                 <Image Source="{Binding ResultImagePath, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Stretch="Fill"/>
             </Border>
         </Grid>

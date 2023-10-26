@@ -17,6 +17,9 @@ using MeatCounterfeitDetector.Utils.AuthService;
 using ClientAPI.DTO.Login;
 using System.Diagnostics;
 using System.IdentityModel.Tokens.Jwt;
+using Microsoft.IdentityModel.Tokens;
+using System.Net.Http;
+using System.Net;
 
 namespace MeatCounterfeitDetector.UserInterface;
 
@@ -81,8 +84,8 @@ public class LoginControlVM : ViewModelBase
                         {
                             _navigationManager.Navigate<UserInterfaceSelectControl>(new WindowParameters
                             {
-                                Height = 370,
-                                Width = 250,
+                                Height = 180,
+                                Width = 300,
                                 Title = "Выбор",
                                 StartupLocation = WindowStartupLocation.CenterScreen,
                             });
@@ -96,36 +99,26 @@ public class LoginControlVM : ViewModelBase
                             });
                         }
                     }
-                    catch (Exception e)
+                    catch (SecurityTokenException ex)
                     {
-                        //todo как-то обработать, месаг бох например, на разные эксепшены разные кэтчи и разные месаг бохи
-                        Debug.WriteLine(e);
+                        _messageBoxService.ShowMessage("Токен пользователя неверен.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                    }
+                    catch (WebException ex)
+                    {
+                        _messageBoxService.ShowMessage("Ошибка подключения. Проверьте соединение.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                    }
+                    catch (InvalidOperationException ex)
+                    {
+                        _messageBoxService.ShowMessage("Произошла непредвиденная ошибка.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                    }
+                    catch (HttpRequestException ex)
+                    {
+                        _messageBoxService.ShowMessage("Нет интернет подключения. Проверьте соединение.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                    }
+                    catch (DbUpdateException ex)
+                    {
+                        _messageBoxService.ShowMessage("Запись не найдена в базе данных.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
                     };
-
-
-                    //var userType = _userClient.GetType(User.TypeId);
-
-                    // getUserIdByLoginAndPassword
-                    // getUserTypeById public async Task<ActionResult<GetUserTypeDTO>> Get(Guid id)
-
-                    //if (user.Type.Name == "Администратор")
-                    //{
-                    //    _navigationManager.Navigate<MainAdminControl>(new WindowParameters
-                    //    {
-                    //        WindowState = WindowState.Maximized,
-                    //        Title = " | Панель администратора | ",
-                    //    });
-                    //}
-
-                    //if (user.Type.Name == "Технолог")
-                    //{
-                    //_navigationManager.Navigate<TechnologistControl>(new WindowParameters
-                    //{
-                    //    WindowState = WindowState.Maximized,
-                    //    Title = " | Панель технолога | ",
-                    //});
-                    //}
-                    //_userService.User = user;
                 }
                 catch (Exception ex)
                 {

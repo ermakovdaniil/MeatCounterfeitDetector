@@ -42,6 +42,8 @@
     <ItemGroup>
         <PackageReference Include="Autofac" Version="7.1.0" />
         <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="8.0.0" />
+        <PackageReference Include="Emgu.CV.Bitmap" Version="4.8.0.5324" />
+        <PackageReference Include="Emgu.CV.Wpf" Version="4.8.0.5324" />
         <PackageReference Include="HandyControl" Version="3.4.0" />
         <PackageReference Include="HandyControls.Lang.ru" Version="3.4.5" />
         <PackageReference Include="itext7" Version="8.0.1" />

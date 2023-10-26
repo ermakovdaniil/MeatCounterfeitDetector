@@ -1,5 +1,6 @@
 ﻿using DataAccess.Models;
 using Emgu.CV;
+using ImageAnalyzer.ImageAnalyzis.KeypointAlgorithms;
 using ImageAnalyzer.ProgressReporter;
 using System;
 using System.Collections.Generic;
@@ -64,6 +65,7 @@ public class ImageAnalyzer : IImageAnalyzer
         }
         matchTime = Math.Round(matchTime, 2);
         var res = CreateResult(pathToOrig, resPath, anRes, user, matchTime, score);
+        _progressReporter.ReportProgress(100);
         return res;
     }
 
