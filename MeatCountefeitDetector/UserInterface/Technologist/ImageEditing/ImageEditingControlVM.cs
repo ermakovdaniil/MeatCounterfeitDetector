@@ -76,23 +76,26 @@ public class ImageEditingControlVM : ViewModelBase
         {
             if (value == _brightness) return;
             _brightness = value;
-            if(OrigianlImage is not null)
-            {
-                ResultImage = _editor.AdjustBrightnessAndContrast(OrigianlImage, Contrast, Brightness);
-            }
-            else
-            {
-                _messageBoxService.ShowMessage("Нет изображения для редактирования.", "Ошибка!", MessageBoxButton.OK, MessageBoxImage.Error);
-            }
+            AdjustBrightnessAndContrast.Execute(null);
+            OnPropertyChanged();
+        }
+    }
+    
+    private int _contrast;
+    public int Contrast
+    {
+        get => _contrast;
+        set
+        {
+            if (value == _contrast) return;
+            _contrast = value;
+            AdjustBrightnessAndContrast.Execute(null);
             OnPropertyChanged();
         }
     }
 
-    public int Contrast { get; set; }
 
-
-
-    public BitmapSource OrigianlImage { get; set; }
+    public BitmapSource OriginalImage { get; set; }
     public BitmapSource ResultImage { get; set; }
     public string OriginalImagePath { get; set; }
 
@@ -121,6 +124,25 @@ public class ImageEditingControlVM : ViewModelBase
 
     #region Commands
     
+    private RelayCommand _adjustBrightnessAndContrast;
+    public RelayCommand AdjustBrightnessAndContrast
+    {
+        get
+        {
+            return _adjustBrightnessAndContrast ??= new RelayCommand(_ =>
+            {
+                if(OriginalImage is not null)
+                {
+                    ResultImage = _editor.AdjustBrightnessAndContrast(OriginalImage, Contrast, Brightness);
+                }
+                else
+                {
+                    _messageBoxService.ShowMessage("Нет изображения для редактирования.", "Ошибка!", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+            });
+        }
+    }
+    
     private RelayCommand _changePathImage;
     public RelayCommand ChangePathImageCommand
     {
@@ -133,7 +155,7 @@ public class ImageEditingControlVM : ViewModelBase
                 if (path != "")
                 {
                     OriginalImagePath = path;
-                    OrigianlImage = _bitmapService.LoadBitmapSource(path);
+                    OriginalImage = _bitmapService.LoadBitmapSource(path);
                     ResultImage = _bitmapService.LoadBitmapSource(path);
 
                     GetImageData(ResultImage);
