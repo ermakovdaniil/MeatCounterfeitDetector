@@ -1,4 +1,4 @@
-﻿namespace ImageAnalyzer.ProgressReporter
+﻿namespace ImageWorker.ProgressReporter
 {
     public interface IProgressReporter
     {

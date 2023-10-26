@@ -3,7 +3,6 @@ using Emgu.CV.CvEnum;
 using Emgu.CV.Features2D;
 using Emgu.CV.Structure;
 using Emgu.CV.Util;
-using Numpy;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -11,7 +10,7 @@ using System.Drawing;
 using System.Linq;
 
 
-namespace ImageAnalyzer.ImageAnalyzis.KeypointAlgorithms
+namespace ImageWorker.ImageAnalyzis.KeypointAlgorithms
 {
     public static class SIFTAlgorithm
     {

@@ -1,6 +1,6 @@
 ﻿using System.Windows;
 
-namespace ImageAnalyzer
+namespace ImageWorker
 {
     public partial class App : Application
     {

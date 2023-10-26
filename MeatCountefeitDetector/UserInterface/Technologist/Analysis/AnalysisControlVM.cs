@@ -1,7 +1,4 @@
-﻿using DataAccess.Data;
-using DataAccess.Models;
-using ImageAnalyzis;
-using Microsoft.EntityFrameworkCore;
+﻿using DataAccess.Models;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -15,18 +12,16 @@ using ClientAPI.DTO.Result;
 using Mapster;
 using MeatCounterfeitDetector.UserInterface.Admin.Abstract;
 using MeatCounterfeitDetector.Utils;
-using MeatCounterfeitDetector.Utils.Dialog;
 using MeatCounterfeitDetector.Utils.IOService;
 using MeatCounterfeitDetector.Utils.MainWindowControlChanger;
 using MeatCounterfeitDetector.Utils.MessageBoxService;
 using MeatCounterfeitDetector.Utils.UserService;
-using ClientAPI.DTO.ResultPath;
-using MeatCounterfeitDetector.UserInterface;
-using ImageAnalyzer.ProgressReporter;
+using ImageWorker.ProgressReporter;
 using MeatCountefeitDetector.Utils.EventAggregator;
 using MeatCountefeitDetector.Utils;
 using System.Windows.Media.Imaging;
-using MeatCountefeitDetector.Utils.BitmapService;
+using ImageWorker.BitmapService;
+using ImageWorker.ImageAnalyzis;
 
 namespace MeatCounterfeitDetector.UserInterface.Technologist.Analysis;
 
@@ -81,7 +76,7 @@ public class AnalysisControlVM : ViewModelBase
 
     private void OnDataReceived(DataEvent eventData)
     {
-        DisplayedImage = _bitmapService.ConvertMatToBitmapSource(eventData.Data);
+        DisplayedImage = eventData.ImageBitmapSource;
     }
 
     private string CreateSearchResult(Result AnalysisResult)
@@ -130,7 +125,7 @@ public class AnalysisControlVM : ViewModelBase
 
                 if (path != "")
                 {
-                    DisplayedImage = _bitmapService.LoadBitmap(path);
+                    DisplayedImage = _bitmapService.LoadBitmapSource(path);
                     ResultImagePath = "";
                 }
             });

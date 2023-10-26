@@ -43,6 +43,7 @@
         <PackageReference Include="Autofac" Version="7.1.0" />
         <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="8.0.0" />
         <PackageReference Include="Emgu.CV.Bitmap" Version="4.8.0.5324" />
+        <PackageReference Include="Emgu.CV.runtime.windows" Version="4.8.0.5324" />
         <PackageReference Include="Emgu.CV.Wpf" Version="4.8.0.5324" />
         <PackageReference Include="HandyControl" Version="3.4.0" />
         <PackageReference Include="HandyControls.Lang.ru" Version="3.4.5" />
@@ -58,6 +59,8 @@
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
         <PackageReference Include="Microsoft.Extensions.Http" Version="7.0.0" />
+        <PackageReference Include="Microsoft.Xaml.Behaviors.Wpf" Version="1.1.75" />
+        <PackageReference Include="Prism.Wpf" Version="8.1.97" />
         <PackageReference Include="PropertyChanged.Fody" Version="4.1.0" />
         <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.21.0" />
     </ItemGroup>
@@ -123,7 +126,7 @@
     <ItemGroup>
         <ProjectReference Include="..\ClientAPI\ClientAPI.csproj" />
         <ProjectReference Include="..\DataAccess\DataAccess.csproj" />
-        <ProjectReference Include="..\ImageAnalyzer\ImageAnalyzer.csproj" />
+        <ProjectReference Include="..\ImageAnalyzer\ImageWorker.csproj" />
     </ItemGroup>
 
     <ItemGroup>

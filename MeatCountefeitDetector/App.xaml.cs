@@ -1,7 +1,5 @@
-﻿using System.Configuration;
-using Autofac;
+﻿using Autofac;
 using DataAccess.Data;
-using ImageAnalyzis;
 using System.Globalization;
 using System.Net.Http;
 using System.Net.Http.Headers;
@@ -22,17 +20,16 @@ using MeatCounterfeitDetector.Utils.IOService;
 using MeatCounterfeitDetector.Utils.MainWindowControlChanger;
 using MeatCounterfeitDetector.Utils.MessageBoxService;
 using MeatCounterfeitDetector.Utils.UserService;
-using Microsoft.AspNetCore.Http.Internal;
 using Microsoft.Extensions.DependencyInjection;
 using FrameworkElementFactory = MeatCounterfeitDetector.Utils.FrameworkFactory.FrameworkElementFactory;
-using Microsoft.Extensions.Configuration;
 using MeatCounterfeitDetector.Utils.AuthService;
-using MeatCounterfeitDetector.UserInterface.Technologist;
 using MeatCounterfeitDetector.UserInterface.Technologist.Analysis;
 using MeatCounterfeitDetector.UserInterface.Technologist.Edit;
-using ImageAnalyzer.ProgressReporter;
 using MeatCountefeitDetector.Utils.EventAggregator;
-using MeatCountefeitDetector.Utils.BitmapService;
+using ImageWorker.ProgressReporter;
+using ImageWorker.BitmapService;
+using ImageWorker.ImageEditing;
+using ImageWorker.ImageAnalyzis;
 
 namespace MeatCounterfeitDetector;
 
@@ -120,7 +117,8 @@ public partial class App : Application
         builder.RegisterType<NavigationManager>().AsSelf().SingleInstance();
         builder.RegisterType<UserControlFactory>().AsSelf();
         builder.RegisterType<DialogService>().AsSelf();
-        builder.RegisterType<ImageAnalyzis.ImageAnalyzer>().As<IImageAnalyzer>();
+        builder.RegisterType<ImageAnalyzer>().As<IImageAnalyzer>();
+        builder.RegisterType<ImageEditor>().As<IImageEditor>();
         builder.RegisterType<FileDialogService>().As<IFileDialogService>();
         builder.RegisterType<BitmapService>().As<IBitmapService>();
         builder.RegisterType<HandyMessageBoxService>().As<IMessageBoxService>();

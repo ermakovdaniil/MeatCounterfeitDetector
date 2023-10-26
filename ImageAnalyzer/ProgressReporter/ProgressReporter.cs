@@ -1,5 +1,4 @@
-﻿
-namespace ImageAnalyzer.ProgressReporter
+﻿namespace ImageWorker.ProgressReporter
 {
     public class ProgressReporter : IProgressReporter
     {

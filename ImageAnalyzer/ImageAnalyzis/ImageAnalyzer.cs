@@ -1,12 +1,12 @@
 ﻿using DataAccess.Models;
 using Emgu.CV;
-using ImageAnalyzer.ImageAnalyzis.KeypointAlgorithms;
-using ImageAnalyzer.ProgressReporter;
+using ImageWorker.ProgressReporter;
+using ImageWorker.ImageAnalyzis.KeypointAlgorithms;
 using System;
 using System.Collections.Generic;
 using System.IO;
 
-namespace ImageAnalyzis;
+namespace ImageWorker.ImageAnalyzis;
 
 public class ImageAnalyzer : IImageAnalyzer
 {

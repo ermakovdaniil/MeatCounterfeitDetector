@@ -1,26 +1,22 @@
-﻿using ImageAnalyzis;
-using System;
+﻿using System;
 using System.Windows;
 using MeatCounterfeitDetector.UserInterface.Admin.Abstract;
 using MeatCounterfeitDetector.Utils;
 using MeatCounterfeitDetector.Utils.IOService;
 using MeatCounterfeitDetector.Utils.MessageBoxService;
-using ImageAnalyzer.ProgressReporter;
+using ImageWorker.ProgressReporter;
 using MeatCountefeitDetector.Utils.EventAggregator;
-using Emgu.CV;
 using MeatCountefeitDetector.Utils;
-using ImageAnalyzer.ImageAnalyzis.KeypointAlgorithms;
 using System.IO;
 using System.Windows.Media.Imaging;
-using Emgu.CV.Reg;
-using MeatCountefeitDetector.Utils.BitmapService;
-using Microsoft.EntityFrameworkCore.Diagnostics;
+using ImageWorker.BitmapService;
+using ImageWorker.ImageEditing;
 
 namespace MeatCounterfeitDetector.UserInterface.Technologist.Edit;
 
 public class ImageEditingControlVM : ViewModelBase
 {
-    private readonly IImageAnalyzer _analyzer;
+    private readonly IImageEditor _editor;
     private readonly IFileDialogService _dialogService;
     private readonly IMessageBoxService _messageBoxService;
     private readonly IProgressReporter _progressReporter;
@@ -29,14 +25,14 @@ public class ImageEditingControlVM : ViewModelBase
 
     #region Functions
 
-    public ImageEditingControlVM(IImageAnalyzer analyzer,
+    public ImageEditingControlVM(IImageEditor editor,
                                  IFileDialogService dialogService,
                                  IMessageBoxService messageBoxService,
                                  IProgressReporter progressReporter,
                                  IEventAggregator eventAggregator,
                                  IBitmapService bitmapService)
     {
-        _analyzer = analyzer;
+        _editor = editor;
         _dialogService = dialogService;
         _messageBoxService = messageBoxService;
         _progressReporter = progressReporter;
@@ -44,13 +40,21 @@ public class ImageEditingControlVM : ViewModelBase
         _bitmapService = bitmapService;
     }
 
-
-
-
     public void PublishData()
     {
-        var data = ResultImageMat;
-        _eventAggregator.Publish(new DataEvent(data));
+        _eventAggregator.Publish(new DataEvent(ResultImage));
+    }
+
+    private void SaveBitmapSourceAsImage(BitmapSource bitmapSource, string filePath)
+    {
+        BitmapEncoder encoder = new JpegBitmapEncoder();
+
+        encoder.Frames.Add(BitmapFrame.Create(bitmapSource));
+
+        using (FileStream fileStream = new FileStream(filePath, FileMode.Create))
+        {
+            encoder.Save(fileStream);
+        }
     }
 
     #endregion
@@ -60,7 +64,6 @@ public class ImageEditingControlVM : ViewModelBase
 
     public int Brightness { get; set; } = 50;
     public int Progress { get; set; }
-    private Mat ResultImageMat { get; set; }
     public BitmapSource ResultImage { get; set; }
     public string OriginalImagePath { get; set; }
 
@@ -78,7 +81,7 @@ public class ImageEditingControlVM : ViewModelBase
             }
         }
     }
-    public Visibility CompareVisibility { get; set; }
+    public Visibility CompareVisibility { get; set; } = Visibility.Hidden;
 
 
     #endregion
@@ -99,7 +102,7 @@ public class ImageEditingControlVM : ViewModelBase
                 {
                     OriginalImagePath = path;
 
-                    ResultImage = _bitmapService.LoadBitmap(path);
+                    ResultImage = _bitmapService.LoadBitmapSource(path);
                 }
             });
         }
@@ -112,7 +115,7 @@ public class ImageEditingControlVM : ViewModelBase
         {
             return _brightnessChangedCommand ??= new RelayCommand(_ =>
             {
-                ResultImage = _bitmapService.ConvertMatToBitmapSource(ResultImageMat);
+                ResultImage = _editor.ChangeBrightness(ResultImage, Brightness);
             });
         }
     }
@@ -125,6 +128,10 @@ public class ImageEditingControlVM : ViewModelBase
         {
             return _transferImage ??= new RelayCommand(_ =>
             {
+                if(ResultImage is null)
+                {
+                    ResultImage = _bitmapService.LoadBitmapSource(OriginalImagePath);
+                }
                 PublishData();
             });
         }
@@ -147,7 +154,7 @@ public class ImageEditingControlVM : ViewModelBase
                     var filePath = _dialogService.SaveFileDialog(filter: "Pictures (*.jpg;*.jpeg;*.gif;*.png)|*.jpg;*.gif;*.png", ext: ".jpg");
                     if (!string.IsNullOrEmpty(filePath))
                     {
-                        CvInvoke.Imwrite(filePath, ResultImageMat);
+                        SaveBitmapSourceAsImage(ResultImage, filePath);
                     }
                 }
             });

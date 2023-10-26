@@ -1,14 +1,15 @@
 ﻿using Emgu.CV;
+using System.Windows.Media.Imaging;
 
 namespace MeatCountefeitDetector.Utils
 {
     public class DataEvent
     {
-        public Mat Data { get; }
+        public BitmapSource ImageBitmapSource { get; }
 
-        public DataEvent(Mat data)
+        public DataEvent(BitmapSource imageBitmapSource)
         {
-            Data = data;
+            ImageBitmapSource = imageBitmapSource;
         }
     }
 }

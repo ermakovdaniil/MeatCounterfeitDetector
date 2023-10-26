@@ -15,10 +15,5 @@ public partial class ImageEditingControl : UserControl
         _viewModel = (ImageEditingControlVM?)VmLocator.Resolve<ImageEditingControl>();
         DataContext = _viewModel;
     }
-
-    private void CheckBox_Checked(object sender, System.Windows.RoutedEventArgs e)
-    {
-
-    }
 }
 

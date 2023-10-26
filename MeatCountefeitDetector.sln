@@ -7,7 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MeatCountefeitDetector", "M
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataAccess", "DataAccess\DataAccess.csproj", "{8CDF6689-6DC7-4E4C-9759-4786E427EDB5}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ImageAnalyzer", "ImageAnalyzer\ImageAnalyzer.csproj", "{6FBA09F9-2652-49D9-91A6-1A53ED14A20A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ImageWorker", "ImageAnalyzer\ImageWorker.csproj", "{6FBA09F9-2652-49D9-91A6-1A53ED14A20A}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MeatAPI", "MeatAPI\MeatAPI.csproj", "{F15373C5-28E6-4EFF-BECD-34A6A8C4A33B}"
 	ProjectSection(ProjectDependencies) = postProject
@@ -21,7 +21,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		docker-compose.yml = docker-compose.yml
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Migrator", "Migrator\Migrator.csproj", "{9F696610-AA01-4301-B204-DCD8606AC415}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Migrator", "Migrator\Migrator.csproj", "{9F696610-AA01-4301-B204-DCD8606AC415}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

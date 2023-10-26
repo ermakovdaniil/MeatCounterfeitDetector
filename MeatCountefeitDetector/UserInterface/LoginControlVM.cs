@@ -84,8 +84,8 @@ public class LoginControlVM : ViewModelBase
                         {
                             _navigationManager.Navigate<UserInterfaceSelectControl>(new WindowParameters
                             {
-                                Height = 180,
-                                Width = 300,
+                                Height = 260,
+                                Width = 430,
                                 Title = "Выбор",
                                 StartupLocation = WindowStartupLocation.CenterScreen,
                             });
