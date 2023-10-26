@@ -13,61 +13,76 @@ namespace ImageWorker.ImageEditing.ImageEditingAlgorithms
     {
         //https://github.com/halanch599/EmguCV4.4/blob/master/EmgucvDemo/formBrightnessContrast.cs
 
-        //public BitmapSource AdjustBrightnessAndContrast(BitmapSource source, int originalBrightness, int brightness, int contrast)
+        // lblCurrentContrast.Text = ((float) trackBar1.Value / 100).ToString();
+        // imgOutput =   ImgInput.Mul(double.Parse(lblCurrentContrast.Text)) + trackBar2.Value;
+        // pictureBox1.Image = imgOutput.AsBitmap();
+        // public Image<Bgr, byte> ImgInput { get; set; }
+        // Image<Bgr, byte> imgOutput;
+
+        // public Image<Bgr, byte> ImgInput { get; set; }
+        // Image<Bgr, byte> imgOutput;
+        // contrast
+        // imgOutput = ImgInput.Mul(contrast) + brightness;
+        // pictureBox1.Image = imgOutput.AsBitmap();
+
+
+
+        public BitmapSource AdjustBrightnessAndContrast(BitmapSource source, int brightness, int contrast)
+        {
+            var bitmapService = new BitmapService.BitmapService();
+            Mat inputImageMat = bitmapService.BitmapSourceToMat(source);
+            Image<Bgr, byte> inputImage = inputImageMat.ToImage<Bgr, byte>();
+
+            Image<Bgr, byte> outputImage;
+
+            outputImage = inputImage.Mul(contrast) + brightness;
+
+            return outputImage.ToBitmapSource();
+        }
+
+        //public BitmapSource AdjustBrightnessAndContrast(BitmapSource source, int targetBrightness, int targetContrast)
         //{
         //    var bitmapService = new BitmapService.BitmapService();
-        //    Mat inputImageMat = bitmapService.BitmapSourceToMat(source);
+        //    Mat inputImage = bitmapService.BitmapSourceToMat(source);
 
 
 
-        //    BitmapSource outputImage = adjustedImageMat.ToBitmapSource();
+        //    // Calculate adjustment factors for brightness and contrast
+        //    int currentBrightness = GetBrightness(source);
+        //    int currentContrast = GetContrast(source);
+
+        //    double brightnessFactor = targetBrightness / currentBrightness;
+        //    double contrastFactor = targetContrast / currentContrast;
+
+        //    // Apply brightness and contrast adjustments
+        //    Mat adjustedImage = new Mat();
+        //    CvInvoke.AddWeighted(inputImage, contrastFactor, inputImage, 0, 0, adjustedImage);
+        //    CvInvoke.Add(adjustedImage, new UMat(inputImage.Size, DepthType.Cv8U, 3), adjustedImage, new UMat(inputImage.Size, DepthType.Cv8U, 3), (DepthType)brightnessFactor);
+
+
+        //    BitmapSource outputImage = adjustedImage.ToBitmapSource();
 
         //    return outputImage;
         //}
 
-        public BitmapSource AdjustBrightnessAndContrast(BitmapSource source, int targetBrightness, int targetContrast)
-        {
-            var bitmapService = new BitmapService.BitmapService();
-            Mat inputImage = bitmapService.BitmapSourceToMat(source);
+        //// Calculate brightness of the image
+        //private double CalculateBrightness(Mat image)
+        //{
+        //    Image<Gray, float> grayImage = image.ToImage<Gray, float>();
+        //    MCvScalar mean = CvInvoke.Mean(grayImage);
+        //    return mean.V0;
+        //}
 
-
-
-            // Calculate adjustment factors for brightness and contrast
-            int currentBrightness = GetBrightness(source);
-            int currentContrast = GetContrast(source);
-
-            double brightnessFactor = targetBrightness / currentBrightness;
-            double contrastFactor = targetContrast / currentContrast;
-
-            // Apply brightness and contrast adjustments
-            Mat adjustedImage = new Mat();
-            CvInvoke.AddWeighted(inputImage, contrastFactor, inputImage, 0, 0, adjustedImage);
-            CvInvoke.Add(adjustedImage, new UMat(inputImage.Size, DepthType.Cv8U, 3), adjustedImage, new UMat(inputImage.Size, DepthType.Cv8U, 3), (DepthType)brightnessFactor);
-
-
-            BitmapSource outputImage = adjustedImage.ToBitmapSource();
-
-            return outputImage;
-        }
-
-        // Calculate brightness of the image
-        private double CalculateBrightness(Mat image)
-        {
-            Image<Gray, float> grayImage = image.ToImage<Gray, float>();
-            MCvScalar mean = CvInvoke.Mean(grayImage);
-            return mean.V0;
-        }
-
-        // Calculate contrast of the image
-        private double CalculateContrast(Mat image)
-        {
-            Image<Gray, float> grayImage = image.ToImage<Gray, float>();
-            grayImage = grayImage.Pow(2);
-            MCvScalar meanSquare = CvInvoke.Mean(grayImage);
-            MCvScalar mean = CvInvoke.Mean(grayImage);
-            double contrast = Math.Sqrt(meanSquare.V0 - Math.Pow(mean.V0, 2));
-            return contrast;
-        }
+        //// Calculate contrast of the image
+        //private double CalculateContrast(Mat image)
+        //{
+        //    Image<Gray, float> grayImage = image.ToImage<Gray, float>();
+        //    grayImage = grayImage.Pow(2);
+        //    MCvScalar meanSquare = CvInvoke.Mean(grayImage);
+        //    MCvScalar mean = CvInvoke.Mean(grayImage);
+        //    double contrast = Math.Sqrt(meanSquare.V0 - Math.Pow(mean.V0, 2));
+        //    return contrast;
+        //}
 
         public int GetBrightness(BitmapSource source)
         {

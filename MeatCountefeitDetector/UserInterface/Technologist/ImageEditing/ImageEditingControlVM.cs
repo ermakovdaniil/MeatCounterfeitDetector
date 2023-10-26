@@ -110,7 +110,15 @@ public class ImageEditingControlVM : ViewModelBase
         {
             return _brightnessChangedCommand ??= new RelayCommand(_ =>
             {
-                ResultImage = _editor.AdjustBrightnessAndContrast(OrigianlImage, Contrast, Brightness);
+                if(OrigianlImage is not null)
+                {
+                    ResultImage = _editor.AdjustBrightnessAndContrast(OrigianlImage, Contrast, Brightness);
+                }
+                else
+                {
+                    _messageBoxService.ShowMessage("Нет изображения для редактирования.", "Ошибка!", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+
             });
         }
     }

@@ -5,9 +5,9 @@ namespace ImageWorker.ImageEditing
 {
     public class ImageEditor : IImageEditor
     {
-        public BitmapSource AdjustBrightnessAndContrast(BitmapSource source, int targetBrightness, int targetContrast)
+        public BitmapSource AdjustBrightnessAndContrast(BitmapSource source, int brightness, int contrast)
         {
-            return new BrightnessAndContrastCorrector().AdjustBrightnessAndContrast(source, targetBrightness, targetContrast);
+            return new BrightnessAndContrastCorrector().AdjustBrightnessAndContrast(source, brightness, contrast);
         }
 
         public int GetBrightness(BitmapSource source)
