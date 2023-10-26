@@ -96,11 +96,17 @@
 
                                     <Label Grid.Row="1" Grid.Column="0" FontSize="14" Content="Контрастность" Background="{StaticResource Style3}" VerticalAlignment="Center" HorizontalAlignment="Left" BorderThickness="0" />
 
-                                    <hc:PreviewSlider Grid.Row="1" Grid.Column="1" VerticalAlignment="Center" Value="50" Maximum="100" hc:TipElement.Visibility="Visible" hc:TipElement.Placement="BottomRight" Orientation="Horizontal">
-
+                                    <hc:PreviewSlider Grid.Row="1" Grid.Column="1" VerticalAlignment="Center" Value="{Binding Contrast, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Maximum="100" 
+                                                      hc:TipElement.Visibility="Visible" hc:TipElement.Placement="BottomRight" Orientation="Horizontal" >
                                         <hc:PreviewSlider.PreviewContent>
                                             <Label Style="{StaticResource LabelPrimary}" Content="{Binding Path=(hc:PreviewSlider.PreviewPosition),RelativeSource={RelativeSource Self}}" ContentStringFormat="#0" />
                                         </hc:PreviewSlider.PreviewContent>
+
+                                        <i:Interaction.Triggers>
+                                            <i:EventTrigger EventName="ValueChanged">
+                                                <prism:InvokeCommandAction Command="{Binding BrightnessChangedCommand}" CommandParameter="{Binding Contrast}" />
+                                            </i:EventTrigger>
+                                        </i:Interaction.Triggers>
                                     </hc:PreviewSlider>
                                 </Grid>
                             </hc:ElementGroup>

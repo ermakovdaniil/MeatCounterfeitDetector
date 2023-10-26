@@ -45,11 +45,17 @@ public class ImageEditingControlVM : ViewModelBase
         _eventAggregator.Publish(new DataEvent(ResultImage));
     }
 
-    private void SaveBitmapSourceAsImage(BitmapSource bitmapSource, string filePath)
+    public void GetImageData(BitmapSource source)
+    {
+        Brightness = _editor.GetBrightness(source);
+        originalBrightness = _editor.GetBrightness(source);
+    }
+
+    private void SaveBitmapSourceAsImage(BitmapSource source, string filePath)
     {
         BitmapEncoder encoder = new JpegBitmapEncoder();
 
-        encoder.Frames.Add(BitmapFrame.Create(bitmapSource));
+        encoder.Frames.Add(BitmapFrame.Create(source));
 
         using (FileStream fileStream = new FileStream(filePath, FileMode.Create))
         {
@@ -62,10 +68,16 @@ public class ImageEditingControlVM : ViewModelBase
 
     #region Properties
 
-    public int Brightness { get; set; } = 50;
-    public int Progress { get; set; }
+    public int Brightness { get; set; }
+    public int Contrast { get; set; }
+
+
+
+    public BitmapSource OrigianlImage { get; set; }
     public BitmapSource ResultImage { get; set; }
     public string OriginalImagePath { get; set; }
+
+    public int Progress { get; set; }
 
 
     private bool _compareIsChecked;
@@ -83,11 +95,37 @@ public class ImageEditingControlVM : ViewModelBase
     }
     public Visibility CompareVisibility { get; set; } = Visibility.Hidden;
 
+    private int originalBrightness { get; set; }
 
     #endregion
 
 
     #region Commands
+
+
+    private RelayCommand _brightnessChangedCommand;
+    public RelayCommand BrightnessChangedCommand
+    {
+        get
+        {
+            return _brightnessChangedCommand ??= new RelayCommand(_ =>
+            {
+                ResultImage = _editor.AdjustBrightnessAndContrast(OrigianlImage, Contrast, Brightness);
+            });
+        }
+    }
+
+    //private RelayCommand _contrastChangedCommand;
+    //public RelayCommand ContrastChangedCommand
+    //{
+    //    get
+    //    {
+    //        return _contrastChangedCommand ??= new RelayCommand(_ =>
+    //        {
+    //            ResultImage = _editor.AdjustContrast(OrigianlImage, originalBrightness, Brightness);
+    //        });
+    //    }
+    //}
 
     private RelayCommand _changePathImage;
     public RelayCommand ChangePathImageCommand
@@ -101,25 +139,14 @@ public class ImageEditingControlVM : ViewModelBase
                 if (path != "")
                 {
                     OriginalImagePath = path;
-
+                    OrigianlImage = _bitmapService.LoadBitmapSource(path);
                     ResultImage = _bitmapService.LoadBitmapSource(path);
+
+                    GetImageData(ResultImage);
                 }
             });
         }
     }
-
-    private RelayCommand _brightnessChangedCommand;
-    public RelayCommand BrightnessChangedCommand
-    {
-        get
-        {
-            return _brightnessChangedCommand ??= new RelayCommand(_ =>
-            {
-                ResultImage = _editor.ChangeBrightness(ResultImage, Brightness);
-            });
-        }
-    }
-
 
     private RelayCommand _transferImage;
     public RelayCommand TransferImage
@@ -128,7 +155,7 @@ public class ImageEditingControlVM : ViewModelBase
         {
             return _transferImage ??= new RelayCommand(_ =>
             {
-                if(ResultImage is null)
+                if (ResultImage is null)
                 {
                     ResultImage = _bitmapService.LoadBitmapSource(OriginalImagePath);
                 }

@@ -24,20 +24,20 @@ namespace ImageWorker.BitmapService
             return mat.ToBitmapSource();
         }
 
-        public Mat BitmapSourceToMat(BitmapSource bitmapSource)
+        public Mat BitmapSourceToMat(BitmapSource source)
         {
-            Bitmap bitmap = BitmapSourceToBitmap(bitmapSource);
+            Bitmap bitmap = BitmapSourceToBitmap(source);
             Image<Bgr, Byte> image = bitmap.ToImage<Bgr, byte>();
             Mat mat = image.Mat;
             return mat;
         }
 
-        private Bitmap BitmapSourceToBitmap(BitmapSource bitmapSource)
+        public Bitmap BitmapSourceToBitmap(BitmapSource source)
         {
             using (MemoryStream outStream = new MemoryStream())
             {
                 BitmapEncoder encoder = new BmpBitmapEncoder();
-                encoder.Frames.Add(BitmapFrame.Create(bitmapSource));
+                encoder.Frames.Add(BitmapFrame.Create(source));
                 encoder.Save(outStream);
                 Bitmap bitmap = new Bitmap(outStream);
                 return new Bitmap(bitmap);

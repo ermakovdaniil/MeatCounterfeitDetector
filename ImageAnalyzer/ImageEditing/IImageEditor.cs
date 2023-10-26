@@ -6,5 +6,7 @@ namespace ImageWorker.ImageEditing;
 
 public interface IImageEditor
 {
-    public BitmapSource ChangeBrightness(BitmapSource imageBitmapSource, double brightness);
+    public BitmapSource AdjustBrightnessAndContrast(BitmapSource source, int targetBrightness, int targetContrast);
+
+    public int GetBrightness(BitmapSource source);
 }
