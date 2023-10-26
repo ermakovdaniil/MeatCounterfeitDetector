@@ -67,6 +67,8 @@
                                     
                                         <Label Grid.Row="0" Grid.Column="0" FontSize="14"  Content="Яркость" Background="{StaticResource Style3}" VerticalAlignment="Center" HorizontalAlignment="Left" BorderThickness="0" />
 
+                                    <!--https://stackoverflow.com/questions/25138695/how-to-handle-the-slider-valuechanged-event-in-a-view-model-->
+                                    
                                     <hc:PreviewSlider Grid.Row="0" Grid.Column="1" VerticalAlignment="Center" Value="{Binding Brightness, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Maximum="100" 
                                                       hc:TipElement.Visibility="Visible" hc:TipElement.Placement="BottomRight" Orientation="Horizontal" ValueChanged="{Binding BrightnessChangedCommand}">
                                         <hc:PreviewSlider.PreviewContent>
