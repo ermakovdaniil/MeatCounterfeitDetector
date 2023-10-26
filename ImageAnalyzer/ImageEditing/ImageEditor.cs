@@ -14,5 +14,10 @@ namespace ImageWorker.ImageEditing
         {
             return new BrightnessAndContrastCorrector().GetBrightness(source);
         }
+
+        public int GetContrast(BitmapSource source)
+        {
+            return new BrightnessAndContrastCorrector().GetContrast(source);
+        }
     }
 }
