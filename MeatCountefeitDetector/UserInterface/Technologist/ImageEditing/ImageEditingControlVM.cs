@@ -8,6 +8,7 @@ using ImageWorker.ProgressReporter;
 using MeatCountefeitDetector.Utils.EventAggregator;
 using MeatCountefeitDetector.Utils;
 using System.IO;
+using System.Threading.Tasks;
 using System.Windows.Media.Imaging;
 using ImageWorker.BitmapService;
 using ImageWorker.ImageEditing;
@@ -133,7 +134,18 @@ public class ImageEditingControlVM : ViewModelBase
             {
                 if(OriginalImage is not null)
                 {
-                    ResultImage = _editor.AdjustBrightnessAndContrast(OriginalImage, Contrast, Brightness);
+                    var state = new { brightness = _brightness, contrast = _contrast };
+                    Task.Delay(200).ContinueWith(_ =>
+                    {
+                        if (state.brightness!= _brightness || state.contrast!= _contrast)
+                        {
+                            return;
+                        }
+                        Application.Current.Dispatcher.Invoke(async () =>
+                        {
+                            ResultImage = _editor.AdjustBrightnessAndContrast(OriginalImage, Contrast, Brightness);
+                        });
+                    });
                 }
                 else
                 {
