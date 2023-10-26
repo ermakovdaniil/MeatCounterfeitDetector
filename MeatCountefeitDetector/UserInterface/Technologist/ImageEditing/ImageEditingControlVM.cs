@@ -68,7 +68,26 @@ public class ImageEditingControlVM : ViewModelBase
 
     #region Properties
 
-    public int Brightness { get; set; }
+    private int _brightness;
+    public int Brightness
+    {
+        get => _brightness;
+        set
+        {
+            if (value == _brightness) return;
+            _brightness = value;
+            if(OrigianlImage is not null)
+            {
+                ResultImage = _editor.AdjustBrightnessAndContrast(OrigianlImage, Contrast, Brightness);
+            }
+            else
+            {
+                _messageBoxService.ShowMessage("Нет изображения для редактирования.", "Ошибка!", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+            OnPropertyChanged();
+        }
+    }
+
     public int Contrast { get; set; }
 
 
@@ -101,40 +120,7 @@ public class ImageEditingControlVM : ViewModelBase
 
 
     #region Commands
-
-
-    private RelayCommand _brightnessChangedCommand;
-    public RelayCommand BrightnessChangedCommand
-    {
-        get
-        {
-            return _brightnessChangedCommand ??= new RelayCommand(_ =>
-            {
-                if(OrigianlImage is not null)
-                {
-                    ResultImage = _editor.AdjustBrightnessAndContrast(OrigianlImage, Contrast, Brightness);
-                }
-                else
-                {
-                    _messageBoxService.ShowMessage("Нет изображения для редактирования.", "Ошибка!", MessageBoxButton.OK, MessageBoxImage.Error);
-                }
-
-            });
-        }
-    }
-
-    //private RelayCommand _contrastChangedCommand;
-    //public RelayCommand ContrastChangedCommand
-    //{
-    //    get
-    //    {
-    //        return _contrastChangedCommand ??= new RelayCommand(_ =>
-    //        {
-    //            ResultImage = _editor.AdjustContrast(OrigianlImage, originalBrightness, Brightness);
-    //        });
-    //    }
-    //}
-
+    
     private RelayCommand _changePathImage;
     public RelayCommand ChangePathImageCommand
     {
