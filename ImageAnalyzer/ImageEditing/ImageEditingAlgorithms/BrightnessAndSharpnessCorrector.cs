@@ -35,31 +35,62 @@ namespace ImageWorker.ImageEditing.ImageEditingAlgorithms
         public int GetBrightness(BitmapSource source)
         {
             var bitmapService = new BitmapService.BitmapService();
-            var mat = bitmapService.BitmapSourceToMat(source);
-           
-            CvInvoke.CvtColor(mat, mat, ColorConversion.Bgr2Gray);
+            var originalMat = bitmapService.BitmapSourceToMat(source);
 
-            MCvScalar mean = CvInvoke.Mean(mat);
+            Mat grayMat = new Mat();
+            CvInvoke.CvtColor(originalMat, grayMat, ColorConversion.Bgr2Gray);
 
-            double brightness = mean.V0;
+            double averageIntensity = CvInvoke.Sum(grayMat).V0 / (grayMat.Width * grayMat.Height);
 
-            int mappedBrightness = (int)((brightness / 255) * 100);
+            int brightness = (int)(((averageIntensity - 127.5) / 127.5) * 255);
+
+            int mappedBrightness = (int)(((brightness + 255) / 510.0) * 100);
 
             return mappedBrightness;
+
+            //var bitmapService = new BitmapService.BitmapService();
+            //var mat = bitmapService.BitmapSourceToMat(source);
+
+            //CvInvoke.CvtColor(mat, mat, ColorConversion.Bgr2Gray);
+
+            //MCvScalar mean = CvInvoke.Mean(mat);
+
+            //double brightness = mean.V0;
+
+            //int mappedBrightness = (int)((brightness / 510) * 100);
+
+            //return mappedBrightness;
         }
 
         public int GetContrast(BitmapSource source)
         {
             var bitmapService = new BitmapService.BitmapService();
-            var mat = bitmapService.BitmapSourceToMat(source);
+            var originalMat = bitmapService.BitmapSourceToMat(source);
+
+            Mat grayMat = new Mat();
+            CvInvoke.CvtColor(originalMat, grayMat, ColorConversion.Bgr2Gray);
+
+            //double minIntensity = 0;
+            //double maxIntensity = 0;
+            //Point minLoc = new Point();
+            //Point maxLoc = new Point();
+
+            //CvInvoke.MinMaxLoc(grayMat, ref minIntensity, ref maxIntensity, ref minLoc, ref maxLoc);
+
+            //double scaleFactor = 5.0;
+            //double contrast = ((maxIntensity - minIntensity) / (maxIntensity + minIntensity)) * scaleFactor;
+
+            //int mappedContrast = (int)((contrast / 5.0) * 100);
+
+            //return mappedContrast;
 
             MCvScalar stdDev = new MCvScalar();
-            MCvScalar mean = CvInvoke.Mean(mat);
-            CvInvoke.MeanStdDev(mat, ref mean, ref stdDev);
+            MCvScalar mean = CvInvoke.Mean(originalMat);
+            CvInvoke.MeanStdDev(originalMat, ref mean, ref stdDev);
 
             double contrast = stdDev.V0;
 
-            int mappedContrast = MapValue(contrast, 0, 255, 0, 100);
+            int mappedContrast = MapValue(contrast, 0, 510, 0, 100);
 
             return mappedContrast;
         }
