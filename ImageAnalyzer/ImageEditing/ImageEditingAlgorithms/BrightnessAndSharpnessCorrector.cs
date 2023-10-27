@@ -34,32 +34,32 @@ namespace ImageWorker.ImageEditing.ImageEditingAlgorithms
 
         public int GetBrightness(BitmapSource source)
         {
-            var bitmapService = new BitmapService.BitmapService();
-            var originalMat = bitmapService.BitmapSourceToMat(source);
-
-            Mat grayMat = new Mat();
-            CvInvoke.CvtColor(originalMat, grayMat, ColorConversion.Bgr2Gray);
-
-            double averageIntensity = CvInvoke.Sum(grayMat).V0 / (grayMat.Width * grayMat.Height);
-
-            int brightness = (int)(((averageIntensity - 127.5) / 127.5) * 255);
-
-            int mappedBrightness = (int)(((brightness + 255) / 510.0) * 100);
-
-            return mappedBrightness;
-
             //var bitmapService = new BitmapService.BitmapService();
-            //var mat = bitmapService.BitmapSourceToMat(source);
+            //var originalMat = bitmapService.BitmapSourceToMat(source);
 
-            //CvInvoke.CvtColor(mat, mat, ColorConversion.Bgr2Gray);
+            //Mat grayMat = new Mat();
+            //CvInvoke.CvtColor(originalMat, grayMat, ColorConversion.Bgr2Gray);
 
-            //MCvScalar mean = CvInvoke.Mean(mat);
+            //double averageIntensity = CvInvoke.Sum(grayMat).V0 / (grayMat.Width * grayMat.Height);
 
-            //double brightness = mean.V0;
+            //int brightness = (int)(((averageIntensity - 127.5) / 127.5) * 255);
 
-            //int mappedBrightness = (int)((brightness / 510) * 100);
+            //int mappedBrightness = (int)(((brightness + 255) / 510.0) * 100);
 
             //return mappedBrightness;
+
+            var bitmapService = new BitmapService.BitmapService();
+            var mat = bitmapService.BitmapSourceToMat(source);
+
+            CvInvoke.CvtColor(mat, mat, ColorConversion.Bgr2Gray);
+
+            MCvScalar mean = CvInvoke.Mean(mat);
+
+            double brightness = mean.V0;
+
+            int mappedBrightness = (int)((brightness / 510) * 100);
+
+            return mappedBrightness;
         }
 
         public int GetContrast(BitmapSource source)
@@ -70,27 +70,34 @@ namespace ImageWorker.ImageEditing.ImageEditingAlgorithms
             Mat grayMat = new Mat();
             CvInvoke.CvtColor(originalMat, grayMat, ColorConversion.Bgr2Gray);
 
-            //double minIntensity = 0;
-            //double maxIntensity = 0;
-            //Point minLoc = new Point();
-            //Point maxLoc = new Point();
-
-            //CvInvoke.MinMaxLoc(grayMat, ref minIntensity, ref maxIntensity, ref minLoc, ref maxLoc);
-
-            //double scaleFactor = 5.0;
-            //double contrast = ((maxIntensity - minIntensity) / (maxIntensity + minIntensity)) * scaleFactor;
-
-            //int mappedContrast = (int)((contrast / 5.0) * 100);
-
-            //return mappedContrast;
-
             MCvScalar stdDev = new MCvScalar();
             MCvScalar mean = CvInvoke.Mean(originalMat);
             CvInvoke.MeanStdDev(originalMat, ref mean, ref stdDev);
 
             double contrast = stdDev.V0;
 
-            int mappedContrast = MapValue(contrast, 0, 510, 0, 100);
+            int mappedContrast = MapValue(contrast, 0, 5, 0, 100);
+
+            //Mat gradX = new Mat();
+            //Mat gradY = new Mat();
+            //CvInvoke.Sobel(grayMat, gradX, DepthType.Cv32F, 1, 0);
+            //CvInvoke.Sobel(grayMat, gradY, DepthType.Cv32F, 0, 1);
+
+            //Mat absGradX = new Mat();
+            //Mat absGradY = new Mat();
+            //CvInvoke.AbsDiff(gradX, new UMat(gradX.Size, DepthType.Cv32F, 1), absGradX);
+            //CvInvoke.AbsDiff(gradY, new UMat(gradY.Size, DepthType.Cv32F, 1), absGradY);
+
+            //UMat totalGradient = new UMat();
+            //CvInvoke.Add(absGradX, absGradY, totalGradient);
+
+            //double contrast = CvInvoke.Mean(totalGradient).V0;
+
+            //double maxContrast = 500.0;
+
+            //double normalizedContrast = (contrast / maxContrast) * 5.0;
+
+            //double mappedContrast = (normalizedContrast / 5.0) * 100;
 
             return mappedContrast;
         }
