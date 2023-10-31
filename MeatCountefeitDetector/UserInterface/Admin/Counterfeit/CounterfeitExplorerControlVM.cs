@@ -6,7 +6,9 @@ using MeatCounterfeitDetector.UserInterface.Admin.Abstract;
 using MeatCounterfeitDetector.Utils;
 using MeatCounterfeitDetector.Utils.Dialog;
 using MeatCounterfeitDetector.Utils.MessageBoxService;
-
+using ClientAPI;
+using System.Threading.Tasks;
+using ClientAPI.DTO.Counterfeit;
 
 namespace MeatCounterfeitDetector.UserInterface.Admin.Counterfeit;
 
@@ -16,11 +18,19 @@ public class CounterfeitExplorerControlVM : ViewModelBase
 
     #region Constructors
 
-    public CounterfeitExplorerControlVM(CounterfeitKBContext context, DialogService ds, IMessageBoxService messageBoxService)
+    public CounterfeitExplorerControlVM(CounterfeitClient counterfeitClient,
+                                        CounterfeitPathClient counterfeitPathClient, 
+                                        DialogService dialogService, 
+                                        IMessageBoxService messageBoxService)
     {
+        _counterfeitClient = counterfeitClient;
+        _counterfeitPathClient = counterfeitPathClient;
         _messageBoxService = messageBoxService;
-        _context = context;
-        _ds = ds;
+        _dialogService = dialogService;
+        Task.Run(async () =>
+        {
+            Counterfeits = (await _counterfeitClient.CounterfeitGetAsync()).ToList();
+        });
     }
 
     #endregion
@@ -30,12 +40,13 @@ public class CounterfeitExplorerControlVM : ViewModelBase
 
     #region Properties
 
-    private readonly DialogService _ds;
-    private readonly CounterfeitKBContext _context;
+    private readonly DialogService _dialogService;
+    private readonly CounterfeitClient _counterfeitClient;
+    private readonly CounterfeitPathClient _counterfeitPathClient;
     private readonly IMessageBoxService _messageBoxService;
     public DataAccess.Models.Counterfeit SelectedCounterfeit { get; set; }
 
-    public List<DataAccess.Models.Counterfeit> Counterfeits => _context.Counterfeits.ToList();
+    public List<GetCounterfeitDTO> Counterfeits { get; set; }
 
     #endregion
 
@@ -53,7 +64,7 @@ public class CounterfeitExplorerControlVM : ViewModelBase
         {
             return _addCounterfeit ??= new RelayCommand(o =>
             {
-                _ds.ShowDialog<CounterfeitEditControl>(new WindowParameters
+                _dialogService.ShowDialog<CounterfeitEditControl>(new WindowParameters
                 {
                     Height = 180,
                     Width = 300,
@@ -77,7 +88,7 @@ public class CounterfeitExplorerControlVM : ViewModelBase
         {
             return _editCounterfeitObject ??= new RelayCommand(o =>
             {
-                _ds.ShowDialog<CounterfeitEditControl>(new WindowParameters
+                _dialogService.ShowDialog<CounterfeitEditControl>(new WindowParameters
                 {
                     Height = 180,
                     Width = 300,
@@ -99,12 +110,16 @@ public class CounterfeitExplorerControlVM : ViewModelBase
     {
         get
         {
-            return _deleteCounterfeit ??= new RelayCommand(o =>
+            return _deleteCounterfeit ??= new RelayCommand(async o =>
             {
                 if (_messageBoxService.ShowMessage($"Вы действительно хотите удалить фальсификат: \"{SelectedCounterfeit.Name}\"?", "Удаление объекта", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
                 {
-                    _context.Counterfeits.Remove(SelectedCounterfeit);
-                    _context.SaveChanges();
+                    //_context.Counterfeits.Remove(SelectedCounterfeit);
+                    //_context.SaveChanges();
+
+                    //var analysisResultDTO = AnalysisResult.Adapt<CreateResultDTO>();
+
+                    await _counterfeitClient.CounterfeitDeleteAsync(SelectedCounterfeit.Id);
                 }
                 OnPropertyChanged(nameof(Counterfeits));
             }, c => SelectedCounterfeit is not null);
