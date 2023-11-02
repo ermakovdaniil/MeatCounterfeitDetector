@@ -2,7 +2,10 @@
 using System.Windows.Controls;
 using MeatCounterfeitDetector.Utils.Dialog.Abstract;
 using MeatCounterfeitDetector.Utils.FrameworkFactory;
-
+using System.Threading.Tasks;
+using System.Diagnostics;
+using System.Windows;
+using System;
 
 namespace MeatCounterfeitDetector.Utils.Dialog;
 
@@ -22,9 +25,10 @@ public class DialogService
         return ShowDialog<UC>(wp, dataContext, data);
     }
 
-    public object? ShowDialog<UC>(WindowParameters windowParameters, object datacontext = null, object data = null) where UC : UserControl
+    public Task<object?> ShowDialog<UC>(WindowParameters windowParameters, object datacontext = null, object data = null) where UC : UserControl
     {
-        var window = new Window
+        var tcs = new TaskCompletionSource<object?>();
+        var window = new System.Windows.Window
         {
             Height = windowParameters.Height,
             Width = windowParameters.Width,
@@ -45,15 +49,24 @@ public class DialogService
             interactionAware.FinishInteraction = () => window.Close();
         }
 
+        window.Closed += OnClosed;
+
+        void OnClosed(object sender, EventArgs args)
+        {
+            if (viewModel is IResultHolder resultHolder)
+            {
+                tcs.SetResult(resultHolder.Result);
+            }
+            else
+            {
+                tcs.SetResult(null);
+            }
+        }
+
         window.Content = uc;
         window.ShowDialog();
 
-        if (viewModel is IResultHolder resultHolder)
-        {
-            return resultHolder.Result;
-        }
-
-        return null;
+        return tcs.Task;
     }
 }
 

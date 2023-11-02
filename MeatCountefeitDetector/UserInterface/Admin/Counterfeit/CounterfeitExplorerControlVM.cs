@@ -9,6 +9,7 @@ using MeatCounterfeitDetector.Utils.MessageBoxService;
 using ClientAPI;
 using System.Threading.Tasks;
 using ClientAPI.DTO.Counterfeit;
+using Mapster;
 
 namespace MeatCounterfeitDetector.UserInterface.Admin.Counterfeit;
 
@@ -19,18 +20,16 @@ public class CounterfeitExplorerControlVM : ViewModelBase
     #region Constructors
 
     public CounterfeitExplorerControlVM(CounterfeitClient counterfeitClient,
-                                        CounterfeitPathClient counterfeitPathClient, 
-                                        DialogService dialogService, 
+                                        CounterfeitPathClient counterfeitPathClient,
+                                        DialogService dialogService,
                                         IMessageBoxService messageBoxService)
     {
         _counterfeitClient = counterfeitClient;
         _counterfeitPathClient = counterfeitPathClient;
         _messageBoxService = messageBoxService;
         _dialogService = dialogService;
-        Task.Run(async () =>
-        {
-            Counterfeits = (await _counterfeitClient.CounterfeitGetAsync()).ToList();
-        });
+        _counterfeitClient.CounterfeitGetAsync()
+                          .ContinueWith(c => { Counterfeits = c.Result.ToList(); });
     }
 
     #endregion
@@ -86,17 +85,37 @@ public class CounterfeitExplorerControlVM : ViewModelBase
     {
         get
         {
-            return _editCounterfeitObject ??= new RelayCommand(o =>
+            return _editCounterfeitObject ??= new RelayCommand(async o =>
             {
-                _dialogService.ShowDialog<CounterfeitEditControl>(new WindowParameters
+                //Application.Current.Dispatcher.Invoke(async () =>
+                //{
+                var result = (await _dialogService.ShowDialog<CounterfeitEditControl>(new WindowParameters
                 {
                     Height = 180,
                     Width = 300,
                     Title = "Добавление фальсификата",
                 },
-                data: SelectedCounterfeit);
+                data: SelectedCounterfeit)) as DataAccess.Models.Counterfeit;
 
-                OnPropertyChanged(nameof(Counterfeits));
+                if (result is null)
+                {
+                    return;
+                }
+
+                //var editingCounterfeitGetDTO = result.Adapt<GetCounterfeitDTO>();
+
+                //if (!Counterfeits.Contains(editingCounterfeitGetDTO))
+                //{
+                //    //_context.Counterfeits.Add(EditingCounterfeit);               
+                var editingCounterfeitCreateDTO = result.Adapt<CreateCounterfeitDTO>();
+                await _counterfeitClient.CounterfeitPostAsync(editingCounterfeitCreateDTO);
+                _messageBoxService.ShowMessage($"Объект добавлен!", "Готово!", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+                //}
+
+            //_context.SaveChanges();
+
+
+            //});
             }, _ => SelectedCounterfeit is not null);
         }
     }
@@ -119,9 +138,12 @@ public class CounterfeitExplorerControlVM : ViewModelBase
 
                     //var analysisResultDTO = AnalysisResult.Adapt<CreateResultDTO>();
 
+
+                    //Application.Current.Dispatcher.Invoke(async () =>
+                    //{
                     await _counterfeitClient.CounterfeitDeleteAsync(SelectedCounterfeit.Id);
+                    //});
                 }
-                OnPropertyChanged(nameof(Counterfeits));
             }, c => SelectedCounterfeit is not null);
         }
     }

@@ -99,8 +99,15 @@ public class LoginControlVM : ViewModelBase
                             });
                         }
                     }
-                    catch (SecurityTokenException ex)
+                    catch (ApiException ex)
                     {
+                        switch (ex.StatusCode)
+                        {
+                            case 404:
+
+                            break;
+                        }
+
                         _messageBoxService.ShowMessage("Токен пользователя неверен.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
                     }
                     catch (WebException ex)

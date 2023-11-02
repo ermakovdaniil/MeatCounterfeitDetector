@@ -19,13 +19,11 @@ public class CounterfeitEditControlVM : ViewModelBase, IDataHolder, IResultHolde
 
     #region Constructors
 
-    public CounterfeitEditControlVM(CounterfeitClient counterfeitClient,)
+    public CounterfeitEditControlVM(CounterfeitClient counterfeitClient)
     {
         _counterfeitClient = counterfeitClient;
-        Task.Run(async () =>
-        {
-            Counterfeits = (await _counterfeitClient.CounterfeitGetAsync()).ToList();
-        });
+        _counterfeitClient.CounterfeitGetAsync()
+                          .ContinueWith(c => { Counterfeits = c.Result.ToList();});
     }
 
     #endregion
@@ -55,7 +53,7 @@ public class CounterfeitEditControlVM : ViewModelBase, IDataHolder, IResultHolde
 
     public Action FinishInteraction { get; set; }
 
-    public object? Result { get; }
+    public object? Result { get; set; }
 
 
     #region Properties
@@ -83,17 +81,7 @@ public class CounterfeitEditControlVM : ViewModelBase, IDataHolder, IResultHolde
             {
                 EditingCounterfeit.Id = TempCounterfeit.Id;
                 EditingCounterfeit.Name = TempCounterfeit.Name;
-
-                var editingCounterfeitGetDTO = EditingCounterfeit.Adapt<GetCounterfeitDTO>();
-
-                if (!Counterfeits.Contains(editingCounterfeitGetDTO))
-                {
-                    //_context.Counterfeits.Add(EditingCounterfeit);               
-                    var editingCounterfeitCreateDTO = EditingCounterfeit.Adapt<CreateCounterfeitDTO>();
-                    _counterfeitClient.CounterfeitPostAsync(editingCounterfeitCreateDTO);
-                }
-
-                //_context.SaveChanges();
+                Result = EditingCounterfeit;
                 FinishInteraction();
             });
         }
