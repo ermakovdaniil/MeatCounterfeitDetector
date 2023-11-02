@@ -6,28 +6,35 @@ using System.Linq;
 using MeatCounterfeitDetector.UserInterface.Admin.Abstract;
 using MeatCounterfeitDetector.Utils;
 using MeatCounterfeitDetector.Utils.Dialog.Abstract;
-
+using ClientAPI;
+using ClientAPI.DTO.Counterfeit;
+using Mapster;
+using System.Threading.Tasks;
 
 namespace MeatCounterfeitDetector.UserInterface.Admin.Counterfeit;
 
 public class CounterfeitEditControlVM : ViewModelBase, IDataHolder, IResultHolder, IInteractionAware
 {
-    private object _data;
-
-
     #region Functions
 
     #region Constructors
 
-    public CounterfeitEditControlVM(CounterfeitKBContext context)
+    public CounterfeitEditControlVM(CounterfeitClient counterfeitClient,)
     {
-        _context = context;
+        _counterfeitClient = counterfeitClient;
+        Task.Run(async () =>
+        {
+            Counterfeits = (await _counterfeitClient.CounterfeitGetAsync()).ToList();
+        });
     }
 
     #endregion
 
     #endregion
 
+    private readonly CounterfeitClient _counterfeitClient;
+
+    private object _data;
 
     public object Data
     {
@@ -53,15 +60,10 @@ public class CounterfeitEditControlVM : ViewModelBase, IDataHolder, IResultHolde
 
     #region Properties
 
+    public List<GetCounterfeitDTO> Counterfeits { get; set; }
+
     public DataAccess.Models.Counterfeit TempCounterfeit { get; set; }
-
     public DataAccess.Models.Counterfeit EditingCounterfeit => (DataAccess.Models.Counterfeit)Data;
-
-    private readonly CounterfeitKBContext _context;
-
-    public List<CounterfeitPath> CounterfeitPaths => _context.CounterfeitPaths.ToList();
-
-    public List<DataAccess.Models.Counterfeit> Counterfeits => _context.Counterfeits.ToList();
 
     #endregion
 
@@ -82,12 +84,16 @@ public class CounterfeitEditControlVM : ViewModelBase, IDataHolder, IResultHolde
                 EditingCounterfeit.Id = TempCounterfeit.Id;
                 EditingCounterfeit.Name = TempCounterfeit.Name;
 
-                if (!_context.Counterfeits.Contains(EditingCounterfeit))
+                var editingCounterfeitGetDTO = EditingCounterfeit.Adapt<GetCounterfeitDTO>();
+
+                if (!Counterfeits.Contains(editingCounterfeitGetDTO))
                 {
-                    _context.Counterfeits.Add(EditingCounterfeit);
+                    //_context.Counterfeits.Add(EditingCounterfeit);               
+                    var editingCounterfeitCreateDTO = EditingCounterfeit.Adapt<CreateCounterfeitDTO>();
+                    _counterfeitClient.CounterfeitPostAsync(editingCounterfeitCreateDTO);
                 }
 
-                _context.SaveChanges();
+                //_context.SaveChanges();
                 FinishInteraction();
             });
         }
