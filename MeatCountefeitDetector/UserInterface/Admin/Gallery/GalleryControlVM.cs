@@ -9,7 +9,12 @@ using MeatCounterfeitDetector.UserInterface.Admin.Abstract;
 using MeatCounterfeitDetector.Utils;
 using MeatCounterfeitDetector.Utils.Dialog;
 using MeatCounterfeitDetector.Utils.MessageBoxService;
-
+using ClientAPI;
+using ClientAPI.DTO.CounterfeitPath;
+using Mapster;
+using MeatCounterfeitDetector.UserInterface.Admin.Counterfeit;
+using ClientAPI.DTO.Counterfeit;
+using System;
 
 namespace MeatCounterfeitDetector.UserInterface.Admin.Gallery;
 
@@ -19,27 +24,35 @@ public class GalleryControlVM : ViewModelBase
 
     #region Constructors
 
-    public GalleryControlVM(CounterfeitKBContext context, DialogService ds, IMessageBoxService messageBoxService)
+    public GalleryControlVM(CounterfeitPathClient counterfeitPathClient,
+                            DialogService dialogService,
+                            IMessageBoxService messageBoxService)
     {
+        _counterfeitPathClient = counterfeitPathClient;
         _messageBoxService = messageBoxService;
-        //_context = context;
-        //_context.Counterfeits.Load();
-        _ds = ds;
+        _dialogService = dialogService;
+
+        _counterfeitPathClient.CounterfeitPathGetAsync()
+                              .ContinueWith(c => { CounterfeitPathVMs = c.Result.ToList().Adapt<List<CounterfeitPathVM>>(); });
     }
 
     #endregion
 
     #endregion
 
-
     #region Properties
 
-    private readonly DialogService _ds;
-    private readonly CounterfeitKBContext _context;
+    private readonly DialogService _dialogService;
+    private readonly CounterfeitPathClient _counterfeitPathClient;
     private readonly IMessageBoxService _messageBoxService;
-    public CounterfeitPath SelectedCounterfeitPath { get; set; }
-    public List<CounterfeitPath> CounterfeitPaths => _context.CounterfeitPaths.ToList();
-    public List<DataAccess.Models.Counterfeit> Counterfeits => _context.Counterfeits.ToList();
+
+    //public CounterfeitPath SelectedCounterfeitPath { get; set; }
+    //public List<CounterfeitPath> CounterfeitPaths => _context.CounterfeitPaths.ToList();
+    //public List<DataAccess.Models.Counterfeit> Counterfeits => _context.Counterfeits.ToList();
+
+    public List<GetCounterfeitPathDTO> CounterfeitPathDTOs { get; set; }
+    public List<CounterfeitPathVM> CounterfeitPathVMs { get; set; }
+    public CounterfeitPathVM SelectedCounterfeitPath { get; set; }
 
     #endregion
 
@@ -47,75 +60,120 @@ public class GalleryControlVM : ViewModelBase
     #region Commands
 
     private RelayCommand _addCounterfeitPath;
-
-    /// <summary>
-    ///     Команда, открывающая окно добавления нового изображения фальсификата
-    /// </summary>
     public RelayCommand AddCounterfeitPath
     {
         get
         {
-            return _addCounterfeitPath ??= new RelayCommand(o =>
+            return _addCounterfeitPath ??= new RelayCommand(async o =>
             {
-                _ds.ShowDialog<GalleryEditControl>(new WindowParameters
+                //Application.Current.Dispatcher.Invoke(async () =>
+                //{
+                var result = (await _dialogService.ShowDialog<CounterfeitEditControl>(new WindowParameters
                 {
                     Height = 550,
                     Width = 350,
                     Title = "Добавление изображения фальсификата",
                 },
-                data: new CounterfeitPath());
-                OnPropertyChanged(nameof(CounterfeitPaths));
+                data: new CounterfeitPathVM())) as CounterfeitPathVM;
+
+                if (result is null)
+                {
+                    return;
+                }
+
+                if (!CounterfeitPathVMs.Any(rec => rec.CounterfeitId == result.CounterfeitId && rec.ImagePath == result.ImagePath))
+                {
+                    var editingCounterfeitPathCreateDTO = result.Adapt<CreateCounterfeitPathDTO>();
+                    await _counterfeitPathClient.CounterfeitPathPostAsync(editingCounterfeitPathCreateDTO)
+                                                .ContinueWith(c => { CounterfeitPathVMs.Add(result); });
+
+                    if (!CounterfeitPathVMs.Any(rec => rec.ImagePath == result.ImagePath))
+                    {
+                        File.Copy(result.ImagePath, @"..\..\..\resources\counterfeits\" + Path.GetFileName(result.ImagePath), true);
+                    }
+                    _messageBoxService.ShowMessage($"Объект успешно добавлен!", "Готово!", MessageBoxButton.OK, MessageBoxImage.Information);
+                }
+                else
+                {
+                    _messageBoxService.ShowMessage($"Такая запись уже существует!", "Ошибка!", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+                //});
             });
         }
     }
 
     private RelayCommand _editCounterfeitPath;
-
-    /// <summary>
-    ///     Команда, открывающая окно редактирования нового изображения фальсификата
-    /// </summary>
     public RelayCommand EditCounterfeitPath
     {
         get
         {
-            return _editCounterfeitPath ??= new RelayCommand(o =>
+            return _editCounterfeitPath ??= new RelayCommand(async o =>
             {
-                _ds.ShowDialog<GalleryEditControl>(new WindowParameters
+                //Application.Current.Dispatcher.Invoke(async () =>
+                //{
+
+                var path = SelectedCounterfeitPath.ImagePath;
+
+                var result = (await _dialogService.ShowDialog<CounterfeitEditControl>(new WindowParameters
                 {
                     Height = 550,
                     Width = 350,
                     Title = "Редактирование изображения фальсификата",
                 },
-                data: SelectedCounterfeitPath);
-                OnPropertyChanged(nameof(CounterfeitPaths));
+                data: SelectedCounterfeitPath)) as CounterfeitPathVM;
+
+                if (result is null)
+                {
+                    return;
+                }
+
+                if (!CounterfeitPathVMs.Any(rec => rec.CounterfeitId == result.CounterfeitId && rec.ImagePath == result.ImagePath))
+                {
+                    var editingCounterfeitPathUpdateDTO = result.Adapt<UpdateCounterfeitPathDTO>();
+                    await _counterfeitPathClient.CounterfeitPathPutAsync(editingCounterfeitPathUpdateDTO)
+                                                .ContinueWith(c => { CounterfeitPathVMs.Add(result); });
+
+                    if(path != result.ImagePath)
+                    {
+                        File.Copy(result.ImagePath, @"..\..\..\resources\counterfeits\" + Path.GetFileName(result.ImagePath), true);
+                    }
+                    _messageBoxService.ShowMessage($"Объект успешно добавлен!", "Готово!", MessageBoxButton.OK, MessageBoxImage.Information);
+                }
+                else
+                {
+                    _messageBoxService.ShowMessage($"Такая запись уже существует!", "Ошибка!", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+                //});
+
             }, _ => SelectedCounterfeitPath is not null);
         }
     }
 
     private RelayCommand _deleteCounterfeitPath;
-
-    /// <summary>
-    ///     Команда, удаляющая изображение фальсификата
-    /// </summary>
     public RelayCommand DeleteCounterfeitPath
     {
         get
         {
-            return _deleteCounterfeitPath ??= new RelayCommand(o =>
+            return _deleteCounterfeitPath ??= new RelayCommand(async o =>
             {
                 if (_messageBoxService.ShowMessage("Вы действительно хотите удалить изображение?", "Удаление изображения", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
                 {
-                    string pathToBase = Directory.GetCurrentDirectory();
-                    string combinedPath = Path.Combine(pathToBase, SelectedCounterfeitPath.ImagePath);
-                    File.Delete(combinedPath);
-                    _context.CounterfeitPaths.Remove(SelectedCounterfeitPath);
-                    _context.SaveChanges();
+                    //string pathToBase = Directory.GetCurrentDirectory();
+                    //string combinedPath = Path.Combine(pathToBase, SelectedCounterfeitPath.ImagePath);
+                    //File.Delete(combinedPath);
+
+                    //_context.CounterfeitPaths.Remove(SelectedCounterfeitPath);
+                    //_context.SaveChanges();
+
+                    //Application.Current.Dispatcher.Invoke(async () =>
+                    //{
+                    await _counterfeitPathClient.CounterfeitPathDeleteAsync(SelectedCounterfeitPath.Id)
+                                                .ContinueWith(c => { CounterfeitPathVMs.Remove(SelectedCounterfeitPath); });
+                    //});
                 }
-                OnPropertyChanged(nameof(CounterfeitPaths));
             }, c => SelectedCounterfeitPath is not null);
         }
     }
 
     #endregion
 }
-

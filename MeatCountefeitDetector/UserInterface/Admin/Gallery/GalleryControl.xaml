@@ -18,7 +18,7 @@
             <RowDefinition Height="50" />
         </Grid.RowDefinitions>
         <DataGrid AutoGenerateColumns="False"
-                  ItemsSource="{Binding CounterfeitPaths}"
+                  ItemsSource="{Binding CounterfeitPathVMs}"
                   CanUserAddRows="False"
                   IsReadOnly="True"
                   SelectionMode="Single"
@@ -28,7 +28,7 @@
                   ScrollViewer.CanContentScroll="False">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="ID" Binding="{Binding Id}" />
-                <DataGridTextColumn Header="Наименование" Binding="{Binding Counterfeit.Name}" />
+                <DataGridTextColumn Header="Наименование" Binding="{Binding CounterfeitId}" />
                 <DataGridTemplateColumn Header=" Изображение">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>

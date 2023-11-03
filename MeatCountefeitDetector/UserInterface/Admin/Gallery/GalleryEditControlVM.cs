@@ -10,33 +10,45 @@ using MeatCounterfeitDetector.Utils;
 using MeatCounterfeitDetector.Utils.Dialog.Abstract;
 using MeatCounterfeitDetector.Utils.IOService;
 using MeatCounterfeitDetector.Utils.MessageBoxService;
+using ClientAPI;
+using MeatCounterfeitDetector.UserInterface.Admin.Counterfeit;
+using System.Collections.Generic;
+using ClientAPI.DTO.CounterfeitPath;
+using Mapster;
 
 namespace MeatCounterfeitDetector.UserInterface.Admin.Gallery;
 
 public class GalleryEditControlVM : ViewModelBase, IDataHolder, IResultHolder, IInteractionAware
 {
-    private object _data;
-    private readonly IFileDialogService _dialogService;
-    private readonly IMessageBoxService _messageBoxService;
-
-
     #region Functions
 
     #region Constructors
 
-    public GalleryEditControlVM(CounterfeitKBContext context, IFileDialogService dialogService, IMessageBoxService messageBoxService)
+    public GalleryEditControlVM(CounterfeitClient counterfeitClient,
+                                CounterfeitPathClient counterfeitPathClient,
+                                IFileDialogService dialogService,
+                                IMessageBoxService messageBoxService)
     {
-        _context = context;
+        _counterfeitClient = counterfeitClient;
+        _counterfeitPathClient = counterfeitPathClient;
         _dialogService = dialogService;
         _messageBoxService = messageBoxService;
-        Counterfeits = new ObservableCollection<DataAccess.Models.Counterfeit>(_context.Counterfeits.ToList());
-    }
+
+        _counterfeitClient.CounterfeitGetAsync()
+                          .ContinueWith(c => { CounterfeitVMs = c.Result.ToList().Adapt<List<CounterfeitVM>>(); });    }
 
     #endregion
 
     #endregion
 
+    #region Properties
 
+    private readonly CounterfeitClient _counterfeitClient;
+    private readonly CounterfeitPathClient _counterfeitPathClient;
+    private readonly IFileDialogService _dialogService;
+    private readonly IMessageBoxService _messageBoxService;
+
+    private object _data;
     public object Data
     {
         get => _data;
@@ -44,10 +56,10 @@ public class GalleryEditControlVM : ViewModelBase, IDataHolder, IResultHolder, I
         {
             _data = value;
 
-            TempCounterfeitPath = new CounterfeitPath
+            TempCounterfeitPath = new CounterfeitPathVM
             {
                 Id = EditingCounterfeitPath.Id,
-                Counterfeit = EditingCounterfeitPath.Counterfeit,
+                CounterfeitId = EditingCounterfeitPath.CounterfeitId, // TODO
                 ImagePath = EditingCounterfeitPath.ImagePath,
             };
             OnPropertyChanged(nameof(TempCounterfeitPath));
@@ -55,30 +67,13 @@ public class GalleryEditControlVM : ViewModelBase, IDataHolder, IResultHolder, I
     }
 
     public Action FinishInteraction { get; set; }
+    public object? Result { get; set; }
 
-    public object? Result { get; }
-
-
-    #region Properties
-
-    private CounterfeitPath _tempCounterfeitPath;
-
-    public CounterfeitPath TempCounterfeitPath
-    {
-        get => _tempCounterfeitPath;
-        set
-        {
-            _tempCounterfeitPath = value;
-            OnPropertyChanged();
-        }
-    }
-
-    public CounterfeitPath EditingCounterfeitPath => (CounterfeitPath)Data;
     public string CounterfeitImagePath;
 
-    private readonly CounterfeitKBContext _context;
-
-    public ObservableCollection<DataAccess.Models.Counterfeit> Counterfeits { get; set; }
+    public List<CounterfeitVM> CounterfeitVMs { get; set; }
+    public CounterfeitPathVM TempCounterfeitPath { get; set; }
+    public CounterfeitPathVM EditingCounterfeitPath => (CounterfeitPathVM)Data;
 
     #endregion
 
@@ -86,8 +81,7 @@ public class GalleryEditControlVM : ViewModelBase, IDataHolder, IResultHolder, I
     #region Commands
 
     private RelayCommand _changePathImage;
-
-    public RelayCommand ChangePathImageCommand
+    public RelayCommand ChangePathImageCommand // TODO
     {
         get
         {
@@ -99,16 +93,11 @@ public class GalleryEditControlVM : ViewModelBase, IDataHolder, IResultHolder, I
                     CounterfeitImagePath = @"..\..\..\resources\counterfeits\" + Path.GetFileName(path);
                     TempCounterfeitPath.ImagePath = path;
                 }
-                OnPropertyChanged(nameof(TempCounterfeitPath));
             });
         }
     }
 
     private RelayCommand _saveCounterfeitPath;
-
-    /// <summary>
-    ///     Команда сохраняющая изменение данных о пути к изображению фальсификата в базе данных
-    /// </summary>
     public RelayCommand SaveCounterfeitPath
     {
         get
@@ -117,37 +106,29 @@ public class GalleryEditControlVM : ViewModelBase, IDataHolder, IResultHolder, I
             {
                 try
                 {
-                    if (CounterfeitImagePath is null)
+                    if (CounterfeitImagePath is not null)
                     {
-                        CounterfeitImagePath = Directory.GetCurrentDirectory();
+                        EditingCounterfeitPath.Id = TempCounterfeitPath.Id;
+                        EditingCounterfeitPath.CounterfeitId = TempCounterfeitPath.CounterfeitId; // TODO
+                        EditingCounterfeitPath.ImagePath = CounterfeitImagePath; // TODO
+                        Result = EditingCounterfeitPath;
+                        FinishInteraction();
                     }
-                    EditingCounterfeitPath.Id = TempCounterfeitPath.Id;
-                    EditingCounterfeitPath.Counterfeit = TempCounterfeitPath.Counterfeit;
-                    EditingCounterfeitPath.ImagePath = CounterfeitImagePath;
-                    if (!_context.CounterfeitPaths.Contains(EditingCounterfeitPath))
+                    else
                     {
-                        _context.CounterfeitPaths.Add(EditingCounterfeitPath);
+                        _messageBoxService.ShowMessage("Не указан путь к файлу!", "Ошибка!", MessageBoxButton.OK, MessageBoxImage.Error);
                     }
-                    File.Copy(TempCounterfeitPath.ImagePath, EditingCounterfeitPath.ImagePath, true);
-                    _context.SaveChanges();
-                    FinishInteraction();
                 }
                 catch (ArgumentNullException ex)
                 {
-                    _messageBoxService.ShowMessage("Не указан путь к файлу", "Ошибка!",
-                                                    MessageBoxButton.OK, MessageBoxImage.Error);
+                    _messageBoxService.ShowMessage("Файла по указанному пути не существует!", "Ошибка!", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
-                catch (Exception ex)
-                {
-                    _messageBoxService.ShowMessage("Файла по указанному пути не существует", "Ошибка!",
-                                                    MessageBoxButton.OK, MessageBoxImage.Error);
-                }
+
             });
         }
     }
 
     private RelayCommand _closeCommand;
-
     public RelayCommand CloseCommand
     {
         get

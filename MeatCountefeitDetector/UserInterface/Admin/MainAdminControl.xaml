@@ -39,7 +39,7 @@
             <TabItem Header="Типы фальсифкатов" Background="{StaticResource Style2}">
                 <counterfeit:CounterfeitExplorerControl />
             </TabItem>
-            <TabItem Header="Изображения фальсифкатов" Background="{StaticResource Style2}">
+            <!--<TabItem Header="Изображения фальсифкатов" Background="{StaticResource Style2}">
                 <gallery:GalleryControl />
             </TabItem>
             <TabItem Header="Журнал результатов" Background="{StaticResource Style2}">
@@ -47,7 +47,16 @@
             </TabItem>
             <TabItem Header="Пользователи" Background="{StaticResource Style2}">
                 <user:UserExplorerControl />
-            </TabItem>
+            </TabItem>-->
         </TabControl>
     </Grid>
 </UserControl>
+
+<!--System.Windows.Data Error: 23 : Cannot convert 'ClientAPI.DTO.Counterfeit.GetCounterfeitDTO' from type 'GetCounterfeitDTO' to type 'DataAccess.Models.Counterfeit' for 'en-US' culture with default conversions; consider using Converter property of Binding. NotSupportedException:'System.NotSupportedException: TypeConverter cannot convert from ClientAPI.DTO.Counterfeit.GetCounterfeitDTO.
+   at System.ComponentModel.TypeConverter.GetConvertFromException(Object value)
+   at System.ComponentModel.TypeConverter.ConvertFrom(ITypeDescriptorContext context, CultureInfo culture, Object value)
+   at MS.Internal.Data.DefaultValueConverter.ConvertHelper(Object o, Type destinationType, DependencyObject targetElement, CultureInfo culture, Boolean isForward)'
+System.Windows.Data Error: 7 : ConvertBack cannot convert value 'ClientAPI.DTO.Counterfeit.GetCounterfeitDTO' (type 'GetCounterfeitDTO'). BindingExpression:Path=SelectedCounterfeit; DataItem='CounterfeitExplorerControlVM' (HashCode=8575450); target element is 'DataGrid' (Name=''); target property is 'SelectedItem' (type 'Object') NotSupportedException:'System.NotSupportedException: TypeConverter cannot convert from ClientAPI.DTO.Counterfeit.GetCounterfeitDTO.
+   at MS.Internal.Data.DefaultValueConverter.ConvertHelper(Object o, Type destinationType, DependencyObject targetElement, CultureInfo culture, Boolean isForward)
+   at MS.Internal.Data.ObjectTargetConverter.ConvertBack(Object o, Type type, Object parameter, CultureInfo culture)
+   at System.Windows.Data.BindingExpression.ConvertBackHelper(IValueConverter converter, Object value, Type sourceType, Object parameter, CultureInfo culture)'-->

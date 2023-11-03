@@ -13,7 +13,7 @@
             <RowDefinition />
             <RowDefinition Height="50" />
         </Grid.RowDefinitions>
-        <DataGrid AutoGenerateColumns="False" ItemsSource="{Binding Counterfeits}" CanUserAddRows="False"
+        <DataGrid AutoGenerateColumns="False" ItemsSource="{Binding CounterfeitVMs}" CanUserAddRows="False"
                   IsReadOnly="True"
                   SelectionMode="Single"
                   SelectedItem="{Binding SelectedCounterfeit}" Background="{StaticResource Style3}">

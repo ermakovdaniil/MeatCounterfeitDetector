@@ -23,17 +23,19 @@ public class CounterfeitEditControlVM : ViewModelBase, IDataHolder, IResultHolde
     {
         _counterfeitClient = counterfeitClient;
         _counterfeitClient.CounterfeitGetAsync()
-                          .ContinueWith(c => { Counterfeits = c.Result.ToList();});
+                          .ContinueWith(c => { CounterfeitVMs = c.Result.ToList().Adapt<List<CounterfeitVM>>(); });
     }
 
     #endregion
 
     #endregion
 
+
+    #region Properties
+
     private readonly CounterfeitClient _counterfeitClient;
 
     private object _data;
-
     public object Data
     {
         get => _data;
@@ -41,7 +43,7 @@ public class CounterfeitEditControlVM : ViewModelBase, IDataHolder, IResultHolde
         {
             _data = value;
 
-            TempCounterfeit = new DataAccess.Models.Counterfeit
+            TempCounterfeit = new CounterfeitVM
             {
                 Id = EditingCounterfeit.Id,
                 Name = EditingCounterfeit.Name,
@@ -52,16 +54,11 @@ public class CounterfeitEditControlVM : ViewModelBase, IDataHolder, IResultHolde
     }
 
     public Action FinishInteraction { get; set; }
-
     public object? Result { get; set; }
 
-
-    #region Properties
-
-    public List<GetCounterfeitDTO> Counterfeits { get; set; }
-
-    public DataAccess.Models.Counterfeit TempCounterfeit { get; set; }
-    public DataAccess.Models.Counterfeit EditingCounterfeit => (DataAccess.Models.Counterfeit)Data;
+    public List<CounterfeitVM> CounterfeitVMs { get; set; }
+    public CounterfeitVM TempCounterfeit { get; set; }
+    public CounterfeitVM EditingCounterfeit => (CounterfeitVM)Data;
 
     #endregion
 
@@ -69,10 +66,6 @@ public class CounterfeitEditControlVM : ViewModelBase, IDataHolder, IResultHolde
     #region Commands
 
     private RelayCommand _saveCounterfeit;
-
-    /// <summary>
-    ///     Команда сохраняющая изменение данных о фальсификате в базе данных
-    /// </summary>
     public RelayCommand SaveCounterfeit
     {
         get
@@ -88,7 +81,6 @@ public class CounterfeitEditControlVM : ViewModelBase, IDataHolder, IResultHolde
     }
 
     private RelayCommand _closeCommand;
-
     public RelayCommand CloseCommand
     {
         get

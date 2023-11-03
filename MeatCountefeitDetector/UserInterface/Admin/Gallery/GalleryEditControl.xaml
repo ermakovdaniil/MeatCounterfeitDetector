@@ -19,7 +19,7 @@
         <ScrollViewer>
             <StackPanel Background="{StaticResource Style2}">
                 <hc:ComboBox hc:InfoElement.Title="Вид фальсификат"
-                         ItemsSource="{Binding Counterfeits}"
+                         ItemsSource="{Binding CounterfeitVMs}"
                          hc:InfoElement.TitlePlacement="Top" Margin="10 5"
                          SelectedItem="{Binding TempCounterfeitPath.Counterfeit, Mode=TwoWay}"
                          SelectedIndex="{Binding TempCounterfeitPath.CounterfeitId}"

@@ -10,6 +10,9 @@ using ClientAPI;
 using System.Threading.Tasks;
 using ClientAPI.DTO.Counterfeit;
 using Mapster;
+using DataAccess.Models;
+using System.Diagnostics.Contracts;
+using Newtonsoft.Json.Linq;
 
 namespace MeatCounterfeitDetector.UserInterface.Admin.Counterfeit;
 
@@ -20,16 +23,15 @@ public class CounterfeitExplorerControlVM : ViewModelBase
     #region Constructors
 
     public CounterfeitExplorerControlVM(CounterfeitClient counterfeitClient,
-                                        CounterfeitPathClient counterfeitPathClient,
                                         DialogService dialogService,
                                         IMessageBoxService messageBoxService)
     {
         _counterfeitClient = counterfeitClient;
-        _counterfeitPathClient = counterfeitPathClient;
         _messageBoxService = messageBoxService;
         _dialogService = dialogService;
+
         _counterfeitClient.CounterfeitGetAsync()
-                          .ContinueWith(c => { Counterfeits = c.Result.ToList(); });
+                          .ContinueWith(c => { CounterfeitVMs = c.Result.ToList().Adapt<List<CounterfeitVM>>(); });
     }
 
     #endregion
@@ -41,11 +43,11 @@ public class CounterfeitExplorerControlVM : ViewModelBase
 
     private readonly DialogService _dialogService;
     private readonly CounterfeitClient _counterfeitClient;
-    private readonly CounterfeitPathClient _counterfeitPathClient;
     private readonly IMessageBoxService _messageBoxService;
-    public DataAccess.Models.Counterfeit SelectedCounterfeit { get; set; }
 
-    public List<GetCounterfeitDTO> Counterfeits { get; set; }
+    public List<GetCounterfeitDTO> CounterfeitDTOs { get; set; }
+    public List<CounterfeitVM> CounterfeitVMs { get; set; }
+    public CounterfeitVM SelectedCounterfeit { get; set; }
 
     #endregion
 
@@ -53,34 +55,45 @@ public class CounterfeitExplorerControlVM : ViewModelBase
     #region Commands
 
     private RelayCommand _addCounterfeit;
-
-    /// <summary>
-    ///     Команда, открывающая окно создания нового фальсификата
-    /// </summary>
     public RelayCommand AddCounterfeit
     {
         get
         {
-            return _addCounterfeit ??= new RelayCommand(o =>
+            return _addCounterfeit ??= new RelayCommand(async o =>
             {
-                _dialogService.ShowDialog<CounterfeitEditControl>(new WindowParameters
+                //Application.Current.Dispatcher.Invoke(async () =>
+                //{
+                var result = (await _dialogService.ShowDialog<CounterfeitEditControl>(new WindowParameters
                 {
                     Height = 180,
                     Width = 300,
                     Title = "Добавление фальсификата",
                 },
-                data: new DataAccess.Models.Counterfeit());
+                data: new CounterfeitVM())) as CounterfeitVM;
 
-                OnPropertyChanged(nameof(Counterfeits));
+                if (result is null)
+                {
+                    return;
+                }
+
+                if (!CounterfeitVMs.Any(rec => rec.Name == result.Name))
+                {
+                    var editingCounterfeitCreateDTO = result.Adapt<CreateCounterfeitDTO>();
+                    await _counterfeitClient.CounterfeitPostAsync(editingCounterfeitCreateDTO)
+                                            .ContinueWith(c => { CounterfeitVMs.Add(result); });
+
+                    _messageBoxService.ShowMessage($"Объект успешно добавлен!", "Готово!", MessageBoxButton.OK, MessageBoxImage.Information);
+                }
+                else
+                {
+                    _messageBoxService.ShowMessage($"Такая запись уже существует!", "Ошибка!", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+                //});
             });
         }
     }
 
     private RelayCommand _editCounterfeitObject;
-
-    /// <summary>
-    ///     Команда, открывающая окно редактирования нового фальсификата
-    /// </summary>
     public RelayCommand EditCounterfeit
     {
         get
@@ -95,36 +108,30 @@ public class CounterfeitExplorerControlVM : ViewModelBase
                     Width = 300,
                     Title = "Добавление фальсификата",
                 },
-                data: SelectedCounterfeit)) as DataAccess.Models.Counterfeit;
+                data: SelectedCounterfeit)) as CounterfeitVM;
 
                 if (result is null)
                 {
                     return;
                 }
+                if (!CounterfeitVMs.Any(rec => rec.Name == result.Name))
+                {
+                    var editingCounterfeitCreateDTO = result.Adapt<UpdateCounterfeitDTO>();
+                    await _counterfeitClient.CounterfeitPutAsync(editingCounterfeitCreateDTO)
+                                            .ContinueWith(c => { CounterfeitVMs.FirstOrDefault(x => x.Name == result.Name).Name = result.Name; }); ;
 
-                //var editingCounterfeitGetDTO = result.Adapt<GetCounterfeitDTO>();
-
-                //if (!Counterfeits.Contains(editingCounterfeitGetDTO))
-                //{
-                //    //_context.Counterfeits.Add(EditingCounterfeit);               
-                var editingCounterfeitCreateDTO = result.Adapt<CreateCounterfeitDTO>();
-                await _counterfeitClient.CounterfeitPostAsync(editingCounterfeitCreateDTO);
-                _messageBoxService.ShowMessage($"Объект добавлен!", "Готово!", MessageBoxButton.OK, MessageBoxImage.Exclamation);
-                //}
-
-            //_context.SaveChanges();
-
-
-            //});
+                    _messageBoxService.ShowMessage($"Объект успешно обновлён!", "Готово!", MessageBoxButton.OK, MessageBoxImage.Information);
+                }
+                else
+                {
+                    _messageBoxService.ShowMessage($"Такая запись уже существует!", "Ошибка!", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+                //});
             }, _ => SelectedCounterfeit is not null);
         }
     }
 
     private RelayCommand _deleteCounterfeit;
-
-    /// <summary>
-    ///     Команда, удаляющая фальсификат
-    /// </summary>
     public RelayCommand DeleteCounterfeit
     {
         get
@@ -133,15 +140,11 @@ public class CounterfeitExplorerControlVM : ViewModelBase
             {
                 if (_messageBoxService.ShowMessage($"Вы действительно хотите удалить фальсификат: \"{SelectedCounterfeit.Name}\"?", "Удаление объекта", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
                 {
-                    //_context.Counterfeits.Remove(SelectedCounterfeit);
-                    //_context.SaveChanges();
-
                     //var analysisResultDTO = AnalysisResult.Adapt<CreateResultDTO>();
-
-
                     //Application.Current.Dispatcher.Invoke(async () =>
                     //{
-                    await _counterfeitClient.CounterfeitDeleteAsync(SelectedCounterfeit.Id);
+                    await _counterfeitClient.CounterfeitDeleteAsync(SelectedCounterfeit.Id)
+                                            .ContinueWith(c => { CounterfeitVMs.Remove(SelectedCounterfeit); });
                     //});
                 }
             }, c => SelectedCounterfeit is not null);
