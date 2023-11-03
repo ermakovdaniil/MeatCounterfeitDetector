@@ -1,5 +1,4 @@
 ﻿using DataAccess.Data;
-using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
@@ -7,7 +6,11 @@ using MeatCounterfeitDetector.UserInterface.Admin.Abstract;
 using MeatCounterfeitDetector.Utils;
 using MeatCounterfeitDetector.Utils.Dialog;
 using MeatCounterfeitDetector.Utils.MessageBoxService;
-
+using ClientAPI;
+using ClientAPI.DTO.User;
+using Mapster;
+using ClientAPI.DTO.Counterfeit;
+using MeatCounterfeitDetector.UserInterface.Admin.Counterfeit;
 
 namespace MeatCounterfeitDetector.UserInterface.Admin.User;
 
@@ -17,12 +20,16 @@ public class UserExplorerControlVM : ViewModelBase
 
     #region Constructors
 
-    public UserExplorerControlVM(ResultDBContext context, DialogService ds, IMessageBoxService messageBoxService)
+    public UserExplorerControlVM(UserClient userClient,
+                                 DialogService dialogService,
+                                 IMessageBoxService messageBoxService)
     {
+        _userClient = userClient;
         _messageBoxService = messageBoxService;
-        _context = context;
-        //_context.UserTypes.Load();
-        _ds = ds;
+        _dialogService = dialogService;
+
+        _userClient.UserGetAsync()
+                   .ContinueWith(c => { UserVMs = c.Result.ToList().Adapt<List<UserVM>>(); });
     }
 
     #endregion
@@ -32,12 +39,13 @@ public class UserExplorerControlVM : ViewModelBase
 
     #region Properties
 
-    private readonly DialogService _ds;
-    private readonly ResultDBContext _context;
+    private readonly UserClient _userClient;
     private readonly IMessageBoxService _messageBoxService;
-    public DataAccess.Models.User SelectedUser { get; set; }
+    private readonly DialogService _dialogService;
 
-    public List<DataAccess.Models.User> Users => _context.Users.ToList();
+    public List<GetUserDTO> UserDTOs { get; set; }
+    public List<UserVM> UserVMs { get; set; }
+    public UserVM SelectedUser { get; set; }
 
     #endregion
 
@@ -45,71 +53,98 @@ public class UserExplorerControlVM : ViewModelBase
     #region Commands
 
     private RelayCommand _addUser;
-
-    /// <summary>
-    ///     Команда, открывающая окно создания пользователя
-    /// </summary>
     public RelayCommand AddUser
     {
         get
         {
-            return _addUser ??= new RelayCommand(o =>
+            return _addUser ??= new RelayCommand(async o =>
             {
-                _ds.ShowDialog<UserEditControl>(new WindowParameters
+                //Application.Current.Dispatcher.Invoke(async () =>
+                //{
+                var result = (await _dialogService.ShowDialog<UserEditControl>(new WindowParameters
                 {
                     Height = 380,
                     Width = 300,
                     Title = "Добавление пользователя",
                 },
-                data: new DataAccess.Models.User());
+                data: new UserVM())) as UserVM;
 
-                OnPropertyChanged(nameof(Users));
+                if (result is null)
+                {
+                    return;
+                }
+
+                if (!UserVMs.Any(rec => rec.Login == result.Login))
+                {
+                    var editingUserCreateDTO = result.Adapt<CreateUserDTO>();
+                    await _userClient.UserPostAsync(editingUserCreateDTO)
+                                     .ContinueWith(c => { UserVMs.Add(result); });
+
+                    _messageBoxService.ShowMessage($"Объект успешно добавлен!", "Готово!", MessageBoxButton.OK, MessageBoxImage.Information);
+                }
+                else
+                {
+                    _messageBoxService.ShowMessage($"Такая запись уже существует!", "Ошибка!", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+                //});
             });
         }
     }
 
     private RelayCommand _editUser;
-
-    /// <summary>
-    ///     Команда, открывающая окно редактирования пользователя
-    /// </summary>
     public RelayCommand EditUser
     {
         get
         {
-            return _editUser ??= new RelayCommand(o =>
+            return _editUser ??= new RelayCommand(async o =>
             {
-                _ds.ShowDialog<UserEditControl>(new WindowParameters
+                //Application.Current.Dispatcher.Invoke(async () =>
+                //{
+                var result = (await _dialogService.ShowDialog<UserEditControl>(new WindowParameters
                 {
                     Height = 380,
                     Width = 300,
                     Title = "Добавление пользователя",
                 },
-                data: SelectedUser);
+                data: SelectedUser)) as UserVM;
 
-                OnPropertyChanged(nameof(Users));
+                if (result is null)
+                {
+                    return;
+                }
+                if (!UserVMs.Any(rec => rec.Login == result.Login))
+                {
+                    var editingUserCreateDTO = result.Adapt<UpdateUserDTO>();
+                    await _userClient.UserPutAsync(editingUserCreateDTO)
+                                     .ContinueWith(c => { UserVMs.FirstOrDefault(x => x.Login == result.Login).Login = result.Login; }); ;
+
+                    _messageBoxService.ShowMessage($"Объект успешно обновлён!", "Готово!", MessageBoxButton.OK, MessageBoxImage.Information);
+                }
+                else
+                {
+                    _messageBoxService.ShowMessage($"Такая запись уже существует!", "Ошибка!", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+                //});
             }, _ => SelectedUser is not null);
         }
     }
 
     private RelayCommand _deleteUser;
-
-    /// <summary>
-    ///     Команда, удаляющая пользователя
-    /// </summary>
     public RelayCommand DeleteUser
     {
         get
         {
-            return _deleteUser ??= new RelayCommand(o =>
+            return _deleteUser ??= new RelayCommand(async o =>
             {
                 if (_messageBoxService.ShowMessage($"Вы действительно хотите удалить пользователя: \"{SelectedUser.Name}\"?", "Удаление пользователя", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
                 {
-                    _context.Users.Remove(SelectedUser);
-                    _context.SaveChanges();
+                    //var analysisResultDTO = AnalysisResult.Adapt<CreateResultDTO>();
+                    //Application.Current.Dispatcher.Invoke(async () =>
+                    //{
+                    await _userClient.UserDeleteAsync(SelectedUser.Id)
+                                     .ContinueWith(c => { UserVMs.Remove(SelectedUser); });
+                    //});
                 }
-
-                OnPropertyChanged(nameof(Users));
             }, _ => SelectedUser is not null);
         }
     }

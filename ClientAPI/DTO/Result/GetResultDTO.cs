@@ -10,8 +10,8 @@ namespace ClientAPI.DTO.Result
         [Required(ErrorMessage = "Date is required")]
         public string Date { get; set; }
 
-        [Required(ErrorMessage = "ResultId is required")]
-        public Guid ResultId { get; set; }
+        [Required(ErrorMessage = "UserId is required")]
+        public Guid UserId { get; set; }
 
         [Required(ErrorMessage = "AnRes is required")]
         public string AnRes { get; set; }

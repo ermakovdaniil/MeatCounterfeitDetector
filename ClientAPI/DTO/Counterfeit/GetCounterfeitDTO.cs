@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using ClientAPI.DTO.CounterfeitPath;
+using System.ComponentModel.DataAnnotations;
 
 namespace ClientAPI.DTO.Counterfeit
 {
@@ -9,5 +10,7 @@ namespace ClientAPI.DTO.Counterfeit
 
         [Required(ErrorMessage = "Name is required")]
         public string Name { get; set; }
+
+        public List<GetCounterfeitPathDTO> CounterfeitPaths { get; set; }
     }
 }

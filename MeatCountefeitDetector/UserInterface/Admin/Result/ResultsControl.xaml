@@ -19,7 +19,7 @@
         </Grid.RowDefinitions>
 
         <hc:ScrollViewer Grid.Row="0" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Hidden" Background="{StaticResource Style2}">
-            <DataGrid AutoGenerateColumns="False" ItemsSource="{Binding Results}" CanUserAddRows="False"
+            <DataGrid AutoGenerateColumns="False" ItemsSource="{Binding ResultVMs}" CanUserAddRows="False"
                   IsReadOnly="True"
                   SelectionMode="Single"
                   RowHeight="400"

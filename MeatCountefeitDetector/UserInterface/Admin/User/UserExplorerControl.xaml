@@ -14,7 +14,7 @@
                 <RowDefinition />
                 <RowDefinition Height="50" />
             </Grid.RowDefinitions>
-            <DataGrid ItemsSource="{Binding Users}"
+            <DataGrid ItemsSource="{Binding UserVMs}"
                       IsReadOnly="True"
                       CanUserAddRows="False"
                       SelectedItem="{Binding SelectedUser}"

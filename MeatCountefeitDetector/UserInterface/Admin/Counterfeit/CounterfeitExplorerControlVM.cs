@@ -41,9 +41,9 @@ public class CounterfeitExplorerControlVM : ViewModelBase
 
     #region Properties
 
-    private readonly DialogService _dialogService;
     private readonly CounterfeitClient _counterfeitClient;
     private readonly IMessageBoxService _messageBoxService;
+    private readonly DialogService _dialogService;
 
     public List<GetCounterfeitDTO> CounterfeitDTOs { get; set; }
     public List<CounterfeitVM> CounterfeitVMs { get; set; }
@@ -116,8 +116,8 @@ public class CounterfeitExplorerControlVM : ViewModelBase
                 }
                 if (!CounterfeitVMs.Any(rec => rec.Name == result.Name))
                 {
-                    var editingCounterfeitCreateDTO = result.Adapt<UpdateCounterfeitDTO>();
-                    await _counterfeitClient.CounterfeitPutAsync(editingCounterfeitCreateDTO)
+                    var editingCounterfeitUpdateDTO = result.Adapt<UpdateCounterfeitDTO>();
+                    await _counterfeitClient.CounterfeitPutAsync(editingCounterfeitUpdateDTO)
                                             .ContinueWith(c => { CounterfeitVMs.FirstOrDefault(x => x.Name == result.Name).Name = result.Name; }); ;
 
                     _messageBoxService.ShowMessage($"Объект успешно обновлён!", "Готово!", MessageBoxButton.OK, MessageBoxImage.Information);

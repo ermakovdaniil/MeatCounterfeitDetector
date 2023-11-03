@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using ClientAPI.DTO.CounterfeitPath;
+using System.ComponentModel.DataAnnotations;
 
 namespace ClientAPI.DTO.Counterfeit
 {

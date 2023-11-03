@@ -1,7 +1,4 @@
-﻿using DataAccess.Data;
-using DataAccess.Models;
-using System;
-using System.Collections.ObjectModel;
+﻿using System;
 using System.IO;
 using System.Linq;
 using System.Windows;
@@ -13,7 +10,6 @@ using MeatCounterfeitDetector.Utils.MessageBoxService;
 using ClientAPI;
 using MeatCounterfeitDetector.UserInterface.Admin.Counterfeit;
 using System.Collections.Generic;
-using ClientAPI.DTO.CounterfeitPath;
 using Mapster;
 
 namespace MeatCounterfeitDetector.UserInterface.Admin.Gallery;
@@ -35,7 +31,8 @@ public class GalleryEditControlVM : ViewModelBase, IDataHolder, IResultHolder, I
         _messageBoxService = messageBoxService;
 
         _counterfeitClient.CounterfeitGetAsync()
-                          .ContinueWith(c => { CounterfeitVMs = c.Result.ToList().Adapt<List<CounterfeitVM>>(); });    }
+                          .ContinueWith(c => { CounterfeitVMs = c.Result.ToList().Adapt<List<CounterfeitVM>>(); });  
+    }
 
     #endregion
 

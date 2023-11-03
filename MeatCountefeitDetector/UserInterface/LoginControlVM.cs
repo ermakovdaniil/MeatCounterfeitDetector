@@ -20,6 +20,10 @@ using System.IdentityModel.Tokens.Jwt;
 using Microsoft.IdentityModel.Tokens;
 using System.Net.Http;
 using System.Net;
+using Emgu.CV.Dnn;
+using System.Security.Policy;
+using System.Windows.Automation;
+using Autofac.Core;
 
 namespace MeatCounterfeitDetector.UserInterface;
 
@@ -103,28 +107,46 @@ public class LoginControlVM : ViewModelBase
                     {
                         switch (ex.StatusCode)
                         {
+                            case 400:
+                                _messageBoxService.ShowMessage("Неверный запрос!", "Ошибка!", MessageBoxButton.OK, MessageBoxImage.Error);
+                                break;
+
+                            case 401:
+                                _messageBoxService.ShowMessage("Нужна аутентификация!", "Ошибка!", MessageBoxButton.OK, MessageBoxImage.Error);
+                                break;
+
+                            case 403:
+                                _messageBoxService.ShowMessage("Нет прав доступа к содержимому!", "Ошибка!", MessageBoxButton.OK, MessageBoxImage.Error);
+                                break;
+
                             case 404:
+                                _messageBoxService.ShowMessage("Сервер не может найти запрашиваемый ресурс.", "Ошибка!", MessageBoxButton.OK, MessageBoxImage.Error);
+                                break;
 
-                            break;
-                        }
+                            case 500:
+                                _messageBoxService.ShowMessage("Произошла внутренняя ошибка.", "Ошибка!", MessageBoxButton.OK, MessageBoxImage.Error);
+                                break;
 
-                        _messageBoxService.ShowMessage("Токен пользователя неверен.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
-                    }
-                    catch (WebException ex)
-                    {
-                        _messageBoxService.ShowMessage("Ошибка подключения. Проверьте соединение.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
-                    }
-                    catch (InvalidOperationException ex)
-                    {
-                        _messageBoxService.ShowMessage("Произошла непредвиденная ошибка.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                            case 502:
+                                _messageBoxService.ShowMessage("Получен недопустимый ответ от сервера.", "Ошибка!", MessageBoxButton.OK, MessageBoxImage.Error);
+                                break;
+
+                            case 503:
+                                _messageBoxService.ShowMessage("Сервер не может обработать запрос в данный момент.", "Ошибка!", MessageBoxButton.OK, MessageBoxImage.Error);
+                                break;
+
+                            case 504:
+                                _messageBoxService.ShowMessage("Время ожидания истекло.", "Ошибка!", MessageBoxButton.OK, MessageBoxImage.Error);
+                                break;
+
+                            default:
+                                _messageBoxService.ShowMessage("Произошла непредвиденная ошибка.", "Ошибка!", MessageBoxButton.OK, MessageBoxImage.Error);
+                                break;
+                        }           
                     }
                     catch (HttpRequestException ex)
                     {
                         _messageBoxService.ShowMessage("Нет интернет подключения. Проверьте соединение.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
-                    }
-                    catch (DbUpdateException ex)
-                    {
-                        _messageBoxService.ShowMessage("Запись не найдена в базе данных.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
                     };
                 }
                 catch (Exception ex)

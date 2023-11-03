@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using ClientAPI.DTO.Result;
+using System.ComponentModel.DataAnnotations;
 
 namespace ClientAPI.DTO.ResultPath
 {
@@ -12,5 +13,7 @@ namespace ClientAPI.DTO.ResultPath
 
         [Required(ErrorMessage = "Name is required")]
         public string Path { get; set; }
+
+        public List<GetResultDTO> Results { get; set; }
     }
 }

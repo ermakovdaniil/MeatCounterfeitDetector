@@ -1,5 +1,6 @@
 ﻿using MeatCounterfeitDetector.UserInterface.Admin.Abstract;
 using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace MeatCounterfeitDetector.UserInterface.Admin.Gallery;

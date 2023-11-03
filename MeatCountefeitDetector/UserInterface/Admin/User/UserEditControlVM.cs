@@ -1,34 +1,43 @@
 ﻿using DataAccess.Data;
-using DataAccess.Models;
 using System;
-using System.Collections.ObjectModel;
-using System.Linq;
 using MeatCounterfeitDetector.UserInterface.Admin.Abstract;
 using MeatCounterfeitDetector.Utils;
 using MeatCounterfeitDetector.Utils.Dialog.Abstract;
-
+using ClientAPI;
+using System.Collections.Generic;
+using MeatCounterfeitDetector.UserInterface.Admin.UserType;
+using System.Linq;
+using Mapster;
 
 namespace MeatCounterfeitDetector.UserInterface.Admin.User;
 
 public class UserEditControlVM : ViewModelBase, IDataHolder, IResultHolder, IInteractionAware
 {
-    private object _data;
-
-
     #region Functions
 
     #region Constructors
 
-    public UserEditControlVM(ResultDBContext context)
+    public UserEditControlVM(UserClient userClient,
+                             UserTypeClient userTypeClient)
     {
-        _context = context;
-        //UserTypes = new ObservableCollection<UserType>(_context.UserTypes.ToList());
+        _userClient = userClient;
+        _userTypeClient = userTypeClient;
+
+        _userTypeClient.UserTypeGetAsync()
+                       .ContinueWith(c => { UserTypeVMs = c.Result.ToList().Adapt<List<UserTypeVM>>(); });
     }
 
     #endregion
 
     #endregion
 
+
+    #region Properties
+
+    private readonly UserClient _userClient;
+    private readonly UserTypeClient _userTypeClient;
+
+    private object _data;
     public object Data
     {
         get => _data;
@@ -36,13 +45,10 @@ public class UserEditControlVM : ViewModelBase, IDataHolder, IResultHolder, IInt
         {
             _data = value;
 
-            TempUser = new DataAccess.Models.User
+            TempUser = new UserVM
             {
-                // Id = EditingUser.Id,
-                // Login = EditingUser.Login,
-                // Password = EditingUser.Password,
-                // Name = EditingUser.Name,
-                // //Type = EditingUser.Type,
+                Id = EditingUser.Id,
+                Name = EditingUser.Name,
             };
 
             OnPropertyChanged(nameof(TempUser));
@@ -50,29 +56,11 @@ public class UserEditControlVM : ViewModelBase, IDataHolder, IResultHolder, IInt
     }
 
     public Action FinishInteraction { get; set; }
+    public object? Result { get; set; }
 
-    public object? Result { get; }
-
-
-    #region Properties
-
-    private DataAccess.Models.User _tempUser;
-
-    public DataAccess.Models.User TempUser
-    {
-        get => _tempUser;
-        set
-        {
-            _tempUser = value;
-            OnPropertyChanged();
-        }
-    }
-
-    public DataAccess.Models.User EditingUser => (DataAccess.Models.User)Data;
-
-    private readonly ResultDBContext _context;
-
-    //public ObservableCollection<UserType> UserTypes { get; set; }
+    public List<UserTypeVM> UserTypeVMs { get; set; }
+    public UserVM TempUser { get; set; }
+    public UserVM EditingUser => (UserVM)Data;
 
     #endregion
 
@@ -80,35 +68,21 @@ public class UserEditControlVM : ViewModelBase, IDataHolder, IResultHolder, IInt
     #region Commands
 
     private RelayCommand _saveUser;
-
-    /// <summary>
-    ///     Команда сохраняющая изменение данных о пользователе в базе данных
-    /// </summary>
     public RelayCommand SaveUser
     {
         get
         {
             return _saveUser ??= new RelayCommand(o =>
             {
-                // EditingUser.Id = TempUser.Id;
-                // EditingUser.Login = TempUser.Login;
-                // EditingUser.Password = TempUser.Password;
-                // EditingUser.Name = TempUser.Name;
-                // //EditingUser.Type = TempUser.Type;
-                //
-                // if (!_context.Users.Contains(EditingUser))
-                // {
-                //     _context.Users.Add(EditingUser);
-                // }
-                //
-                // _context.SaveChanges();
-                // FinishInteraction();
+                EditingUser.Id = TempUser.Id;
+                EditingUser.Name = TempUser.Name;
+                Result = EditingUser;
+                FinishInteraction();
             });
         }
     }
 
     private RelayCommand _closeCommand;
-
     public RelayCommand CloseCommand
     {
         get
@@ -122,4 +96,3 @@ public class UserEditControlVM : ViewModelBase, IDataHolder, IResultHolder, IInt
 
     #endregion
 }
-

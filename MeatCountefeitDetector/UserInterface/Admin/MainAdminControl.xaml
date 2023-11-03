@@ -39,7 +39,7 @@
             <TabItem Header="Типы фальсифкатов" Background="{StaticResource Style2}">
                 <counterfeit:CounterfeitExplorerControl />
             </TabItem>
-            <!--<TabItem Header="Изображения фальсифкатов" Background="{StaticResource Style2}">
+            <TabItem Header="Изображения фальсифкатов" Background="{StaticResource Style2}">
                 <gallery:GalleryControl />
             </TabItem>
             <TabItem Header="Журнал результатов" Background="{StaticResource Style2}">
@@ -47,7 +47,7 @@
             </TabItem>
             <TabItem Header="Пользователи" Background="{StaticResource Style2}">
                 <user:UserExplorerControl />
-            </TabItem>-->
+            </TabItem>
         </TabControl>
     </Grid>
 </UserControl>

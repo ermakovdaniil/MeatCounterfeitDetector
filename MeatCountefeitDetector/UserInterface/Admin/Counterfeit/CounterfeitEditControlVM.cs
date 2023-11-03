@@ -1,15 +1,11 @@
-﻿using DataAccess.Data;
-using DataAccess.Models;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using MeatCounterfeitDetector.UserInterface.Admin.Abstract;
 using MeatCounterfeitDetector.Utils;
 using MeatCounterfeitDetector.Utils.Dialog.Abstract;
 using ClientAPI;
-using ClientAPI.DTO.Counterfeit;
 using Mapster;
-using System.Threading.Tasks;
 
 namespace MeatCounterfeitDetector.UserInterface.Admin.Counterfeit;
 
