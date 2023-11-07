@@ -13,6 +13,7 @@ using Mapster;
 using DataAccess.Models;
 using System.Diagnostics.Contracts;
 using Newtonsoft.Json.Linq;
+using System.Collections.ObjectModel;
 
 namespace MeatCounterfeitDetector.UserInterface.Admin.Counterfeit;
 
@@ -31,7 +32,7 @@ public class CounterfeitExplorerControlVM : ViewModelBase
         _dialogService = dialogService;
 
         _counterfeitClient.CounterfeitGetAsync()
-                          .ContinueWith(c => { CounterfeitVMs = c.Result.ToList().Adapt<List<CounterfeitVM>>(); });
+                          .ContinueWith(c => { CounterfeitVMs = c.Result.ToList().Adapt<ObservableCollection<CounterfeitVM>>(); });
     }
 
     #endregion
@@ -45,8 +46,7 @@ public class CounterfeitExplorerControlVM : ViewModelBase
     private readonly IMessageBoxService _messageBoxService;
     private readonly DialogService _dialogService;
 
-    public List<GetCounterfeitDTO> CounterfeitDTOs { get; set; }
-    public List<CounterfeitVM> CounterfeitVMs { get; set; }
+    public ObservableCollection<CounterfeitVM> CounterfeitVMs { get; set; }
     public CounterfeitVM SelectedCounterfeit { get; set; }
 
     #endregion
@@ -78,9 +78,10 @@ public class CounterfeitExplorerControlVM : ViewModelBase
 
                 if (!CounterfeitVMs.Any(rec => rec.Name == result.Name))
                 {
-                    var editingCounterfeitCreateDTO = result.Adapt<CreateCounterfeitDTO>();
-                    await _counterfeitClient.CounterfeitPostAsync(editingCounterfeitCreateDTO)
-                                            .ContinueWith(c => { CounterfeitVMs.Add(result); });
+                    var addingCounterfeitCreateDTO = result.Adapt<CreateCounterfeitDTO>();
+                    var id = await _counterfeitClient.CounterfeitPostAsync(addingCounterfeitCreateDTO);
+                    result.Id = id;
+                    CounterfeitVMs.Add(result);
 
                     _messageBoxService.ShowMessage($"Объект успешно добавлен!", "Готово!", MessageBoxButton.OK, MessageBoxImage.Information);
                 }
@@ -114,11 +115,11 @@ public class CounterfeitExplorerControlVM : ViewModelBase
                 {
                     return;
                 }
-                if (!CounterfeitVMs.Any(rec => rec.Name == result.Name))
+                if (!CounterfeitVMs.Any(rec => rec.Id == result.Id))
                 {
                     var editingCounterfeitUpdateDTO = result.Adapt<UpdateCounterfeitDTO>();
-                    await _counterfeitClient.CounterfeitPutAsync(editingCounterfeitUpdateDTO)
-                                            .ContinueWith(c => { CounterfeitVMs.FirstOrDefault(x => x.Name == result.Name).Name = result.Name; }); ;
+                    await _counterfeitClient.CounterfeitPutAsync(editingCounterfeitUpdateDTO);
+                    result.Adapt(CounterfeitVMs.FirstOrDefault(x => x.Id == result.Id));
 
                     _messageBoxService.ShowMessage($"Объект успешно обновлён!", "Готово!", MessageBoxButton.OK, MessageBoxImage.Information);
                 }
@@ -143,8 +144,8 @@ public class CounterfeitExplorerControlVM : ViewModelBase
                     //var analysisResultDTO = AnalysisResult.Adapt<CreateResultDTO>();
                     //Application.Current.Dispatcher.Invoke(async () =>
                     //{
-                    await _counterfeitClient.CounterfeitDeleteAsync(SelectedCounterfeit.Id)
-                                            .ContinueWith(c => { CounterfeitVMs.Remove(SelectedCounterfeit); });
+                    await _counterfeitClient.CounterfeitDeleteAsync(SelectedCounterfeit.Id);
+                    CounterfeitVMs.Remove(SelectedCounterfeit);
                     //});
                 }
             }, c => SelectedCounterfeit is not null);

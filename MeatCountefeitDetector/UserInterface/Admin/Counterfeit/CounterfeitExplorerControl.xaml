@@ -18,7 +18,6 @@
                   SelectionMode="Single"
                   SelectedItem="{Binding SelectedCounterfeit}" Background="{StaticResource Style3}">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="ID" Binding="{Binding Id}" />
                 <DataGridTextColumn Header="Наименование" Binding="{Binding Name}" />
             </DataGrid.Columns>
         </DataGrid>

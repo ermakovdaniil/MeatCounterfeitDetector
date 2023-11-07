@@ -1,8 +1,4 @@
-﻿using DataAccess.Data;
-using DataAccess.Models;
-using Microsoft.EntityFrameworkCore;
-using System.Collections.Generic;
-using System.IO;
+﻿using System.IO;
 using System.Linq;
 using System.Windows;
 using MeatCounterfeitDetector.UserInterface.Admin.Abstract;
@@ -12,9 +8,7 @@ using MeatCounterfeitDetector.Utils.MessageBoxService;
 using ClientAPI;
 using ClientAPI.DTO.CounterfeitPath;
 using Mapster;
-using MeatCounterfeitDetector.UserInterface.Admin.Counterfeit;
-using ClientAPI.DTO.Counterfeit;
-using System;
+using System.Collections.ObjectModel;
 
 namespace MeatCounterfeitDetector.UserInterface.Admin.Gallery;
 
@@ -33,7 +27,7 @@ public class GalleryControlVM : ViewModelBase
         _dialogService = dialogService;
 
         _counterfeitPathClient.CounterfeitPathGetAsync()
-                              .ContinueWith(c => { CounterfeitPathVMs = c.Result.ToList().Adapt<List<CounterfeitPathVM>>(); });
+                              .ContinueWith(c => { CounterfeitPathVMs = c.Result.ToList().Adapt<ObservableCollection<CounterfeitPathVM>>(); });
     }
 
     #endregion
@@ -50,8 +44,7 @@ public class GalleryControlVM : ViewModelBase
     //public List<CounterfeitPath> CounterfeitPaths => _context.CounterfeitPaths.ToList();
     //public List<DataAccess.Models.Counterfeit> Counterfeits => _context.Counterfeits.ToList();
 
-    public List<GetCounterfeitPathDTO> CounterfeitPathDTOs { get; set; }
-    public List<CounterfeitPathVM> CounterfeitPathVMs { get; set; }
+    public ObservableCollection<CounterfeitPathVM> CounterfeitPathVMs { get; set; }
     public CounterfeitPathVM SelectedCounterfeitPath { get; set; }
 
     #endregion
@@ -68,7 +61,7 @@ public class GalleryControlVM : ViewModelBase
             {
                 //Application.Current.Dispatcher.Invoke(async () =>
                 //{
-                var result = (await _dialogService.ShowDialog<CounterfeitEditControl>(new WindowParameters
+                var result = (await _dialogService.ShowDialog<GalleryEditControl>(new WindowParameters
                 {
                     Height = 550,
                     Width = 350,
@@ -83,9 +76,10 @@ public class GalleryControlVM : ViewModelBase
 
                 if (!CounterfeitPathVMs.Any(rec => rec.CounterfeitId == result.CounterfeitId && rec.ImagePath == result.ImagePath))
                 {
-                    var editingCounterfeitPathCreateDTO = result.Adapt<CreateCounterfeitPathDTO>();
-                    await _counterfeitPathClient.CounterfeitPathPostAsync(editingCounterfeitPathCreateDTO)
-                                                .ContinueWith(c => { CounterfeitPathVMs.Add(result); });
+                    var addingCounterfeitPathCreateDTO = result.Adapt<CreateCounterfeitPathDTO>();
+                    var id = await _counterfeitPathClient.CounterfeitPathPostAsync(addingCounterfeitPathCreateDTO);
+                    result.Id = id;
+                    CounterfeitPathVMs.Add(result);
 
                     if (!CounterfeitPathVMs.Any(rec => rec.ImagePath == result.ImagePath))
                     {
@@ -114,7 +108,7 @@ public class GalleryControlVM : ViewModelBase
 
                 var path = SelectedCounterfeitPath.ImagePath;
 
-                var result = (await _dialogService.ShowDialog<CounterfeitEditControl>(new WindowParameters
+                var result = (await _dialogService.ShowDialog<GalleryEditControl>(new WindowParameters
                 {
                     Height = 550,
                     Width = 350,

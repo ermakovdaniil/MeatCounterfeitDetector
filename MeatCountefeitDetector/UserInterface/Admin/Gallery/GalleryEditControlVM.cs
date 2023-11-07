@@ -11,6 +11,7 @@ using ClientAPI;
 using MeatCounterfeitDetector.UserInterface.Admin.Counterfeit;
 using System.Collections.Generic;
 using Mapster;
+using System.Collections.ObjectModel;
 
 namespace MeatCounterfeitDetector.UserInterface.Admin.Gallery;
 
@@ -31,7 +32,7 @@ public class GalleryEditControlVM : ViewModelBase, IDataHolder, IResultHolder, I
         _messageBoxService = messageBoxService;
 
         _counterfeitClient.CounterfeitGetAsync()
-                          .ContinueWith(c => { CounterfeitVMs = c.Result.ToList().Adapt<List<CounterfeitVM>>(); });  
+                          .ContinueWith(c => { CounterfeitVMs = c.Result.ToList().Adapt<ObservableCollection<CounterfeitVM>>(); });  
     }
 
     #endregion
@@ -68,7 +69,7 @@ public class GalleryEditControlVM : ViewModelBase, IDataHolder, IResultHolder, I
 
     public string CounterfeitImagePath;
 
-    public List<CounterfeitVM> CounterfeitVMs { get; set; }
+    public ObservableCollection<CounterfeitVM> CounterfeitVMs { get; set; }
     public CounterfeitPathVM TempCounterfeitPath { get; set; }
     public CounterfeitPathVM EditingCounterfeitPath => (CounterfeitPathVM)Data;
 

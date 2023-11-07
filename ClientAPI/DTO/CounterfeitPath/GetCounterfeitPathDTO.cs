@@ -12,8 +12,8 @@ namespace ClientAPI.DTO.CounterfeitPath
         public Guid CounterfeitId { get; set; }
 
         [Required(ErrorMessage = "Name is required")]
-        public string ImagePath { get; set; }
+        public string ImagePath { get; set; } // TODO: возврат картинки в формате base-64 строки
 
-        public IReadOnlyCollection<GetCounterfeitDTO> CountefeitDTOs { get; set; }
+        public string CounterfeitName { get; set; }
     }
 }

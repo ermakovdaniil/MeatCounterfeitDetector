@@ -27,8 +27,7 @@
                   RowHeight="300"
                   ScrollViewer.CanContentScroll="False">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="ID" Binding="{Binding Id}" />
-                <DataGridTextColumn Header="Наименование" Binding="{Binding CounterfeitId}" />
+                <DataGridTextColumn Header="Наименование" Binding="{Binding CounterfeitName}" />
                 <DataGridTemplateColumn Header=" Изображение">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
