@@ -10,6 +10,7 @@ using ClientAPI;
 using MeatCounterfeitDetector.Utils.Dialog;
 using MeatCountefeitDetector.UserInterface.Admin.Result;
 using Mapster;
+using System.Collections.ObjectModel;
 
 namespace MeatCounterfeitDetector.UserInterface.Admin.Result;
 
@@ -24,15 +25,13 @@ public class ResultControlVM : ViewModelBase
                            IUserService userService,
                            IMessageBoxService messageBoxService)
     {
-
-
         _resultClient = resultClient;
         _dialogService = dialogService;
         _userService = userService;
         _messageBoxService = messageBoxService;
 
         _resultClient.ResultGetAsync()
-                     .ContinueWith(c => { ResultVMs = c.Result.ToList().Adapt<List<ResultVM>>(); });
+                     .ContinueWith(c => { ResultVMs = c.Result.ToList().Adapt<ObservableCollection<ResultVM>>(); });
     }
 
     #endregion
@@ -48,7 +47,7 @@ public class ResultControlVM : ViewModelBase
     private readonly IMessageBoxService _messageBoxService;
 
 
-    public List<ResultVM> ResultVMs { get; set; }
+    public ObservableCollection<ResultVM> ResultVMs { get; set; }
     public ResultVM SelectedResult { get; set; }
 
     #endregion
@@ -80,8 +79,8 @@ public class ResultControlVM : ViewModelBase
                         //    File.Delete(combinedPath);
                         //}
 
-                        await _resultClient.ResultDeleteAsync(SelectedResult.ResultId)
-                                           .ContinueWith(c => { ResultVMs.Remove(SelectedResult); });
+                        await _resultClient.ResultDeleteAsync(SelectedResult.Id);
+                        ResultVMs.Remove(SelectedResult);
                         //});
                     }
                 }

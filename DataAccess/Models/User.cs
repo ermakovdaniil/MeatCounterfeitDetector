@@ -12,6 +12,6 @@ namespace DataAccess.Models
         public string? RefreshToken { get; set; }
         public DateTime RefreshTokenExpiryTime { get; set; }
 
-        public virtual ObservableCollection<Result> Results { get; set; }
+        public virtual List<Result> Results { get; set; }
     }
 }

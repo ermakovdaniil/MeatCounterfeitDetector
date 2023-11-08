@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using ClientAPI.DTO.Counterfeit;
+using System.ComponentModel.DataAnnotations;
 
 namespace ClientAPI.DTO.CounterfeitPath
 {
@@ -7,10 +8,12 @@ namespace ClientAPI.DTO.CounterfeitPath
         [Required(ErrorMessage = "Id is required")]
         public Guid Id { get; set; }
 
-        [Required(ErrorMessage = "CounterfeitId is required")]
-        public Guid CounterfeitId { get; set; }
+        //[Required(ErrorMessage = "CounterfeitId is required")]
+        //public Guid CounterfeitId { get; set; }
 
         [Required(ErrorMessage = "Name is required")]
-        public string ImagePath { get; set; }
+        public string EncodedImage { get; set; }
+
+        public UpdateCounterfeitDTO Counterfeit { get; set; }
     }
 }

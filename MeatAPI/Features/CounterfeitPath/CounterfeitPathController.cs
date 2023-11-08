@@ -20,19 +20,19 @@ namespace MeatAPI.Features.CounterfeitPath
         public async Task<ActionResult<IReadOnlyCollection<GetCounterfeitPathDTO>>> GetAll()
         {
             var counterfeitPaths = await _counterfeitPathService.GetAll();
-            var getCounterfeitPathDTOs = new List<GetCounterfeitPathDTO>();
-            foreach (var cp in counterfeitPaths)
-            {
-                var dto = new GetCounterfeitPathDTO();
-                dto.Id = cp.Id;
-                dto.CounterfeitId = cp.CounterfeitId;
-                dto.ImagePath = cp.ImagePath;
-                dto.CounterfeitName = cp.Counterfeit.Name;
-                getCounterfeitPathDTOs.Add(dto);
-            }
+            //var getCounterfeitPathDTOs = new List<GetCounterfeitPathDTO>();
+            //foreach (var cp in counterfeitPaths)
+            //{
+            //    var dto = new GetCounterfeitPathDTO();
+            //    dto.Id = cp.Id;
+            //    dto.CounterfeitId = cp.CounterfeitId;
+            //    dto.EncodedImage = cp.EncodedImage;
+            //    dto.CounterfeitName = cp.Counterfeit.Name;
+            //    getCounterfeitPathDTOs.Add(dto);
+            //}
 
-            //var counterfeitPathsDTO = counterfeitPaths.Adapt<List<GetCounterfeitPathDTO>>();
-            return Ok(getCounterfeitPathDTOs);
+            var counterfeitPathsDTO = counterfeitPaths.Adapt<List<GetCounterfeitPathDTO>>();
+            return Ok(counterfeitPathsDTO);
         }
 
 

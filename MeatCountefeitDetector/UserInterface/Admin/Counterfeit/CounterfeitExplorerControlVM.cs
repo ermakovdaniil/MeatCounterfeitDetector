@@ -1,18 +1,12 @@
-﻿using DataAccess.Data;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using System.Windows;
 using MeatCounterfeitDetector.UserInterface.Admin.Abstract;
 using MeatCounterfeitDetector.Utils;
 using MeatCounterfeitDetector.Utils.Dialog;
 using MeatCounterfeitDetector.Utils.MessageBoxService;
 using ClientAPI;
-using System.Threading.Tasks;
 using ClientAPI.DTO.Counterfeit;
 using Mapster;
-using DataAccess.Models;
-using System.Diagnostics.Contracts;
-using Newtonsoft.Json.Linq;
 using System.Collections.ObjectModel;
 
 namespace MeatCounterfeitDetector.UserInterface.Admin.Counterfeit;
@@ -115,7 +109,8 @@ public class CounterfeitExplorerControlVM : ViewModelBase
                 {
                     return;
                 }
-                if (!CounterfeitVMs.Any(rec => rec.Id == result.Id))
+
+                if (!CounterfeitVMs.Any(rec => rec.Name == result.Name))
                 {
                     var editingCounterfeitUpdateDTO = result.Adapt<UpdateCounterfeitDTO>();
                     await _counterfeitClient.CounterfeitPutAsync(editingCounterfeitUpdateDTO);

@@ -11,6 +11,6 @@ namespace ClientAPI.DTO.Counterfeit
         [Required(ErrorMessage = "Name is required")]
         public string Name { get; set; }
 
-        public List<GetCounterfeitPathDTO> CounterfeitPaths { get; set; }
+        //public List<GetCounterfeitPathDTO> CounterfeitPaths { get; set; }
     }
 }

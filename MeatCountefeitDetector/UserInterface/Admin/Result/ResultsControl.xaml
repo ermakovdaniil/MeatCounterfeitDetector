@@ -10,7 +10,7 @@
              d:DataContext="{d:DesignInstance result:ResultControlVM}"
              d:DesignHeight="450">
     <UserControl.Resources>
-        <utils:PathToImageConverter x:Key="PathToIMageConverter"/>
+        <utils:PathToImageConverter x:Key="PathToImageConverter"/>
     </UserControl.Resources>
     <Grid>
         <Grid.RowDefinitions>
@@ -25,28 +25,27 @@
                   RowHeight="400"
                   ScrollViewer.CanContentScroll="False"     
                   SelectedItem="{Binding SelectedResult}" Background="{StaticResource Style3}">
-            <DataGrid.Columns>
-                <DataGridTextColumn Header="ID" Binding="{Binding Id}" />
-                <DataGridTextColumn Header="Дата" Binding="{Binding Date}" />
-                <DataGridTextColumn Header="Сотрудник, проводивший анализ" Binding="{Binding User.Name}" />
-                <DataGridTextColumn Header="Результат анализа" Binding="{Binding AnRes}" />
-                <DataGridTextColumn Header="Время анализа, с" Binding="{Binding Time}" />
-                <DataGridTextColumn Header="Процент сходства, %" Binding="{Binding PercentOfSimilarity}" />
-                <DataGridTemplateColumn Header="            Оригинальное изображение" Width="500">
-                    <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <Image Source="{Binding OrigPath.Path, Converter={StaticResource PathToIMageConverter}}" Stretch="Fill" Height="400" Width="400" />
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
-                </DataGridTemplateColumn>
-                <DataGridTemplateColumn Header="            Результат обработки изображения" Width="500">
-                    <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <Image Source="{Binding ResPath.Path, Converter={StaticResource PathToIMageConverter}}" Stretch="Fill" Height="400" Width="400" />
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
-                </DataGridTemplateColumn>
-            </DataGrid.Columns>
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Дата" Binding="{Binding Date}" />
+                    <DataGridTextColumn Header="Сотрудник, проводивший анализ" Binding="{Binding User.Name}" />
+                    <DataGridTextColumn Header="Результат анализа" Binding="{Binding AnRes}" />
+                    <DataGridTextColumn Header="Время анализа, с" Binding="{Binding Time}" />
+                    <DataGridTextColumn Header="Процент сходства, %" Binding="{Binding PercentOfSimilarity}" />
+                    <DataGridTemplateColumn Header="            Оригинальное изображение" Width="500">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <Image Source="{Binding OriginalPath.Path, Converter={StaticResource PathToImageConverter}}" Stretch="Fill" Height="400" Width="400" />
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTemplateColumn Header="            Результат обработки изображения" Width="500">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <Image Source="{Binding ResultPath.Path, Converter={StaticResource PathToImageConverter}}" Stretch="Fill" Height="400" Width="400" />
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                </DataGrid.Columns>
         </DataGrid>
         </hc:ScrollViewer>
         

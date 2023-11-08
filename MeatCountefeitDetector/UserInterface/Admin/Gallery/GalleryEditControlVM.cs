@@ -9,7 +9,6 @@ using MeatCounterfeitDetector.Utils.IOService;
 using MeatCounterfeitDetector.Utils.MessageBoxService;
 using ClientAPI;
 using MeatCounterfeitDetector.UserInterface.Admin.Counterfeit;
-using System.Collections.Generic;
 using Mapster;
 using System.Collections.ObjectModel;
 
@@ -22,12 +21,10 @@ public class GalleryEditControlVM : ViewModelBase, IDataHolder, IResultHolder, I
     #region Constructors
 
     public GalleryEditControlVM(CounterfeitClient counterfeitClient,
-                                CounterfeitPathClient counterfeitPathClient,
                                 IFileDialogService dialogService,
                                 IMessageBoxService messageBoxService)
     {
         _counterfeitClient = counterfeitClient;
-        _counterfeitPathClient = counterfeitPathClient;
         _dialogService = dialogService;
         _messageBoxService = messageBoxService;
 
@@ -39,10 +36,10 @@ public class GalleryEditControlVM : ViewModelBase, IDataHolder, IResultHolder, I
 
     #endregion
 
+
     #region Properties
 
     private readonly CounterfeitClient _counterfeitClient;
-    private readonly CounterfeitPathClient _counterfeitPathClient;
     private readonly IFileDialogService _dialogService;
     private readonly IMessageBoxService _messageBoxService;
 
@@ -57,8 +54,9 @@ public class GalleryEditControlVM : ViewModelBase, IDataHolder, IResultHolder, I
             TempCounterfeitPath = new CounterfeitPathVM
             {
                 Id = EditingCounterfeitPath.Id,
-                CounterfeitId = EditingCounterfeitPath.CounterfeitId, // TODO
-                ImagePath = EditingCounterfeitPath.ImagePath,
+                //CounterfeitId = EditingCounterfeitPath.CounterfeitId, // TODO
+                EncodedImage = EditingCounterfeitPath.EncodedImage,
+                Counterfeit = EditingCounterfeitPath.Counterfeit
             };
             OnPropertyChanged(nameof(TempCounterfeitPath));
         }
@@ -66,8 +64,6 @@ public class GalleryEditControlVM : ViewModelBase, IDataHolder, IResultHolder, I
 
     public Action FinishInteraction { get; set; }
     public object? Result { get; set; }
-
-    public string CounterfeitImagePath;
 
     public ObservableCollection<CounterfeitVM> CounterfeitVMs { get; set; }
     public CounterfeitPathVM TempCounterfeitPath { get; set; }
@@ -79,7 +75,7 @@ public class GalleryEditControlVM : ViewModelBase, IDataHolder, IResultHolder, I
     #region Commands
 
     private RelayCommand _changePathImage;
-    public RelayCommand ChangePathImageCommand // TODO
+    public RelayCommand ChangePathImageCommand
     {
         get
         {
@@ -88,8 +84,7 @@ public class GalleryEditControlVM : ViewModelBase, IDataHolder, IResultHolder, I
                 var path = _dialogService.OpenFileDialog(filter: "Pictures (*.png)|*.png", ext: ".png");
                 if (path != "")
                 {
-                    CounterfeitImagePath = @"..\..\..\resources\counterfeits\" + Path.GetFileName(path);
-                    TempCounterfeitPath.ImagePath = path;
+                    TempCounterfeitPath.EncodedImage = path;
                 }
             });
         }
@@ -104,11 +99,16 @@ public class GalleryEditControlVM : ViewModelBase, IDataHolder, IResultHolder, I
             {
                 try
                 {
-                    if (CounterfeitImagePath is not null)
+                    if (TempCounterfeitPath.EncodedImage is not null)
                     {
                         EditingCounterfeitPath.Id = TempCounterfeitPath.Id;
-                        EditingCounterfeitPath.CounterfeitId = TempCounterfeitPath.CounterfeitId; // TODO
-                        EditingCounterfeitPath.ImagePath = CounterfeitImagePath; // TODO
+                        //EditingCounterfeitPath.CounterfeitId = TempCounterfeitPath.CounterfeitId; // TODO
+
+                        // TODO: СДЕЛАТЬ ПРЕВРАЩЕНИЕ ИЗОБРАЖЕНИЯ В СТРОКУ BASE-64
+                        //CounterfeitImage = @"..\..\..\resources\counterfeits\" + Path.GetFileName(path);
+                        EditingCounterfeitPath.EncodedImage = TempCounterfeitPath.EncodedImage; // TODO
+
+                        EditingCounterfeitPath.Counterfeit = TempCounterfeitPath.Counterfeit;
                         Result = EditingCounterfeitPath;
                         FinishInteraction();
                     }

@@ -41,14 +41,14 @@ namespace MeatAPI.Features.ResultPath
             return Ok(id);
         }
 
-        [HttpPut]
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<ActionResult> Update([FromBody] UpdateResultPathDTO dto)
-        {
-            var rp = dto.Adapt<DataAccess.Models.ResultPath>();
-            await _resultPathService.Update(rp);
-            return Ok();
-        }
+        //[HttpPut]
+        //[ProducesResponseType(StatusCodes.Status200OK)]
+        //public async Task<ActionResult> Update([FromBody] UpdateResultPathDTO dto)
+        //{
+        //    var rp = dto.Adapt<DataAccess.Models.ResultPath>();
+        //    await _resultPathService.Update(rp);
+        //    return Ok();
+        //}
 
         [HttpDelete("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]

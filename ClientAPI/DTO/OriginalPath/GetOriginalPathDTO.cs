@@ -11,9 +11,5 @@ namespace ClientAPI.DTO.OriginalPath
 
         [Required(ErrorMessage = "Name is required")]
         public string Path { get; set; }
-
-        public List<GetResultPathDTO> ResultPaths { get; set; }
-
-        public List<GetResultDTO> Results { get; set; }
     }
 }

@@ -45,7 +45,7 @@ public class ImageAnalyzer : IImageAnalyzer
 
         for (int i = 0; i < counterfeitPaths.Count; i++)
         {
-            AnalyzeImage(ref pathToOrig, counterfeitPaths[i].ImagePath, out resPath, out tempTime, out score, percentOfSimilarity, origMat);
+            AnalyzeImage(ref pathToOrig, counterfeitPaths[i].EncodedImage, out resPath, out tempTime, out score, percentOfSimilarity, origMat);
             matchTime += tempTime;
             if (score > percentOfSimilarity)
             {

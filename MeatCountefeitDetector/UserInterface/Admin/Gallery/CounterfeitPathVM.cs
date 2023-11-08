@@ -10,7 +10,7 @@ namespace MeatCounterfeitDetector.UserInterface.Admin.Gallery;
 public class CounterfeitPathVM : ViewModelBase
 {
     public Guid Id { get; set; }
-    public Guid CounterfeitId { get; set; }
-    public string ImagePath { get; set; }
-    public string CounterfeitName { get; set; }
+    //public Guid CounterfeitId { get; set; }
+    public string EncodedImage { get; set; }
+    public CounterfeitVM Counterfeit { get; set; }
 }

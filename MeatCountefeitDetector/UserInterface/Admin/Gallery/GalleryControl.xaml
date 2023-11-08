@@ -10,7 +10,7 @@
              d:DataContext="{d:DesignInstance gallery:GalleryControlVM}"
              d:DesignHeight="450">
     <UserControl.Resources>
-        <utils:PathToImageConverter x:Key="PathToIMageConverter"/>
+        <utils:PathToImageConverter x:Key="PathToImageConverter"/>
     </UserControl.Resources>
     <Grid>
         <Grid.RowDefinitions>
@@ -27,11 +27,11 @@
                   RowHeight="300"
                   ScrollViewer.CanContentScroll="False">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Наименование" Binding="{Binding CounterfeitName}" />
+                <DataGridTextColumn Header="Наименование" Binding="{Binding Counterfeit.Name}" />
                 <DataGridTemplateColumn Header=" Изображение">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <Image Source="{Binding ImagePath, Converter={StaticResource PathToIMageConverter}}" Stretch="Fill" Height="300" Width="300" />
+                            <Image Source="{Binding EncodedImage, Converter={StaticResource PathToImageConverter}}" Stretch="Fill" Height="300" Width="300" />
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
