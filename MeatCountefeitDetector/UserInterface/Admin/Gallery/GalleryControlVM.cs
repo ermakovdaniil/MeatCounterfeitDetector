@@ -6,7 +6,7 @@ using MeatCounterfeitDetector.Utils;
 using MeatCounterfeitDetector.Utils.Dialog;
 using MeatCounterfeitDetector.Utils.MessageBoxService;
 using ClientAPI;
-using ClientAPI.DTO.CounterfeitPath;
+using ClientAPI.DTO.CounterfeitImage;
 using Mapster;
 using System.Collections.ObjectModel;
 using MeatCounterfeitDetector.UserInterface.EntityVM;
@@ -19,16 +19,16 @@ public class GalleryControlVM : ViewModelBase
 
     #region Constructors
 
-    public GalleryControlVM(CounterfeitPathClient counterfeitPathClient,
+    public GalleryControlVM(CounterfeitImageClient counterfeitImageClient,
                             DialogService dialogService,
                             IMessageBoxService messageBoxService)
     {
-        _counterfeitPathClient = counterfeitPathClient;
+        _counterfeitImageClient = counterfeitImageClient;
         _messageBoxService = messageBoxService;
         _dialogService = dialogService;
 
-        _counterfeitPathClient.CounterfeitPathGetAsync()
-                              .ContinueWith(c => { CounterfeitPathVMs = c.Result.ToList().Adapt<ObservableCollection<CounterfeitPathVM>>(); });
+        _counterfeitImageClient.CounterfeitImageGetAsync()
+                              .ContinueWith(c => { CounterfeitImageVMs = c.Result.ToList().Adapt<ObservableCollection<CounterfeitImageVM>>(); });
     }
 
     #endregion
@@ -39,23 +39,23 @@ public class GalleryControlVM : ViewModelBase
     #region Properties
 
     private readonly DialogService _dialogService;
-    private readonly CounterfeitPathClient _counterfeitPathClient;
+    private readonly CounterfeitImageClient _counterfeitImageClient;
     private readonly IMessageBoxService _messageBoxService;
 
-    public ObservableCollection<CounterfeitPathVM> CounterfeitPathVMs { get; set; }
-    public CounterfeitPathVM SelectedCounterfeitPath { get; set; }
+    public ObservableCollection<CounterfeitImageVM> CounterfeitImageVMs { get; set; }
+    public CounterfeitImageVM SelectedCounterfeitImage { get; set; }
 
     #endregion
 
 
     #region Commands
 
-    private RelayCommand _addCounterfeitPath;
-    public RelayCommand AddCounterfeitPath
+    private RelayCommand _addCounterfeitImage;
+    public RelayCommand AddCounterfeitImage
     {
         get
         {
-            return _addCounterfeitPath ??= new RelayCommand(async o =>
+            return _addCounterfeitImage ??= new RelayCommand(async o =>
             {
                 //Application.Current.Dispatcher.Invoke(async () =>
                 //{
@@ -65,21 +65,21 @@ public class GalleryControlVM : ViewModelBase
                     Width = 350,
                     Title = "Добавление изображения фальсификата",
                 },
-                data: new CounterfeitPathVM())) as CounterfeitPathVM;
+                data: new CounterfeitImageVM())) as CounterfeitImageVM;
 
                 if (result is null)
                 {
                     return;
                 }
 
-                if (!CounterfeitPathVMs.Any(rec => rec.Counterfeit.Id == result.Counterfeit.Id && rec.EncodedImage == result.EncodedImage))
+                if (!CounterfeitImageVMs.Any(rec => rec.Counterfeit.Id == result.Counterfeit.Id && rec.EncodedImage == result.EncodedImage))
                 {
-                    var addingCounterfeitPathCreateDTO = result.Adapt<CreateCounterfeitPathDTO>();
-                    var id = await _counterfeitPathClient.CounterfeitPathPostAsync(addingCounterfeitPathCreateDTO);
+                    var addingCounterfeitImageCreateDTO = result.Adapt<CreateCounterfeitImageDTO>();
+                    var id = await _counterfeitImageClient.CounterfeitImagePostAsync(addingCounterfeitImageCreateDTO);
                     result.Id = id;
-                    CounterfeitPathVMs.Add(result);
+                    CounterfeitImageVMs.Add(result);
 
-                    //if (!CounterfeitPathVMs.Any(rec => rec.EncodedImage == result.EncodedImage))
+                    //if (!CounterfeitImageVMs.Any(rec => rec.EncodedImage == result.EncodedImage))
                     //{
                     //    File.Copy(result.EncodedImage, @"..\..\..\resources\counterfeits\" + Path.GetFileName(result.EncodedImage), true);
                     //}
@@ -94,17 +94,17 @@ public class GalleryControlVM : ViewModelBase
         }
     }
 
-    private RelayCommand _editCounterfeitPath;
-    public RelayCommand EditCounterfeitPath
+    private RelayCommand _editCounterfeitImage;
+    public RelayCommand EditCounterfeitImage
     {
         get
         {
-            return _editCounterfeitPath ??= new RelayCommand(async o =>
+            return _editCounterfeitImage ??= new RelayCommand(async o =>
             {
                 //Application.Current.Dispatcher.Invoke(async () =>
                 //{
 
-                var path = SelectedCounterfeitPath.EncodedImage;
+                var path = SelectedCounterfeitImage.EncodedImage;
 
                 var result = (await _dialogService.ShowDialog<GalleryEditControl>(new WindowParameters
                 {
@@ -112,18 +112,18 @@ public class GalleryControlVM : ViewModelBase
                     Width = 350,
                     Title = "Редактирование изображения фальсификата",
                 },
-                data: SelectedCounterfeitPath)) as CounterfeitPathVM;
+                data: SelectedCounterfeitImage)) as CounterfeitImageVM;
 
                 if (result is null)
                 {
                     return;
                 }
 
-                if (!CounterfeitPathVMs.Any(rec => rec.Counterfeit.Id == result.Counterfeit.Id && rec.EncodedImage == result.EncodedImage))
+                if (!CounterfeitImageVMs.Any(rec => rec.Counterfeit.Id == result.Counterfeit.Id && rec.EncodedImage == result.EncodedImage))
                 {
-                    var editingCounterfeitPathUpdateDTO = result.Adapt<UpdateCounterfeitPathDTO>();
-                    await _counterfeitPathClient.CounterfeitPathPutAsync(editingCounterfeitPathUpdateDTO);
-                    result.Adapt(CounterfeitPathVMs.FirstOrDefault(x => x.Id == result.Id));
+                    var editingCounterfeitImageUpdateDTO = result.Adapt<UpdateCounterfeitImageDTO>();
+                    await _counterfeitImageClient.CounterfeitImagePutAsync(editingCounterfeitImageUpdateDTO);
+                    result.Adapt(CounterfeitImageVMs.FirstOrDefault(x => x.Id == result.Id));
 
                     //if(path != result.EncodedImage)
                     //{
@@ -137,33 +137,33 @@ public class GalleryControlVM : ViewModelBase
                 }
                 //});
 
-            }, _ => SelectedCounterfeitPath is not null);
+            }, _ => SelectedCounterfeitImage is not null);
         }
     }
 
-    private RelayCommand _deleteCounterfeitPath;
-    public RelayCommand DeleteCounterfeitPath
+    private RelayCommand _deleteCounterfeitImage;
+    public RelayCommand DeleteCounterfeitImage
     {
         get
         {
-            return _deleteCounterfeitPath ??= new RelayCommand(async o =>
+            return _deleteCounterfeitImage ??= new RelayCommand(async o =>
             {
                 if (_messageBoxService.ShowMessage("Вы действительно хотите удалить изображение?", "Удаление изображения", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
                 {
                     //string pathToBase = Directory.GetCurrentDirectory();
-                    //string combinedPath = Path.Combine(pathToBase, SelectedCounterfeitPath.EncodedImage);
+                    //string combinedPath = Path.Combine(pathToBase, SelectedCounterfeitImage.EncodedImage);
                     //File.Delete(combinedPath);
 
-                    //_context.CounterfeitPaths.Remove(SelectedCounterfeitPath);
+                    //_context.CounterfeitImages.Remove(SelectedCounterfeitImage);
                     //_context.SaveChanges();
 
                     //Application.Current.Dispatcher.Invoke(async () =>
                     //{
-                    await _counterfeitPathClient.CounterfeitPathDeleteAsync(SelectedCounterfeitPath.Id);
-                    CounterfeitPathVMs.Remove(SelectedCounterfeitPath);
+                    await _counterfeitImageClient.CounterfeitImageDeleteAsync(SelectedCounterfeitImage.Id);
+                    CounterfeitImageVMs.Remove(SelectedCounterfeitImage);
                     //});
                 }
-            }, c => SelectedCounterfeitPath is not null);
+            }, c => SelectedCounterfeitImage is not null);
         }
     }
 

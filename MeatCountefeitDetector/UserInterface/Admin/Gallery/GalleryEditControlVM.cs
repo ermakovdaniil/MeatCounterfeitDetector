@@ -52,14 +52,14 @@ public class GalleryEditControlVM : ViewModelBase, IDataHolder, IResultHolder, I
         {
             _data = value;
 
-            TempCounterfeitPath = new CounterfeitPathVM
+            TempCounterfeitImage = new CounterfeitImageVM
             {
-                Id = EditingCounterfeitPath.Id,
-                //CounterfeitId = EditingCounterfeitPath.CounterfeitId, // TODO
-                EncodedImage = EditingCounterfeitPath.EncodedImage,
-                Counterfeit = EditingCounterfeitPath.Counterfeit
+                Id = EditingCounterfeitImage.Id,
+                //CounterfeitId = EditingCounterfeitImage.CounterfeitId, // TODO
+                EncodedImage = EditingCounterfeitImage.EncodedImage,
+                Counterfeit = EditingCounterfeitImage.Counterfeit
             };
-            OnPropertyChanged(nameof(TempCounterfeitPath));
+            OnPropertyChanged(nameof(TempCounterfeitImage));
         }
     }
 
@@ -67,8 +67,8 @@ public class GalleryEditControlVM : ViewModelBase, IDataHolder, IResultHolder, I
     public object? Result { get; set; }
 
     public ObservableCollection<CounterfeitVM> CounterfeitVMs { get; set; }
-    public CounterfeitPathVM TempCounterfeitPath { get; set; }
-    public CounterfeitPathVM EditingCounterfeitPath => (CounterfeitPathVM)Data;
+    public CounterfeitImageVM TempCounterfeitImage { get; set; }
+    public CounterfeitImageVM EditingCounterfeitImage => (CounterfeitImageVM)Data;
 
     #endregion
 
@@ -85,32 +85,32 @@ public class GalleryEditControlVM : ViewModelBase, IDataHolder, IResultHolder, I
                 var path = _dialogService.OpenFileDialog(filter: "Pictures (*.png)|*.png", ext: ".png");
                 if (path != "")
                 {
-                    TempCounterfeitPath.EncodedImage = path;
+                    TempCounterfeitImage.EncodedImage = path;
                 }
             });
         }
     }
 
-    private RelayCommand _saveCounterfeitPath;
-    public RelayCommand SaveCounterfeitPath
+    private RelayCommand _saveCounterfeitImage;
+    public RelayCommand SaveCounterfeitImage
     {
         get
         {
-            return _saveCounterfeitPath ??= new RelayCommand(o =>
+            return _saveCounterfeitImage ??= new RelayCommand(o =>
             {
                 try
                 {
-                    if (TempCounterfeitPath.EncodedImage is not null)
+                    if (TempCounterfeitImage.EncodedImage is not null)
                     {
-                        EditingCounterfeitPath.Id = TempCounterfeitPath.Id;
-                        //EditingCounterfeitPath.CounterfeitId = TempCounterfeitPath.CounterfeitId; // TODO
+                        EditingCounterfeitImage.Id = TempCounterfeitImage.Id;
+                        //EditingCounterfeitImage.CounterfeitId = TempCounterfeitImage.CounterfeitId; // TODO
 
                         // TODO: СДЕЛАТЬ ПРЕВРАЩЕНИЕ ИЗОБРАЖЕНИЯ В СТРОКУ BASE-64
                         //CounterfeitImage = @"..\..\..\resources\counterfeits\" + Path.GetFileName(path);
-                        EditingCounterfeitPath.EncodedImage = TempCounterfeitPath.EncodedImage; // TODO
+                        EditingCounterfeitImage.EncodedImage = TempCounterfeitImage.EncodedImage; // TODO
 
-                        EditingCounterfeitPath.Counterfeit = TempCounterfeitPath.Counterfeit;
-                        Result = EditingCounterfeitPath;
+                        EditingCounterfeitImage.Counterfeit = TempCounterfeitImage.Counterfeit;
+                        Result = EditingCounterfeitImage;
                         FinishInteraction();
                     }
                     else

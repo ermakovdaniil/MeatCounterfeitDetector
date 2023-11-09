@@ -1,9 +1,4 @@
-﻿using DataAccess.Data;
-using DataAccess.Models;
-using Microsoft.EntityFrameworkCore;
-using System;
-using System.Linq;
-using System.Windows;
+﻿using System.Windows;
 using MeatCounterfeitDetector.UserInterface.Admin;
 using MeatCounterfeitDetector.UserInterface.Admin.Abstract;
 using MeatCounterfeitDetector.UserInterface.Technologist;
@@ -13,10 +8,6 @@ using MeatCounterfeitDetector.Utils.MainWindowControlChanger;
 using MeatCounterfeitDetector.Utils.MessageBoxService;
 using MeatCounterfeitDetector.Utils.UserService;
 using ClientAPI;
-using MeatCounterfeitDetector.Utils.AuthService;
-using ClientAPI.DTO.Login;
-using System.Diagnostics;
-using System.IdentityModel.Tokens.Jwt;
 
 namespace MeatCounterfeitDetector.UserInterface;
 

@@ -63,20 +63,20 @@ public partial class App : Application
             .As<CounterfeitClient>()
             .WithParameter("baseUrl", baseUrl);
 
-        builder.RegisterType<CounterfeitPathClient>()
-            .As<CounterfeitPathClient>()
+        builder.RegisterType<CounterfeitImageClient>()
+            .As<CounterfeitImageClient>()
             .WithParameter("baseUrl", baseUrl);
 
         builder.RegisterType<ResultClient>()
             .As<ResultClient>()
             .WithParameter("baseUrl", baseUrl);
 
-        builder.RegisterType<OriginalPathClient>()
-            .As<OriginalPathClient>()
+        builder.RegisterType<OriginalImageClient>()
+            .As<OriginalImageClient>()
             .WithParameter("baseUrl", baseUrl);
 
-        builder.RegisterType<ResultPathClient>()
-            .As<ResultPathClient>()
+        builder.RegisterType<ResultImageClient>()
+            .As<ResultImageClient>()
             .WithParameter("baseUrl", baseUrl);
 
         builder.RegisterType<UserClient>()

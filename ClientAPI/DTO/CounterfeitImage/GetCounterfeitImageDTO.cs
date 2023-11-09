@@ -1,9 +1,9 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using ClientAPI.DTO.Counterfeit;
 
-namespace ClientAPI.DTO.CounterfeitPath
+namespace ClientAPI.DTO.CounterfeitImage
 {
-    public class GetCounterfeitPathDTO
+    public class GetCounterfeitImageDTO
     {
         [Required(ErrorMessage = "Id is required")]
         public Guid Id { get; set; }

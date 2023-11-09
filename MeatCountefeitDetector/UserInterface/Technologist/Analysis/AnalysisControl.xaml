@@ -93,7 +93,7 @@
             </Border>
 
             <Border Grid.Column="1" BorderThickness="1" Margin="10" BorderBrush="{StaticResource Style4}" Background="{StaticResource Style3}">
-                <Image Source="{Binding ResultImagePath, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Stretch="Fill"/>
+                <Image Source="{Binding ResultImage, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Stretch="Fill"/>
             </Border>
         </Grid>
 

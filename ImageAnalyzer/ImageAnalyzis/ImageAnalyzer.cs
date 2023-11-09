@@ -10,107 +10,116 @@ namespace ImageWorker.ImageAnalyzis;
 
 public class ImageAnalyzer : IImageAnalyzer
 {
-    private int currentPath = 0;
-    private string previousPath;
+    private int currentCounterfeitImage = 0;
+    private string previousCounterfeitImage;
     private double previousPercent = 0;
-    private Mat origMat;
+    private Mat originalImageMat;
 
     private readonly IProgressReporter _progressReporter;
 
     public ImageAnalyzer(IProgressReporter progressReporter)
     {
         _progressReporter = progressReporter;
+
     }
 
-    public Result RunAnalysis(string pathToOrig, List<CounterfeitPath> counterfeitPaths, double percentOfSimilarity, User user)
+    public Result RunAnalysis(string originalImage, List<CounterfeitImage> counterfeitImages, double percentOfSimilarity) // Возвращает DTO VM или Entity?
     {
-        string anRes = "";
-        string resPath = "";
+        string analysisResult = "";
+        string resultImage = "";
         double matchTime = 0;
         double score = 0;
         double tempTime = 0;
 
-        if (previousPath is null || previousPath != pathToOrig)
+        if (previousCounterfeitImage is null || previousCounterfeitImage != originalImage)
         {
-            currentPath = 0;
-            previousPath = pathToOrig;
-            origMat = CvInvoke.Imread(pathToOrig, Emgu.CV.CvEnum.ImreadModes.AnyColor);
+            currentCounterfeitImage = 0;
+            previousCounterfeitImage = originalImage;
+            originalImageMat = CvInvoke.Imread(originalImage, Emgu.CV.CvEnum.ImreadModes.AnyColor);
         }
 
-        if (previousPath == pathToOrig && previousPercent > percentOfSimilarity)
+        if (previousCounterfeitImage == originalImage && previousPercent > percentOfSimilarity)
         {
             previousPercent = percentOfSimilarity;
-            currentPath = 0;
+            currentCounterfeitImage = 0;
         }
 
-        for (int i = 0; i < counterfeitPaths.Count; i++)
+        for (int i = 0; i < counterfeitImages.Count; i++)
         {
-            AnalyzeImage(ref pathToOrig, counterfeitPaths[i].EncodedImage, out resPath, out tempTime, out score, percentOfSimilarity, origMat);
+            AnalyzeImage(ref originalImage, counterfeitImages[i].EncodedImage, out resultImage, out tempTime, out score, percentOfSimilarity, originalImageMat);
             matchTime += tempTime;
             if (score > percentOfSimilarity)
             {
-                anRes = "Фальсификат обнаружен: " + counterfeitPaths[i].Counterfeit.Name;
+                analysisResult = "Фальсификат обнаружен: " + counterfeitImages[i].Counterfeit.Name;
                 matchTime += tempTime;
-                currentPath = i;
+                currentCounterfeitImage = i;
                 break;
             }
             else
             {
                 score = 0;
                 matchTime += tempTime;
-                anRes = "Фальсификат не обнаружен";
+                analysisResult = "Фальсификат не обнаружен";
             }
 
-            _progressReporter.ReportProgress(i / counterfeitPaths.Count);
+            _progressReporter.ReportProgress(i / counterfeitImages.Count);
         }
         matchTime = Math.Round(matchTime, 2);
-        var res = CreateResult(pathToOrig, resPath, anRes, user, matchTime, score);
+        var result = new Result(); //CreateResult(originalImage, resultImage, analysisResult, matchTime, score);
         _progressReporter.ReportProgress(100);
-        return res;
+        return result;
     }
 
-    private void AnalyzeImage(ref string pathToOrig, string pathToCounterfeit, out string pathToResult, out double matchTime, out double score, double percentOfSimilarity, Mat origMat)
+    private void AnalyzeImage(ref string originalImage, string counterfeitImage, out string resultImage, out double matchTime, out double score, double percentOfSimilarity, Mat originalImageMat)
     {
+        // УБРАТЬ
         string pathToBase = Directory.GetCurrentDirectory();
-        string combinedPath = Path.Combine(pathToBase, pathToCounterfeit);
+        string combinedPath = Path.Combine(pathToBase, counterfeitImage);
+
+        // Получаем MAT и string base64
         Mat counterfeitMat = CvInvoke.Imread(combinedPath, Emgu.CV.CvEnum.ImreadModes.AnyColor);
-        Mat resMat = SIFTAlgorithm.Draw(origMat, counterfeitMat, out matchTime, out score, percentOfSimilarity);
-        pathToResult = "";
+        Mat resultImageMat = SIFTAlgorithm.Draw(originalImageMat, counterfeitMat, out matchTime, out score, percentOfSimilarity);
+
+        resultImage = "";
+
         if (score > percentOfSimilarity)
         {
-            var date = DateTime.Now.ToString("dd.mm.yyyy_hh.mm.ss");
-            var filename = "orig_" + date + ".png";
-            pathToOrig = @"..\..\..\resources\origImages\" + filename;
-            origMat.Save(pathToOrig);
+            //  originalImage = STRING BASE64 из originalImageMat
+            //  resultImage = STRING BASE64 из resMat
 
-            filename = "res_" + date + ".png";
-            pathToResult = @"..\..\..\resources\resImages\" + filename;
-            resMat.Save(pathToResult);
+            //var date = DateTime.Now.ToString("dd.mm.yyyy_hh.mm.ss");
+            //var filename = "orig_" + date + ".png";
+            //originalImage = @"..\..\..\resources\origImages\" + filename;
+            //originalImageMat.Save(originalImage);
+
+            //filename = "res_" + date + ".png";
+            //resultImage = @"..\..\..\resources\resImages\" + filename;
+            //resultImageMat.Save(resultImage);
         }
     }
 
-    private Result CreateResult(string pathToOrig, string pathToRes, string anRes, User user, double time, double score)
+    private Result CreateResult(string originalImage, string resultImage, string analysisResult, double time, double score, User user)
     {
-        var tempOrigPath = new OriginalPath
+        var tempOriginalImage = new OriginalImage
         {
-            Path = pathToOrig,
+            EncodedImage = originalImage,
         };
 
-        var tempResPath = new ResultPath
+        var tempResultImage = new ResultImage
         {
-            Init = tempOrigPath,
-            Path = pathToRes,
+            OriginalImage = tempOriginalImage,
+            EncodedImage = resultImage,
         };
 
         var result = new Result
         {
             Date = DateTime.Now.ToString(),
-            UserId = user.Id,
-            AnRes = anRes,
+            // User = user,
+            AnalysisResult = analysisResult,
             Time = time,
             PercentOfSimilarity = score,
-            OrigPath = tempOrigPath,
-            ResPath = tempResPath,
+            OriginalImage = tempOriginalImage,
+            ResultImage = tempResultImage,
         };
         return result;
     }

@@ -21,24 +21,24 @@
                 <!--<hc:ComboBox hc:InfoElement.Title="Вид фальсификат"
                          ItemsSource="{Binding CounterfeitVMs}"
                          hc:InfoElement.TitlePlacement="Top" Margin="10 5"
-                         SelectedItem="{Binding TempCounterfeitPath.Counterfeit, Mode=TwoWay}"
-                         SelectedIndex="{Binding TempCounterfeitPath.CounterfeitId}"
+                         SelectedItem="{Binding TempCounterfeitImage.Counterfeit, Mode=TwoWay}"
+                         SelectedIndex="{Binding TempCounterfeitImage.CounterfeitId}"
                          SelectedValuePath="Id" DisplayMemberPath="Name"
                          Background="{StaticResource Style3}" HorizontalAlignment="Stretch" />-->
 
                 <hc:ComboBox hc:InfoElement.Title="Вид фальсификат"
                          ItemsSource="{Binding CounterfeitVMs}"
                          hc:InfoElement.TitlePlacement="Top" Margin="10 5"
-                         SelectedItem="{Binding TempCounterfeitPath.Counterfeit, Mode=TwoWay}"
+                         SelectedItem="{Binding TempCounterfeitImage.Counterfeit, Mode=TwoWay}"
                          DisplayMemberPath="Name"
                          Background="{StaticResource Style3}" HorizontalAlignment="Stretch" />
 
                 <!--<hc:TextBox hc:InfoElement.Title="Путь к файлу"
                         hc:InfoElement.TitlePlacement="Top" Margin="10 5"
-                        Text="{Binding TempCounterfeitPath.EncodedImage, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                        Text="{Binding TempCounterfeitImage.EncodedImage, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                         Background="{StaticResource Style3}" HorizontalAlignment="Stretch" />-->
                 <Border BorderThickness="1" Margin="10" BorderBrush="{StaticResource Style4}" Background="{StaticResource Style3}">
-                    <Image Source="{Binding TempCounterfeitPath.EncodedImage, Converter={StaticResource PathToImageConverter}}" Stretch="Fill"/>
+                    <Image Source="{Binding TempCounterfeitImage.EncodedImage, Converter={StaticResource PathToImageConverter}}" Stretch="Fill"/>
                 </Border>
                 <Button hc:BorderElement.CornerRadius="10" Width="180" Margin="5 0 5 10"
                         Command="{Binding ChangePathImageCommand}"
@@ -48,7 +48,7 @@
         <Grid Row="1" Background="{StaticResource Style1}">
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                 <Button hc:BorderElement.CornerRadius="10" Width="100" Margin="5"
-                        Command="{Binding SaveCounterfeitPath}"
+                        Command="{Binding SaveCounterfeitImage}"
                         Background="{StaticResource Style3}" Content="{StaticResource ApplyButton}" />
                 <Button Width="100" Margin="5" Content="{StaticResource CancelButton}"
                         hc:BorderElement.CornerRadius="10" Command="{Binding CloseCommand}"

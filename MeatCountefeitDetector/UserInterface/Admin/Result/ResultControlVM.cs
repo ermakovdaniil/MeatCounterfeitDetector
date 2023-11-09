@@ -71,11 +71,11 @@ public class ResultControlVM : ViewModelBase
                         //{
 
                         //string pathToBase = Directory.GetCurrentDirectory();
-                        //string combinedPath = Path.Combine(pathToBase, SelectedResult.OrigPath.Path);
+                        //string combinedPath = Path.Combine(pathToBase, SelectedResult.OriginalImage.Path);
                         //File.Delete(combinedPath);
-                        //if (SelectedResult.ResPath.Path is not null)
+                        //if (SelectedResult.ResultImage.Path is not null)
                         //{
-                        //    combinedPath = Path.Combine(pathToBase, SelectedResult.ResPath.Path);
+                        //    combinedPath = Path.Combine(pathToBase, SelectedResult.ResultImage.Path);
                         //    File.Delete(combinedPath);
                         //}
 

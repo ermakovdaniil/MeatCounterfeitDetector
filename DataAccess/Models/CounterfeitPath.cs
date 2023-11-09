@@ -2,7 +2,7 @@
 
 namespace DataAccess.Models;
 
-public class CounterfeitPath : IBaseEntity
+public class CounterfeitImage : IBaseEntity
 {
     public Guid Id { get; set; }
     public Guid CounterfeitId { get; set; }

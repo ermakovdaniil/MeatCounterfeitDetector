@@ -16,9 +16,9 @@ namespace DataAccess.Data
         {
         }
 
-        public virtual DbSet<OriginalPath> OriginalPaths { get; set; } = null!;
+        public virtual DbSet<OriginalImage> OriginalImages { get; set; } = null!;
         public virtual DbSet<Result> Results { get; set; } = null!;
-        public virtual DbSet<ResultPath> ResultPaths { get; set; } = null!;
+        public virtual DbSet<ResultImage> ResultImages { get; set; } = null!;
         public virtual DbSet<User> Users { get; set; } = null!;
     }
 }

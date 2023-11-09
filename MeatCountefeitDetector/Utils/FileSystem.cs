@@ -64,20 +64,20 @@ internal static class FileSystem
         document.Add(header);
         document.Add(new Paragraph("Исходное изображение:"));
 
-        var initialImage = CreateAndFitImage(result.OrigPath.Path, document);
+        var initialImage = CreateAndFitImage(result.OriginalImage.EncodedImage, document);
         document.Add(initialImage);
         document.Add(new AreaBreak());
 
-        if (result.ResPath.Path is not null)
+        if (result.ResultImage.EncodedImage is not null)
         {
             document.Add(new Paragraph("Обработанное изображение:"));
-            var resImage = CreateAndFitImage(result.ResPath.Path, document);
+            var resImage = CreateAndFitImage(result.ResultImage.EncodedImage, document);
             document.Add(resImage);
         }
 
         document.Add(new Paragraph(""));
         document.Add(new Paragraph("Результат анализа:"));
-        string resultToString = result.AnRes + "\n" +
+        string resultToString = result.AnalysisResult + "\n" +
                                 "Дата проведения анализа: " + result.Date + "\n" +
                                 "Время проведения: " + result.Time + " мс\n" +
                                 "Процент сходства: " + result.PercentOfSimilarity + "%\n" +

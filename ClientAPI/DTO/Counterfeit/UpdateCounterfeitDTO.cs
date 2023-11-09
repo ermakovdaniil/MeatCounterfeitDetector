@@ -1,4 +1,4 @@
-﻿using ClientAPI.DTO.CounterfeitPath;
+﻿using ClientAPI.DTO.CounterfeitImage;
 using System.ComponentModel.DataAnnotations;
 
 namespace ClientAPI.DTO.Counterfeit

@@ -1,15 +1,15 @@
 ﻿using ClientAPI.DTO.Result;
-using ClientAPI.DTO.ResultPath;
+using ClientAPI.DTO.ResultImage;
 using System.ComponentModel.DataAnnotations;
 
-namespace ClientAPI.DTO.OriginalPath
+namespace ClientAPI.DTO.OriginalImage
 {
-    public class GetOriginalPathDTO
+    public class GetOriginalImageDTO
     {
         [Required(ErrorMessage = "Id is required")]
         public Guid Id { get; set; }
 
         [Required(ErrorMessage = "Name is required")]
-        public string Path { get; set; }
+        public string EncodedImage { get; set; }
     }
 }

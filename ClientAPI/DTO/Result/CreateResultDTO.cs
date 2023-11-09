@@ -1,4 +1,5 @@
-﻿using ClientAPI.DTO.OriginalPath;
+﻿using ClientAPI.DTO.OriginalImage;
+using ClientAPI.DTO.ResultImage;
 using ClientAPI.DTO.User;
 using System.ComponentModel.DataAnnotations;
 
@@ -12,8 +13,8 @@ namespace ClientAPI.DTO.Result
         //[Required(ErrorMessage = "UserId is required")]
         //public Guid UserId { get; set; }
 
-        [Required(ErrorMessage = "AnRes is required")]
-        public string AnRes { get; set; }
+        [Required(ErrorMessage = "AnalysisResult is required")]
+        public string AnalysisResult { get; set; }
 
         [Required(ErrorMessage = "Time is required")]
         public double Time { get; set; }
@@ -21,14 +22,14 @@ namespace ClientAPI.DTO.Result
         [Required(ErrorMessage = "PercentOfSimilarity is required")]
         public double PercentOfSimilarity { get; set; }
 
-        //[Required(ErrorMessage = "OrigPathId is required")]
-        //public Guid OrigPathId { get; set; }
+        //[Required(ErrorMessage = "OriginalImageId is required")]
+        //public Guid OriginalImageId { get; set; }
 
-        //[Required(ErrorMessage = "ResPathId is required")]
-        //public Guid ResPathId { get; set; }
+        //[Required(ErrorMessage = "ResultImageId is required")]
+        //public Guid ResultImageId { get; set; }
 
         public CreateUserDTO User { get; set; }
-        public CreateOriginalPathDTO OriginalPath { get; set; }
-        public CreateResultDTO Result { get; set; }
+        public CreateOriginalImageDTO OriginalImage { get; set; }
+        public CreateResultImageDTO ResultImage { get; set; }
     }
 }

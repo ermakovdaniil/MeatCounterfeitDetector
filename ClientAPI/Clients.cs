@@ -18,11 +18,11 @@
 namespace ClientAPI
 {
     using ClientAPI.DTO.Counterfeit;
-    using ClientAPI.DTO.CounterfeitPath;
+    using ClientAPI.DTO.CounterfeitImage;
     using ClientAPI.DTO.Login;
-    using ClientAPI.DTO.OriginalPath;
+    using ClientAPI.DTO.OriginalImage;
     using ClientAPI.DTO.Result;
-    using ClientAPI.DTO.ResultPath;
+    using ClientAPI.DTO.ResultImage;
     using ClientAPI.DTO.User;
     using ClientAPI.DTO.UserType;
     using System = global::System;
@@ -834,13 +834,13 @@ namespace ClientAPI
     }
 
     [System.CodeDom.Compiler.GeneratedCode("NSwag", "13.20.0.0 (NJsonSchema v10.9.0.0 (Newtonsoft.Json v13.0.0.0))")]
-    public partial class CounterfeitPathClient
+    public partial class CounterfeitImageClient
     {
         private string _baseUrl = "";
         private System.Net.Http.HttpClient _httpClient;
         private System.Lazy<Newtonsoft.Json.JsonSerializerSettings> _settings;
 
-        public CounterfeitPathClient(string baseUrl, System.Net.Http.HttpClient httpClient)
+        public CounterfeitImageClient(string baseUrl, System.Net.Http.HttpClient httpClient)
         {
             BaseUrl = baseUrl;
             _httpClient = httpClient;
@@ -870,18 +870,18 @@ namespace ClientAPI
 
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual System.Threading.Tasks.Task<System.Collections.Generic.ICollection<GetCounterfeitPathDTO>> CounterfeitPathGetAsync()
+        public virtual System.Threading.Tasks.Task<System.Collections.Generic.ICollection<GetCounterfeitImageDTO>> CounterfeitImageGetAsync()
         {
-            return CounterfeitPathGetAsync(System.Threading.CancellationToken.None);
+            return CounterfeitImageGetAsync(System.Threading.CancellationToken.None);
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<System.Collections.Generic.ICollection<GetCounterfeitPathDTO>> CounterfeitPathGetAsync(System.Threading.CancellationToken cancellationToken)
+        public virtual async System.Threading.Tasks.Task<System.Collections.Generic.ICollection<GetCounterfeitImageDTO>> CounterfeitImageGetAsync(System.Threading.CancellationToken cancellationToken)
         {
             var urlBuilder_ = new System.Text.StringBuilder();
-            urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/api/CounterfeitPath");
+            urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/api/CounterfeitImage");
 
             var client_ = _httpClient;
             var disposeClient_ = false;
@@ -915,7 +915,7 @@ namespace ClientAPI
                         var status_ = (int)response_.StatusCode;
                         if (status_ == 200)
                         {
-                            var objectResponse_ = await ReadObjectResponseAsync<System.Collections.Generic.ICollection<GetCounterfeitPathDTO>>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            var objectResponse_ = await ReadObjectResponseAsync<System.Collections.Generic.ICollection<GetCounterfeitImageDTO>>(response_, headers_, cancellationToken).ConfigureAwait(false);
                             if (objectResponse_.Object == null)
                             {
                                 throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
@@ -944,18 +944,18 @@ namespace ClientAPI
 
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual System.Threading.Tasks.Task<System.Guid> CounterfeitPathPostAsync(CreateCounterfeitPathDTO body)
+        public virtual System.Threading.Tasks.Task<System.Guid> CounterfeitImagePostAsync(CreateCounterfeitImageDTO body)
         {
-            return CounterfeitPathPostAsync(body, System.Threading.CancellationToken.None);
+            return CounterfeitImagePostAsync(body, System.Threading.CancellationToken.None);
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<System.Guid> CounterfeitPathPostAsync(CreateCounterfeitPathDTO body, System.Threading.CancellationToken cancellationToken)
+        public virtual async System.Threading.Tasks.Task<System.Guid> CounterfeitImagePostAsync(CreateCounterfeitImageDTO body, System.Threading.CancellationToken cancellationToken)
         {
             var urlBuilder_ = new System.Text.StringBuilder();
-            urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/api/CounterfeitPath");
+            urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/api/CounterfeitImage");
 
             var client_ = _httpClient;
             var disposeClient_ = false;
@@ -1022,18 +1022,18 @@ namespace ClientAPI
 
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual System.Threading.Tasks.Task CounterfeitPathPutAsync(UpdateCounterfeitPathDTO body)
+        public virtual System.Threading.Tasks.Task CounterfeitImagePutAsync(UpdateCounterfeitImageDTO body)
         {
-            return CounterfeitPathPutAsync(body, System.Threading.CancellationToken.None);
+            return CounterfeitImagePutAsync(body, System.Threading.CancellationToken.None);
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task CounterfeitPathPutAsync(UpdateCounterfeitPathDTO body, System.Threading.CancellationToken cancellationToken)
+        public virtual async System.Threading.Tasks.Task CounterfeitImagePutAsync(UpdateCounterfeitImageDTO body, System.Threading.CancellationToken cancellationToken)
         {
             var urlBuilder_ = new System.Text.StringBuilder();
-            urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/api/CounterfeitPath");
+            urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/api/CounterfeitImage");
 
             var client_ = _httpClient;
             var disposeClient_ = false;
@@ -1094,7 +1094,7 @@ namespace ClientAPI
 
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual System.Threading.Tasks.Task<System.Collections.Generic.ICollection<GetCounterfeitPathDTO>> GetAllByCounterfeitIdAsync(System.Guid counterfeitId)
+        public virtual System.Threading.Tasks.Task<System.Collections.Generic.ICollection<GetCounterfeitImageDTO>> GetAllByCounterfeitIdAsync(System.Guid counterfeitId)
         {
             return GetAllByCounterfeitIdAsync(counterfeitId, System.Threading.CancellationToken.None);
         }
@@ -1102,13 +1102,13 @@ namespace ClientAPI
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<System.Collections.Generic.ICollection<GetCounterfeitPathDTO>> GetAllByCounterfeitIdAsync(System.Guid counterfeitId, System.Threading.CancellationToken cancellationToken)
+        public virtual async System.Threading.Tasks.Task<System.Collections.Generic.ICollection<GetCounterfeitImageDTO>> GetAllByCounterfeitIdAsync(System.Guid counterfeitId, System.Threading.CancellationToken cancellationToken)
         {
             if (counterfeitId == null)
                 throw new System.ArgumentNullException("counterfeitId");
 
             var urlBuilder_ = new System.Text.StringBuilder();
-            urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/api/CounterfeitPath/GetAllByCounterfeitId/{counterfeitId}");
+            urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/api/CounterfeitImage/GetAllByCounterfeitId/{counterfeitId}");
             urlBuilder_.Replace("{counterfeitId}", System.Uri.EscapeDataString(ConvertToString(counterfeitId, System.Globalization.CultureInfo.InvariantCulture)));
 
             var client_ = _httpClient;
@@ -1143,7 +1143,7 @@ namespace ClientAPI
                         var status_ = (int)response_.StatusCode;
                         if (status_ == 200)
                         {
-                            var objectResponse_ = await ReadObjectResponseAsync<System.Collections.Generic.ICollection<GetCounterfeitPathDTO>>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            var objectResponse_ = await ReadObjectResponseAsync<System.Collections.Generic.ICollection<GetCounterfeitImageDTO>>(response_, headers_, cancellationToken).ConfigureAwait(false);
                             if (objectResponse_.Object == null)
                             {
                                 throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
@@ -1172,21 +1172,21 @@ namespace ClientAPI
 
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual System.Threading.Tasks.Task<GetCounterfeitPathDTO> CounterfeitPathGetAsync(System.Guid id)
+        public virtual System.Threading.Tasks.Task<GetCounterfeitImageDTO> CounterfeitImageGetAsync(System.Guid id)
         {
-            return CounterfeitPathGetAsync(id, System.Threading.CancellationToken.None);
+            return CounterfeitImageGetAsync(id, System.Threading.CancellationToken.None);
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<GetCounterfeitPathDTO> CounterfeitPathGetAsync(System.Guid id, System.Threading.CancellationToken cancellationToken)
+        public virtual async System.Threading.Tasks.Task<GetCounterfeitImageDTO> CounterfeitImageGetAsync(System.Guid id, System.Threading.CancellationToken cancellationToken)
         {
             if (id == null)
                 throw new System.ArgumentNullException("id");
 
             var urlBuilder_ = new System.Text.StringBuilder();
-            urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/api/CounterfeitPath/{id}");
+            urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/api/CounterfeitImage/{id}");
             urlBuilder_.Replace("{id}", System.Uri.EscapeDataString(ConvertToString(id, System.Globalization.CultureInfo.InvariantCulture)));
 
             var client_ = _httpClient;
@@ -1221,7 +1221,7 @@ namespace ClientAPI
                         var status_ = (int)response_.StatusCode;
                         if (status_ == 200)
                         {
-                            var objectResponse_ = await ReadObjectResponseAsync<GetCounterfeitPathDTO>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            var objectResponse_ = await ReadObjectResponseAsync<GetCounterfeitImageDTO>(response_, headers_, cancellationToken).ConfigureAwait(false);
                             if (objectResponse_.Object == null)
                             {
                                 throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
@@ -1250,21 +1250,21 @@ namespace ClientAPI
 
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual System.Threading.Tasks.Task CounterfeitPathDeleteAsync(System.Guid id)
+        public virtual System.Threading.Tasks.Task CounterfeitImageDeleteAsync(System.Guid id)
         {
-            return CounterfeitPathDeleteAsync(id, System.Threading.CancellationToken.None);
+            return CounterfeitImageDeleteAsync(id, System.Threading.CancellationToken.None);
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task CounterfeitPathDeleteAsync(System.Guid id, System.Threading.CancellationToken cancellationToken)
+        public virtual async System.Threading.Tasks.Task CounterfeitImageDeleteAsync(System.Guid id, System.Threading.CancellationToken cancellationToken)
         {
             if (id == null)
                 throw new System.ArgumentNullException("id");
 
             var urlBuilder_ = new System.Text.StringBuilder();
-            urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/api/CounterfeitPath/{id}");
+            urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/api/CounterfeitImage/{id}");
             urlBuilder_.Replace("{id}", System.Uri.EscapeDataString(ConvertToString(id, System.Globalization.CultureInfo.InvariantCulture)));
 
             var client_ = _httpClient;
@@ -1424,13 +1424,13 @@ namespace ClientAPI
     }
 
     [System.CodeDom.Compiler.GeneratedCode("NSwag", "13.20.0.0 (NJsonSchema v10.9.0.0 (Newtonsoft.Json v13.0.0.0))")]
-    public partial class OriginalPathClient
+    public partial class OriginalImageClient
     {
         private string _baseUrl = "";
         private System.Net.Http.HttpClient _httpClient;
         private System.Lazy<Newtonsoft.Json.JsonSerializerSettings> _settings;
 
-        public OriginalPathClient(string baseUrl, System.Net.Http.HttpClient httpClient)
+        public OriginalImageClient(string baseUrl, System.Net.Http.HttpClient httpClient)
         {
             BaseUrl = baseUrl;
             _httpClient = httpClient;
@@ -1460,18 +1460,18 @@ namespace ClientAPI
 
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual System.Threading.Tasks.Task<System.Collections.Generic.ICollection<GetOriginalPathDTO>> OriginalPathGetAsync()
+        public virtual System.Threading.Tasks.Task<System.Collections.Generic.ICollection<GetOriginalImageDTO>> OriginalImageGetAsync()
         {
-            return OriginalPathGetAsync(System.Threading.CancellationToken.None);
+            return OriginalImageGetAsync(System.Threading.CancellationToken.None);
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<System.Collections.Generic.ICollection<GetOriginalPathDTO>> OriginalPathGetAsync(System.Threading.CancellationToken cancellationToken)
+        public virtual async System.Threading.Tasks.Task<System.Collections.Generic.ICollection<GetOriginalImageDTO>> OriginalImageGetAsync(System.Threading.CancellationToken cancellationToken)
         {
             var urlBuilder_ = new System.Text.StringBuilder();
-            urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/api/OriginalPath");
+            urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/api/OriginalImage");
 
             var client_ = _httpClient;
             var disposeClient_ = false;
@@ -1505,7 +1505,7 @@ namespace ClientAPI
                         var status_ = (int)response_.StatusCode;
                         if (status_ == 200)
                         {
-                            var objectResponse_ = await ReadObjectResponseAsync<System.Collections.Generic.ICollection<GetOriginalPathDTO>>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            var objectResponse_ = await ReadObjectResponseAsync<System.Collections.Generic.ICollection<GetOriginalImageDTO>>(response_, headers_, cancellationToken).ConfigureAwait(false);
                             if (objectResponse_.Object == null)
                             {
                                 throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
@@ -1534,18 +1534,18 @@ namespace ClientAPI
 
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual System.Threading.Tasks.Task<System.Guid> OriginalPathPostAsync(CreateOriginalPathDTO body)
+        public virtual System.Threading.Tasks.Task<System.Guid> OriginalImagePostAsync(CreateOriginalImageDTO body)
         {
-            return OriginalPathPostAsync(body, System.Threading.CancellationToken.None);
+            return OriginalImagePostAsync(body, System.Threading.CancellationToken.None);
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<System.Guid> OriginalPathPostAsync(CreateOriginalPathDTO body, System.Threading.CancellationToken cancellationToken)
+        public virtual async System.Threading.Tasks.Task<System.Guid> OriginalImagePostAsync(CreateOriginalImageDTO body, System.Threading.CancellationToken cancellationToken)
         {
             var urlBuilder_ = new System.Text.StringBuilder();
-            urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/api/OriginalPath");
+            urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/api/OriginalImage");
 
             var client_ = _httpClient;
             var disposeClient_ = false;
@@ -1612,21 +1612,21 @@ namespace ClientAPI
 
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual System.Threading.Tasks.Task<GetOriginalPathDTO> OriginalPathGetAsync(System.Guid id)
+        public virtual System.Threading.Tasks.Task<GetOriginalImageDTO> OriginalImageGetAsync(System.Guid id)
         {
-            return OriginalPathGetAsync(id, System.Threading.CancellationToken.None);
+            return OriginalImageGetAsync(id, System.Threading.CancellationToken.None);
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<GetOriginalPathDTO> OriginalPathGetAsync(System.Guid id, System.Threading.CancellationToken cancellationToken)
+        public virtual async System.Threading.Tasks.Task<GetOriginalImageDTO> OriginalImageGetAsync(System.Guid id, System.Threading.CancellationToken cancellationToken)
         {
             if (id == null)
                 throw new System.ArgumentNullException("id");
 
             var urlBuilder_ = new System.Text.StringBuilder();
-            urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/api/OriginalPath/{id}");
+            urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/api/OriginalImage/{id}");
             urlBuilder_.Replace("{id}", System.Uri.EscapeDataString(ConvertToString(id, System.Globalization.CultureInfo.InvariantCulture)));
 
             var client_ = _httpClient;
@@ -1661,7 +1661,7 @@ namespace ClientAPI
                         var status_ = (int)response_.StatusCode;
                         if (status_ == 200)
                         {
-                            var objectResponse_ = await ReadObjectResponseAsync<GetOriginalPathDTO>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            var objectResponse_ = await ReadObjectResponseAsync<GetOriginalImageDTO>(response_, headers_, cancellationToken).ConfigureAwait(false);
                             if (objectResponse_.Object == null)
                             {
                                 throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
@@ -1690,21 +1690,21 @@ namespace ClientAPI
 
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual System.Threading.Tasks.Task OriginalPathDeleteAsync(System.Guid id)
+        public virtual System.Threading.Tasks.Task OriginalImageDeleteAsync(System.Guid id)
         {
-            return OriginalPathDeleteAsync(id, System.Threading.CancellationToken.None);
+            return OriginalImageDeleteAsync(id, System.Threading.CancellationToken.None);
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task OriginalPathDeleteAsync(System.Guid id, System.Threading.CancellationToken cancellationToken)
+        public virtual async System.Threading.Tasks.Task OriginalImageDeleteAsync(System.Guid id, System.Threading.CancellationToken cancellationToken)
         {
             if (id == null)
                 throw new System.ArgumentNullException("id");
 
             var urlBuilder_ = new System.Text.StringBuilder();
-            urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/api/OriginalPath/{id}");
+            urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/api/OriginalImage/{id}");
             urlBuilder_.Replace("{id}", System.Uri.EscapeDataString(ConvertToString(id, System.Globalization.CultureInfo.InvariantCulture)));
 
             var client_ = _httpClient;
@@ -2304,13 +2304,13 @@ namespace ClientAPI
     }
 
     [System.CodeDom.Compiler.GeneratedCode("NSwag", "13.20.0.0 (NJsonSchema v10.9.0.0 (Newtonsoft.Json v13.0.0.0))")]
-    public partial class ResultPathClient
+    public partial class ResultImageClient
     {
         private string _baseUrl = "";
         private System.Net.Http.HttpClient _httpClient;
         private System.Lazy<Newtonsoft.Json.JsonSerializerSettings> _settings;
 
-        public ResultPathClient(string baseUrl, System.Net.Http.HttpClient httpClient)
+        public ResultImageClient(string baseUrl, System.Net.Http.HttpClient httpClient)
         {
             BaseUrl = baseUrl;
             _httpClient = httpClient;
@@ -2340,18 +2340,18 @@ namespace ClientAPI
 
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual System.Threading.Tasks.Task<System.Collections.Generic.ICollection<GetResultPathDTO>> ResultPathGetAsync()
+        public virtual System.Threading.Tasks.Task<System.Collections.Generic.ICollection<GetResultImageDTO>> ResultImageGetAsync()
         {
-            return ResultPathGetAsync(System.Threading.CancellationToken.None);
+            return ResultImageGetAsync(System.Threading.CancellationToken.None);
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<System.Collections.Generic.ICollection<GetResultPathDTO>> ResultPathGetAsync(System.Threading.CancellationToken cancellationToken)
+        public virtual async System.Threading.Tasks.Task<System.Collections.Generic.ICollection<GetResultImageDTO>> ResultImageGetAsync(System.Threading.CancellationToken cancellationToken)
         {
             var urlBuilder_ = new System.Text.StringBuilder();
-            urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/api/ResultPath");
+            urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/api/ResultImage");
 
             var client_ = _httpClient;
             var disposeClient_ = false;
@@ -2385,7 +2385,7 @@ namespace ClientAPI
                         var status_ = (int)response_.StatusCode;
                         if (status_ == 200)
                         {
-                            var objectResponse_ = await ReadObjectResponseAsync<System.Collections.Generic.ICollection<GetResultPathDTO>>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            var objectResponse_ = await ReadObjectResponseAsync<System.Collections.Generic.ICollection<GetResultImageDTO>>(response_, headers_, cancellationToken).ConfigureAwait(false);
                             if (objectResponse_.Object == null)
                             {
                                 throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
@@ -2414,18 +2414,18 @@ namespace ClientAPI
 
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual System.Threading.Tasks.Task<System.Guid> ResultPathPostAsync(CreateResultPathDTO body)
+        public virtual System.Threading.Tasks.Task<System.Guid> ResultImagePostAsync(CreateResultImageDTO body)
         {
-            return ResultPathPostAsync(body, System.Threading.CancellationToken.None);
+            return ResultImagePostAsync(body, System.Threading.CancellationToken.None);
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<System.Guid> ResultPathPostAsync(CreateResultPathDTO body, System.Threading.CancellationToken cancellationToken)
+        public virtual async System.Threading.Tasks.Task<System.Guid> ResultImagePostAsync(CreateResultImageDTO body, System.Threading.CancellationToken cancellationToken)
         {
             var urlBuilder_ = new System.Text.StringBuilder();
-            urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/api/ResultPath");
+            urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/api/ResultImage");
 
             var client_ = _httpClient;
             var disposeClient_ = false;
@@ -2492,18 +2492,18 @@ namespace ClientAPI
 
         ///// <returns>Success</returns>
         ///// <exception cref="ApiException">A server side error occurred.</exception>
-        //public virtual System.Threading.Tasks.Task ResultPathPutAsync(UpdateResultPathDTO body)
+        //public virtual System.Threading.Tasks.Task ResultImagePutAsync(UpdateResultImageDTO body)
         //{
-        //    return ResultPathPutAsync(body, System.Threading.CancellationToken.None);
+        //    return ResultImagePutAsync(body, System.Threading.CancellationToken.None);
         //}
 
         ///// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         ///// <returns>Success</returns>
         ///// <exception cref="ApiException">A server side error occurred.</exception>
-        //public virtual async System.Threading.Tasks.Task ResultPathPutAsync(UpdateResultPathDTO body, System.Threading.CancellationToken cancellationToken)
+        //public virtual async System.Threading.Tasks.Task ResultImagePutAsync(UpdateResultImageDTO body, System.Threading.CancellationToken cancellationToken)
         //{
         //    var urlBuilder_ = new System.Text.StringBuilder();
-        //    urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/api/ResultPath");
+        //    urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/api/ResultImage");
 
         //    var client_ = _httpClient;
         //    var disposeClient_ = false;
@@ -2564,21 +2564,21 @@ namespace ClientAPI
 
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual System.Threading.Tasks.Task<GetResultPathDTO> ResultPathGetAsync(System.Guid id)
+        public virtual System.Threading.Tasks.Task<GetResultImageDTO> ResultImageGetAsync(System.Guid id)
         {
-            return ResultPathGetAsync(id, System.Threading.CancellationToken.None);
+            return ResultImageGetAsync(id, System.Threading.CancellationToken.None);
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<GetResultPathDTO> ResultPathGetAsync(System.Guid id, System.Threading.CancellationToken cancellationToken)
+        public virtual async System.Threading.Tasks.Task<GetResultImageDTO> ResultImageGetAsync(System.Guid id, System.Threading.CancellationToken cancellationToken)
         {
             if (id == null)
                 throw new System.ArgumentNullException("id");
 
             var urlBuilder_ = new System.Text.StringBuilder();
-            urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/api/ResultPath/{id}");
+            urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/api/ResultImage/{id}");
             urlBuilder_.Replace("{id}", System.Uri.EscapeDataString(ConvertToString(id, System.Globalization.CultureInfo.InvariantCulture)));
 
             var client_ = _httpClient;
@@ -2613,7 +2613,7 @@ namespace ClientAPI
                         var status_ = (int)response_.StatusCode;
                         if (status_ == 200)
                         {
-                            var objectResponse_ = await ReadObjectResponseAsync<GetResultPathDTO>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            var objectResponse_ = await ReadObjectResponseAsync<GetResultImageDTO>(response_, headers_, cancellationToken).ConfigureAwait(false);
                             if (objectResponse_.Object == null)
                             {
                                 throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
@@ -2642,21 +2642,21 @@ namespace ClientAPI
 
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual System.Threading.Tasks.Task ResultPathDeleteAsync(System.Guid id)
+        public virtual System.Threading.Tasks.Task ResultImageDeleteAsync(System.Guid id)
         {
-            return ResultPathDeleteAsync(id, System.Threading.CancellationToken.None);
+            return ResultImageDeleteAsync(id, System.Threading.CancellationToken.None);
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task ResultPathDeleteAsync(System.Guid id, System.Threading.CancellationToken cancellationToken)
+        public virtual async System.Threading.Tasks.Task ResultImageDeleteAsync(System.Guid id, System.Threading.CancellationToken cancellationToken)
         {
             if (id == null)
                 throw new System.ArgumentNullException("id");
 
             var urlBuilder_ = new System.Text.StringBuilder();
-            urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/api/ResultPath/{id}");
+            urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/api/ResultImage/{id}");
             urlBuilder_.Replace("{id}", System.Uri.EscapeDataString(ConvertToString(id, System.Globalization.CultureInfo.InvariantCulture)));
 
             var client_ = _httpClient;

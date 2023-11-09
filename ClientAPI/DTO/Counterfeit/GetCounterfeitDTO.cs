@@ -1,4 +1,4 @@
-﻿using ClientAPI.DTO.CounterfeitPath;
+﻿using ClientAPI.DTO.CounterfeitImage;
 using System.ComponentModel.DataAnnotations;
 
 namespace ClientAPI.DTO.Counterfeit
@@ -11,6 +11,6 @@ namespace ClientAPI.DTO.Counterfeit
         [Required(ErrorMessage = "Name is required")]
         public string Name { get; set; }
 
-        //public List<GetCounterfeitPathDTO> CounterfeitPaths { get; set; }
+        //public List<GetCounterfeitImageDTO> CounterfeitImages { get; set; }
     }
 }

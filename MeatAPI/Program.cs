@@ -2,7 +2,7 @@ using System.Text;
 using DataAccess.Data;
 using DataAccess.Models;
 using MeatAPI.Features;
-using MeatAPI.Features.CounterfeitPath;
+using MeatAPI.Features.CounterfeitImage;
 using MeatAPI.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -26,10 +26,10 @@ builder.Services.AddHttpContextAccessor();
 builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(EFGenericRepository<>));
 
 builder.Services.AddTransient<EntityAccessServiceBase<CounterfeitKBContext, Counterfeit>>();
-builder.Services.AddTransient<CounterfeitPathService>();
+builder.Services.AddTransient<CounterfeitImageService>();
 builder.Services.AddTransient<EntityAccessServiceBase<ResultDBContext, Result>>();
-builder.Services.AddTransient<EntityAccessServiceBase<ResultDBContext, OriginalPath>>();
-builder.Services.AddTransient<EntityAccessServiceBase<ResultDBContext, ResultPath>>();
+builder.Services.AddTransient<EntityAccessServiceBase<ResultDBContext, OriginalImage>>();
+builder.Services.AddTransient<EntityAccessServiceBase<ResultDBContext, ResultImage>>();
 builder.Services.AddTransient<EntityAccessServiceBase<ResultDBContext, User>>();
 
 //builder.Services.AddTransient<EntityAccessServiceBase<ResultDBContext, UserType>>();

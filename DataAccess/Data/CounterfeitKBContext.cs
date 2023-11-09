@@ -17,5 +17,5 @@ public partial class CounterfeitKBContext : DbContext
     }
 
     public virtual DbSet<Counterfeit> Counterfeits { get; set; } = null!;
-    public virtual DbSet<CounterfeitPath> CounterfeitPaths { get; set; } = null!;
+    public virtual DbSet<CounterfeitImage> CounterfeitImages { get; set; } = null!;
 }
