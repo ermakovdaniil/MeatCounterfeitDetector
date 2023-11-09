@@ -9,6 +9,7 @@ using ClientAPI;
 using ClientAPI.DTO.CounterfeitPath;
 using Mapster;
 using System.Collections.ObjectModel;
+using MeatCounterfeitDetector.UserInterface.EntityVM;
 
 namespace MeatCounterfeitDetector.UserInterface.Admin.Gallery;
 
@@ -107,7 +108,7 @@ public class GalleryControlVM : ViewModelBase
 
                 var result = (await _dialogService.ShowDialog<GalleryEditControl>(new WindowParameters
                 {
-                    Height = 550,
+                    Height = 450,
                     Width = 350,
                     Title = "Редактирование изображения фальсификата",
                 },

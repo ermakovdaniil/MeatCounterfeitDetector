@@ -22,8 +22,6 @@
                       AutoGenerateColumns="False"
                       Background="{StaticResource Style3}">
                 <DataGrid.Columns>
-                    <DataGridTextColumn Header="ID"
-                                        Binding="{Binding Id}" />
                     <DataGridTextColumn Header="Логин"
                                         Binding="{Binding Login}" />
                     <DataGridTextColumn Header="Пароль"
@@ -31,7 +29,7 @@
                     <DataGridTextColumn Header="Имя пользователя"
                                         Binding="{Binding Name}" />
                     <DataGridTextColumn Header="Тип пользователя"
-                                        Binding="{Binding Type.Name}" />
+                                        Binding="{Binding UserType.Name}" />
                 </DataGrid.Columns>
             </DataGrid>
             <Grid Row="1" Background="{StaticResource Style2}">

@@ -8,6 +8,7 @@ using ClientAPI;
 using ClientAPI.DTO.Counterfeit;
 using Mapster;
 using System.Collections.ObjectModel;
+using MeatCounterfeitDetector.UserInterface.EntityVM;
 
 namespace MeatCounterfeitDetector.UserInterface.Admin.Counterfeit;
 

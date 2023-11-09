@@ -22,6 +22,10 @@ using MeatCountefeitDetector.Utils;
 using System.Windows.Media.Imaging;
 using ImageWorker.BitmapService;
 using ImageWorker.ImageAnalyzis;
+using System.Collections.ObjectModel;
+using MeatCounterfeitDetector.UserInterface.Admin.Counterfeit;
+using MeatCounterfeitDetector.UserInterface.Admin.Gallery;
+using MeatCounterfeitDetector.UserInterface.EntityVM;
 
 namespace MeatCounterfeitDetector.UserInterface.Technologist.Analysis;
 
@@ -67,11 +71,9 @@ public class AnalysisControlVM : ViewModelBase
         _eventAggregator = eventAggregator;
         _bitmapService = bitmapService;
         _eventAggregator.Subscribe<DataEvent>(OnDataReceived);
-        Task.Run(async () =>
-        {
-            Counterfeits = (await _counterfeitClient.CounterfeitGetAsync()).ToList();
-        });
 
+        _counterfeitClient.CounterfeitGetAsync()
+                                 .ContinueWith(c => { CounterfeitVMs = c.Result.ToList().Adapt<ObservableCollection<CounterfeitVM>>(); });
     }
 
     private void OnDataReceived(DataEvent eventData)
@@ -94,8 +96,8 @@ public class AnalysisControlVM : ViewModelBase
 
     #region Properties
 
-    public List<GetCounterfeitDTO> Counterfeits { get; set; }
-    public Counterfeit SelectedCounterfeit { get; set; }
+    public ObservableCollection<CounterfeitVM> CounterfeitVMs { get; set; }
+    public CounterfeitVM SelectedCounterfeit { get; set; }
     public Algorithms SelectedAlgorithm { get; set; } = Algorithms.SIFT;
     public List<Algorithms> EnumAlgorithms
     {
@@ -156,13 +158,9 @@ public class AnalysisControlVM : ViewModelBase
                         else
                         {
                             counterfeitPathsDTOs = (await _counterfeitPathClient.GetAllByCounterfeitIdAsync(SelectedCounterfeit.Id)).ToList();
-
-                            //counterfeitPaths = _counterfeitsContext.CounterfeitPaths
-                            //    .Include(c => c.Counterfeit)
-                            //    .Where(c => c.CounterfeitId == SelectedCounterfeit.Id).ToList();
                         }
 
-                        var counterfeitPaths = counterfeitPathsDTOs.Adapt<List<CounterfeitPath>>();
+                        var counterfeitPathVMs = counterfeitPathsDTOs.Adapt<List<CounterfeitPathVM>>();
 
                         //AnalysisResult = _analyzer.RunAnalysis(DisplayedImagePath, counterfeitPaths, PercentOfSimilarity, _userService.User);                       
 

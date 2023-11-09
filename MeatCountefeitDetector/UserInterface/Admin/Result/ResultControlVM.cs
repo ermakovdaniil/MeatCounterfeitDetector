@@ -7,10 +7,10 @@ using MeatCounterfeitDetector.Utils;
 using MeatCounterfeitDetector.Utils.MessageBoxService;
 using MeatCounterfeitDetector.Utils.UserService;
 using ClientAPI;
-using MeatCounterfeitDetector.Utils.Dialog;
-using MeatCountefeitDetector.UserInterface.Admin.Result;
 using Mapster;
 using System.Collections.ObjectModel;
+using MeatCountefeitDetector.UserInterface.EntityVM;
+using MeatCounterfeitDetector.Utils.Dialog;
 
 namespace MeatCounterfeitDetector.UserInterface.Admin.Result;
 

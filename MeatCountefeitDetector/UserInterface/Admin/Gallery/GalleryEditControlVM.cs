@@ -11,6 +11,7 @@ using ClientAPI;
 using MeatCounterfeitDetector.UserInterface.Admin.Counterfeit;
 using Mapster;
 using System.Collections.ObjectModel;
+using MeatCounterfeitDetector.UserInterface.EntityVM;
 
 namespace MeatCounterfeitDetector.UserInterface.Admin.Gallery;
 

@@ -34,14 +34,18 @@
                     <DataGridTemplateColumn Header="            Оригинальное изображение" Width="500">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
-                                <Image Source="{Binding OriginalPath.Path, Converter={StaticResource PathToImageConverter}}" Stretch="Fill" Height="400" Width="400" />
+                                <Border BorderThickness="1" Margin="10" BorderBrush="{StaticResource Style4}" Background="{StaticResource Style3}">
+                                    <Image Source="{Binding OriginalPath.Path, Converter={StaticResource PathToImageConverter}}" Stretch="Fill" Height="400" Width="400" />
+                                </Border>
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
                     <DataGridTemplateColumn Header="            Результат обработки изображения" Width="500">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
-                                <Image Source="{Binding ResultPath.Path, Converter={StaticResource PathToImageConverter}}" Stretch="Fill" Height="400" Width="400" />
+                                <Border BorderThickness="1" Margin="10" BorderBrush="{StaticResource Style4}" Background="{StaticResource Style3}">
+                                    <Image Source="{Binding ResultPath.Path, Converter={StaticResource PathToImageConverter}}" Stretch="Fill" Height="400" Width="400" />
+                                </Border>
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>

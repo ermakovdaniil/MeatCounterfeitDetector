@@ -1,13 +1,12 @@
-﻿using DataAccess.Data;
-using System;
+﻿using System;
 using MeatCounterfeitDetector.UserInterface.Admin.Abstract;
 using MeatCounterfeitDetector.Utils;
 using MeatCounterfeitDetector.Utils.Dialog.Abstract;
 using ClientAPI;
-using System.Collections.Generic;
-using MeatCounterfeitDetector.UserInterface.Admin.UserType;
 using System.Linq;
 using Mapster;
+using System.Collections.ObjectModel;
+using MeatCounterfeitDetector.UserInterface.EntityVM;
 
 namespace MeatCounterfeitDetector.UserInterface.Admin.User;
 
@@ -17,14 +16,12 @@ public class UserEditControlVM : ViewModelBase, IDataHolder, IResultHolder, IInt
 
     #region Constructors
 
-    public UserEditControlVM(UserClient userClient,
-                             UserTypeClient userTypeClient)
+    public UserEditControlVM(UserTypeClient userTypeClient)
     {
-        _userClient = userClient;
         _userTypeClient = userTypeClient;
 
         _userTypeClient.UserTypeGetAsync()
-                       .ContinueWith(c => { UserTypeVMs = c.Result.ToList().Adapt<List<UserTypeVM>>(); });
+                       .ContinueWith(c => { UserTypeVMs = c.Result.ToList().Adapt<ObservableCollection<UserTypeVM>>(); });
     }
 
     #endregion
@@ -34,7 +31,6 @@ public class UserEditControlVM : ViewModelBase, IDataHolder, IResultHolder, IInt
 
     #region Properties
 
-    private readonly UserClient _userClient;
     private readonly UserTypeClient _userTypeClient;
 
     private object _data;
@@ -48,7 +44,10 @@ public class UserEditControlVM : ViewModelBase, IDataHolder, IResultHolder, IInt
             TempUser = new UserVM
             {
                 Id = EditingUser.Id,
+                Login = EditingUser.Login,
+                Password = EditingUser.Password,
                 Name = EditingUser.Name,
+                UserType = EditingUser.UserType,
             };
 
             OnPropertyChanged(nameof(TempUser));
@@ -58,7 +57,7 @@ public class UserEditControlVM : ViewModelBase, IDataHolder, IResultHolder, IInt
     public Action FinishInteraction { get; set; }
     public object? Result { get; set; }
 
-    public List<UserTypeVM> UserTypeVMs { get; set; }
+    public ObservableCollection<UserTypeVM> UserTypeVMs { get; set; }
     public UserVM TempUser { get; set; }
     public UserVM EditingUser => (UserVM)Data;
 
@@ -75,7 +74,10 @@ public class UserEditControlVM : ViewModelBase, IDataHolder, IResultHolder, IInt
             return _saveUser ??= new RelayCommand(o =>
             {
                 EditingUser.Id = TempUser.Id;
+                EditingUser.Login = TempUser.Login;
+                EditingUser.Password = TempUser.Password;
                 EditingUser.Name = TempUser.Name;
+                EditingUser.UserType = TempUser.UserType;
                 Result = EditingUser;
                 FinishInteraction();
             });

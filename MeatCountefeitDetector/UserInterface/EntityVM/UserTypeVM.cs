@@ -1,7 +1,7 @@
 ﻿using MeatCounterfeitDetector.UserInterface.Admin.Abstract;
 using System;
 
-namespace MeatCounterfeitDetector.UserInterface.Admin.UserType;
+namespace MeatCounterfeitDetector.UserInterface.EntityVM;
 
 public class UserTypeVM : ViewModelBase
 {

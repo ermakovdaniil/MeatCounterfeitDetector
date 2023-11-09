@@ -11,6 +11,8 @@ using ClientAPI.DTO.User;
 using Mapster;
 using ClientAPI.DTO.Counterfeit;
 using MeatCounterfeitDetector.UserInterface.Admin.Counterfeit;
+using System.Collections.ObjectModel;
+using MeatCounterfeitDetector.UserInterface.EntityVM;
 
 namespace MeatCounterfeitDetector.UserInterface.Admin.User;
 
@@ -29,7 +31,7 @@ public class UserExplorerControlVM : ViewModelBase
         _dialogService = dialogService;
 
         _userClient.UserGetAsync()
-                   .ContinueWith(c => { UserVMs = c.Result.ToList().Adapt<List<UserVM>>(); });
+                   .ContinueWith(c => { UserVMs = c.Result.ToList().Adapt<ObservableCollection<UserVM>>(); });
     }
 
     #endregion
@@ -43,8 +45,7 @@ public class UserExplorerControlVM : ViewModelBase
     private readonly IMessageBoxService _messageBoxService;
     private readonly DialogService _dialogService;
 
-    public List<GetUserDTO> UserDTOs { get; set; }
-    public List<UserVM> UserVMs { get; set; }
+    public ObservableCollection<UserVM> UserVMs { get; set; }
     public UserVM SelectedUser { get; set; }
 
     #endregion
@@ -74,11 +75,12 @@ public class UserExplorerControlVM : ViewModelBase
                     return;
                 }
 
-                if (!UserVMs.Any(rec => rec.Login == result.Login))
+                if (!UserVMs.Any(rec => rec.Id == result.Id))
                 {
-                    var editingUserCreateDTO = result.Adapt<CreateUserDTO>();
-                    await _userClient.UserPostAsync(editingUserCreateDTO)
-                                     .ContinueWith(c => { UserVMs.Add(result); });
+                    var addingUserCreateDTO = result.Adapt<CreateUserDTO>();
+                    var id = await _userClient.UserPostAsync(addingUserCreateDTO);
+                    result.Id = id;
+                    UserVMs.Add(result);
 
                     _messageBoxService.ShowMessage($"Объект успешно добавлен!", "Готово!", MessageBoxButton.OK, MessageBoxImage.Information);
                 }
@@ -112,11 +114,11 @@ public class UserExplorerControlVM : ViewModelBase
                 {
                     return;
                 }
-                if (!UserVMs.Any(rec => rec.Login == result.Login))
+                if (!UserVMs.Any(rec => rec.Id == result.Id))
                 {
                     var editingUserCreateDTO = result.Adapt<UpdateUserDTO>();
-                    await _userClient.UserPutAsync(editingUserCreateDTO)
-                                     .ContinueWith(c => { UserVMs.FirstOrDefault(x => x.Login == result.Login).Login = result.Login; }); ;
+                    await _userClient.UserPutAsync(editingUserCreateDTO);
+                    result.Adapt(UserVMs.FirstOrDefault(x => x.Id == result.Id));
 
                     _messageBoxService.ShowMessage($"Объект успешно обновлён!", "Готово!", MessageBoxButton.OK, MessageBoxImage.Information);
                 }
@@ -141,8 +143,8 @@ public class UserExplorerControlVM : ViewModelBase
                     //var analysisResultDTO = AnalysisResult.Adapt<CreateResultDTO>();
                     //Application.Current.Dispatcher.Invoke(async () =>
                     //{
-                    await _userClient.UserDeleteAsync(SelectedUser.Id)
-                                     .ContinueWith(c => { UserVMs.Remove(SelectedUser); });
+                    await _userClient.UserDeleteAsync(SelectedUser.Id);
+                    UserVMs.Remove(SelectedUser);
                     //});
                 }
             }, _ => SelectedUser is not null);

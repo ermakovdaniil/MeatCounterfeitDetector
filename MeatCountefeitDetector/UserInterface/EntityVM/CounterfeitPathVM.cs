@@ -5,7 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace MeatCounterfeitDetector.UserInterface.Admin.Gallery;
+namespace MeatCounterfeitDetector.UserInterface.EntityVM;
 
 public class CounterfeitPathVM : ViewModelBase
 {

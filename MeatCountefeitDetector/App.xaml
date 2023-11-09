@@ -17,7 +17,7 @@
             </StackPanel>
 
             <StackPanel x:Shared="False" x:Key="ApplyButton" Orientation="Horizontal">
-                <Image Source="pack://application:,,,/resources/icons/ok.png"
+                <Image Source="pack://application:,,,/resources/icons/ok.png" 
                        RenderOptions.BitmapScalingMode="HighQuality" Width="10" Height="10" Margin="0,2,5,0" />
                 <TextBlock Text="Применить" />
             </StackPanel>

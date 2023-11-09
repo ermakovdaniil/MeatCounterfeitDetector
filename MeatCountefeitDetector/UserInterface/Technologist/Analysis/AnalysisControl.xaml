@@ -50,7 +50,7 @@
                             FontSize="17"
                             Text="Любой"
                             ShowClearButton="True"
-                            ItemsSource="{Binding Counterfeits}"
+                            ItemsSource="{Binding CounterfeitVMs}"
                             hc:InfoElement.TitlePlacement="Top"
                             SelectedItem="{Binding SelectedCounterfeit}"
                             DisplayMemberPath="Name"
@@ -58,8 +58,7 @@
                             Margin="10 5" />
 
                 <hc:ComboBox hc:InfoElement.Title="Алгоритм поиска фальсификата"
-                            FontSize="17"
-                            
+                            FontSize="17"                   
                             ItemsSource="{Binding EnumAlgorithms}"
                             hc:InfoElement.TitlePlacement="Top"
                             SelectedItem="{Binding SelectedAlgorithm}"

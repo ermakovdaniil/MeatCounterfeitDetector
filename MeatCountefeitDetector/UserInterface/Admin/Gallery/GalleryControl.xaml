@@ -31,7 +31,9 @@
                 <DataGridTemplateColumn Header=" Изображение">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <Image Source="{Binding EncodedImage, Converter={StaticResource PathToImageConverter}}" Stretch="Fill" Height="300" Width="300" />
+                            <Border BorderThickness="1" Margin="10" BorderBrush="{StaticResource Style4}" Background="{StaticResource Style3}">
+                                <Image Source="{Binding EncodedImage, Converter={StaticResource PathToImageConverter}}" Stretch="Fill" Height="300" Width="300" />
+                            </Border>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>

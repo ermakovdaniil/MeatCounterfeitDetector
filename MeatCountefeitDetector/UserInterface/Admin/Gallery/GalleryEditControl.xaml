@@ -33,11 +33,11 @@
                          DisplayMemberPath="Name"
                          Background="{StaticResource Style3}" HorizontalAlignment="Stretch" />
 
-                <hc:TextBox hc:InfoElement.Title="Путь к файлу"
+                <!--<hc:TextBox hc:InfoElement.Title="Путь к файлу"
                         hc:InfoElement.TitlePlacement="Top" Margin="10 5"
                         Text="{Binding TempCounterfeitPath.EncodedImage, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                        Background="{StaticResource Style3}" HorizontalAlignment="Stretch" />
-                <Border BorderThickness="1" Margin="10" BorderBrush="#FF000000" Background="{StaticResource Style3}">
+                        Background="{StaticResource Style3}" HorizontalAlignment="Stretch" />-->
+                <Border BorderThickness="1" Margin="10" BorderBrush="{StaticResource Style4}" Background="{StaticResource Style3}">
                     <Image Source="{Binding TempCounterfeitPath.EncodedImage, Converter={StaticResource PathToImageConverter}}" Stretch="Fill"/>
                 </Border>
                 <Button hc:BorderElement.CornerRadius="10" Width="180" Margin="5 0 5 10"

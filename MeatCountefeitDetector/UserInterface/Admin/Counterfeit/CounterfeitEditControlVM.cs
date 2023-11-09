@@ -6,6 +6,7 @@ using MeatCounterfeitDetector.Utils;
 using MeatCounterfeitDetector.Utils.Dialog.Abstract;
 using ClientAPI;
 using Mapster;
+using MeatCounterfeitDetector.UserInterface.EntityVM;
 
 namespace MeatCounterfeitDetector.UserInterface.Admin.Counterfeit;
 
