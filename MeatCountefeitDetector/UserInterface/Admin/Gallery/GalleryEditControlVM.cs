@@ -55,9 +55,9 @@ public class GalleryEditControlVM : ViewModelBase, IDataHolder, IResultHolder, I
             TempCounterfeitImage = new CounterfeitImageVM
             {
                 Id = EditingCounterfeitImage.Id,
-                //CounterfeitId = EditingCounterfeitImage.CounterfeitId, // TODO
+                CounterfeitId = EditingCounterfeitImage.CounterfeitId, // TODO
                 EncodedImage = EditingCounterfeitImage.EncodedImage,
-                Counterfeit = EditingCounterfeitImage.Counterfeit
+                CounterfeitName = EditingCounterfeitImage.CounterfeitName
             };
             OnPropertyChanged(nameof(TempCounterfeitImage));
         }
@@ -67,6 +67,7 @@ public class GalleryEditControlVM : ViewModelBase, IDataHolder, IResultHolder, I
     public object? Result { get; set; }
 
     public ObservableCollection<CounterfeitVM> CounterfeitVMs { get; set; }
+    public CounterfeitVM SelectedCounterfeitVM { get; set; }
     public CounterfeitImageVM TempCounterfeitImage { get; set; }
     public CounterfeitImageVM EditingCounterfeitImage => (CounterfeitImageVM)Data;
 
@@ -103,13 +104,12 @@ public class GalleryEditControlVM : ViewModelBase, IDataHolder, IResultHolder, I
                     if (TempCounterfeitImage.EncodedImage is not null)
                     {
                         EditingCounterfeitImage.Id = TempCounterfeitImage.Id;
-                        //EditingCounterfeitImage.CounterfeitId = TempCounterfeitImage.CounterfeitId; // TODO
+                        EditingCounterfeitImage.CounterfeitId = SelectedCounterfeitVM.Id; // TODO
 
                         // TODO: СДЕЛАТЬ ПРЕВРАЩЕНИЕ ИЗОБРАЖЕНИЯ В СТРОКУ BASE-64
                         //CounterfeitImage = @"..\..\..\resources\counterfeits\" + Path.GetFileName(path);
                         EditingCounterfeitImage.EncodedImage = TempCounterfeitImage.EncodedImage; // TODO
-
-                        EditingCounterfeitImage.Counterfeit = TempCounterfeitImage.Counterfeit;
+                        EditingCounterfeitImage.CounterfeitName = SelectedCounterfeitVM.Name;
                         Result = EditingCounterfeitImage;
                         FinishInteraction();
                     }

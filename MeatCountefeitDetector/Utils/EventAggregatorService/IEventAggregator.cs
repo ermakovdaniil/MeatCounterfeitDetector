@@ -1,6 +1,4 @@
-﻿using Emgu.CV;
-using System.Collections.Generic;
-using System;
+﻿using System;
 
 namespace MeatCountefeitDetector.Utils.EventAggregator
 {

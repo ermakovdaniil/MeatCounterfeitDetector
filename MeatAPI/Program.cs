@@ -6,9 +6,9 @@ using MeatAPI.Features.CounterfeitImage;
 using MeatAPI.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
+using MeatAPI.Features.Result;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -27,7 +27,7 @@ builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(EFGenericReposit
 
 builder.Services.AddTransient<EntityAccessServiceBase<CounterfeitKBContext, Counterfeit>>();
 builder.Services.AddTransient<CounterfeitImageService>();
-builder.Services.AddTransient<EntityAccessServiceBase<ResultDBContext, Result>>();
+builder.Services.AddTransient<ResultService>();
 builder.Services.AddTransient<EntityAccessServiceBase<ResultDBContext, OriginalImage>>();
 builder.Services.AddTransient<EntityAccessServiceBase<ResultDBContext, ResultImage>>();
 builder.Services.AddTransient<EntityAccessServiceBase<ResultDBContext, User>>();

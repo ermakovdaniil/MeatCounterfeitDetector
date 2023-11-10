@@ -5,12 +5,12 @@ namespace ClientAPI.DTO.CounterfeitImage
 {
     public class CreateCounterfeitImageDTO
     {
-        //[Required(ErrorMessage = "CounterfeitId is required")]
-        //public Guid CounterfeitId { get; set; }
+        [Required(ErrorMessage = "CounterfeitId is required")]
+        public Guid CounterfeitId { get; set; }
 
         [Required(ErrorMessage = "Name is required")]
         public string EncodedImage { get; set; }
 
-        public CreateCounterfeitDTO Counterfeit { get; set; }
+        public string CounterfeitName { get; set; }
     }
 }

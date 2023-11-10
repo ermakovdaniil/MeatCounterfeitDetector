@@ -18,7 +18,6 @@ using MeatCounterfeitDetector.Utils.MessageBoxService;
 using MeatCounterfeitDetector.Utils.UserService;
 using ImageWorker.ProgressReporter;
 using MeatCountefeitDetector.Utils.EventAggregator;
-using MeatCountefeitDetector.Utils;
 using System.Windows.Media.Imaging;
 using ImageWorker.BitmapService;
 using ImageWorker.ImageAnalyzis;
@@ -70,13 +69,13 @@ public class AnalysisControlVM : ViewModelBase
         _progressReporter = progressReporter;
         _eventAggregator = eventAggregator;
         _bitmapService = bitmapService;
-        _eventAggregator.Subscribe<DataEvent>(OnDataReceived);
+        _eventAggregator.Subscribe<EventImageData>(OnDataReceived);
 
         _counterfeitClient.CounterfeitGetAsync()
                                  .ContinueWith(c => { CounterfeitVMs = c.Result.ToList().Adapt<ObservableCollection<CounterfeitVM>>(); });
     }
 
-    private void OnDataReceived(DataEvent eventData)
+    private void OnDataReceived(EventImageData eventData)
     {
         DisplayedImage = eventData.ImageBitmapSource;
     }

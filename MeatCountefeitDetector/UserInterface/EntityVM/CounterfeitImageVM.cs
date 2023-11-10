@@ -6,7 +6,7 @@ namespace MeatCounterfeitDetector.UserInterface.EntityVM;
 public class CounterfeitImageVM : ViewModelBase
 {
     public Guid Id { get; set; }
-    //public Guid CounterfeitId { get; set; }
+    public Guid CounterfeitId { get; set; }
     public string EncodedImage { get; set; }
-    public CounterfeitVM Counterfeit { get; set; }
+    public string CounterfeitName { get; set; }
 }

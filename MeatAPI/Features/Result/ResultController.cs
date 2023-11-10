@@ -19,9 +19,26 @@ namespace MeatAPI.Features.Result
         public async Task<ActionResult<IReadOnlyCollection<GetResultDTO>>> GetAll()
         {
             var results = await _resultService.GetAll();
-            var resultsDTO = results.Adapt<List<GetResultDTO>>();
+            var resultsDTO = new List<GetResultDTO>();
+            foreach (var r in results)
+            {
+                var dto = new GetResultDTO();
+                dto.Id = r.Id;
+                dto.Date = r.Date;
+                dto.UserId = r.UserId;
+                dto.UserName = r.User.Name;
+                dto.AnalysisResult = r.AnalysisResult;
+                dto.Time = r.Time;
+                dto.PercentOfSimilarity = r.PercentOfSimilarity;
+                dto.OriginalImageId = r.OriginalImageId;
+                dto.OriginalEncodedImage = r.OriginalImage.EncodedImage;
+                dto.ResultImageId = r.ResultImageId;
+                dto.ResultEncodedImage = r.ResultImage.EncodedImage;
+                resultsDTO.Add(dto);
+            }
             return Ok(resultsDTO);
         }
+
 
         [HttpGet("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]

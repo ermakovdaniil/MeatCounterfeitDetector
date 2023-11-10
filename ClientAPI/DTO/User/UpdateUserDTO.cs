@@ -20,6 +20,6 @@ namespace ClientAPI.DTO.User
         //[Required(ErrorMessage = "TypeId is required")]
         //public Guid TypeId { get; set; }
 
-        public UpdateUserTypeDTO UserType { get; set; }
+        public string UserTypeName { get; set; }
     }
 }

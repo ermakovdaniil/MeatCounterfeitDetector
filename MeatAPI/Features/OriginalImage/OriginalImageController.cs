@@ -27,17 +27,17 @@ namespace MeatAPI.Features.OriginalImage
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<ActionResult<GetOriginalImageDTO>> Get(Guid id)
         {
-            var op = await _originalImageService.Get(id);
-            var opDto = op.Adapt<GetOriginalImageDTO>();
-            return Ok(opDto);
+            var oi = await _originalImageService.Get(id);
+            var oiDto = oi.Adapt<GetOriginalImageDTO>();
+            return Ok(oiDto);
         }
 
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<ActionResult<Guid>> Create([FromBody] CreateOriginalImageDTO dto)
         {
-            var op = dto.Adapt<DataAccess.Models.OriginalImage>();
-            var id = await _originalImageService.Create(op);
+            var oi = dto.Adapt<DataAccess.Models.OriginalImage>();
+            var id = await _originalImageService.Create(oi);
             return Ok(id);
         }
 

@@ -6,7 +6,6 @@ using MeatCounterfeitDetector.Utils.IOService;
 using MeatCounterfeitDetector.Utils.MessageBoxService;
 using ImageWorker.ProgressReporter;
 using MeatCountefeitDetector.Utils.EventAggregator;
-using MeatCountefeitDetector.Utils;
 using System.IO;
 using System.Threading.Tasks;
 using System.Windows.Media.Imaging;
@@ -44,7 +43,7 @@ public class ImageEditingControlVM : ViewModelBase
 
     public void PublishData()
     {
-        _eventAggregator.Publish(new DataEvent(ResultImage));
+        _eventAggregator.Publish(new EventImageData(ResultImage));
     }
 
     public void GetImageData(BitmapSource source)

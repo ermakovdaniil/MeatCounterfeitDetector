@@ -9,10 +9,10 @@ namespace MeatAPI.Features.CounterfeitImage
         {
         }
 
-        //public override Task<List<DataAccess.Models.CounterfeitImage>> GetAll()
-        //{
-        //    return _dbSet.AsNoTracking().Include(c => c.Counterfeit).ToListAsync();
-        //}
+        public override Task<List<DataAccess.Models.CounterfeitImage>> GetAll()
+        {
+            return _dbSet.AsNoTracking().Include(c => c.Counterfeit).ToListAsync();
+        }
 
         public Task<List<DataAccess.Models.CounterfeitImage>> GetPathsByCounterfeitId(Guid conterfeitId)
         {

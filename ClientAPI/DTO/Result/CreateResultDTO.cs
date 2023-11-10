@@ -10,8 +10,8 @@ namespace ClientAPI.DTO.Result
         [Required(ErrorMessage = "Date is required")]
         public string Date { get; set; }
 
-        //[Required(ErrorMessage = "UserId is required")]
-        //public Guid UserId { get; set; }
+        [Required(ErrorMessage = "UserId is required")]
+        public Guid UserId { get; set; }
 
         [Required(ErrorMessage = "AnalysisResult is required")]
         public string AnalysisResult { get; set; }
@@ -22,14 +22,14 @@ namespace ClientAPI.DTO.Result
         [Required(ErrorMessage = "PercentOfSimilarity is required")]
         public double PercentOfSimilarity { get; set; }
 
-        //[Required(ErrorMessage = "OriginalImageId is required")]
-        //public Guid OriginalImageId { get; set; }
+        [Required(ErrorMessage = "OriginalImageId is required")]
+        public Guid OriginalImageId { get; set; }
 
-        //[Required(ErrorMessage = "ResultImageId is required")]
-        //public Guid ResultImageId { get; set; }
+        [Required(ErrorMessage = "ResultImageId is required")]
+        public Guid ResultImageId { get; set; }
 
-        public CreateUserDTO User { get; set; }
-        public CreateOriginalImageDTO OriginalImage { get; set; }
-        public CreateResultImageDTO ResultImage { get; set; }
+        public string UserName { get; set; }
+        public string OriginalEncodedImage { get; set; }
+        public string ResultEncodedImage { get; set; }
     }
 }

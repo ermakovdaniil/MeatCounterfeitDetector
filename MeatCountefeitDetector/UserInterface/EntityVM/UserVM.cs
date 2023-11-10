@@ -9,5 +9,6 @@ public class UserVM : ViewModelBase
     public string Login { get; set; }
     public string Password { get; set; }
     public string Name { get; set; }
-    public UserTypeVM UserType { get; set; }
+    //public Guid TypeId { get; set; }
+    public string UserTypeName { get; set; }
 }

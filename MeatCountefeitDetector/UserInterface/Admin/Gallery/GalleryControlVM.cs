@@ -1,5 +1,4 @@
-﻿using System.IO;
-using System.Linq;
+﻿using System.Linq;
 using System.Windows;
 using MeatCounterfeitDetector.UserInterface.Admin.Abstract;
 using MeatCounterfeitDetector.Utils;
@@ -10,6 +9,7 @@ using ClientAPI.DTO.CounterfeitImage;
 using Mapster;
 using System.Collections.ObjectModel;
 using MeatCounterfeitDetector.UserInterface.EntityVM;
+using MeatCountefeitDetector.Utils.EventAggregator;
 
 namespace MeatCounterfeitDetector.UserInterface.Admin.Gallery;
 
@@ -21,17 +21,37 @@ public class GalleryControlVM : ViewModelBase
 
     public GalleryControlVM(CounterfeitImageClient counterfeitImageClient,
                             DialogService dialogService,
-                            IMessageBoxService messageBoxService)
+                            IMessageBoxService messageBoxService,
+                            IEventAggregator eventAggregator)
     {
         _counterfeitImageClient = counterfeitImageClient;
         _messageBoxService = messageBoxService;
         _dialogService = dialogService;
 
+        //counterfeitExplorerControlVM.CounterfeitVMs.CollectionChanged += (sender, args) => UpdateCounterfeitImageVMs();
+        _eventAggregator = eventAggregator;
+        _eventAggregator.Subscribe<EventDatabaseData>(CollectionChanged);
+
         _counterfeitImageClient.CounterfeitImageGetAsync()
-                              .ContinueWith(c => { CounterfeitImageVMs = c.Result.ToList().Adapt<ObservableCollection<CounterfeitImageVM>>(); });
+                               .ContinueWith(c => { CounterfeitImageVMs = c.Result.ToList().Adapt<ObservableCollection<CounterfeitImageVM>>(); });
     }
 
     #endregion
+
+    private void CollectionChanged(EventDatabaseData data)
+    {
+        var entitiesToRemove = CounterfeitImageVMs.Where(entity => entity.CounterfeitId == data.Id).ToList();
+
+        foreach (var entityToRemove in entitiesToRemove)
+        {
+            CounterfeitImageVMs.Remove(entityToRemove);
+        }
+
+        //_counterfeitImageClient.CounterfeitImageGetAsync()
+        //                       .ContinueWith(c => { CounterfeitImageVMs = c.Result.ToList().Adapt<ObservableCollection<CounterfeitImageVM>>(); });
+
+        OnPropertyChanged(nameof(CounterfeitImageVMs));
+    }
 
     #endregion
 
@@ -40,6 +60,7 @@ public class GalleryControlVM : ViewModelBase
 
     private readonly DialogService _dialogService;
     private readonly CounterfeitImageClient _counterfeitImageClient;
+    private readonly IEventAggregator _eventAggregator;
     private readonly IMessageBoxService _messageBoxService;
 
     public ObservableCollection<CounterfeitImageVM> CounterfeitImageVMs { get; set; }
@@ -72,7 +93,7 @@ public class GalleryControlVM : ViewModelBase
                     return;
                 }
 
-                if (!CounterfeitImageVMs.Any(rec => rec.Counterfeit.Id == result.Counterfeit.Id && rec.EncodedImage == result.EncodedImage))
+                if (!CounterfeitImageVMs.Any(rec => rec.CounterfeitId == result.CounterfeitId && rec.EncodedImage == result.EncodedImage))
                 {
                     var addingCounterfeitImageCreateDTO = result.Adapt<CreateCounterfeitImageDTO>();
                     var id = await _counterfeitImageClient.CounterfeitImagePostAsync(addingCounterfeitImageCreateDTO);
@@ -119,7 +140,7 @@ public class GalleryControlVM : ViewModelBase
                     return;
                 }
 
-                if (!CounterfeitImageVMs.Any(rec => rec.Counterfeit.Id == result.Counterfeit.Id && rec.EncodedImage == result.EncodedImage))
+                if (!CounterfeitImageVMs.Any(rec => rec.CounterfeitId == result.CounterfeitId && rec.EncodedImage == result.EncodedImage))
                 {
                     var editingCounterfeitImageUpdateDTO = result.Adapt<UpdateCounterfeitImageDTO>();
                     await _counterfeitImageClient.CounterfeitImagePutAsync(editingCounterfeitImageUpdateDTO);

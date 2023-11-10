@@ -11,6 +11,8 @@ using Mapster;
 using System.Collections.ObjectModel;
 using MeatCountefeitDetector.UserInterface.EntityVM;
 using MeatCounterfeitDetector.Utils.Dialog;
+using MeatCountefeitDetector.Utils.EventAggregator;
+using MeatCounterfeitDetector.UserInterface.EntityVM;
 
 namespace MeatCounterfeitDetector.UserInterface.Admin.Result;
 
@@ -21,13 +23,15 @@ public class ResultControlVM : ViewModelBase
     #region Constructors
 
     public ResultControlVM(ResultClient resultClient,
+                           OriginalImageClient originalImageClient,
+                           ResultImageClient resultImageClient,
                            DialogService dialogService,
-                           IUserService userService,
                            IMessageBoxService messageBoxService)
     {
         _resultClient = resultClient;
+        _originalImageClient = originalImageClient;
+        _resultImageClient = resultImageClient;
         _dialogService = dialogService;
-        _userService = userService;
         _messageBoxService = messageBoxService;
 
         _resultClient.ResultGetAsync()
@@ -42,10 +46,10 @@ public class ResultControlVM : ViewModelBase
     #region Properties
 
     private readonly ResultClient _resultClient;
+    private readonly OriginalImageClient _originalImageClient;
+    private readonly ResultImageClient _resultImageClient;
     private readonly DialogService _dialogService;
-    private readonly IUserService _userService;
     private readonly IMessageBoxService _messageBoxService;
-
 
     public ObservableCollection<ResultVM> ResultVMs { get; set; }
     public ResultVM SelectedResult { get; set; }
@@ -70,17 +74,15 @@ public class ResultControlVM : ViewModelBase
                         //Application.Current.Dispatcher.Invoke(async () =>
                         //{
 
-                        //string pathToBase = Directory.GetCurrentDirectory();
-                        //string combinedPath = Path.Combine(pathToBase, SelectedResult.OriginalImage.Path);
-                        //File.Delete(combinedPath);
-                        //if (SelectedResult.ResultImage.Path is not null)
-                        //{
-                        //    combinedPath = Path.Combine(pathToBase, SelectedResult.ResultImage.Path);
-                        //    File.Delete(combinedPath);
-                        //}
-
                         await _resultClient.ResultDeleteAsync(SelectedResult.Id);
                         ResultVMs.Remove(SelectedResult);
+
+                        await _resultImageClient.ResultImageDeleteAsync(SelectedResult.ResultImageId);
+
+                        if(!ResultVMs.Any(r => r.OriginalImageId == SelectedResult.OriginalImageId)) {
+                            await _originalImageClient.OriginalImageDeleteAsync(SelectedResult.OriginalImageId);
+                        }
+          
                         //});
                     }
                 }

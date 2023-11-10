@@ -27,7 +27,7 @@
                   SelectedItem="{Binding SelectedResult}" Background="{StaticResource Style3}">
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="Дата" Binding="{Binding Date}" />
-                    <DataGridTextColumn Header="Сотрудник, проводивший анализ" Binding="{Binding User.Name}" />
+                    <DataGridTextColumn Header="Сотрудник, проводивший анализ" Binding="{Binding UserName}" />
                     <DataGridTextColumn Header="Результат анализа" Binding="{Binding AnalysisResult}" />
                     <DataGridTextColumn Header="Время анализа, с" Binding="{Binding Time}" />
                     <DataGridTextColumn Header="Процент сходства, %" Binding="{Binding PercentOfSimilarity}" />
@@ -35,7 +35,7 @@
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
                                 <Border BorderThickness="1" Margin="10" BorderBrush="{StaticResource Style4}" Background="{StaticResource Style3}">
-                                    <Image Source="{Binding OriginalImage.Path, Converter={StaticResource PathToImageConverter}}" Stretch="Fill" Height="400" Width="400" />
+                                    <Image Source="{Binding OriginalEncodedImage, Converter={StaticResource PathToImageConverter}}" Stretch="Fill" Height="400" Width="400" />
                                 </Border>
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
@@ -44,7 +44,7 @@
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
                                 <Border BorderThickness="1" Margin="10" BorderBrush="{StaticResource Style4}" Background="{StaticResource Style3}">
-                                    <Image Source="{Binding ResultImage.Path, Converter={StaticResource PathToImageConverter}}" Stretch="Fill" Height="400" Width="400" />
+                                    <Image Source="{Binding ResultEncodedImage, Converter={StaticResource PathToImageConverter}}" Stretch="Fill" Height="400" Width="400" />
                                 </Border>
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>

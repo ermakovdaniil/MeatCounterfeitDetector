@@ -1,8 +1,6 @@
 ﻿using ClientAPI.DTO.CounterfeitImage;
-using DataAccess.Data;
 using Mapster;
 using Microsoft.AspNetCore.Mvc;
-using System.Collections.Generic;
 using WebAppWithReact.Controllers;
 
 namespace MeatAPI.Features.CounterfeitImage
@@ -20,19 +18,19 @@ namespace MeatAPI.Features.CounterfeitImage
         public async Task<ActionResult<IReadOnlyCollection<GetCounterfeitImageDTO>>> GetAll()
         {
             var counterfeitImages = await _counterfeitImageService.GetAll();
-            //var getCounterfeitImageDTOs = new List<GetCounterfeitImageDTO>();
-            //foreach (var cp in counterfeitImages)
-            //{
-            //    var dto = new GetCounterfeitImageDTO();
-            //    dto.Id = cp.Id;
-            //    dto.CounterfeitId = cp.CounterfeitId;
-            //    dto.EncodedImage = cp.EncodedImage;
-            //    dto.CounterfeitName = cp.Counterfeit.Name;
-            //    getCounterfeitImageDTOs.Add(dto);
-            //}
+            var getCounterfeitImageDTOs = new List<GetCounterfeitImageDTO>();
+            foreach (var ci in counterfeitImages)
+            {
+                var dto = new GetCounterfeitImageDTO();
+                dto.Id = ci.Id;
+                dto.CounterfeitId = ci.CounterfeitId;
+                dto.EncodedImage = ci.EncodedImage;
+                dto.CounterfeitName = ci.Counterfeit.Name;
+                getCounterfeitImageDTOs.Add(dto);
+            }
 
-            var counterfeitImagesDTO = counterfeitImages.Adapt<List<GetCounterfeitImageDTO>>();
-            return Ok(counterfeitImagesDTO);
+            //var counterfeitImagesDTO = counterfeitImages.Adapt<List<GetCounterfeitImageDTO>>();
+            return Ok(getCounterfeitImageDTOs);
         }
 
 
@@ -50,17 +48,17 @@ namespace MeatAPI.Features.CounterfeitImage
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<ActionResult<GetCounterfeitImageDTO>> Get(Guid id)
         {
-            var cp = await _counterfeitImageService.Get(id);
-            var cpDto = cp.Adapt<GetCounterfeitImageDTO>();
-            return Ok(cpDto);
+            var ci = await _counterfeitImageService.Get(id);
+            var ciDto = ci.Adapt<GetCounterfeitImageDTO>();
+            return Ok(ciDto);
         }
 
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<ActionResult<Guid>> Create([FromBody] CreateCounterfeitImageDTO dto)
         {
-            var cp = dto.Adapt<DataAccess.Models.CounterfeitImage>();
-            var id = await _counterfeitImageService.Create(cp);
+            var ci = dto.Adapt<DataAccess.Models.CounterfeitImage>();
+            var id = await _counterfeitImageService.Create(ci);
             return Ok(id);
         }
 
@@ -68,8 +66,8 @@ namespace MeatAPI.Features.CounterfeitImage
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<ActionResult> Update([FromBody] UpdateCounterfeitImageDTO dto)
         {
-            var cp = dto.Adapt<DataAccess.Models.CounterfeitImage>();
-            await _counterfeitImageService.Update(cp);
+            var ci = dto.Adapt<DataAccess.Models.CounterfeitImage>();
+            await _counterfeitImageService.Update(ci);
             return Ok();
         }
 

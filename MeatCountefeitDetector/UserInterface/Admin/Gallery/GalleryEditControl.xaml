@@ -29,7 +29,7 @@
                 <hc:ComboBox hc:InfoElement.Title="Вид фальсификат"
                          ItemsSource="{Binding CounterfeitVMs}"
                          hc:InfoElement.TitlePlacement="Top" Margin="10 5"
-                         SelectedItem="{Binding TempCounterfeitImage.Counterfeit, Mode=TwoWay}"
+                         SelectedItem="{Binding SelectedCounterfeitVM, Mode=TwoWay}"
                          DisplayMemberPath="Name"
                          Background="{StaticResource Style3}" HorizontalAlignment="Stretch" />
 

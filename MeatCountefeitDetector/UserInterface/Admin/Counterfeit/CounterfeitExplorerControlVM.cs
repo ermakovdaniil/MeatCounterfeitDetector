@@ -9,6 +9,7 @@ using ClientAPI.DTO.Counterfeit;
 using Mapster;
 using System.Collections.ObjectModel;
 using MeatCounterfeitDetector.UserInterface.EntityVM;
+using MeatCountefeitDetector.Utils.EventAggregator;
 
 namespace MeatCounterfeitDetector.UserInterface.Admin.Counterfeit;
 
@@ -20,17 +21,25 @@ public class CounterfeitExplorerControlVM : ViewModelBase
 
     public CounterfeitExplorerControlVM(CounterfeitClient counterfeitClient,
                                         DialogService dialogService,
+                                        IEventAggregator eventAggregator,
                                         IMessageBoxService messageBoxService)
     {
         _counterfeitClient = counterfeitClient;
         _messageBoxService = messageBoxService;
         _dialogService = dialogService;
 
+        _eventAggregator = eventAggregator;
+
         _counterfeitClient.CounterfeitGetAsync()
                           .ContinueWith(c => { CounterfeitVMs = c.Result.ToList().Adapt<ObservableCollection<CounterfeitVM>>(); });
     }
 
     #endregion
+    
+    public void PublishData()
+    {
+        _eventAggregator.Publish(new EventDatabaseData(SelectedCounterfeit.Id));
+    }
 
     #endregion
 
@@ -39,6 +48,7 @@ public class CounterfeitExplorerControlVM : ViewModelBase
 
     private readonly CounterfeitClient _counterfeitClient;
     private readonly IMessageBoxService _messageBoxService;
+    private readonly IEventAggregator _eventAggregator;
     private readonly DialogService _dialogService;
 
     public ObservableCollection<CounterfeitVM> CounterfeitVMs { get; set; }
@@ -142,6 +152,7 @@ public class CounterfeitExplorerControlVM : ViewModelBase
                     //{
                     await _counterfeitClient.CounterfeitDeleteAsync(SelectedCounterfeit.Id);
                     CounterfeitVMs.Remove(SelectedCounterfeit);
+                    PublishData();
                     //});
                 }
             }, c => SelectedCounterfeit is not null);
