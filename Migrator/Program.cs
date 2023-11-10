@@ -20,15 +20,16 @@ public class Program
     {
         var services = new ServiceCollection();
         var config = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build();
-        var connectionString = config.GetConnectionString("Postgres");
+        var resultConnectionString = config.GetConnectionString("Result");
+        var countefeitConnectionString = config.GetConnectionString("Counterfeit");
         services.AddDbContext<ResultDBContext>(options =>
         {
-            options.UseNpgsql(connectionString);
+            options.UseNpgsql(resultConnectionString);
         });
 
         services.AddDbContext<CounterfeitKBContext>(options =>
         {
-            options.UseNpgsql(connectionString);
+            options.UseNpgsql(countefeitConnectionString);
         });
 
         services.AddIdentity<User, IdentityRole<Guid>>()
