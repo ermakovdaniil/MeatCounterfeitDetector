@@ -32,7 +32,7 @@ builder.Services.AddTransient<EntityAccessServiceBase<ResultDBContext, OriginalI
 builder.Services.AddTransient<EntityAccessServiceBase<ResultDBContext, ResultImage>>();
 builder.Services.AddTransient<EntityAccessServiceBase<ResultDBContext, User>>();
 
-//builder.Services.AddTransient<EntityAccessServiceBase<ResultDBContext, UserType>>();
+//builder.Services.AddTransient<EntityAccessServiceBase<ResultDBContext, UserRole>>();
 
 builder.Services.AddDbContext<ResultDBContext>(options =>
 {

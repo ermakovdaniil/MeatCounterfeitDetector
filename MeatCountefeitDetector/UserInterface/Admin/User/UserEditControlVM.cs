@@ -16,12 +16,12 @@ public class UserEditControlVM : ViewModelBase, IDataHolder, IResultHolder, IInt
 
     #region Constructors
 
-    public UserEditControlVM(UserTypeClient userTypeClient)
+    public UserEditControlVM(UserRoleClient userRoleClient)
     {
-        _userTypeClient = userTypeClient;
+        _userRoleClient = userRoleClient;
 
-        _userTypeClient.UserTypeGetAsync()
-                       .ContinueWith(c => { UserTypeVMs = c.Result.ToList().Adapt<ObservableCollection<UserTypeVM>>(); });
+        _userRoleClient.UserRoleGetAsync()
+                       .ContinueWith(c => { UserRoleVMs = c.Result.ToList().Adapt<ObservableCollection<UserRoleVM>>(); });
     }
 
     #endregion
@@ -31,7 +31,7 @@ public class UserEditControlVM : ViewModelBase, IDataHolder, IResultHolder, IInt
 
     #region Properties
 
-    private readonly UserTypeClient _userTypeClient;
+    private readonly UserRoleClient _userRoleClient;
 
     private object _data;
     public object Data
@@ -47,7 +47,7 @@ public class UserEditControlVM : ViewModelBase, IDataHolder, IResultHolder, IInt
                 Login = EditingUser.Login,
                 Password = EditingUser.Password,
                 Name = EditingUser.Name,
-                UserType = EditingUser.UserType,
+                RoleName = EditingUser.RoleName,
             };
 
             OnPropertyChanged(nameof(TempUser));
@@ -57,7 +57,8 @@ public class UserEditControlVM : ViewModelBase, IDataHolder, IResultHolder, IInt
     public Action FinishInteraction { get; set; }
     public object? Result { get; set; }
 
-    public ObservableCollection<UserTypeVM> UserTypeVMs { get; set; }
+    public ObservableCollection<UserRoleVM> UserRoleVMs { get; set; }
+    public UserRoleVM SelectedUserRole { get; set; }
     public UserVM TempUser { get; set; }
     public UserVM EditingUser => (UserVM)Data;
 
@@ -77,7 +78,7 @@ public class UserEditControlVM : ViewModelBase, IDataHolder, IResultHolder, IInt
                 EditingUser.Login = TempUser.Login;
                 EditingUser.Password = TempUser.Password;
                 EditingUser.Name = TempUser.Name;
-                EditingUser.UserType = TempUser.UserType;
+                EditingUser.RoleName = SelectedUserRole.Name;
                 Result = EditingUser;
                 FinishInteraction();
             });

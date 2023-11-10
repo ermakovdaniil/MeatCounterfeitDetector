@@ -3,7 +3,7 @@ using System;
 
 namespace MeatCounterfeitDetector.UserInterface.EntityVM;
 
-public class UserTypeVM : ViewModelBase
+public class UserRoleVM : ViewModelBase
 {
     public Guid Id { get; set; }
     public string Name { get; set; }

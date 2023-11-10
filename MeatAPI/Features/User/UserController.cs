@@ -1,8 +1,6 @@
-﻿using ClientAPI.DTO.Result;
-using ClientAPI.DTO.User;
+﻿using ClientAPI.DTO.User;
 using DataAccess.Data;
 using Mapster;
-using MeatAPI.Features.Result;
 using Microsoft.AspNetCore.Mvc;
 using WebAppWithReact.Controllers;
 
@@ -23,15 +21,29 @@ namespace MeatAPI.Features.User
             var users = await _userService.GetAll();
             var usersDTO = users.Adapt<List<GetUserDTO>>();
 
-            foreach (var u in users)
-            {
-                var dto = new GetUserDTO();
+            //foreach (var u in users)
+            //{
+                //var dto = new GetUserDTO();
                 //dto.Id = u.Id;
                 //dto.Login = u.Login;
                 //dto.Password = u.Password;
                 //dto.Name = u.Name;
-                //dto.UserTypeName = u.UserType.Name;
-                usersDTO.Add(dto);
+                //dto.UserRoleName = u.UserRole.Name;
+                //usersDTO.Add(dto);
+            //}
+
+            foreach (var u in users)
+            {
+                foreach (var r in u.IdentityRoles)
+                {
+                    var dto = new GetUserDTO();
+                    dto.Id = u.Id;
+                    dto.Login = u.Login;
+                    dto.Password = u.Password;
+                    dto.Name = u.Name;
+                    dto.RoleName = r.Name;
+                    usersDTO.Add(dto);
+                }
             }
 
             return Ok(usersDTO);

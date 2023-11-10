@@ -1,4 +1,4 @@
-﻿using ClientAPI.DTO.UserType;
+﻿using ClientAPI.DTO.UserRole;
 using System.ComponentModel.DataAnnotations;
 
 namespace ClientAPI.DTO.User
@@ -14,9 +14,6 @@ namespace ClientAPI.DTO.User
         [Required(ErrorMessage = "Name is required")]
         public string Name { get; set; }
 
-        //[Required(ErrorMessage = "TypeId is required")]
-        //public Guid TypeId { get; set; }
-
-        public string UserTypeName { get; set; }
+        public string RoleName { get; set; }
     }
 }

@@ -29,7 +29,7 @@
                     <DataGridTextColumn Header="Имя пользователя"
                                         Binding="{Binding Name}" />
                     <DataGridTextColumn Header="Тип пользователя"
-                                        Binding="{Binding UserTypeName}" />
+                                        Binding="{Binding RoleName}" />
                 </DataGrid.Columns>
             </DataGrid>
             <Grid Row="1" Background="{StaticResource Style2}">

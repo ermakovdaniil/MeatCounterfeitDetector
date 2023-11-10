@@ -1,8 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace ClientAPI.DTO.UserType
+namespace ClientAPI.DTO.UserRole
 {
-    public class GetUserTypeDTO
+    public class GetUserRoleDTO
     {
         [Required(ErrorMessage = "Id is required")]
         public Guid Id { get; set; }

@@ -29,7 +29,7 @@
                         Background="{StaticResource Style3}" HorizontalAlignment="Stretch" />
 
             <!--<hc:ComboBox hc:InfoElement.Title="Тип пользователя"
-                         ItemsSource="{Binding UserTypes}"
+                         ItemsSource="{Binding UserRoles}"
                          hc:InfoElement.TitlePlacement="Top" Margin="10 5"
                          SelectedItem="{Binding TempUser.Type, Mode=TwoWay}"
                          SelectedIndex="{Binding TempUser.TypeId}"
@@ -37,9 +37,9 @@
                          Background="{StaticResource Style3}" HorizontalAlignment="Stretch" />-->
 
             <hc:ComboBox hc:InfoElement.Title="Тип пользователя"
-                         ItemsSource="{Binding UserTypeVMs}"
+                         ItemsSource="{Binding UserRoleVMs}"
                          hc:InfoElement.TitlePlacement="Top" Margin="10 5"
-                         SelectedItem="{Binding TempUser.UserType, Mode=TwoWay}"
+                         SelectedItem="{Binding SelectedUserRole, Mode=TwoWay}"
                          DisplayMemberPath="Name"
                          Background="{StaticResource Style3}" HorizontalAlignment="Stretch" />
         </StackPanel>

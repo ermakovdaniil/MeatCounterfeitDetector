@@ -82,7 +82,7 @@ public class GalleryControlVM : ViewModelBase
                 //{
                 var result = (await _dialogService.ShowDialog<GalleryEditControl>(new WindowParameters
                 {
-                    Height = 550,
+                    Height = 350,
                     Width = 350,
                     Title = "Добавление изображения фальсификата",
                 },
@@ -129,7 +129,7 @@ public class GalleryControlVM : ViewModelBase
 
                 var result = (await _dialogService.ShowDialog<GalleryEditControl>(new WindowParameters
                 {
-                    Height = 450,
+                    Height = 350,
                     Width = 350,
                     Title = "Редактирование изображения фальсификата",
                 },
