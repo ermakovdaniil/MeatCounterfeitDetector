@@ -25,7 +25,7 @@ using FrameworkElementFactory = MeatCounterfeitDetector.Utils.FrameworkFactory.F
 using MeatCounterfeitDetector.Utils.AuthService;
 using MeatCounterfeitDetector.UserInterface.Technologist.Analysis;
 using MeatCounterfeitDetector.UserInterface.Technologist.Edit;
-using MeatCountefeitDetector.Utils.EventAggregator;
+using MeatCounterfeitDetector.Utils.EventAggregator;
 using ImageWorker.ProgressReporter;
 using ImageWorker.BitmapService;
 using ImageWorker.ImageEditing;
@@ -82,6 +82,10 @@ public partial class App : Application
         builder.RegisterType<UserClient>()
             .As<UserClient>()
             .WithParameter("baseUrl", baseUrl);
+
+        builder.RegisterType<UserRoleClient>()
+               .As<UserRoleClient>()
+               .WithParameter("baseUrl", baseUrl);
 
         builder.Register<IHttpClientFactory>(_ =>
         {

@@ -9,9 +9,9 @@ using MeatCounterfeitDetector.Utils.UserService;
 using ClientAPI;
 using Mapster;
 using System.Collections.ObjectModel;
-using MeatCountefeitDetector.UserInterface.EntityVM;
+using MeatCounterfeitDetector.UserInterface.EntityVM;
 using MeatCounterfeitDetector.Utils.Dialog;
-using MeatCountefeitDetector.Utils.EventAggregator;
+using MeatCounterfeitDetector.Utils.EventAggregator;
 using MeatCounterfeitDetector.UserInterface.EntityVM;
 
 namespace MeatCounterfeitDetector.UserInterface.Admin.Result;

@@ -9,6 +9,8 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
 using MeatAPI.Features.Result;
+using MeatAPI.Features.User;
+using MeatAPI.Features.UserRole;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -30,7 +32,8 @@ builder.Services.AddTransient<CounterfeitImageService>();
 builder.Services.AddTransient<ResultService>();
 builder.Services.AddTransient<EntityAccessServiceBase<ResultDBContext, OriginalImage>>();
 builder.Services.AddTransient<EntityAccessServiceBase<ResultDBContext, ResultImage>>();
-builder.Services.AddTransient<EntityAccessServiceBase<ResultDBContext, User>>();
+builder.Services.AddTransient<UserService>();
+builder.Services.AddTransient<UserRoleService>();
 
 //builder.Services.AddTransient<EntityAccessServiceBase<ResultDBContext, UserRole>>();
 

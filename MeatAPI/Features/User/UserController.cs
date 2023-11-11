@@ -8,9 +8,9 @@ namespace MeatAPI.Features.User
 {
     public class UserController : BaseAuthorizedController
     {
-        private readonly EntityAccessServiceBase<ResultDBContext, DataAccess.Models.User> _userService;
+        private readonly UserService _userService;
 
-        public UserController(EntityAccessServiceBase<ResultDBContext, DataAccess.Models.User> userService)
+        public UserController(UserService userService)
         {
             _userService = userService;
         }
@@ -18,34 +18,7 @@ namespace MeatAPI.Features.User
         [HttpGet]
         public async Task<ActionResult<IReadOnlyCollection<GetUserDTO>>> GetAll()
         {
-            var users = await _userService.GetAll();
-            var usersDTO = users.Adapt<List<GetUserDTO>>();
-
-            //foreach (var u in users)
-            //{
-                //var dto = new GetUserDTO();
-                //dto.Id = u.Id;
-                //dto.Login = u.Login;
-                //dto.Password = u.Password;
-                //dto.Name = u.Name;
-                //dto.UserRoleName = u.UserRole.Name;
-                //usersDTO.Add(dto);
-            //}
-
-            foreach (var u in users)
-            {
-                foreach (var r in u.IdentityRoles)
-                {
-                    var dto = new GetUserDTO();
-                    dto.Id = u.Id;
-                    dto.Login = u.Login;
-                    dto.Password = u.Password;
-                    dto.Name = u.Name;
-                    dto.RoleName = r.Name;
-                    usersDTO.Add(dto);
-                }
-            }
-
+            var usersDTO = await _userService.GetAll();
             return Ok(usersDTO);
         }
 

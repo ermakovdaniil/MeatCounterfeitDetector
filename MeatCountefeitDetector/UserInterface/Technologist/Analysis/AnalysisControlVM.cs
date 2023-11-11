@@ -17,7 +17,7 @@ using MeatCounterfeitDetector.Utils.MainWindowControlChanger;
 using MeatCounterfeitDetector.Utils.MessageBoxService;
 using MeatCounterfeitDetector.Utils.UserService;
 using ImageWorker.ProgressReporter;
-using MeatCountefeitDetector.Utils.EventAggregator;
+using MeatCounterfeitDetector.Utils.EventAggregator;
 using System.Windows.Media.Imaging;
 using ImageWorker.BitmapService;
 using ImageWorker.ImageAnalyzis;

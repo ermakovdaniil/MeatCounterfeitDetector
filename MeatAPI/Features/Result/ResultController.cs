@@ -8,9 +8,9 @@ namespace MeatAPI.Features.Result
 {
     public class ResultController : BaseAuthorizedController
     {
-        private readonly EntityAccessServiceBase<ResultDBContext, DataAccess.Models.Result> _resultService;
+        private readonly ResultService _resultService;
 
-        public ResultController(EntityAccessServiceBase<ResultDBContext, DataAccess.Models.Result> resultService)
+        public ResultController(ResultService resultService)
         {
             _resultService = resultService;
         }
@@ -33,7 +33,10 @@ namespace MeatAPI.Features.Result
                 dto.OriginalImageId = r.OriginalImageId;
                 dto.OriginalEncodedImage = r.OriginalImage.EncodedImage;
                 dto.ResultImageId = r.ResultImageId;
-                dto.ResultEncodedImage = r.ResultImage.EncodedImage;
+                if(r.ResultImage is not null)
+                {
+                    dto.ResultEncodedImage = r.ResultImage.EncodedImage;
+                }
                 resultsDTO.Add(dto);
             }
             return Ok(resultsDTO);

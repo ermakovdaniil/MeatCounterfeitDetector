@@ -1,7 +1,7 @@
 ﻿using MeatCounterfeitDetector.UserInterface.Admin.Abstract;
 using System;
 
-namespace MeatCountefeitDetector.UserInterface.EntityVM;
+namespace MeatCounterfeitDetector.UserInterface.EntityVM;
 
 public class OriginalImageVM : ViewModelBase
 {

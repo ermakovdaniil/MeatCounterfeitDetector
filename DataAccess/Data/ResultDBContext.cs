@@ -20,6 +20,5 @@ namespace DataAccess.Data
         public virtual DbSet<Result> Results { get; set; } = null!;
         public virtual DbSet<ResultImage> ResultImages { get; set; } = null!;
         public virtual DbSet<User> Users { get; set; } = null!;
-        public virtual DbSet<IdentityRole> IdentityRoles { get; set; } = null!;
     }
 }

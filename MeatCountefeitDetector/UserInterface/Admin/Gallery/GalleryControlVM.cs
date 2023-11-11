@@ -9,7 +9,7 @@ using ClientAPI.DTO.CounterfeitImage;
 using Mapster;
 using System.Collections.ObjectModel;
 using MeatCounterfeitDetector.UserInterface.EntityVM;
-using MeatCountefeitDetector.Utils.EventAggregator;
+using MeatCounterfeitDetector.Utils.EventAggregator;
 
 namespace MeatCounterfeitDetector.UserInterface.Admin.Gallery;
 

@@ -3,7 +3,7 @@ using MeatCounterfeitDetector.UserInterface.Admin.User;
 using MeatCounterfeitDetector.UserInterface.EntityVM;
 using System;
 
-namespace MeatCountefeitDetector.UserInterface.EntityVM;
+namespace MeatCounterfeitDetector.UserInterface.EntityVM;
 
 public class ResultVM : ViewModelBase
 {

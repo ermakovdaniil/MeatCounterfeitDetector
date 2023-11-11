@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace MeatCountefeitDetector.Utils.EventAggregator
+namespace MeatCounterfeitDetector.Utils.EventAggregator
 {
     public interface IEventAggregator
     {

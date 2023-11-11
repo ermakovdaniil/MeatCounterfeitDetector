@@ -23,7 +23,7 @@
                   IsReadOnly="True"
                   SelectionMode="Single"
                   RowHeight="400"
-                  ScrollViewer.CanContentScroll="False"     
+                  ScrollViewer.CanContentScroll="True"     
                   SelectedItem="{Binding SelectedResult}" Background="{StaticResource Style3}">
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="Дата" Binding="{Binding Date}" />

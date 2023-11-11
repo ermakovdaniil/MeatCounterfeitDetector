@@ -5,9 +5,15 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:hc="https://handyorg.github.io/handycontrol"
              xmlns:user="clr-namespace:MeatCounterfeitDetector.UserInterface.Admin.User"
+             xmlns:utils="clr-namespace:MeatCounterfeitDetector.Utils"
              mc:Ignorable="d"
              d:DataContext="{d:DesignInstance user:UserExplorerControlVM}"
              d:DesignHeight="450" d:DesignWidth="800">
+
+    <UserControl.Resources>
+        <utils:StringListConverter x:Key="StringListConverter"/>
+    </UserControl.Resources>
+
     <Grid>
         <Grid>
             <Grid.RowDefinitions>
@@ -22,14 +28,15 @@
                       AutoGenerateColumns="False"
                       Background="{StaticResource Style3}">
                 <DataGrid.Columns>
-                    <DataGridTextColumn Header="Логин"
-                                        Binding="{Binding Login}" />
-                    <DataGridTextColumn Header="Пароль"
-                                        Binding="{Binding Password}" />
-                    <DataGridTextColumn Header="Имя пользователя"
-                                        Binding="{Binding Name}" />
-                    <DataGridTextColumn Header="Тип пользователя"
-                                        Binding="{Binding RoleName}" />
+                    <DataGridTextColumn Header="Логин" Binding="{Binding UserName}" />
+                    <DataGridTextColumn Header="Имя пользователя" Binding="{Binding Name}" />
+                    <DataGridTemplateColumn Header="Роль пользователя">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding Roles, Converter={StaticResource StringListConverter}}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
                 </DataGrid.Columns>
             </DataGrid>
             <Grid Row="1" Background="{StaticResource Style2}">

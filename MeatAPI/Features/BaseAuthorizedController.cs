@@ -12,6 +12,6 @@ namespace WebAppWithReact.Controllers;
 [Route("api/[controller]")]
 public abstract class BaseAuthorizedController : ControllerBase
 {
-    public bool IsUserAdmin => User.IsInRole(UserRoles.Admin);
+    public bool IsUserAdmin => User.IsInRole(UserRolesConstants.Admin);
     protected Guid UserId => User.GetLoggedInUserId<Guid>();
 }

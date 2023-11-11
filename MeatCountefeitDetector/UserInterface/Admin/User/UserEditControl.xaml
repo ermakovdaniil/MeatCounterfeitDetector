@@ -15,7 +15,7 @@
         <StackPanel Background="{StaticResource Style2}">
             <hc:TextBox hc:InfoElement.Title="Логин"
                         hc:InfoElement.TitlePlacement="Top" Margin="10 5"
-                        Text="{Binding TempUser.Login, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                        Text="{Binding TempUser.UserName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                         Background="{StaticResource Style3}" HorizontalAlignment="Stretch" />
 
             <hc:TextBox hc:InfoElement.Title="Пароль"
@@ -36,12 +36,20 @@
                          SelectedValuePath="Id" DisplayMemberPath="Name"
                          Background="{StaticResource Style3}" HorizontalAlignment="Stretch" />-->
 
-            <hc:ComboBox hc:InfoElement.Title="Тип пользователя"
-                         ItemsSource="{Binding UserRoleVMs}"
+            <hc:CheckComboBox hc:InfoElement.Title="Роль пользователя"
+                              hc:InfoElement.TitlePlacement="Top" Margin="10 5"
+                              ItemsSource="{Binding UserRoleVMs}" DisplayMemberPath="Name"
+                              Style="{StaticResource CheckComboBoxPlus}" 
+                              SelectedItem="{Binding SelectedUserRoles, Mode=TwoWay}"
+                              ShowClearButton="True" ShowSelectAllButton="True"
+                              Background="{StaticResource Style3}" HorizontalAlignment="Stretch" />
+            
+            <!--<hc:CheckComboBox hc:InfoElement.Title="Тип пользователя"
+                                ItemsSource="{Binding UserRoleVMs}"
                          hc:InfoElement.TitlePlacement="Top" Margin="10 5"
                          SelectedItem="{Binding SelectedUserRole, Mode=TwoWay}"
                          DisplayMemberPath="Name"
-                         Background="{StaticResource Style3}" HorizontalAlignment="Stretch" />
+                         Background="{StaticResource Style3}" HorizontalAlignment="Stretch" />-->
         </StackPanel>
         <Grid Row="1" Background="{StaticResource Style1}">
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">

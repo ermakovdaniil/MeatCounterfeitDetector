@@ -75,7 +75,7 @@ public class UserExplorerControlVM : ViewModelBase
                     return;
                 }
 
-                if (!UserVMs.Any(rec => rec.Id == result.Id && rec.RoleName == result.RoleName))
+                if (!UserVMs.Any(rec => rec.Id == result.Id && rec.UserName == result.UserName))
                 {
                     var addingUserCreateDTO = result.Adapt<CreateUserDTO>();
                     var id = await _userClient.UserPostAsync(addingUserCreateDTO);
@@ -106,7 +106,7 @@ public class UserExplorerControlVM : ViewModelBase
                 {
                     Height = 380,
                     Width = 300,
-                    Title = "Добавление пользователя",
+                    Title = "Редактирование пользователя",
                 },
                 data: SelectedUser)) as UserVM;
 
@@ -114,7 +114,7 @@ public class UserExplorerControlVM : ViewModelBase
                 {
                     return;
                 }
-                if (!UserVMs.Any(rec => rec.Id == result.Id && rec.RoleName == result.RoleName))
+                if (!UserVMs.Any(rec => rec.Id == result.Id && rec.UserName == result.UserName))
                 {
                     var editingUserCreateDTO = result.Adapt<UpdateUserDTO>();
                     await _userClient.UserPutAsync(editingUserCreateDTO);

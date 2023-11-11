@@ -1,6 +1,6 @@
 ﻿namespace DataAccess.Models
 {
-    public class UserRoles
+    public class UserRolesConstants
     {
         public const string Admin = "Admin";
         public const string User = "User";

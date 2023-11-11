@@ -22,7 +22,7 @@ namespace MeatCounterfeitDetector.Utils.UserService
                     return false;
                 }
 
-                return userJwtToken.Claims.Any(c => c.Type == $"http://schemas.microsoft.com/ws/2008/06/identity/claims/role" && c.Value.ToLower() == UserRoles.Admin.ToLower());
+                return userJwtToken.Claims.Any(c => c.Type == $"http://schemas.microsoft.com/ws/2008/06/identity/claims/role" && c.Value.ToLower() == UserRolesConstants.Admin.ToLower());
             }
         }
 

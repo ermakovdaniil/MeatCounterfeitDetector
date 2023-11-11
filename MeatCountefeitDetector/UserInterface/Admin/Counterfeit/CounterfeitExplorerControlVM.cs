@@ -9,7 +9,7 @@ using ClientAPI.DTO.Counterfeit;
 using Mapster;
 using System.Collections.ObjectModel;
 using MeatCounterfeitDetector.UserInterface.EntityVM;
-using MeatCountefeitDetector.Utils.EventAggregator;
+using MeatCounterfeitDetector.Utils.EventAggregator;
 
 namespace MeatCounterfeitDetector.UserInterface.Admin.Counterfeit;
 
@@ -112,7 +112,7 @@ public class CounterfeitExplorerControlVM : ViewModelBase
                 {
                     Height = 180,
                     Width = 300,
-                    Title = "Добавление фальсификата",
+                    Title = "Редактирование фальсификата",
                 },
                 data: SelectedCounterfeit)) as CounterfeitVM;
 

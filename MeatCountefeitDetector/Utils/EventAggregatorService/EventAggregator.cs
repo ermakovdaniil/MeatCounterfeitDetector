@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace MeatCountefeitDetector.Utils.EventAggregator
+namespace MeatCounterfeitDetector.Utils.EventAggregator
 {
     public class EventAggregator : IEventAggregator
     {

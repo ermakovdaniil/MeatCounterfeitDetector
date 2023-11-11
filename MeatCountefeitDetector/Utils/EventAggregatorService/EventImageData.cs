@@ -1,6 +1,6 @@
 ﻿using System.Windows.Media.Imaging;
 
-namespace MeatCountefeitDetector.Utils.EventAggregator
+namespace MeatCounterfeitDetector.Utils.EventAggregator
 {
     public class EventImageData
     {

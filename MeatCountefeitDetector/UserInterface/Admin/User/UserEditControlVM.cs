@@ -7,6 +7,9 @@ using System.Linq;
 using Mapster;
 using System.Collections.ObjectModel;
 using MeatCounterfeitDetector.UserInterface.EntityVM;
+using System.Windows.Documents;
+using System.Collections.Generic;
+using static Emgu.CV.Dai.OpenVino;
 
 namespace MeatCounterfeitDetector.UserInterface.Admin.User;
 
@@ -41,13 +44,15 @@ public class UserEditControlVM : ViewModelBase, IDataHolder, IResultHolder, IInt
         {
             _data = value;
 
+            SelectedUserRoles = new ObservableCollection<string>(EditingUser.Roles);
+
             TempUser = new UserVM
             {
                 Id = EditingUser.Id,
-                Login = EditingUser.Login,
+                UserName = EditingUser.UserName,
                 Password = EditingUser.Password,
                 Name = EditingUser.Name,
-                RoleName = EditingUser.RoleName,
+                Roles = EditingUser.Roles,
             };
 
             OnPropertyChanged(nameof(TempUser));
@@ -58,7 +63,7 @@ public class UserEditControlVM : ViewModelBase, IDataHolder, IResultHolder, IInt
     public object? Result { get; set; }
 
     public ObservableCollection<UserRoleVM> UserRoleVMs { get; set; }
-    public UserRoleVM SelectedUserRole { get; set; }
+    public ObservableCollection<string> SelectedUserRoles { get; set; }
     public UserVM TempUser { get; set; }
     public UserVM EditingUser => (UserVM)Data;
 
@@ -75,10 +80,17 @@ public class UserEditControlVM : ViewModelBase, IDataHolder, IResultHolder, IInt
             return _saveUser ??= new RelayCommand(o =>
             {
                 EditingUser.Id = TempUser.Id;
-                EditingUser.Login = TempUser.Login;
+                EditingUser.UserName = TempUser.UserName;
                 EditingUser.Password = TempUser.Password;
                 EditingUser.Name = TempUser.Name;
-                EditingUser.RoleName = SelectedUserRole.Name;
+
+                var roles = new List<string>();
+                foreach(var role in SelectedUserRoles)
+                {
+                    roles.Add(role);
+                }
+                EditingUser.Roles = roles;
+
                 Result = EditingUser;
                 FinishInteraction();
             });

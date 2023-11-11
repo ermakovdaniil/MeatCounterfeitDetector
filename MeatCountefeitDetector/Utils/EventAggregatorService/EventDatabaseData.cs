@@ -2,7 +2,7 @@
 using System.Windows.Media.Imaging;
 using static iText.StyledXmlParser.Jsoup.Select.Evaluator;
 
-namespace MeatCountefeitDetector.Utils.EventAggregator
+namespace MeatCounterfeitDetector.Utils.EventAggregator
 {
     public class EventDatabaseData
     {

@@ -59,14 +59,14 @@ public class Program
         var userManager = sp.GetRequiredService<UserManager<User>>();
         var roleManager = sp.GetRequiredService<RoleManager<IdentityRole<Guid>>>();
 
-        if (!await roleManager.RoleExistsAsync(UserRoles.Admin))
+        if (!await roleManager.RoleExistsAsync(UserRolesConstants.Admin))
         {
-            await roleManager.CreateAsync(new IdentityRole<Guid>(UserRoles.Admin));
+            await roleManager.CreateAsync(new IdentityRole<Guid>(UserRolesConstants.Admin));
         }
 
-        if (!await roleManager.RoleExistsAsync(UserRoles.User))
+        if (!await roleManager.RoleExistsAsync(UserRolesConstants.User))
         {
-            await roleManager.CreateAsync(new IdentityRole<Guid>(UserRoles.User));
+            await roleManager.CreateAsync(new IdentityRole<Guid>(UserRolesConstants.User));
         }
 
         var adminUserExists = await userManager.FindByNameAsync(adminName) is not null;
@@ -88,14 +88,14 @@ public class Program
                 return;
             }
 
-            if (await roleManager.RoleExistsAsync(UserRoles.Admin))
+            if (await roleManager.RoleExistsAsync(UserRolesConstants.Admin))
             {
-                await userManager.AddToRoleAsync(admin, UserRoles.Admin);
+                await userManager.AddToRoleAsync(admin, UserRolesConstants.Admin);
             }
 
-            if (await roleManager.RoleExistsAsync(UserRoles.User))
+            if (await roleManager.RoleExistsAsync(UserRolesConstants.User))
             {
-                await userManager.AddToRoleAsync(admin, UserRoles.User);
+                await userManager.AddToRoleAsync(admin, UserRolesConstants.User);
             }
         }
         
@@ -118,9 +118,9 @@ public class Program
                 return;
             }
 
-            if (await roleManager.RoleExistsAsync(UserRoles.User))
+            if (await roleManager.RoleExistsAsync(UserRolesConstants.User))
             {
-                await userManager.AddToRoleAsync(user, UserRoles.User);
+                await userManager.AddToRoleAsync(user, UserRolesConstants.User);
             }
         }       
     }

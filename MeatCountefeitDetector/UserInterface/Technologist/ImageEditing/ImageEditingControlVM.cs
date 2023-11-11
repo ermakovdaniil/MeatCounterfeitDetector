@@ -5,7 +5,7 @@ using MeatCounterfeitDetector.Utils;
 using MeatCounterfeitDetector.Utils.IOService;
 using MeatCounterfeitDetector.Utils.MessageBoxService;
 using ImageWorker.ProgressReporter;
-using MeatCountefeitDetector.Utils.EventAggregator;
+using MeatCounterfeitDetector.Utils.EventAggregator;
 using System.IO;
 using System.Threading.Tasks;
 using System.Windows.Media.Imaging;
