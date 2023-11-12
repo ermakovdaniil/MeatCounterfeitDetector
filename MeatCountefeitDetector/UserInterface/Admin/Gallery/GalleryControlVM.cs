@@ -28,9 +28,8 @@ public class GalleryControlVM : ViewModelBase
         _messageBoxService = messageBoxService;
         _dialogService = dialogService;
 
-        //counterfeitExplorerControlVM.CounterfeitVMs.CollectionChanged += (sender, args) => UpdateCounterfeitImageVMs();
         _eventAggregator = eventAggregator;
-        _eventAggregator.Subscribe<EventDatabaseData>(CollectionChanged);
+        _eventAggregator.Subscribe<Event>(CollectionChanged);
 
         _counterfeitImageClient.CounterfeitImageGetAsync()
                                .ContinueWith(c => { CounterfeitImageVMs = c.Result.ToList().Adapt<ObservableCollection<CounterfeitImageVM>>(); });
@@ -38,17 +37,10 @@ public class GalleryControlVM : ViewModelBase
 
     #endregion
 
-    private void CollectionChanged(EventDatabaseData data)
+    private void CollectionChanged(Event data)
     {
-        var entitiesToRemove = CounterfeitImageVMs.Where(entity => entity.CounterfeitId == data.Id).ToList();
-
-        foreach (var entityToRemove in entitiesToRemove)
-        {
-            CounterfeitImageVMs.Remove(entityToRemove);
-        }
-
-        //_counterfeitImageClient.CounterfeitImageGetAsync()
-        //                       .ContinueWith(c => { CounterfeitImageVMs = c.Result.ToList().Adapt<ObservableCollection<CounterfeitImageVM>>(); });
+        _counterfeitImageClient.CounterfeitImageGetAsync()
+                               .ContinueWith(c => { CounterfeitImageVMs = c.Result.ToList().Adapt<ObservableCollection<CounterfeitImageVM>>(); });
 
         OnPropertyChanged(nameof(CounterfeitImageVMs));
     }
@@ -82,8 +74,8 @@ public class GalleryControlVM : ViewModelBase
                 //{
                 var result = (await _dialogService.ShowDialog<GalleryEditControl>(new WindowParameters
                 {
-                    Height = 350,
-                    Width = 350,
+                    Height = 470,
+                    Width = 450,
                     Title = "Добавление изображения фальсификата",
                 },
                 data: new CounterfeitImageVM())) as CounterfeitImageVM;
@@ -124,16 +116,17 @@ public class GalleryControlVM : ViewModelBase
             {
                 //Application.Current.Dispatcher.Invoke(async () =>
                 //{
+                var tempCounterfeitImage = (CounterfeitImageVM)SelectedCounterfeitImage.Clone();
 
                 var path = SelectedCounterfeitImage.EncodedImage;
 
                 var result = (await _dialogService.ShowDialog<GalleryEditControl>(new WindowParameters
                 {
-                    Height = 350,
-                    Width = 350,
+                    Height = 470,
+                    Width = 450,
                     Title = "Редактирование изображения фальсификата",
                 },
-                data: SelectedCounterfeitImage)) as CounterfeitImageVM;
+                data: tempCounterfeitImage)) as CounterfeitImageVM;
 
                 if (result is null)
                 {
@@ -150,7 +143,7 @@ public class GalleryControlVM : ViewModelBase
                     //{
                     //    File.Copy(result.EncodedImage, @"..\..\..\resources\counterfeits\" + Path.GetFileName(result.EncodedImage), true);
                     //}
-                    _messageBoxService.ShowMessage($"Объект успешно добавлен!", "Готово!", MessageBoxButton.OK, MessageBoxImage.Information);
+                    _messageBoxService.ShowMessage($"Объект успешно изменён!", "Готово!", MessageBoxButton.OK, MessageBoxImage.Information);
                 }
                 else
                 {

@@ -27,9 +27,10 @@
                          Background="{StaticResource Style3}" HorizontalAlignment="Stretch" />-->
 
                 <hc:ComboBox hc:InfoElement.Title="Вид фальсификат"
-                         ItemsSource="{Binding CounterfeitVMs}"
+                         ItemsSource="{Binding CounterfeitVMs, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                          hc:InfoElement.TitlePlacement="Top" Margin="10 5"
-                         SelectedItem="{Binding SelectedCounterfeitVM, Mode=TwoWay}"
+                         SelectedValue="{Binding TempCounterfeitImage.CounterfeitId, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                         SelectedValuePath="Id" 
                          DisplayMemberPath="Name"
                          Background="{StaticResource Style3}" HorizontalAlignment="Stretch" />
 
@@ -37,8 +38,8 @@
                         hc:InfoElement.TitlePlacement="Top" Margin="10 5"
                         Text="{Binding TempCounterfeitImage.EncodedImage, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                         Background="{StaticResource Style3}" HorizontalAlignment="Stretch" />-->
-                <Border BorderThickness="1" Margin="10" BorderBrush="{StaticResource Style4}" Background="{StaticResource Style3}">
-                    <Image Source="{Binding TempCounterfeitImage.EncodedImage, Converter={StaticResource PathToImageConverter}}" Stretch="Fill"/>
+                <Border MinHeight="200" MinWidth="300" BorderThickness="1" Margin="10" BorderBrush="{StaticResource Style4}" Background="{StaticResource Style3}">
+                    <Image Source="{Binding TempCounterfeitImage.EncodedImage, Converter={StaticResource PathToImageConverter}, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Stretch="Fill"/>
                 </Border>
                 <Button hc:BorderElement.CornerRadius="10" Width="180" Margin="5 0 5 10"
                         Command="{Binding ChangePathImageCommand}"

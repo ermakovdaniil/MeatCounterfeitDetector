@@ -18,21 +18,22 @@
             <RowDefinition Height="50" />
         </Grid.RowDefinitions>
         <DataGrid AutoGenerateColumns="False"
-                  ItemsSource="{Binding CounterfeitImageVMs}"
+                  ItemsSource="{Binding CounterfeitImageVMs, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                   CanUserAddRows="False"
                   IsReadOnly="True"
                   SelectionMode="Single"
-                  SelectedItem="{Binding SelectedCounterfeitImage}"
+                  SelectedItem="{Binding SelectedCounterfeitImage, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                   Background="{StaticResource Style3}"
                   RowHeight="300"
                   ScrollViewer.CanContentScroll="True">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Наименование" Binding="{Binding CounterfeitName}" />
+                <DataGridTextColumn Header="Наименование" Binding="{Binding CounterfeitName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                 <DataGridTemplateColumn Header=" Изображение">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <Border BorderThickness="1" Margin="10" BorderBrush="{StaticResource Style4}" Background="{StaticResource Style3}">
-                                <Image Source="{Binding EncodedImage, Converter={StaticResource PathToImageConverter}}" Stretch="Fill" Height="300" Width="300" />
+                                <Image Source="{Binding EncodedImage, Converter={StaticResource PathToImageConverter}, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                       Stretch="Fill" Height="300" Width="300" />
                             </Border>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>

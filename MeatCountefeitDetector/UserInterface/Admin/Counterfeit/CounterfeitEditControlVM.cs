@@ -16,11 +16,9 @@ public class CounterfeitEditControlVM : ViewModelBase, IDataHolder, IResultHolde
 
     #region Constructors
 
-    public CounterfeitEditControlVM(CounterfeitClient counterfeitClient)
+    public CounterfeitEditControlVM()
     {
-        _counterfeitClient = counterfeitClient;
-        _counterfeitClient.CounterfeitGetAsync()
-                          .ContinueWith(c => { CounterfeitVMs = c.Result.ToList().Adapt<List<CounterfeitVM>>(); });
+
     }
 
     #endregion
@@ -29,8 +27,6 @@ public class CounterfeitEditControlVM : ViewModelBase, IDataHolder, IResultHolde
 
 
     #region Properties
-
-    private readonly CounterfeitClient _counterfeitClient;
 
     private object _data;
     public object Data
@@ -53,7 +49,6 @@ public class CounterfeitEditControlVM : ViewModelBase, IDataHolder, IResultHolde
     public Action FinishInteraction { get; set; }
     public object? Result { get; set; }
 
-    public List<CounterfeitVM> CounterfeitVMs { get; set; }
     public CounterfeitVM TempCounterfeit { get; set; }
     public CounterfeitVM EditingCounterfeit => (CounterfeitVM)Data;
 

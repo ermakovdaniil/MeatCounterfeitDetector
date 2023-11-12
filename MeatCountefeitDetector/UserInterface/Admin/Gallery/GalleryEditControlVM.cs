@@ -30,7 +30,7 @@ public class GalleryEditControlVM : ViewModelBase, IDataHolder, IResultHolder, I
         _messageBoxService = messageBoxService;
 
         _counterfeitClient.CounterfeitGetAsync()
-                          .ContinueWith(c => { CounterfeitVMs = c.Result.ToList().Adapt<ObservableCollection<CounterfeitVM>>(); });  
+                          .ContinueWith(c => { CounterfeitVMs = c.Result.ToList().Adapt<ObservableCollection<CounterfeitVM>>(); });
     }
 
     #endregion
@@ -55,10 +55,11 @@ public class GalleryEditControlVM : ViewModelBase, IDataHolder, IResultHolder, I
             TempCounterfeitImage = new CounterfeitImageVM
             {
                 Id = EditingCounterfeitImage.Id,
-                CounterfeitId = EditingCounterfeitImage.CounterfeitId, // TODO
+                CounterfeitId = EditingCounterfeitImage.CounterfeitId,
                 EncodedImage = EditingCounterfeitImage.EncodedImage,
                 CounterfeitName = EditingCounterfeitImage.CounterfeitName
             };
+
             OnPropertyChanged(nameof(TempCounterfeitImage));
         }
     }
@@ -67,7 +68,6 @@ public class GalleryEditControlVM : ViewModelBase, IDataHolder, IResultHolder, I
     public object? Result { get; set; }
 
     public ObservableCollection<CounterfeitVM> CounterfeitVMs { get; set; }
-    public CounterfeitVM SelectedCounterfeitVM { get; set; }
     public CounterfeitImageVM TempCounterfeitImage { get; set; }
     public CounterfeitImageVM EditingCounterfeitImage => (CounterfeitImageVM)Data;
 
@@ -104,12 +104,12 @@ public class GalleryEditControlVM : ViewModelBase, IDataHolder, IResultHolder, I
                     if (TempCounterfeitImage.EncodedImage is not null)
                     {
                         EditingCounterfeitImage.Id = TempCounterfeitImage.Id;
-                        EditingCounterfeitImage.CounterfeitId = SelectedCounterfeitVM.Id; // TODO
+                        EditingCounterfeitImage.CounterfeitId = TempCounterfeitImage.CounterfeitId;
 
                         // TODO: СДЕЛАТЬ ПРЕВРАЩЕНИЕ ИЗОБРАЖЕНИЯ В СТРОКУ BASE-64
-                        //CounterfeitImage = @"..\..\..\resources\counterfeits\" + Path.GetFileName(path);
-                        EditingCounterfeitImage.EncodedImage = TempCounterfeitImage.EncodedImage; // TODO
-                        EditingCounterfeitImage.CounterfeitName = SelectedCounterfeitVM.Name;
+                        //CounterfeitImage = @"..\..\..\resources\counterfeits\" + Path.GetFileName(path)
+                        EditingCounterfeitImage.EncodedImage = TempCounterfeitImage.EncodedImage;
+                        EditingCounterfeitImage.CounterfeitName = CounterfeitVMs.First(c => c.Id == TempCounterfeitImage.CounterfeitId).Name;
                         Result = EditingCounterfeitImage;
                         FinishInteraction();
                     }

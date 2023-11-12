@@ -38,7 +38,7 @@ public class CounterfeitExplorerControlVM : ViewModelBase
     
     public void PublishData()
     {
-        _eventAggregator.Publish(new EventDatabaseData(SelectedCounterfeit.Id));
+        _eventAggregator.Publish(new Event());
     }
 
     #endregion
@@ -68,6 +68,7 @@ public class CounterfeitExplorerControlVM : ViewModelBase
             {
                 //Application.Current.Dispatcher.Invoke(async () =>
                 //{
+
                 var result = (await _dialogService.ShowDialog<CounterfeitEditControl>(new WindowParameters
                 {
                     Height = 180,
@@ -108,13 +109,16 @@ public class CounterfeitExplorerControlVM : ViewModelBase
             {
                 //Application.Current.Dispatcher.Invoke(async () =>
                 //{
+
+                var tempCounterfeit = (CounterfeitVM)SelectedCounterfeit.Clone();
+
                 var result = (await _dialogService.ShowDialog<CounterfeitEditControl>(new WindowParameters
                 {
                     Height = 180,
                     Width = 300,
                     Title = "Редактирование фальсификата",
                 },
-                data: SelectedCounterfeit)) as CounterfeitVM;
+                data: tempCounterfeit)) as CounterfeitVM;
 
                 if (result is null)
                 {
@@ -127,7 +131,7 @@ public class CounterfeitExplorerControlVM : ViewModelBase
                     await _counterfeitClient.CounterfeitPutAsync(editingCounterfeitUpdateDTO);
                     result.Adapt(CounterfeitVMs.FirstOrDefault(x => x.Id == result.Id));
 
-                    _messageBoxService.ShowMessage($"Объект успешно обновлён!", "Готово!", MessageBoxButton.OK, MessageBoxImage.Information);
+                    _messageBoxService.ShowMessage($"Объект успешно изменён!", "Готово!", MessageBoxButton.OK, MessageBoxImage.Information);
                 }
                 else
                 {
@@ -145,7 +149,7 @@ public class CounterfeitExplorerControlVM : ViewModelBase
         {
             return _deleteCounterfeit ??= new RelayCommand(async o =>
             {
-                if (_messageBoxService.ShowMessage($"Вы действительно хотите удалить фальсификат: \"{SelectedCounterfeit.Name}\"?", "Удаление объекта", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
+                if (_messageBoxService.ShowMessage($"Вы действительно хотите удалить фальсификат: \"{SelectedCounterfeit.Name}\"?\nВместе с этой записью удалятся все изображения с этим фальсификатом.", "Удаление объекта", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
                 {
                     //var analysisResultDTO = AnalysisResult.Adapt<CreateResultDTO>();
                     //Application.Current.Dispatcher.Invoke(async () =>
@@ -153,6 +157,7 @@ public class CounterfeitExplorerControlVM : ViewModelBase
                     await _counterfeitClient.CounterfeitDeleteAsync(SelectedCounterfeit.Id);
                     CounterfeitVMs.Remove(SelectedCounterfeit);
                     PublishData();
+                    _messageBoxService.ShowMessage($"Объект успешно удалён!", "Готово!", MessageBoxButton.OK, MessageBoxImage.Information);
                     //});
                 }
             }, c => SelectedCounterfeit is not null);
