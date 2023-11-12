@@ -7,9 +7,7 @@ using System.Linq;
 using Mapster;
 using System.Collections.ObjectModel;
 using MeatCounterfeitDetector.UserInterface.EntityVM;
-using System.Windows.Documents;
 using System.Collections.Generic;
-using static Emgu.CV.Dai.OpenVino;
 
 namespace MeatCounterfeitDetector.UserInterface.Admin.User;
 
@@ -80,14 +78,7 @@ public class UserEditControlVM : ViewModelBase, IDataHolder, IResultHolder, IInt
                 EditingUser.UserName = TempUser.UserName;
                 EditingUser.Password = TempUser.Password;
                 EditingUser.Name = TempUser.Name;
-
-                var roles = new List<string>();
-                foreach(var role in SelectedUserRoles)
-                {
-                    roles.Add(role);
-                }
-                EditingUser.Roles = roles;
-
+                EditingUser.Roles = TempUser.Roles;
                 Result = EditingUser;
                 FinishInteraction();
             });

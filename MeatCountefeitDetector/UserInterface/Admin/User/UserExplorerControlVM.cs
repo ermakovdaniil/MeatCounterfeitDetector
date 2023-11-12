@@ -1,6 +1,4 @@
-﻿using DataAccess.Data;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using System.Windows;
 using MeatCounterfeitDetector.UserInterface.Admin.Abstract;
 using MeatCounterfeitDetector.Utils;
@@ -9,8 +7,6 @@ using MeatCounterfeitDetector.Utils.MessageBoxService;
 using ClientAPI;
 using ClientAPI.DTO.User;
 using Mapster;
-using ClientAPI.DTO.Counterfeit;
-using MeatCounterfeitDetector.UserInterface.Admin.Counterfeit;
 using System.Collections.ObjectModel;
 using MeatCounterfeitDetector.UserInterface.EntityVM;
 
@@ -75,7 +71,7 @@ public class UserExplorerControlVM : ViewModelBase
                     return;
                 }
 
-                if (!UserVMs.Any(rec => rec.Id == result.Id && rec.UserName == result.UserName))
+                if (!UserVMs.Any(rec => rec.UserName == result.UserName))
                 {
                     var addingUserCreateDTO = result.Adapt<CreateUserDTO>();
                     var id = await _userClient.UserPostAsync(addingUserCreateDTO);
@@ -148,6 +144,7 @@ public class UserExplorerControlVM : ViewModelBase
                     //{
                     await _userClient.UserDeleteAsync(SelectedUser.Id);
                     UserVMs.Remove(SelectedUser);
+                    _messageBoxService.ShowMessage($"Запись успешно удалена!", "Готово!", MessageBoxButton.OK, MessageBoxImage.Information);
                     //});
                 }
             }, _ => SelectedUser is not null);

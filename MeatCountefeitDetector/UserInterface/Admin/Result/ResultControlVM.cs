@@ -87,6 +87,7 @@ public class ResultControlVM : ViewModelBase
                             await _originalImageClient.OriginalImageDeleteAsync(SelectedResult.OriginalImageId);
                         }
                         ResultVMs.Remove(SelectedResult);
+                        _messageBoxService.ShowMessage($"Запись успешно удалена!", "Готово!", MessageBoxButton.OK, MessageBoxImage.Information);
                         //});
                     }
                 }

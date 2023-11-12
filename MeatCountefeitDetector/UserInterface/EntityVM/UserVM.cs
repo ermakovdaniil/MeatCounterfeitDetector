@@ -10,7 +10,6 @@ public class UserVM : ViewModelBase, ICloneable
     public string UserName { get; set; }
     public string Password { get; set; }
     public string Name { get; set; }
-    public Guid RoleId { get; set; }
     public List<string> Roles { get; set; }
 
     public object Clone()

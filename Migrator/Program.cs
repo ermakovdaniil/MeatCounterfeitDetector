@@ -54,8 +54,8 @@ public class Program
     private static async Task CreateAdmin(IServiceProvider sp)
     {
 
-        var adminName = "admin";
-        var userName = "user";
+        var adminName = "Admin";
+        var technologistName = "Technologist";
         var userManager = sp.GetRequiredService<UserManager<User>>();
         var roleManager = sp.GetRequiredService<RoleManager<IdentityRole<Guid>>>();
 
@@ -74,16 +74,15 @@ public class Program
         {
             User admin = new()
             {
-                Email = "admin@kys.quick",
+                Email = "admin@mail.ru",
                 SecurityStamp = Guid.NewGuid().ToString(),
                 UserName = adminName,
-                Name = "admin" // REQUIRED!!!!!!!
+                Name = "Иванов А. А."
             };
 
+            var adminResult = await userManager.CreateAsync(admin, "SuperMegaSecretPassword123!!!");
 
-            var result = await userManager.CreateAsync(admin, "SuperMegaSecretPassword123!!!");
-
-            if (!result.Succeeded)
+            if (!adminResult.Succeeded)
             {
                 return;
             }
@@ -100,27 +99,27 @@ public class Program
         }
         
 
-        var userExists = await userManager.FindByNameAsync(userName) is not null;
-        if (!userExists)
+        var technologistExists = await userManager.FindByNameAsync(technologistName) is not null;
+        if (!technologistExists)
         {
-            User user = new()
+            User technologist = new()
             {
-                Email = "user@kys.quick",
+                Email = "technologist@mail.ru",
                 SecurityStamp = Guid.NewGuid().ToString(),
-                UserName = userName,
-                Name = "user" // REQUIRED!!!!!!!
+                UserName = technologistName,
+                Name = "Александров Б. Ю."
             };
 
-            var userResult = await userManager.CreateAsync(user, "SuperMegaSecretPassword123!!!");
+            var technologistResult = await userManager.CreateAsync(technologist, "SuperMegaSecretPassword123!!!");
 
-            if (!userResult.Succeeded)
+            if (!technologistResult.Succeeded)
             {
                 return;
             }
 
             if (await roleManager.RoleExistsAsync(UserRolesConstants.User))
             {
-                await userManager.AddToRoleAsync(user, UserRolesConstants.User);
+                await userManager.AddToRoleAsync(technologist, UserRolesConstants.User);
             }
         }       
     }

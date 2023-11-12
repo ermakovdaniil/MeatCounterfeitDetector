@@ -170,6 +170,7 @@ public class GalleryControlVM : ViewModelBase
                     //{
                     await _counterfeitImageClient.CounterfeitImageDeleteAsync(SelectedCounterfeitImage.Id);
                     CounterfeitImageVMs.Remove(SelectedCounterfeitImage);
+                    _messageBoxService.ShowMessage($"Запись успешно удалена!", "Готово!", MessageBoxButton.OK, MessageBoxImage.Information);
                     //});
                 }
             }, c => SelectedCounterfeitImage is not null);

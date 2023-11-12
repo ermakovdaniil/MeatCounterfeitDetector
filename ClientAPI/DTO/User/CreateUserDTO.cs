@@ -13,9 +13,6 @@ namespace ClientAPI.DTO.User
         [Required(ErrorMessage = "Name is required")]
         public string Name { get; set; }
 
-        [Required(ErrorMessage = "RoleId is required")]
-        public Guid RoleId { get; set; }
-
         [Required(ErrorMessage = "RoleName is required")]
         public List<string> Roles { get; set; }
     }
