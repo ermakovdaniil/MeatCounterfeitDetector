@@ -12,7 +12,6 @@ using System.Collections.ObjectModel;
 using MeatCounterfeitDetector.UserInterface.EntityVM;
 using MeatCounterfeitDetector.Utils.Dialog;
 using MeatCounterfeitDetector.Utils.EventAggregator;
-using MeatCounterfeitDetector.UserInterface.EntityVM;
 
 namespace MeatCounterfeitDetector.UserInterface.Admin.Result;
 
@@ -75,14 +74,19 @@ public class ResultControlVM : ViewModelBase
                         //{
 
                         await _resultClient.ResultDeleteAsync(SelectedResult.Id);
-                        ResultVMs.Remove(SelectedResult);
+                        
 
-                        await _resultImageClient.ResultImageDeleteAsync(SelectedResult.ResultImageId);
+                        if (SelectedResult.ResultEncodedImage is not null)
+                        {
+                            await _resultImageClient.ResultImageDeleteAsync(SelectedResult.ResultImageId);
+                        }
 
-                        if(!ResultVMs.Any(r => r.OriginalImageId == SelectedResult.OriginalImageId)) {
+
+                        if (!ResultVMs.Any(r => r.OriginalImageId == SelectedResult.OriginalImageId && r.Id != SelectedResult.Id))
+                        {
                             await _originalImageClient.OriginalImageDeleteAsync(SelectedResult.OriginalImageId);
                         }
-          
+                        ResultVMs.Remove(SelectedResult);
                         //});
                     }
                 }

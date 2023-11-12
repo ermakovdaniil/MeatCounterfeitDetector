@@ -18,14 +18,6 @@
         </Grid.RowDefinitions>
         <ScrollViewer>
             <StackPanel Background="{StaticResource Style2}">
-                <!--<hc:ComboBox hc:InfoElement.Title="Вид фальсификат"
-                         ItemsSource="{Binding CounterfeitVMs}"
-                         hc:InfoElement.TitlePlacement="Top" Margin="10 5"
-                         SelectedItem="{Binding TempCounterfeitImage.Counterfeit, Mode=TwoWay}"
-                         SelectedIndex="{Binding TempCounterfeitImage.CounterfeitId}"
-                         SelectedValuePath="Id" DisplayMemberPath="Name"
-                         Background="{StaticResource Style3}" HorizontalAlignment="Stretch" />-->
-
                 <hc:ComboBox hc:InfoElement.Title="Вид фальсификат"
                          ItemsSource="{Binding CounterfeitVMs, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                          hc:InfoElement.TitlePlacement="Top" Margin="10 5"
@@ -33,11 +25,6 @@
                          SelectedValuePath="Id" 
                          DisplayMemberPath="Name"
                          Background="{StaticResource Style3}" HorizontalAlignment="Stretch" />
-
-                <!--<hc:TextBox hc:InfoElement.Title="Путь к файлу"
-                        hc:InfoElement.TitlePlacement="Top" Margin="10 5"
-                        Text="{Binding TempCounterfeitImage.EncodedImage, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                        Background="{StaticResource Style3}" HorizontalAlignment="Stretch" />-->
                 <Border MinHeight="200" MinWidth="300" BorderThickness="1" Margin="10" BorderBrush="{StaticResource Style4}" Background="{StaticResource Style3}">
                     <Image Source="{Binding TempCounterfeitImage.EncodedImage, Converter={StaticResource PathToImageConverter}, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Stretch="Fill"/>
                 </Border>

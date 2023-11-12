@@ -18,13 +18,15 @@
             <RowDefinition Height="50" />
         </Grid.RowDefinitions>
 
-        <hc:ScrollViewer Grid.Row="0" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Hidden" Background="{StaticResource Style2}">
-            <DataGrid AutoGenerateColumns="False" ItemsSource="{Binding ResultVMs}" CanUserAddRows="False"
-                  IsReadOnly="True"
-                  SelectionMode="Single"
-                  RowHeight="400"
-                  ScrollViewer.CanContentScroll="True"     
-                  SelectedItem="{Binding SelectedResult}" Background="{StaticResource Style3}">
+        <!--<hc:ScrollViewer Grid.Row="0" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Hidden" Background="{StaticResource Style2}">-->
+            <DataGrid AutoGenerateColumns="False" 
+                      ItemsSource="{Binding ResultVMs}" 
+                      CanUserAddRows="False"
+                      IsReadOnly="True"
+                      SelectionMode="Single"
+                      RowHeight="400"
+                      ScrollViewer.CanContentScroll="True"     
+                      SelectedItem="{Binding SelectedResult}" Background="{StaticResource Style3}">
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="Дата" Binding="{Binding Date}" />
                     <DataGridTextColumn Header="Сотрудник, проводивший анализ" Binding="{Binding UserName}" />
@@ -33,25 +35,27 @@
                     <DataGridTextColumn Header="Процент сходства, %" Binding="{Binding PercentOfSimilarity}" />
                     <DataGridTemplateColumn Header="            Оригинальное изображение" Width="500">
                         <DataGridTemplateColumn.CellTemplate>
-                            <DataTemplate>
-                                <Border BorderThickness="1" Margin="10" BorderBrush="{StaticResource Style4}" Background="{StaticResource Style3}">
-                                    <Image Source="{Binding OriginalEncodedImage, Converter={StaticResource PathToImageConverter}}" Stretch="Fill" Height="400" Width="400" />
-                                </Border>
-                            </DataTemplate>
-                        </DataGridTemplateColumn.CellTemplate>
-                    </DataGridTemplateColumn>
+                                <DataTemplate>
+                                    <Border BorderThickness="1" Margin="10" BorderBrush="{StaticResource Style4}" Background="{StaticResource Style3}">
+                                        <Image Source="{Binding OriginalEncodedImage, Converter={StaticResource PathToImageConverter}, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                               Stretch="Fill" Height="300" Width="300" />
+                                    </Border>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
                     <DataGridTemplateColumn Header="            Результат обработки изображения" Width="500">
                         <DataGridTemplateColumn.CellTemplate>
-                            <DataTemplate>
-                                <Border BorderThickness="1" Margin="10" BorderBrush="{StaticResource Style4}" Background="{StaticResource Style3}">
-                                    <Image Source="{Binding ResultEncodedImage, Converter={StaticResource PathToImageConverter}}" Stretch="Fill" Height="400" Width="400" />
-                                </Border>
-                            </DataTemplate>
-                        </DataGridTemplateColumn.CellTemplate>
-                    </DataGridTemplateColumn>
+                                <DataTemplate>
+                                    <Border BorderThickness="1" Margin="10" BorderBrush="{StaticResource Style4}" Background="{StaticResource Style3}">
+                                        <Image Source="{Binding ResultEncodedImage, Converter={StaticResource PathToImageConverter}, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                       Stretch="Fill" Height="300" Width="300" />
+                                    </Border>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
                 </DataGrid.Columns>
         </DataGrid>
-        </hc:ScrollViewer>
+        <!--</hc:ScrollViewer>-->
         
         <Grid Row="1" Background="{StaticResource Style2}">
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">

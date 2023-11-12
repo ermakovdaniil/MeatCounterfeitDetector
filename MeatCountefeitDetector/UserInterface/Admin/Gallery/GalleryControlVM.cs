@@ -91,11 +91,6 @@ public class GalleryControlVM : ViewModelBase
                     var id = await _counterfeitImageClient.CounterfeitImagePostAsync(addingCounterfeitImageCreateDTO);
                     result.Id = id;
                     CounterfeitImageVMs.Add(result);
-
-                    //if (!CounterfeitImageVMs.Any(rec => rec.EncodedImage == result.EncodedImage))
-                    //{
-                    //    File.Copy(result.EncodedImage, @"..\..\..\resources\counterfeits\" + Path.GetFileName(result.EncodedImage), true);
-                    //}
                     _messageBoxService.ShowMessage($"Объект успешно добавлен!", "Готово!", MessageBoxButton.OK, MessageBoxImage.Information);
                 }
                 else

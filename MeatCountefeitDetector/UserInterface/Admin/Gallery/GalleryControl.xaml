@@ -14,7 +14,7 @@
     </UserControl.Resources>
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="*" />
+            <RowDefinition />
             <RowDefinition Height="50" />
         </Grid.RowDefinitions>
         <DataGrid AutoGenerateColumns="False"
