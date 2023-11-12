@@ -13,10 +13,13 @@
             <RowDefinition />
             <RowDefinition Height="50" />
         </Grid.RowDefinitions>
-        <DataGrid AutoGenerateColumns="False" ItemsSource="{Binding CounterfeitVMs, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" CanUserAddRows="False"
+        <DataGrid AutoGenerateColumns="False" 
+                  ItemsSource="{Binding CounterfeitVMs, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                  CanUserAddRows="False"
                   IsReadOnly="True"
                   SelectionMode="Single"
-                  SelectedItem="{Binding SelectedCounterfeit}" Background="{StaticResource Style3}">
+                  SelectedItem="{Binding SelectedCounterfeit, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                  Background="{StaticResource Style3}">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Наименование" Binding="{Binding Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
             </DataGrid.Columns>

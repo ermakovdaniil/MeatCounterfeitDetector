@@ -91,7 +91,7 @@ public class GalleryControlVM : ViewModelBase
                     var id = await _counterfeitImageClient.CounterfeitImagePostAsync(addingCounterfeitImageCreateDTO);
                     result.Id = id;
                     CounterfeitImageVMs.Add(result);
-                    _messageBoxService.ShowMessage($"Объект успешно добавлен!", "Готово!", MessageBoxButton.OK, MessageBoxImage.Information);
+                    _messageBoxService.ShowMessage($"Запись успешно добавлена!", "Готово!", MessageBoxButton.OK, MessageBoxImage.Information);
                 }
                 else
                 {
@@ -138,7 +138,7 @@ public class GalleryControlVM : ViewModelBase
                     //{
                     //    File.Copy(result.EncodedImage, @"..\..\..\resources\counterfeits\" + Path.GetFileName(result.EncodedImage), true);
                     //}
-                    _messageBoxService.ShowMessage($"Объект успешно изменён!", "Готово!", MessageBoxButton.OK, MessageBoxImage.Information);
+                    _messageBoxService.ShowMessage($"Запись успешно обновлена!", "Готово!", MessageBoxButton.OK, MessageBoxImage.Information);
                 }
                 else
                 {

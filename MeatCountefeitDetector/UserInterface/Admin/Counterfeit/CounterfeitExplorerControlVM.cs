@@ -89,7 +89,7 @@ public class CounterfeitExplorerControlVM : ViewModelBase
                     result.Id = id;
                     CounterfeitVMs.Add(result);
 
-                    _messageBoxService.ShowMessage($"Объект успешно добавлен!", "Готово!", MessageBoxButton.OK, MessageBoxImage.Information);
+                    _messageBoxService.ShowMessage($"Запись успешно добавлена!", "Готово!", MessageBoxButton.OK, MessageBoxImage.Information);
                 }
                 else
                 {
@@ -131,7 +131,7 @@ public class CounterfeitExplorerControlVM : ViewModelBase
                     await _counterfeitClient.CounterfeitPutAsync(editingCounterfeitUpdateDTO);
                     result.Adapt(CounterfeitVMs.FirstOrDefault(x => x.Id == result.Id));
 
-                    _messageBoxService.ShowMessage($"Объект успешно изменён!", "Готово!", MessageBoxButton.OK, MessageBoxImage.Information);
+                    _messageBoxService.ShowMessage($"Запись успешно обновлена!", "Готово!", MessageBoxButton.OK, MessageBoxImage.Information);
                 }
                 else
                 {

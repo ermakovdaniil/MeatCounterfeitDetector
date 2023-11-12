@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace MeatCounterfeitDetector.UserInterface.EntityVM;
 
-public class UserVM : ViewModelBase
+public class UserVM : ViewModelBase, ICloneable
 {
     public Guid Id { get; set; }
     public string UserName { get; set; }
@@ -12,4 +12,9 @@ public class UserVM : ViewModelBase
     public string Name { get; set; }
     public Guid RoleId { get; set; }
     public List<string> Roles { get; set; }
+
+    public object Clone()
+    {
+        return MemberwiseClone();
+    }
 }

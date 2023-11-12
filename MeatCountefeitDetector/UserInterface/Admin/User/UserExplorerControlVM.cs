@@ -82,7 +82,7 @@ public class UserExplorerControlVM : ViewModelBase
                     result.Id = id;
                     UserVMs.Add(result);
 
-                    _messageBoxService.ShowMessage($"Объект успешно добавлен!", "Готово!", MessageBoxButton.OK, MessageBoxImage.Information);
+                    _messageBoxService.ShowMessage($"Запись успешно добавлена!", "Готово!", MessageBoxButton.OK, MessageBoxImage.Information);
                 }
                 else
                 {
@@ -102,25 +102,28 @@ public class UserExplorerControlVM : ViewModelBase
             {
                 //Application.Current.Dispatcher.Invoke(async () =>
                 //{
+                var tempUser = (UserVM)SelectedUser.Clone();
+
                 var result = (await _dialogService.ShowDialog<UserEditControl>(new WindowParameters
                 {
                     Height = 380,
                     Width = 300,
                     Title = "Редактирование пользователя",
                 },
-                data: SelectedUser)) as UserVM;
+                data: tempUser)) as UserVM;
 
                 if (result is null)
                 {
                     return;
                 }
-                if (!UserVMs.Any(rec => rec.Id == result.Id && rec.UserName == result.UserName))
+
+                if (!UserVMs.Any(rec => rec.UserName == result.UserName && rec.Roles == result.Roles))
                 {
                     var editingUserCreateDTO = result.Adapt<UpdateUserDTO>();
                     await _userClient.UserPutAsync(editingUserCreateDTO);
                     result.Adapt(UserVMs.FirstOrDefault(x => x.Id == result.Id));
 
-                    _messageBoxService.ShowMessage($"Объект успешно обновлён!", "Готово!", MessageBoxButton.OK, MessageBoxImage.Information);
+                    _messageBoxService.ShowMessage($"Запись успешно обновлена!", "Готово!", MessageBoxButton.OK, MessageBoxImage.Information);
                 }
                 else
                 {

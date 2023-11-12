@@ -44,8 +44,6 @@ public class UserEditControlVM : ViewModelBase, IDataHolder, IResultHolder, IInt
         {
             _data = value;
 
-            SelectedUserRoles = new ObservableCollection<string>(EditingUser.Roles);
-
             TempUser = new UserVM
             {
                 Id = EditingUser.Id,
@@ -63,7 +61,6 @@ public class UserEditControlVM : ViewModelBase, IDataHolder, IResultHolder, IInt
     public object? Result { get; set; }
 
     public ObservableCollection<UserRoleVM> UserRoleVMs { get; set; }
-    public ObservableCollection<string> SelectedUserRoles { get; set; }
     public UserVM TempUser { get; set; }
     public UserVM EditingUser => (UserVM)Data;
 

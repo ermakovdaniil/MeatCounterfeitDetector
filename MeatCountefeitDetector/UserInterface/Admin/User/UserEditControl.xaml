@@ -22,34 +22,28 @@
                         hc:InfoElement.TitlePlacement="Top" Margin="10 5"
                         Text="{Binding TempUser.Password, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                         Background="{StaticResource Style3}" HorizontalAlignment="Stretch" />
-            
+
             <hc:TextBox hc:InfoElement.Title="Имя пользователя"
                         hc:InfoElement.TitlePlacement="Top" Margin="10 5"
                         Text="{Binding TempUser.Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                         Background="{StaticResource Style3}" HorizontalAlignment="Stretch" />
 
-            <!--<hc:ComboBox hc:InfoElement.Title="Тип пользователя"
-                         ItemsSource="{Binding UserRoles}"
-                         hc:InfoElement.TitlePlacement="Top" Margin="10 5"
-                         SelectedItem="{Binding TempUser.Type, Mode=TwoWay}"
-                         SelectedIndex="{Binding TempUser.TypeId}"
-                         SelectedValuePath="Id" DisplayMemberPath="Name"
-                         Background="{StaticResource Style3}" HorizontalAlignment="Stretch" />-->
-
-            <hc:CheckComboBox hc:InfoElement.Title="Роль пользователя"
+            <!--<hc:CheckComboBox hc:InfoElement.Title="Роль пользователя"
                               hc:InfoElement.TitlePlacement="Top" Margin="10 5"
                               ItemsSource="{Binding UserRoleVMs}" DisplayMemberPath="Name"
                               Style="{StaticResource CheckComboBoxPlus}" 
                               SelectedItem="{Binding SelectedUserRoles, Mode=TwoWay}"
                               ShowClearButton="True" ShowSelectAllButton="True"
-                              Background="{StaticResource Style3}" HorizontalAlignment="Stretch" />
-            
-            <!--<hc:CheckComboBox hc:InfoElement.Title="Тип пользователя"
-                                ItemsSource="{Binding UserRoleVMs}"
+                              Background="{StaticResource Style3}" HorizontalAlignment="Stretch" />-->
+
+            <hc:ComboBox hc:InfoElement.Title="Роль пользователя"
+                         ItemsSource="{Binding UserRoleVMs, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                          hc:InfoElement.TitlePlacement="Top" Margin="10 5"
-                         SelectedItem="{Binding SelectedUserRole, Mode=TwoWay}"
+                         SelectedValue="{Binding TempUser.Roles, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                         SelectedValuePath="Id" 
                          DisplayMemberPath="Name"
-                         Background="{StaticResource Style3}" HorizontalAlignment="Stretch" />-->
+                         Background="{StaticResource Style3}" HorizontalAlignment="Stretch" />
+
         </StackPanel>
         <Grid Row="1" Background="{StaticResource Style1}">
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
