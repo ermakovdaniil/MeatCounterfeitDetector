@@ -64,9 +64,9 @@ public class Program
             await roleManager.CreateAsync(new IdentityRole<Guid>(UserRolesConstants.Admin));
         }
 
-        if (!await roleManager.RoleExistsAsync(UserRolesConstants.User))
+        if (!await roleManager.RoleExistsAsync(UserRolesConstants.Technologist))
         {
-            await roleManager.CreateAsync(new IdentityRole<Guid>(UserRolesConstants.User));
+            await roleManager.CreateAsync(new IdentityRole<Guid>(UserRolesConstants.Technologist));
         }
 
         var adminUserExists = await userManager.FindByNameAsync(adminName) is not null;
@@ -92,9 +92,9 @@ public class Program
                 await userManager.AddToRoleAsync(admin, UserRolesConstants.Admin);
             }
 
-            if (await roleManager.RoleExistsAsync(UserRolesConstants.User))
+            if (await roleManager.RoleExistsAsync(UserRolesConstants.Technologist))
             {
-                await userManager.AddToRoleAsync(admin, UserRolesConstants.User);
+                await userManager.AddToRoleAsync(admin, UserRolesConstants.Technologist);
             }
         }
         
@@ -117,9 +117,9 @@ public class Program
                 return;
             }
 
-            if (await roleManager.RoleExistsAsync(UserRolesConstants.User))
+            if (await roleManager.RoleExistsAsync(UserRolesConstants.Technologist))
             {
-                await userManager.AddToRoleAsync(technologist, UserRolesConstants.User);
+                await userManager.AddToRoleAsync(technologist, UserRolesConstants.Technologist);
             }
         }       
     }

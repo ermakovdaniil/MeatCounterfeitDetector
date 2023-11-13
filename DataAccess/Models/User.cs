@@ -7,7 +7,7 @@ namespace DataAccess.Models
     public partial class User : IdentityUser<Guid>, IBaseEntity
     {
         Guid IBaseEntity.Id => this.Id;
-        public string UserName { get; set; }
+        public override string UserName { get; set; }
         public string Name { get; set; }
         public string? RefreshToken { get; set; }
         public DateTime RefreshTokenExpiryTime { get; set; }

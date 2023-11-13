@@ -7,6 +7,19 @@
              xmlns:user="clr-namespace:MeatCounterfeitDetector.UserInterface.Admin.User"
              mc:Ignorable="d" 
              d:DataContext="{d:DesignInstance user:UserEditControlVM}">
+    
+    <UserControl.Resources>
+        <Style x:Key="TextBoxInError" BasedOn="{StaticResource {x:Type hc:TextBox}}" TargetType="{x:Type hc:TextBox}">
+            <Style.Triggers>
+                <Trigger Property="Validation.HasError" Value="true">
+                    <Setter Property="ToolTip"
+                            Value="{Binding RelativeSource={x:Static RelativeSource.Self},
+                                            Path=(Validation.Errors)[0].ErrorContent}" />
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+    </UserControl.Resources>
+
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition />
@@ -15,8 +28,24 @@
         <StackPanel Background="{StaticResource Style2}">
             <hc:TextBox hc:InfoElement.Title="Логин"
                         hc:InfoElement.TitlePlacement="Top" Margin="10 5"
-                        Text="{Binding TempUser.UserName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                        Background="{StaticResource Style3}" HorizontalAlignment="Stretch" />
+                        Background="{StaticResource Style3}" HorizontalAlignment="Stretch">
+                <hc:TextBox.Text>
+                    <Binding Path="TempUser.UserName" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged">
+                        <Binding.ValidationRules>
+                            <hc:RegexRule Type="Common"/>
+                        </Binding.ValidationRules>
+                    </Binding>
+                </hc:TextBox.Text>
+            </hc:TextBox>
+
+            <!--<hc:TextBox.Text>
+                <Binding Path="Length" NotifyOnValidationError="True"
+                         UpdateSourceTrigger="PropertyChanged" Delay="1000">
+                    <Binding.ValidationRules>
+                        <plenkaWpf:DoubleValidator Min="0" />
+                    </Binding.ValidationRules>
+                </Binding>
+            </hc:TextBox.Text>-->
 
             <hc:TextBox hc:InfoElement.Title="Пароль"
                         hc:InfoElement.TitlePlacement="Top" Margin="10 5"
@@ -28,15 +57,29 @@
                         Text="{Binding TempUser.Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                         Background="{StaticResource Style3}" HorizontalAlignment="Stretch" />
 
-            <hc:CheckComboBox hc:InfoElement.Title="Роль пользователя"
+            <!--<hc:CheckComboBox hc:InfoElement.Title="Роль пользователя"
                               hc:InfoElement.TitlePlacement="Top" Margin="10 5"
                               ItemsSource="{Binding UserRoleVMs, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                               DisplayMemberPath="Name"
                               Style="{StaticResource CheckComboBoxPlus}" 
                               SelectedValue="{Binding TempUser.Roles, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                              SelectedValuePath="Id" 
+                              SelectedValuePath="Name"
                               ShowClearButton="True" ShowSelectAllButton="True"
-                              Background="{StaticResource Style3}" HorizontalAlignment="Stretch" />
+                              Background="{StaticResource Style3}" HorizontalAlignment="Stretch" />-->
+
+            <!--<hc:CheckComboBox hc:InfoElement.Title="Роль пользователя"
+                              hc:InfoElement.TitlePlacement="Top" Margin="10 5"
+                              ItemsSource="{Binding UserRoles, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"              
+                              Style="{StaticResource CheckComboBoxPlus}" 
+                              SelectedItem="{Binding UserRole[0], Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                              Background="{StaticResource Style3}" HorizontalAlignment="Stretch" />-->
+
+            <StackPanel Margin="10 5">
+                <Label Content="Роли пользователя" Background="{StaticResource Style2}" VerticalAlignment="Center" HorizontalAlignment="Left" BorderThickness="0" />
+                <CheckBox Content="Администратор" Margin="0 5" IsChecked="{Binding AdminIsChosen, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                <CheckBox Content="Технолог" Margin="0 5" IsChecked="{Binding TechnologistIsChosen, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+            </StackPanel>
+
         </StackPanel>
         <Grid Row="1" Background="{StaticResource Style1}">
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">

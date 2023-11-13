@@ -60,7 +60,7 @@ public class UserExplorerControlVM : ViewModelBase
                 //{
                 var result = (await _dialogService.ShowDialog<UserEditControl>(new WindowParameters
                 {
-                    Height = 380,
+                    Height = 420,
                     Width = 300,
                     Title = "Добавление пользователя",
                 },
@@ -102,7 +102,7 @@ public class UserExplorerControlVM : ViewModelBase
 
                 var result = (await _dialogService.ShowDialog<UserEditControl>(new WindowParameters
                 {
-                    Height = 380,
+                    Height = 420,
                     Width = 300,
                     Title = "Редактирование пользователя",
                 },

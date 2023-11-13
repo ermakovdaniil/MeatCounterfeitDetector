@@ -8,6 +8,7 @@ using Mapster;
 using System.Collections.ObjectModel;
 using MeatCounterfeitDetector.UserInterface.EntityVM;
 using System.Collections.Generic;
+using DataAccess.Models;
 
 namespace MeatCounterfeitDetector.UserInterface.Admin.User;
 
@@ -19,10 +20,15 @@ public class UserEditControlVM : ViewModelBase, IDataHolder, IResultHolder, IInt
 
     public UserEditControlVM(UserRoleClient userRoleClient)
     {
-        _userRoleClient = userRoleClient;
+        //_userRoleClient = userRoleClient;
 
-        _userRoleClient.UserRoleGetAsync()
-                       .ContinueWith(c => { UserRoleVMs = c.Result.ToList().Adapt<ObservableCollection<UserRoleVM>>(); });
+        //_userRoleClient.UserRoleGetAsync()
+        //               .ContinueWith(c =>
+        //               {
+        //                   UserRoleVMs = c.Result.ToList().Adapt<ObservableCollection<UserRoleVM>>();
+        //                   UserRoles = new ObservableCollection<string>(UserRoleVMs.Select(userRole => userRole.Name));
+        //                   //UserRoles = UserRoleVMs.Select(userRole => userRole.Name).ToList();
+        //               });
     }
 
     #endregion
@@ -51,6 +57,19 @@ public class UserEditControlVM : ViewModelBase, IDataHolder, IResultHolder, IInt
                 Roles = EditingUser.Roles,
             };
 
+            if(TempUser.Roles is not null)
+            {
+                if (TempUser.Roles.Contains(UserRolesConstants.Admin))
+                {
+                    AdminIsChosen = true;
+                }
+
+                if (TempUser.Roles.Contains(UserRolesConstants.Technologist))
+                {
+                    TechnologistIsChosen = true;
+                }
+            }
+
             OnPropertyChanged(nameof(TempUser));
         }
     }
@@ -58,7 +77,13 @@ public class UserEditControlVM : ViewModelBase, IDataHolder, IResultHolder, IInt
     public Action FinishInteraction { get; set; }
     public object? Result { get; set; }
 
-    public ObservableCollection<UserRoleVM> UserRoleVMs { get; set; }
+    //public ObservableCollection<UserRoleVM> UserRoleVMs { get; set; }
+    //public ObservableCollection<string> UserRoles { get; set; }
+    //public ObservableCollection<string> SelectedUserRole { get; set; }
+
+    public bool AdminIsChosen { get; set; }
+    public bool TechnologistIsChosen { get; set; }
+
     public UserVM TempUser { get; set; }
     public UserVM EditingUser => (UserVM)Data;
 
@@ -78,6 +103,20 @@ public class UserEditControlVM : ViewModelBase, IDataHolder, IResultHolder, IInt
                 EditingUser.UserName = TempUser.UserName;
                 EditingUser.Password = TempUser.Password;
                 EditingUser.Name = TempUser.Name;
+
+                TempUser.Roles = new List<string>();
+
+                if (AdminIsChosen is true)
+                {
+                    TempUser.Roles.Add(UserRolesConstants.Admin);
+                }
+                if (TechnologistIsChosen is true)
+                {
+                    TempUser.Roles.Add(UserRolesConstants.Technologist);
+                }
+
+                TempUser.Roles = TempUser.Roles.Distinct().ToList();
+
                 EditingUser.Roles = TempUser.Roles;
                 Result = EditingUser;
                 FinishInteraction();
