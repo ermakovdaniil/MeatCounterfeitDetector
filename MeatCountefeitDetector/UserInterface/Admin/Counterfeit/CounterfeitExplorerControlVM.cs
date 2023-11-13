@@ -68,7 +68,6 @@ public class CounterfeitExplorerControlVM : ViewModelBase
             {
                 //Application.Current.Dispatcher.Invoke(async () =>
                 //{
-
                 var result = (await _dialogService.ShowDialog<CounterfeitEditControl>(new WindowParameters
                 {
                     Height = 180,

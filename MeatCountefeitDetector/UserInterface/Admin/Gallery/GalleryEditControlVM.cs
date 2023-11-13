@@ -71,6 +71,8 @@ public class GalleryEditControlVM : ViewModelBase, IDataHolder, IResultHolder, I
     public CounterfeitImageVM TempCounterfeitImage { get; set; }
     public CounterfeitImageVM EditingCounterfeitImage => (CounterfeitImageVM)Data;
 
+    private Guid noId { get; set; } = Guid.Parse("00000000-0000-0000-0000-000000000000");
+
     #endregion
 
 
@@ -101,28 +103,39 @@ public class GalleryEditControlVM : ViewModelBase, IDataHolder, IResultHolder, I
             {
                 try
                 {
-                    if (TempCounterfeitImage.EncodedImage is not null)
+                    if (TempCounterfeitImage.CounterfeitId != noId || TempCounterfeitImage.EncodedImage is null)
                     {
-                        EditingCounterfeitImage.Id = TempCounterfeitImage.Id;
-                        EditingCounterfeitImage.CounterfeitId = TempCounterfeitImage.CounterfeitId;
+                        throw new ArgumentNullException();
+                    }
 
-                        // TODO: СДЕЛАТЬ ПРЕВРАЩЕНИЕ ИЗОБРАЖЕНИЯ В СТРОКУ BASE-64
-                        //CounterfeitImage = @"..\..\..\resources\counterfeits\" + Path.GetFileName(path)
-                        EditingCounterfeitImage.EncodedImage = TempCounterfeitImage.EncodedImage;
-                        EditingCounterfeitImage.CounterfeitName = CounterfeitVMs.First(c => c.Id == TempCounterfeitImage.CounterfeitId).Name;
-                        Result = EditingCounterfeitImage;
-                        FinishInteraction();
-                    }
-                    else
-                    {
-                        _messageBoxService.ShowMessage("Не указан путь к файлу!", "Ошибка!", MessageBoxButton.OK, MessageBoxImage.Error);
-                    }
+                    EditingCounterfeitImage.Id = TempCounterfeitImage.Id;
+                    EditingCounterfeitImage.CounterfeitId = TempCounterfeitImage.CounterfeitId;
+                    // TODO: СДЕЛАТЬ ПРЕВРАЩЕНИЕ ИЗОБРАЖЕНИЯ В СТРОКУ BASE-64
+                    //CounterfeitImage = @"..\..\..\resources\counterfeits\" + Path.GetFileName(path)
+                    EditingCounterfeitImage.EncodedImage = TempCounterfeitImage.EncodedImage;
+                    EditingCounterfeitImage.CounterfeitName = CounterfeitVMs.First(c => c.Id == TempCounterfeitImage.CounterfeitId).Name;
+                    Result = EditingCounterfeitImage;
+                    FinishInteraction();
                 }
                 catch (ArgumentNullException ex)
                 {
-                    _messageBoxService.ShowMessage("Файла по указанному пути не существует!", "Ошибка!", MessageBoxButton.OK, MessageBoxImage.Error);
-                }
+                    string message = null;
 
+                    if (TempCounterfeitImage.CounterfeitId != noId)
+                    {
+                        message += $"Не выбран фальсификат!\n";
+                    }
+                    if (TempCounterfeitImage.EncodedImage is null)
+                    {
+                        message += $"Не указан файл с изображением!\n";
+                    }
+                    else
+                    {
+                        message += $"Файла по указанному пути не существует!";
+                    }
+
+                    _messageBoxService.ShowMessage(message, "Ошибка!", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
             });
         }
     }

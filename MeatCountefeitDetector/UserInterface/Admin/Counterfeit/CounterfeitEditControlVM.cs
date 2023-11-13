@@ -7,6 +7,8 @@ using MeatCounterfeitDetector.Utils.Dialog.Abstract;
 using ClientAPI;
 using Mapster;
 using MeatCounterfeitDetector.UserInterface.EntityVM;
+using MeatCounterfeitDetector.Utils.MessageBoxService;
+using System.Windows;
 
 namespace MeatCounterfeitDetector.UserInterface.Admin.Counterfeit;
 
@@ -16,9 +18,9 @@ public class CounterfeitEditControlVM : ViewModelBase, IDataHolder, IResultHolde
 
     #region Constructors
 
-    public CounterfeitEditControlVM()
+    public CounterfeitEditControlVM(IMessageBoxService messageBoxService)
     {
-
+        _messageBoxService = messageBoxService;
     }
 
     #endregion
@@ -27,6 +29,8 @@ public class CounterfeitEditControlVM : ViewModelBase, IDataHolder, IResultHolde
 
 
     #region Properties
+
+    private readonly IMessageBoxService _messageBoxService;
 
     private object _data;
     public object Data
@@ -64,10 +68,22 @@ public class CounterfeitEditControlVM : ViewModelBase, IDataHolder, IResultHolde
         {
             return _saveCounterfeit ??= new RelayCommand(o =>
             {
-                EditingCounterfeit.Id = TempCounterfeit.Id;
-                EditingCounterfeit.Name = TempCounterfeit.Name;
-                Result = EditingCounterfeit;
-                FinishInteraction();
+                try
+                {
+                    if (TempCounterfeit.Name is null)
+                    {
+                        throw new ArgumentNullException();
+                    }
+                    EditingCounterfeit.Id = TempCounterfeit.Id;
+                    EditingCounterfeit.Name = TempCounterfeit.Name;
+                    Result = EditingCounterfeit;
+                    FinishInteraction();
+                }
+                catch (ArgumentNullException ex)
+                {
+                    _messageBoxService.ShowMessage($"Поле не может быть пустым!", "Ошибка!", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+
             });
         }
     }
