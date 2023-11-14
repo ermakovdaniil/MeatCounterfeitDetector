@@ -20,12 +20,14 @@
                         Text="{Binding TempUser.UserName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                         Background="{StaticResource Style3}" HorizontalAlignment="Stretch" />
 
-            <hc:TextBox hc:InfoElement.Title="Пароль" IsEnabled="{Binding PasswordIsEnabled}"
+            <hc:TextBox hc:InfoElement.Title="Пароль" IsEnabled="{Binding PasswordIsEnabled, UpdateSourceTrigger=PropertyChanged}"
                         hc:InfoElement.TitlePlacement="Top" Margin="10 5 10 3"
                         Text="{Binding TempUser.Password, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                         Background="{StaticResource Style3}" HorizontalAlignment="Stretch" />
             
-            <CheckBox Content="Не менять пароль" Margin="10 0 10 5" IsChecked="{Binding DontChangePassword, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+            <CheckBox Content="Не менять пароль" Margin="10 0 10 5" 
+                      IsEnabled="{Binding PasswordChangeCheckBoxIsEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                      IsChecked="{Binding DontChangePassword, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
 
             <hc:TextBox hc:InfoElement.Title="Имя пользователя"
                         hc:InfoElement.TitlePlacement="Top" Margin="10 5"

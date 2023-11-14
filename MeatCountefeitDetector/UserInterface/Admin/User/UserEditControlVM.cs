@@ -56,10 +56,12 @@ public class UserEditControlVM : ViewModelBase, IDataHolder, IResultHolder, IInt
             if (TempUser.Id != noId)
             {
                 DontChangePassword = true;
+                PasswordChangeCheckBoxIsEnabled = true;
                 TempUser.Password = "";
             }
             else
             {
+                PasswordChangeCheckBoxIsEnabled = false;
                 DontChangePassword = false;
             }
 
@@ -99,7 +101,7 @@ public class UserEditControlVM : ViewModelBase, IDataHolder, IResultHolder, IInt
         }
     }
     public bool PasswordIsEnabled => !DontChangePassword;
-
+    public bool PasswordChangeCheckBoxIsEnabled { get; set; }
     public bool AdminIsChosen { get; set; }
     public bool TechnologistIsChosen { get; set; }
 
@@ -122,22 +124,22 @@ public class UserEditControlVM : ViewModelBase, IDataHolder, IResultHolder, IInt
             {
                 try
                 {
-                    if (TempUser.UserName is null || (TempUser.Id != noId && TempUser.Password is null))
+                    if (TempUser.UserName is null || (TempUser.Id == noId && TempUser.Password is null))
                     {
                         throw new NullReferenceException();
                     }
 
-                    if (!Regex.IsMatch((TempUser.UserName), @"^[a-zA-Z0-9-._@+]+$") || ((TempUser.Id != noId && !Regex.IsMatch((TempUser.Password), @"^[a-zA-Z0-9-._@+]+$"))))
+                    if (!Regex.IsMatch((TempUser.UserName), @"^[a-zA-Z0-9-._@+]+$") && ((TempUser.Id == noId && !Regex.IsMatch((TempUser.Password), @"^[a-zA-Z0-9-._@+]+$"))))
                     {
                         throw new IncorrectSymbolsInTextException();
                     }
 
-                    if (TempUser.Id != noId && TempUser.Password.Length < 8)
+                    if (TempUser.Id == noId && TempUser.Password.Length < 8)
                     {
                         throw new ShortTextException();
                     }
 
-                    if (TempUser.Id != noId && (!TempUser.Password.Contains("abcdefghijklmnopqrstuvwxyz") || 
+                    if (TempUser.Id == noId && (!TempUser.Password.Contains("abcdefghijklmnopqrstuvwxyz") || 
                         !TempUser.Password.Contains("ABCDEFGHIJKLMNOPQRSTUVWXYZ") || 
                         !TempUser.Password.Contains("0123456789") ||
                         !TempUser.Password.Contains("-._@+")))
@@ -153,7 +155,7 @@ public class UserEditControlVM : ViewModelBase, IDataHolder, IResultHolder, IInt
                     EditingUser.Id = TempUser.Id;
                     EditingUser.UserName = TempUser.UserName;
 
-                    if (TempUser.Password != "")
+                    if (DontChangePassword is false)
                     {
                         EditingUser.Password = TempUser.Password;
                     }
@@ -186,7 +188,7 @@ public class UserEditControlVM : ViewModelBase, IDataHolder, IResultHolder, IInt
                         message += $"Логин не может быть пустым!\n";
                     }
 
-                    if (TempUser.Id != noId && TempUser.Password is null)
+                    if (TempUser.Id == noId && TempUser.Password is null)
                     {
                         message += $"Пароль не может быть пустым!";
                     }
@@ -207,7 +209,7 @@ public class UserEditControlVM : ViewModelBase, IDataHolder, IResultHolder, IInt
                         message += $"Некорректные символы в пароле!\n";
                     }
 
-                    message += $"Доступные символы:\n\"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@+\"";
+                    message += $"Доступные символы:\n\"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ\n0123456789-._@+\"";
                     _messageBoxService.ShowMessage(message, "Ошибка!", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
                 catch (ShortTextException ex)

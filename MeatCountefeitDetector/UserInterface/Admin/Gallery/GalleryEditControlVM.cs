@@ -103,7 +103,7 @@ public class GalleryEditControlVM : ViewModelBase, IDataHolder, IResultHolder, I
             {
                 try
                 {
-                    if (TempCounterfeitImage.CounterfeitId != noId || TempCounterfeitImage.ImagePath is null)
+                    if (TempCounterfeitImage.CounterfeitId == noId || TempCounterfeitImage.ImagePath is null)
                     {
                         throw new ArgumentNullException();
                     }
@@ -121,7 +121,7 @@ public class GalleryEditControlVM : ViewModelBase, IDataHolder, IResultHolder, I
                 {
                     string message = null;
 
-                    if (TempCounterfeitImage.CounterfeitId != noId)
+                    if (TempCounterfeitImage.CounterfeitId == noId)
                     {
                         message += $"Не выбран фальсификат!\n";
                     }
