@@ -76,7 +76,7 @@ public class ResultControlVM : ViewModelBase
                         await _resultClient.ResultDeleteAsync(SelectedResult.Id);
                         
 
-                        if (SelectedResult.ResultEncodedImage is not null)
+                        if (SelectedResult.ResultImagePath is not null)
                         {
                             await _resultImageClient.ResultImageDeleteAsync(SelectedResult.ResultImageId);
                         }

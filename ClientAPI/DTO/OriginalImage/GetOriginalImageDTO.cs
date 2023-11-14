@@ -10,6 +10,6 @@ namespace ClientAPI.DTO.OriginalImage
         public Guid Id { get; set; }
 
         [Required(ErrorMessage = "Name is required")]
-        public string EncodedImage { get; set; }
+        public string ImagePath { get; set; }
     }
 }

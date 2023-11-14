@@ -85,7 +85,7 @@ public class GalleryControlVM : ViewModelBase
                     return;
                 }
 
-                if (!CounterfeitImageVMs.Any(rec => rec.CounterfeitId == result.CounterfeitId && rec.EncodedImage == result.EncodedImage))
+                if (!CounterfeitImageVMs.Any(rec => rec.CounterfeitId == result.CounterfeitId && rec.ImagePath == result.ImagePath))
                 {
                     var addingCounterfeitImageCreateDTO = result.Adapt<CreateCounterfeitImageDTO>();
                     var id = await _counterfeitImageClient.CounterfeitImagePostAsync(addingCounterfeitImageCreateDTO);
@@ -113,7 +113,7 @@ public class GalleryControlVM : ViewModelBase
                 //{
                 var tempCounterfeitImage = (CounterfeitImageVM)SelectedCounterfeitImage.Clone();
 
-                var path = SelectedCounterfeitImage.EncodedImage;
+                var path = SelectedCounterfeitImage.ImagePath;
 
                 var result = (await _dialogService.ShowDialog<GalleryEditControl>(new WindowParameters
                 {
@@ -128,15 +128,15 @@ public class GalleryControlVM : ViewModelBase
                     return;
                 }
 
-                if (!CounterfeitImageVMs.Any(rec => rec.CounterfeitId == result.CounterfeitId && rec.EncodedImage == result.EncodedImage))
+                if (!CounterfeitImageVMs.Any(rec => rec.CounterfeitId == result.CounterfeitId && rec.ImagePath == result.ImagePath))
                 {
                     var editingCounterfeitImageUpdateDTO = result.Adapt<UpdateCounterfeitImageDTO>();
                     await _counterfeitImageClient.CounterfeitImagePutAsync(editingCounterfeitImageUpdateDTO);
                     result.Adapt(CounterfeitImageVMs.FirstOrDefault(x => x.Id == result.Id));
 
-                    //if(path != result.EncodedImage)
+                    //if(path != result.ImagePath)
                     //{
-                    //    File.Copy(result.EncodedImage, @"..\..\..\resources\counterfeits\" + Path.GetFileName(result.EncodedImage), true);
+                    //    File.Copy(result.ImagePath, @"..\..\..\resources\counterfeits\" + Path.GetFileName(result.ImagePath), true);
                     //}
                     _messageBoxService.ShowMessage($"Запись успешно обновлена!", "Готово!", MessageBoxButton.OK, MessageBoxImage.Information);
                 }
@@ -160,7 +160,7 @@ public class GalleryControlVM : ViewModelBase
                 if (_messageBoxService.ShowMessage("Вы действительно хотите удалить изображение?", "Удаление изображения", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
                 {
                     //string pathToBase = Directory.GetCurrentDirectory();
-                    //string combinedPath = Path.Combine(pathToBase, SelectedCounterfeitImage.EncodedImage);
+                    //string combinedPath = Path.Combine(pathToBase, SelectedCounterfeitImage.ImagePath);
                     //File.Delete(combinedPath);
 
                     //_context.CounterfeitImages.Remove(SelectedCounterfeitImage);

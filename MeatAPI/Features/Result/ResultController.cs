@@ -31,11 +31,11 @@ namespace MeatAPI.Features.Result
                 dto.Time = r.Time;
                 dto.PercentOfSimilarity = r.PercentOfSimilarity;
                 dto.OriginalImageId = r.OriginalImageId;
-                dto.OriginalEncodedImage = r.OriginalImage.EncodedImage;
+                dto.OriginalImagePath = r.OriginalImage.ImagePath;
                 dto.ResultImageId = r.ResultImageId;
                 if(r.ResultImage is not null)
                 {
-                    dto.ResultEncodedImage = r.ResultImage.EncodedImage;
+                    dto.ResultImagePath = r.ResultImage.ImagePath;
                 }
                 resultsDTO.Add(dto);
             }

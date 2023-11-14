@@ -64,14 +64,14 @@ internal static class FileSystem
         document.Add(header);
         document.Add(new Paragraph("Исходное изображение:"));
 
-        var initialImage = CreateAndFitImage(result.OriginalImage.EncodedImage, document);
+        var initialImage = CreateAndFitImage(result.OriginalImage.ImagePath, document);
         document.Add(initialImage);
         document.Add(new AreaBreak());
 
-        if (result.ResultImage.EncodedImage is not null)
+        if (result.ResultImage.ImagePath is not null)
         {
             document.Add(new Paragraph("Обработанное изображение:"));
-            var resImage = CreateAndFitImage(result.ResultImage.EncodedImage, document);
+            var resImage = CreateAndFitImage(result.ResultImage.ImagePath, document);
             document.Add(resImage);
         }
 

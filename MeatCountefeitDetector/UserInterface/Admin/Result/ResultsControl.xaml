@@ -38,7 +38,7 @@
                         <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
                                     <Border BorderThickness="1" Margin="10" BorderBrush="{StaticResource Style4}" Background="{StaticResource Style3}">
-                                        <Image Source="{Binding OriginalEncodedImage, Converter={StaticResource PathToImageConverter}, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                        <Image Source="{Binding OriginalImagePath, Converter={StaticResource PathToImageConverter}, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                                Stretch="Fill" Height="300" Width="300" />
                                     </Border>
                                 </DataTemplate>
@@ -48,7 +48,7 @@
                         <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
                                     <Border BorderThickness="1" Margin="10" BorderBrush="{StaticResource Style4}" Background="{StaticResource Style3}">
-                                        <Image Source="{Binding ResultEncodedImage, Converter={StaticResource PathToImageConverter}, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                        <Image Source="{Binding ResultImagePath, Converter={StaticResource PathToImageConverter}, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                        Stretch="Fill" Height="300" Width="300" />
                                     </Border>
                                 </DataTemplate>

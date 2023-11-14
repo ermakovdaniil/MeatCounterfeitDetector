@@ -9,7 +9,7 @@ public class CounterfeitImageVM : ViewModelBase, ICloneable
 {
     public Guid Id { get; set; }
     public Guid CounterfeitId { get; set; }
-    public string EncodedImage { get; set; }
+    public string ImagePath { get; set; }
     public string CounterfeitName { get; set; }
 
     public object Clone()

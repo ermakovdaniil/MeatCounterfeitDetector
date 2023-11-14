@@ -46,7 +46,7 @@ public class ImageAnalyzer : IImageAnalyzer
 
         for (int i = 0; i < counterfeitImages.Count; i++)
         {
-            AnalyzeImage(ref originalImage, counterfeitImages[i].EncodedImage, out resultImage, out tempTime, out score, percentOfSimilarity, originalImageMat);
+            AnalyzeImage(ref originalImage, counterfeitImages[i].ImagePath, out resultImage, out tempTime, out score, percentOfSimilarity, originalImageMat);
             matchTime += tempTime;
             if (score > percentOfSimilarity)
             {
@@ -102,13 +102,13 @@ public class ImageAnalyzer : IImageAnalyzer
     {
         var tempOriginalImage = new OriginalImage
         {
-            EncodedImage = originalImage,
+            ImagePath = originalImage,
         };
 
         var tempResultImage = new ResultImage
         {
             OriginalImage = tempOriginalImage,
-            EncodedImage = resultImage,
+            ImagePath = resultImage,
         };
 
         var result = new Result

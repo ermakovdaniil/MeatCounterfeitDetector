@@ -7,7 +7,7 @@ namespace DataAccess.Models
     {
         public Guid Id { get; set; }
         public Guid? OriginalImageId { get; set; }
-        public string EncodedImage { get; set; } = null!;
+        public string ImagePath { get; set; } = null!;
 
         public virtual OriginalImage? OriginalImage { get; set; }
         public virtual List<Result> Results { get; set; }

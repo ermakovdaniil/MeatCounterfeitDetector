@@ -17,6 +17,6 @@ public class ResultVM : ViewModelBase
     public Guid ResultImageId { get; set; }
 
     public string UserName { get; set; }
-    public string OriginalEncodedImage { get; set; }
-    public string? ResultEncodedImage { get; set; }
+    public string OriginalImagePath { get; set; }
+    public string? ResultImagePath { get; set; }
 }

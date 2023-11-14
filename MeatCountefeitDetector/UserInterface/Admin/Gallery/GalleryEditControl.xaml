@@ -26,7 +26,7 @@
                          DisplayMemberPath="Name"
                          Background="{StaticResource Style3}" HorizontalAlignment="Stretch" />
                 <Border MinHeight="200" MinWidth="300" BorderThickness="1" Margin="10" BorderBrush="{StaticResource Style4}" Background="{StaticResource Style3}">
-                    <Image Source="{Binding TempCounterfeitImage.EncodedImage, Converter={StaticResource PathToImageConverter}, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Stretch="Fill"/>
+                    <Image Source="{Binding TempCounterfeitImage.ImagePath, Converter={StaticResource PathToImageConverter}, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Stretch="Fill"/>
                 </Border>
                 <Button hc:BorderElement.CornerRadius="10" Width="180" Margin="5 0 5 10"
                         Command="{Binding ChangePathImageCommand}"

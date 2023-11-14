@@ -24,7 +24,7 @@ namespace MeatAPI.Features.CounterfeitImage
                 var dto = new GetCounterfeitImageDTO();
                 dto.Id = ci.Id;
                 dto.CounterfeitId = ci.CounterfeitId;
-                dto.EncodedImage = ci.EncodedImage;
+                dto.ImagePath = ci.ImagePath;
                 dto.CounterfeitName = ci.Counterfeit.Name;
                 getCounterfeitImageDTOs.Add(dto);
             }

@@ -165,11 +165,11 @@ public class AnalysisControlVM : ViewModelBase
 
                         SearchResult = CreateSearchResult(AnalysisResult);
 
-                        if (AnalysisResult.ResultImage.EncodedImage is not null)
+                        if (AnalysisResult.ResultImage.ImagePath is not null)
                         {
                             string pathToBase = Directory.GetCurrentDirectory();
                             string pathToResults = @"..\..\..\resources\resImages\";
-                            string combinedPath = Path.Combine(pathToBase, AnalysisResult.ResultImage.EncodedImage);
+                            string combinedPath = Path.Combine(pathToBase, AnalysisResult.ResultImage.ImagePath);
                             ResultImage = combinedPath;
                         }
 

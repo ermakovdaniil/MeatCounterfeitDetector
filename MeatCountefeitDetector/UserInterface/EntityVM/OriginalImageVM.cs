@@ -6,5 +6,5 @@ namespace MeatCounterfeitDetector.UserInterface.EntityVM;
 public class OriginalImageVM : ViewModelBase
 {
     public Guid Id { get; set; }
-    public string EncodedImage { get; set; }
+    public string ImagePath { get; set; }
 }

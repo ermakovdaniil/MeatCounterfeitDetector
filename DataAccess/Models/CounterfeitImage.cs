@@ -6,7 +6,7 @@ public class CounterfeitImage : IBaseEntity
 {
     public Guid Id { get; set; }
     public Guid CounterfeitId { get; set; }
-    public string EncodedImage { get; set; } = null!;
+    public string ImagePath { get; set; } = null!;
 
     public virtual Counterfeit Counterfeit { get; set; } = null!;
 }

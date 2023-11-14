@@ -56,7 +56,7 @@ public class GalleryEditControlVM : ViewModelBase, IDataHolder, IResultHolder, I
             {
                 Id = EditingCounterfeitImage.Id,
                 CounterfeitId = EditingCounterfeitImage.CounterfeitId,
-                EncodedImage = EditingCounterfeitImage.EncodedImage,
+                ImagePath = EditingCounterfeitImage.ImagePath,
                 CounterfeitName = EditingCounterfeitImage.CounterfeitName
             };
 
@@ -88,7 +88,7 @@ public class GalleryEditControlVM : ViewModelBase, IDataHolder, IResultHolder, I
                 var path = _dialogService.OpenFileDialog(filter: "Pictures (*.png)|*.png", ext: ".png");
                 if (path != "")
                 {
-                    TempCounterfeitImage.EncodedImage = path;
+                    TempCounterfeitImage.ImagePath = path;
                 }
             });
         }
@@ -103,7 +103,7 @@ public class GalleryEditControlVM : ViewModelBase, IDataHolder, IResultHolder, I
             {
                 try
                 {
-                    if (TempCounterfeitImage.CounterfeitId != noId || TempCounterfeitImage.EncodedImage is null)
+                    if (TempCounterfeitImage.CounterfeitId != noId || TempCounterfeitImage.ImagePath is null)
                     {
                         throw new ArgumentNullException();
                     }
@@ -112,7 +112,7 @@ public class GalleryEditControlVM : ViewModelBase, IDataHolder, IResultHolder, I
                     EditingCounterfeitImage.CounterfeitId = TempCounterfeitImage.CounterfeitId;
                     // TODO: СДЕЛАТЬ ПРЕВРАЩЕНИЕ ИЗОБРАЖЕНИЯ В СТРОКУ BASE-64
                     //CounterfeitImage = @"..\..\..\resources\counterfeits\" + Path.GetFileName(path)
-                    EditingCounterfeitImage.EncodedImage = TempCounterfeitImage.EncodedImage;
+                    EditingCounterfeitImage.ImagePath = TempCounterfeitImage.ImagePath;
                     EditingCounterfeitImage.CounterfeitName = CounterfeitVMs.First(c => c.Id == TempCounterfeitImage.CounterfeitId).Name;
                     Result = EditingCounterfeitImage;
                     FinishInteraction();
@@ -125,7 +125,7 @@ public class GalleryEditControlVM : ViewModelBase, IDataHolder, IResultHolder, I
                     {
                         message += $"Не выбран фальсификат!\n";
                     }
-                    if (TempCounterfeitImage.EncodedImage is null)
+                    if (TempCounterfeitImage.ImagePath is null)
                     {
                         message += $"Не указан файл с изображением!\n";
                     }
