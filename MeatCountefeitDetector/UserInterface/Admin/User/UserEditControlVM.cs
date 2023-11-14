@@ -127,7 +127,7 @@ public class UserEditControlVM : ViewModelBase, IDataHolder, IResultHolder, IInt
                         throw new NullReferenceException();
                     }
 
-                    if (!Regex.IsMatch((TempUser.UserName), @"^[a-zA-Z0-9-._@+]+$") || ((TempUser.Id != noId && !Regex.IsMatch((TempUser.Password), @"^[a-zA-Z0-9-._@+]+$")))
+                    if (!Regex.IsMatch((TempUser.UserName), @"^[a-zA-Z0-9-._@+]+$") || ((TempUser.Id != noId && !Regex.IsMatch((TempUser.Password), @"^[a-zA-Z0-9-._@+]+$"))))
                     {
                         throw new IncorrectSymbolsInTextException();
                     }
