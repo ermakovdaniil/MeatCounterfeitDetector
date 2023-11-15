@@ -116,6 +116,13 @@ public class UserExplorerControlVM : ViewModelBase
                 if (!UserVMs.Any(rec => rec.UserName == result.UserName && rec.Roles == result.Roles))
                 {
                     var editingUserCreateDTO = result.Adapt<UpdateUserDTO>();
+                    editingUserCreateDTO.PasswordChanged = false;
+
+                    if (tempUser.Password != result.Password)
+                    {
+                        editingUserCreateDTO.PasswordChanged = true;
+                    }
+
                     await _userClient.UserPutAsync(editingUserCreateDTO);
                     result.Adapt(UserVMs.FirstOrDefault(x => x.Id == result.Id));
 

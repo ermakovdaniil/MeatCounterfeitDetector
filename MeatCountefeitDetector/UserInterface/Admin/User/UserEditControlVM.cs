@@ -124,30 +124,30 @@ public class UserEditControlVM : ViewModelBase, IDataHolder, IResultHolder, IInt
             {
                 try
                 {
-                    if (TempUser.UserName is null || (TempUser.Id == noId && TempUser.Password is null))
+                    if (TempUser.UserName is null || (!DontChangePassword && TempUser.Password is null))
                     {
                         throw new NullReferenceException();
                     }
 
-                    if (!Regex.IsMatch((TempUser.UserName), @"^[a-zA-Z0-9-._@+]+$") && ((TempUser.Id == noId && !Regex.IsMatch((TempUser.Password), @"^[a-zA-Z0-9-._@+]+$"))))
+                    if (!Regex.IsMatch((TempUser.UserName), @"^[a-zA-Z0-9-._@+]+$") && ((!DontChangePassword && !Regex.IsMatch((TempUser.Password), @"^[a-zA-Z0-9-._@+]+$"))))
                     {
                         throw new IncorrectSymbolsInTextException();
                     }
 
-                    if (TempUser.Id == noId && TempUser.Password.Length < 8)
+                    if (!DontChangePassword && TempUser.Password.Length < 8)
                     {
                         throw new ShortTextException();
                     }
 
-                    if (TempUser.Id == noId && (!TempUser.Password.Contains("abcdefghijklmnopqrstuvwxyz") || 
-                        !TempUser.Password.Contains("ABCDEFGHIJKLMNOPQRSTUVWXYZ") || 
-                        !TempUser.Password.Contains("0123456789") ||
-                        !TempUser.Password.Contains("-._@+")))
+                    var regex = new Regex("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[-._@+]).+$");
+                    Match match = regex.Match(TempUser.Password);
+
+                    if (!DontChangePassword && !match.Success)
                     {
                         throw new NoRequiredSymbolsInTextException();
                     }
 
-                    if (AdminIsChosen is false && TechnologistIsChosen is false)
+                    if (!AdminIsChosen && !TechnologistIsChosen)
                     {
                         throw new RoleException();
                     }
@@ -155,7 +155,7 @@ public class UserEditControlVM : ViewModelBase, IDataHolder, IResultHolder, IInt
                     EditingUser.Id = TempUser.Id;
                     EditingUser.UserName = TempUser.UserName;
 
-                    if (DontChangePassword is false)
+                    if (!DontChangePassword)
                     {
                         EditingUser.Password = TempUser.Password;
                     }
@@ -164,11 +164,11 @@ public class UserEditControlVM : ViewModelBase, IDataHolder, IResultHolder, IInt
 
                     TempUser.Roles = new List<string>();
 
-                    if (AdminIsChosen is true)
+                    if (AdminIsChosen)
                     {
                         TempUser.Roles.Add(UserRolesConstants.Admin);
                     }
-                    if (TechnologistIsChosen is true)
+                    if (TechnologistIsChosen)
                     {
                         TempUser.Roles.Add(UserRolesConstants.Technologist);
                     }
@@ -218,26 +218,7 @@ public class UserEditControlVM : ViewModelBase, IDataHolder, IResultHolder, IInt
                 }
                 catch (NoRequiredSymbolsInTextException ex)
                 {
-                    string message = null;
-
-                    if (!TempUser.Password.Contains("abcdefghijklmnopqrstuvwxyz")) 
-                    {
-                        message += $"Пароль должен содержать строчные символы!\n";
-                    }
-                    if (!TempUser.Password.Contains("ABCDEFGHIJKLMNOPQRSTUVWXYZ"))
-                    {
-                        message += $"Пароль должен содержать прописные символы!\n";
-                    }
-                    if (!TempUser.Password.Contains("0123456789"))
-                    {
-                        message += $"Пароль должен содержать цифры!\n";
-                    }
-                    if (!TempUser.Password.Contains("-._@+"))
-                    {
-                        message += $"Пароль должен содержать специальные символы!";
-                    }
-
-                    _messageBoxService.ShowMessage(message, "Ошибка!", MessageBoxButton.OK, MessageBoxImage.Error);
+                    _messageBoxService.ShowMessage($"Пароль должен содержать строчные, прописные,\nспециальные символы и цифры!", "Ошибка!", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
                 catch (RoleException ex)
                 {

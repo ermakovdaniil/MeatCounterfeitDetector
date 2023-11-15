@@ -35,8 +35,7 @@ namespace MeatAPI.Features.User
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<ActionResult<Guid>> Create([FromBody] CreateUserDTO dto)
         {
-            var u = dto.Adapt<DataAccess.Models.User>();
-            var id = await _userService.Create(u);
+            var id = await _userService.Create(dto);
             return Ok(id);
         }
 
@@ -44,8 +43,7 @@ namespace MeatAPI.Features.User
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<ActionResult> Update([FromBody] UpdateUserDTO dto)
         {
-            var u = dto.Adapt<DataAccess.Models.User>();
-            await _userService.Update(u);
+            await _userService.Update(dto);
             return Ok();
         }
 

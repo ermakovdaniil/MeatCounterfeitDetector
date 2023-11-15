@@ -18,5 +18,8 @@ namespace ClientAPI.DTO.User
 
         [Required(ErrorMessage = "RoleName is required")]
         public List<string> Roles { get; set; }
+
+        public bool PasswordChanged { get; set; }
+
     }
 }

@@ -49,9 +49,6 @@ namespace MeatAPI.Features.User
             await _userManager.CreateAsync(user, u.Password);
             await _userManager.AddToRolesAsync(user, u.Roles);
 
-            //await _dbSet.AddAsync(user);
-            //await _dbContext.SaveChangesAsync();
-
             return user.Id;
         }
 
@@ -60,22 +57,25 @@ namespace MeatAPI.Features.User
             var ut = await _userManager.FindByIdAsync(u.Id.ToString());
 
             ut.UserName = u.Name;
-        
-            if(u.Password is not null)
+
+            if (u.PasswordChanged)
             {
                 var passwordHasher = new PasswordHasher<DataAccess.Models.User>();
                 ut.PasswordHash = passwordHasher.HashPassword(ut, u.Password);
-
-                // ИЛИ
-
-                await _userManager.RemovePasswordAsync(ut);
-                await _userManager.AddPasswordAsync(ut, u.Password);
+            }
+            else
+            {
+                ut.PasswordHash = u.Password;
             }
 
             ut.Name = u.Name;
-            
+
             await _userManager.UpdateAsync(ut);
-            await _userManager.AddToRolesAsync(ut, u.Roles);
+
+            _userManager.RemoveFromRoleAsync(ut, UserRolesConstants.Admin);
+            _userManager.RemoveFromRoleAsync(ut, UserRolesConstants.Technologist);
+
+            var result = await _userManager.AddToRolesAsync(ut, u.Roles);
 
             //await _dbSet.AddAsync(user);
             //await _dbContext.SaveChangesAsync();
