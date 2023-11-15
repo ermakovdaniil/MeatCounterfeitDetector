@@ -11,6 +11,7 @@ using ClientAPI;
 using MeatCounterfeitDetector.Utils.AuthService;
 using ClientAPI.DTO.Login;
 using System.Net.Http;
+using MeatCounterfeitDetector.UserInterface.Admin;
 
 namespace MeatCounterfeitDetector.UserInterface;
 
@@ -71,7 +72,7 @@ public class LoginControlVM : ViewModelBase
                         var token = _authService.GetToken();
                         _userService.SetUserByToken(token);
 
-                        if (_userService.IsAdmin)
+                        if (_userService.IsAdmin && _userService.IsTechnologist)
                         {
                             _navigationManager.Navigate<UserInterfaceSelectControl>(new WindowParameters
                             {
@@ -81,7 +82,15 @@ public class LoginControlVM : ViewModelBase
                                 StartupLocation = WindowStartupLocation.CenterScreen,
                             });
                         }
-                        else
+                        else if (_userService.IsAdmin && !_userService.IsTechnologist)
+                        {
+                            _navigationManager.Navigate<MainAdminControl>(new WindowParameters
+                            {
+                                WindowState = WindowState.Maximized,
+                                Title = " | Панель администратора | ",
+                            });
+                        }
+                        else if(_userService.IsTechnologist && !_userService.IsAdmin)
                         {
                             _navigationManager.Navigate<MainTechnologistControl>(new WindowParameters
                             {

@@ -6,5 +6,6 @@ namespace MeatCounterfeitDetector.Utils.UserService
     {
         void SetUserByToken(string token);
         bool IsAdmin { get; }
+        bool IsTechnologist { get; }
     }
 }

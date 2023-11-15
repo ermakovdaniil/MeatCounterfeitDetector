@@ -139,10 +139,12 @@ public class UserEditControlVM : ViewModelBase, IDataHolder, IResultHolder, IInt
                         throw new ShortTextException();
                     }
 
-                    var regex = new Regex("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[-._@+]).+$");
-                    Match match = regex.Match(TempUser.Password);
+                    bool containsUppercase = TempUser.Password.Any(char.IsUpper);
+                    bool containsLowercase = TempUser.Password.Any(char.IsLower);
+                    bool containsSpecialCharacters = TempUser.Password.Any(c => !char.IsLetterOrDigit(c));
+                    bool containsNumbers = TempUser.Password.Any(char.IsDigit);
 
-                    if (!DontChangePassword && !match.Success)
+                    if (!DontChangePassword && (!containsUppercase || !containsLowercase || !containsSpecialCharacters || !containsNumbers))
                     {
                         throw new NoRequiredSymbolsInTextException();
                     }

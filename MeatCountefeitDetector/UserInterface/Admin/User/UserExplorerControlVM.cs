@@ -118,7 +118,7 @@ public class UserExplorerControlVM : ViewModelBase
                     var editingUserCreateDTO = result.Adapt<UpdateUserDTO>();
                     editingUserCreateDTO.PasswordChanged = false;
 
-                    if (tempUser.Password != result.Password)
+                    if (SelectedUser.Password != result.Password)
                     {
                         editingUserCreateDTO.PasswordChanged = true;
                     }

@@ -26,6 +26,19 @@ namespace MeatCounterfeitDetector.Utils.UserService
             }
         }
 
+        public bool IsTechnologist
+        {
+            get
+            {
+                if (userJwtToken is null)
+                {
+                    return false;
+                }
+
+                return userJwtToken.Claims.Any(c => c.Type == $"http://schemas.microsoft.com/ws/2008/06/identity/claims/role" && c.Value.ToLower() == UserRolesConstants.Technologist.ToLower());
+            }
+        }
+
         private static string GetRoleClaimByName (string claimName)
         {
             return $"http://schemas.microsoft.com/ws/2008/06/identity/claims/{claimName}";           

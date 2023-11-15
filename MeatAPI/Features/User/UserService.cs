@@ -56,7 +56,7 @@ namespace MeatAPI.Features.User
         {
             var ut = await _userManager.FindByIdAsync(u.Id.ToString());
 
-            ut.UserName = u.Name;
+            ut.UserName = u.UserName;
 
             if (u.PasswordChanged)
             {
@@ -72,13 +72,10 @@ namespace MeatAPI.Features.User
 
             await _userManager.UpdateAsync(ut);
 
-            _userManager.RemoveFromRoleAsync(ut, UserRolesConstants.Admin);
-            _userManager.RemoveFromRoleAsync(ut, UserRolesConstants.Technologist);
+            await _userManager.RemoveFromRoleAsync(ut, UserRolesConstants.Admin);
+            await _userManager.RemoveFromRoleAsync(ut, UserRolesConstants.Technologist);
 
-            var result = await _userManager.AddToRolesAsync(ut, u.Roles);
-
-            //await _dbSet.AddAsync(user);
-            //await _dbContext.SaveChangesAsync();
+            await _userManager.AddToRolesAsync(ut, u.Roles);
         }
     }
 }
