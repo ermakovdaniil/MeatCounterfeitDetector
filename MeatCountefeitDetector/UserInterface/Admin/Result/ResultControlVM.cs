@@ -88,15 +88,15 @@ public class ResultControlVM : ViewModelBase
 
                         await _resultClient.ResultDeleteAsync(SelectedResult.Id);
                         
-
                         if (SelectedResult.ResultImagePath is not null)
                         {
+                            File.Delete(SelectedResult.ResultImagePath);
                             await _resultImageClient.ResultImageDeleteAsync(SelectedResult.ResultImageId);
                         }
 
-
                         if (!ResultVMs.Any(r => r.OriginalImageId == SelectedResult.OriginalImageId && r.Id != SelectedResult.Id))
                         {
+                            File.Delete(SelectedResult.OriginalImagePath);
                             await _originalImageClient.OriginalImageDeleteAsync(SelectedResult.OriginalImageId);
                         }
                         ResultVMs.Remove(SelectedResult);

@@ -10,6 +10,8 @@ using Mapster;
 using System.Collections.ObjectModel;
 using MeatCounterfeitDetector.UserInterface.EntityVM;
 using MeatCounterfeitDetector.Utils.EventAggregator;
+using System;
+using System.IO;
 
 namespace MeatCounterfeitDetector.UserInterface.Admin.Gallery;
 
@@ -87,11 +89,22 @@ public class GalleryControlVM : ViewModelBase
 
                 if (!CounterfeitImageVMs.Any(rec => rec.CounterfeitId == result.CounterfeitId && rec.ImagePath == result.ImagePath))
                 {
-                    var addingCounterfeitImageCreateDTO = result.Adapt<CreateCounterfeitImageDTO>();
-                    var id = await _counterfeitImageClient.CounterfeitImagePostAsync(addingCounterfeitImageCreateDTO);
-                    result.Id = id;
-                    CounterfeitImageVMs.Add(result);
-                    _messageBoxService.ShowMessage($"Запись успешно добавлена!", "Готово!", MessageBoxButton.OK, MessageBoxImage.Information);
+                    if (File.Exists(result.ImagePath))
+                    {
+                        var newImagePath = @"..\..\..\resources\counterfeits\" + Path.GetFileName(result.ImagePath);
+                        File.Copy(result.ImagePath, newImagePath);
+                        result.ImagePath = newImagePath;
+
+                        var addingCounterfeitImageCreateDTO = result.Adapt<CreateCounterfeitImageDTO>();
+                        var id = await _counterfeitImageClient.CounterfeitImagePostAsync(addingCounterfeitImageCreateDTO);
+                        result.Id = id;
+                        CounterfeitImageVMs.Add(result);
+                        _messageBoxService.ShowMessage($"Запись успешно добавлена!", "Готово!", MessageBoxButton.OK, MessageBoxImage.Information);
+                    }
+                    else
+                    {
+                        _messageBoxService.ShowMessage($"Невозможно добавить такой файл!", "Ошибка!", MessageBoxButton.OK, MessageBoxImage.Error);
+                    }
                 }
                 else
                 {
@@ -130,15 +143,21 @@ public class GalleryControlVM : ViewModelBase
 
                 if (!CounterfeitImageVMs.Any(rec => rec.CounterfeitId == result.CounterfeitId && rec.ImagePath == result.ImagePath))
                 {
-                    var editingCounterfeitImageUpdateDTO = result.Adapt<UpdateCounterfeitImageDTO>();
-                    await _counterfeitImageClient.CounterfeitImagePutAsync(editingCounterfeitImageUpdateDTO);
-                    result.Adapt(CounterfeitImageVMs.FirstOrDefault(x => x.Id == result.Id));
+                    if (File.Exists(result.ImagePath))
+                    {
+                        var newImagePath = @"..\..\..\resources\counterfeits\" + Path.GetFileName(result.ImagePath);
+                        File.Copy(result.ImagePath, newImagePath, true);
+                        result.ImagePath = newImagePath;
 
-                    //if(path != result.ImagePath)
-                    //{
-                    //    File.Copy(result.ImagePath, @"..\..\..\resources\counterfeits\" + Path.GetFileName(result.ImagePath), true);
-                    //}
-                    _messageBoxService.ShowMessage($"Запись успешно обновлена!", "Готово!", MessageBoxButton.OK, MessageBoxImage.Information);
+                        var editingCounterfeitImageUpdateDTO = result.Adapt<UpdateCounterfeitImageDTO>();
+                        await _counterfeitImageClient.CounterfeitImagePutAsync(editingCounterfeitImageUpdateDTO);
+                        result.Adapt(CounterfeitImageVMs.FirstOrDefault(x => x.Id == result.Id));
+                        _messageBoxService.ShowMessage($"Запись успешно обновлена!", "Готово!", MessageBoxButton.OK, MessageBoxImage.Information);
+                    }
+                    else
+                    {
+                        _messageBoxService.ShowMessage($"Невозможно добавить такой файл!", "Ошибка!", MessageBoxButton.OK, MessageBoxImage.Error);
+                    } 
                 }
                 else
                 {
@@ -168,6 +187,7 @@ public class GalleryControlVM : ViewModelBase
 
                     //Application.Current.Dispatcher.Invoke(async () =>
                     //{
+                    File.Delete(SelectedCounterfeitImage.ImagePath);
                     await _counterfeitImageClient.CounterfeitImageDeleteAsync(SelectedCounterfeitImage.Id);
                     CounterfeitImageVMs.Remove(SelectedCounterfeitImage);
                     _messageBoxService.ShowMessage($"Запись успешно удалена!", "Готово!", MessageBoxButton.OK, MessageBoxImage.Information);
