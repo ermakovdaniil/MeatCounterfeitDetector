@@ -25,6 +25,9 @@ using System.Collections.ObjectModel;
 using MeatCounterfeitDetector.UserInterface.Admin.Counterfeit;
 using MeatCounterfeitDetector.UserInterface.Admin.Gallery;
 using MeatCounterfeitDetector.UserInterface.EntityVM;
+using ClientAPI.DTO.OriginalImage;
+using iText.IO.Image;
+using ClientAPI.DTO.ResultImage;
 
 namespace MeatCounterfeitDetector.UserInterface.Technologist.Analysis;
 
@@ -35,6 +38,8 @@ public class AnalysisControlVM : ViewModelBase
     private readonly IMessageBoxService _messageBoxService;
     private readonly CounterfeitClient _counterfeitClient;
     private readonly CounterfeitImageClient _counterfeitImageClient;
+    private readonly OriginalImageClient _originalImageClient;
+    private readonly ResultImageClient _resultImageClient;
     private readonly ResultClient _resultClient;
     private readonly NavigationManager _navigationManager;
     private readonly IUserService _userService;
@@ -48,6 +53,8 @@ public class AnalysisControlVM : ViewModelBase
 
     public AnalysisControlVM(CounterfeitClient counterfeitClient,
                                  CounterfeitImageClient counterfeitImageClient,
+                                 OriginalImageClient originalImageClient,
+                                 ResultImageClient resultImageClient,
                                  ResultClient resultClient,
                                  NavigationManager navigationManager,
                                  IImageAnalyzer analyzer,
@@ -60,6 +67,8 @@ public class AnalysisControlVM : ViewModelBase
     {
         _counterfeitClient = counterfeitClient;
         _counterfeitImageClient = counterfeitImageClient;
+        _originalImageClient = originalImageClient;
+        _resultImageClient = resultImageClient;
         _resultClient = resultClient;
         _navigationManager = navigationManager;
         _analyzer = analyzer;
@@ -80,7 +89,7 @@ public class AnalysisControlVM : ViewModelBase
         DisplayedImage = eventData.ImageBitmapSource;
     }
 
-    private string CreateSearchResult(Result AnalysisResult)
+    private string CreateSearchResult(CreateResultDTO AnalysisResult)
     {
         string searchResult;
         searchResult = AnalysisResult.AnalysisResult + "\n" +
@@ -106,7 +115,7 @@ public class AnalysisControlVM : ViewModelBase
     public BitmapSource DisplayedImage { get; set; }
     public string ResultImage { get; set; }
     public string SearchResult { get; set; }
-    public Result AnalysisResult { get; set; }
+    public CreateResultDTO AnalysisResult { get; set; }
     public int Progress { get; set; }
 
     #endregion
@@ -159,24 +168,42 @@ public class AnalysisControlVM : ViewModelBase
                             counterfeitImagesDTOs = (await _counterfeitImageClient.GetAllByCounterfeitIdAsync(SelectedCounterfeit.Id)).ToList();
                         }
 
-                        var counterfeitImageVMs = counterfeitImagesDTOs.Adapt<List<CounterfeitImageVM>>();
+                       // var counterfeitImages = counterfeitImagesDTOs.Adapt<List<CounterfeitImage>>();
 
-                        //AnalysisResult = _analyzer.RunAnalysis(DisplayedImagePath, counterfeitImages, PercentOfSimilarity, _userService.User);                       
+                        AnalysisResult = _analyzer.RunAnalysis(DisplayedImage, counterfeitImagesDTOs, PercentOfSimilarity, _userService.CurrentUserId);                       
 
                         SearchResult = CreateSearchResult(AnalysisResult);
 
-                        if (AnalysisResult.ResultImage.ImagePath is not null)
+                        if (AnalysisResult.ResultImagePath is not null)
                         {
                             string pathToBase = Directory.GetCurrentDirectory();
                             string pathToResults = @"..\..\..\resources\resImages\";
-                            string combinedPath = Path.Combine(pathToBase, AnalysisResult.ResultImage.ImagePath);
+                            string combinedPath = Path.Combine(pathToBase, AnalysisResult.ResultImagePath);
                             ResultImage = combinedPath;
                         }
 
-                        var analysisResultDTO = AnalysisResult.Adapt<CreateResultDTO>();
+                        //var analysisResultDTO = AnalysisResult.Adapt<CreateResultDTO>();
 
-                        var res = await _resultClient.ResultPostAsync(analysisResultDTO);
+                        var originalImageDTO = new CreateOriginalImageDTO
+                        {
+                            ImagePath = AnalysisResult.OriginalImagePath
+                        };
 
+                        var originalId = await _originalImageClient.OriginalImagePostAsync(originalImageDTO);
+
+
+                        var resultImageDTO = new CreateResultImageDTO
+                        {
+                            OriginalImageId = originalId,
+                            ImagePath = AnalysisResult.ResultImagePath
+                        };
+
+                        var resultId = await _resultImageClient.ResultImagePostAsync(resultImageDTO);
+
+                        AnalysisResult.OriginalImageId = originalId;
+                        AnalysisResult.ResultImageId = resultId;
+
+                        var res = await _resultClient.ResultPostAsync(AnalysisResult);
                     }
                     catch (ArgumentException)
                     {

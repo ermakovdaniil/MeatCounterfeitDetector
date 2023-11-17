@@ -33,7 +33,7 @@
                         <DataTemplate>
                             <Border BorderThickness="1" Margin="10" BorderBrush="{StaticResource Style4}" Background="{StaticResource Style3}">
                                 <Image Source="{Binding ImagePath, Converter={StaticResource PathToImageConverter}, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                       Stretch="Fill" Height="300" Width="300" />
+                                          Margin="10"/>
                             </Border>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>

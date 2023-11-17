@@ -49,7 +49,6 @@
                 <hc:ComboBox hc:InfoElement.Title="Вид фальсификата для поиска"
                             FontSize="17"
                             Text="Любой"
-                            ShowClearButton="True"
                             ItemsSource="{Binding CounterfeitVMs}"
                             hc:InfoElement.TitlePlacement="Top"
                             SelectedItem="{Binding SelectedCounterfeit}"

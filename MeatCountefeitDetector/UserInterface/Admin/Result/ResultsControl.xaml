@@ -30,7 +30,7 @@
                       Background="{StaticResource Style3}">
                 <DataGrid.Columns>
                 <DataGridTextColumn Header="Дата" Binding="{Binding Date, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-                <DataGridTextColumn Header="Сотрудник, проводивший анализ" Binding="{Binding UserName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                <DataGridTextColumn Header="Провёл анализ" Binding="{Binding UserName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                 <DataGridTextColumn Header="Результат анализа" Binding="{Binding AnalysisResult, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                 <DataGridTextColumn Header="Время анализа, с" Binding="{Binding Time, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                 <DataGridTextColumn Header="Процент сходства, %" Binding="{Binding PercentOfSimilarity, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
@@ -39,7 +39,7 @@
                                 <DataTemplate>
                                     <Border BorderThickness="1" Margin="10" BorderBrush="{StaticResource Style4}" Background="{StaticResource Style3}">
                                         <Image Source="{Binding OriginalImagePath, Converter={StaticResource PathToImageConverter}, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                               Stretch="Fill" Height="300" Width="300" />
+                                               Stretch="Fill"  />
                                     </Border>
                                 </DataTemplate>
                             </DataGridTemplateColumn.CellTemplate>
@@ -49,7 +49,7 @@
                                 <DataTemplate>
                                     <Border BorderThickness="1" Margin="10" BorderBrush="{StaticResource Style4}" Background="{StaticResource Style3}">
                                         <Image Source="{Binding ResultImagePath, Converter={StaticResource PathToImageConverter}, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                       Stretch="Fill" Height="300" Width="300" />
+                                       Stretch="Fill"  />
                                     </Border>
                                 </DataTemplate>
                             </DataGridTemplateColumn.CellTemplate>

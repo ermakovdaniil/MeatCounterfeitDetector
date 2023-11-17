@@ -108,7 +108,6 @@ public class CounterfeitExplorerControlVM : ViewModelBase
             {
                 //Application.Current.Dispatcher.Invoke(async () =>
                 //{
-
                 var tempCounterfeit = (CounterfeitVM)SelectedCounterfeit.Clone();
 
                 var result = (await _dialogService.ShowDialog<CounterfeitEditControl>(new WindowParameters
@@ -150,7 +149,6 @@ public class CounterfeitExplorerControlVM : ViewModelBase
             {
                 if (_messageBoxService.ShowMessage($"Вы действительно хотите удалить фальсификат: \"{SelectedCounterfeit.Name}\"?\nВместе с этой записью удалятся все изображения с этим фальсификатом.", "Удаление фальсификата", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
                 {
-                    //var analysisResultDTO = AnalysisResult.Adapt<CreateResultDTO>();
                     //Application.Current.Dispatcher.Invoke(async () =>
                     //{
                     await _counterfeitClient.CounterfeitDeleteAsync(SelectedCounterfeit.Id);

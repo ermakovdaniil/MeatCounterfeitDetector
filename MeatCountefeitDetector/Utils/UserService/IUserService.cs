@@ -1,4 +1,5 @@
 ﻿using DataAccess.Models;
+using System;
 
 namespace MeatCounterfeitDetector.Utils.UserService
 {
@@ -7,5 +8,6 @@ namespace MeatCounterfeitDetector.Utils.UserService
         void SetUserByToken(string token);
         bool IsAdmin { get; }
         bool IsTechnologist { get; }
+         Guid CurrentUserId { get; }
     }
 }

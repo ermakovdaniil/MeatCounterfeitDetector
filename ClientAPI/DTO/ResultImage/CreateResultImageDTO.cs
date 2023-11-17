@@ -7,11 +7,9 @@ namespace ClientAPI.DTO.ResultImage
     public class CreateResultImageDTO
     {
         [Required(ErrorMessage = "OriginalId is required")]
-        public Guid OriginalId { get; set; }
+        public Guid OriginalImageId { get; set; }
 
         [Required(ErrorMessage = "Name is required")]
         public string ImagePath { get; set; }
-
-        public string OriginalImagePath { get; set; }
     }
 }
