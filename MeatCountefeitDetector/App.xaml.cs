@@ -140,6 +140,7 @@ public partial class App : Application
         VmLocator.Register<UserInterfaceSelectControl, UserInterfaceSelectControlVM>();
 
         VmLocator.Register<MainTechnologistControl, MainTechnologistControlVM>();
+        VmLocator.Register<AlgInfoControl, AlgInfoControlVM>();
         VmLocator.Register<AnalysisControl, AnalysisControlVM>();
         VmLocator.Register<ImageEditingControl, ImageEditingControlVM>();
 

@@ -1,12 +1,9 @@
-﻿using DataAccess.Models;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Threading.Tasks;
 using System.Windows;
 using ClientAPI;
-using ClientAPI.DTO.Counterfeit;
 using ClientAPI.DTO.CounterfeitImage;
 using ClientAPI.DTO.Result;
 using Mapster;
@@ -22,19 +19,18 @@ using System.Windows.Media.Imaging;
 using ImageWorker.BitmapService;
 using ImageWorker.ImageAnalyzis;
 using System.Collections.ObjectModel;
-using MeatCounterfeitDetector.UserInterface.Admin.Counterfeit;
-using MeatCounterfeitDetector.UserInterface.Admin.Gallery;
 using MeatCounterfeitDetector.UserInterface.EntityVM;
 using ClientAPI.DTO.OriginalImage;
-using iText.IO.Image;
 using ClientAPI.DTO.ResultImage;
+using MeatCounterfeitDetector.Utils.Dialog;
 
 namespace MeatCounterfeitDetector.UserInterface.Technologist.Analysis;
 
 public class AnalysisControlVM : ViewModelBase
 {
     private readonly IImageAnalyzer _analyzer;
-    private readonly IFileDialogService _dialogService;
+    private readonly IFileDialogService _fileDialogService;
+    private readonly DialogService _dialogService;
     private readonly IMessageBoxService _messageBoxService;
     private readonly CounterfeitClient _counterfeitClient;
     private readonly CounterfeitImageClient _counterfeitImageClient;
@@ -58,7 +54,8 @@ public class AnalysisControlVM : ViewModelBase
                                  ResultClient resultClient,
                                  NavigationManager navigationManager,
                                  IImageAnalyzer analyzer,
-                                 IFileDialogService dialogService,
+                                 IFileDialogService fileDialogService,
+                                 DialogService dialogService,
                                  IMessageBoxService messageBoxService,
                                  IUserService userService,
                                  IProgressReporter progressReporter,
@@ -72,6 +69,7 @@ public class AnalysisControlVM : ViewModelBase
         _resultClient = resultClient;
         _navigationManager = navigationManager;
         _analyzer = analyzer;
+        _fileDialogService = fileDialogService;
         _dialogService = dialogService;
         _messageBoxService = messageBoxService;
         _userService = userService;
@@ -87,6 +85,11 @@ public class AnalysisControlVM : ViewModelBase
     private void OnDataReceived(EventImageData eventData)
     {
         DisplayedImage = eventData.ImageBitmapSource;
+    }
+
+    public void PublishData()
+    {
+        _eventAggregator.Publish(new Event());
     }
 
     private string CreateSearchResult(CreateResultDTO AnalysisResult)
@@ -131,7 +134,7 @@ public class AnalysisControlVM : ViewModelBase
         {
             return _changePathImage ??= new RelayCommand(_ =>
             {
-                var path = _dialogService.OpenFileDialog(filter: "Pictures (*.jpg;*.jpeg;*.gif;*.png)|*.jpg;*.gif;*.png", ext: ".jpg");
+                var path = _fileDialogService.OpenFileDialog(filter: "Pictures (*.jpg;*.jpeg;*.gif;*.png)|*.jpg;*.gif;*.png", ext: ".jpg");
 
                 if (path != "")
                 {
@@ -168,9 +171,9 @@ public class AnalysisControlVM : ViewModelBase
                             counterfeitImagesDTOs = (await _counterfeitImageClient.GetAllByCounterfeitIdAsync(SelectedCounterfeit.Id)).ToList();
                         }
 
-                       // var counterfeitImages = counterfeitImagesDTOs.Adapt<List<CounterfeitImage>>();
+                        // var counterfeitImages = counterfeitImagesDTOs.Adapt<List<CounterfeitImage>>();
 
-                        AnalysisResult = _analyzer.RunAnalysis(DisplayedImage, counterfeitImagesDTOs, PercentOfSimilarity, _userService.CurrentUserId);                       
+                        AnalysisResult = _analyzer.RunAnalysis(DisplayedImage, counterfeitImagesDTOs, PercentOfSimilarity, _userService.CurrentUserId);
 
                         SearchResult = CreateSearchResult(AnalysisResult);
 
@@ -233,7 +236,7 @@ public class AnalysisControlVM : ViewModelBase
                 else
                 {
                     var filename = "АНАЛИЗ_" + DateTime.Now.ToString("dd.mm.yyyy_hh.mm.ss");
-                    var filePath = _dialogService.SaveFileDialog(filename, ext: ".pdf");
+                    var filePath = _fileDialogService.SaveFileDialog(filename, ext: ".pdf");
                     if (!string.IsNullOrEmpty(filePath))
                     {
                         //FileSystem.ExportPdf(filePath, AnalysisResult, _userService.User);
@@ -243,7 +246,23 @@ public class AnalysisControlVM : ViewModelBase
         }
     }
 
+    private RelayCommand _showAlgInfo;
 
+    public RelayCommand ShowAlgInfo
+    {
+        get
+        {
+            return _showAlgInfo ??= new RelayCommand(async o =>
+            {
+                var result = (await _dialogService.ShowDialog<AlgInfoControl>(new WindowParameters
+                {
+                    Height = 600,
+                    Width = 800,
+                    Title = "Информация об алгоритмах поиска",
+                }));
+            });
+        }
+    }
 
     #endregion
 }

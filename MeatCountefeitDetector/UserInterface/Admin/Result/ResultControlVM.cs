@@ -25,7 +25,8 @@ public class ResultControlVM : ViewModelBase
                            OriginalImageClient originalImageClient,
                            ResultImageClient resultImageClient,
                            DialogService dialogService,
-                           IMessageBoxService messageBoxService)
+                           IMessageBoxService messageBoxService,
+                           IEventAggregator eventAggregator)
     {
         _resultClient = resultClient;
         _originalImageClient = originalImageClient;
@@ -33,11 +34,22 @@ public class ResultControlVM : ViewModelBase
         _dialogService = dialogService;
         _messageBoxService = messageBoxService;
 
+        _eventAggregator = eventAggregator;
+        _eventAggregator.Subscribe<Event>(CollectionChanged);
+
         _resultClient.ResultGetAsync()
                      .ContinueWith(c => { ResultVMs = c.Result.ToList().Adapt<ObservableCollection<ResultVM>>(); });
     }
 
     #endregion
+
+    private void CollectionChanged(Event data)
+    {
+        _resultClient.ResultGetAsync()
+                     .ContinueWith(c => { ResultVMs = c.Result.ToList().Adapt<ObservableCollection<ResultVM>>(); });
+
+        OnPropertyChanged(nameof(ResultVMs));
+    }
 
     #endregion
 
@@ -49,6 +61,7 @@ public class ResultControlVM : ViewModelBase
     private readonly ResultImageClient _resultImageClient;
     private readonly DialogService _dialogService;
     private readonly IMessageBoxService _messageBoxService;
+    private readonly IEventAggregator _eventAggregator;
 
     public ObservableCollection<ResultVM> ResultVMs { get; set; }
     public ResultVM SelectedResult { get; set; }

@@ -82,7 +82,7 @@ public class ImageEditingControlVM : ViewModelBase
             OnPropertyChanged();
         }
     }
-    
+
     private int _contrast;
     public int Contrast
     {
@@ -125,7 +125,7 @@ public class ImageEditingControlVM : ViewModelBase
 
 
     #region Commands
-    
+
     private RelayCommand _adjustBrightnessAndContrast;
     public RelayCommand AdjustBrightnessAndContrast
     {
@@ -133,29 +133,22 @@ public class ImageEditingControlVM : ViewModelBase
         {
             return _adjustBrightnessAndContrast ??= new RelayCommand(_ =>
             {
-                if(OriginalImage is not null)
+                var state = new { brightness = _brightness, contrast = _contrast };
+                Task.Delay(200).ContinueWith(_ =>
                 {
-                    var state = new { brightness = _brightness, contrast = _contrast };
-                    Task.Delay(200).ContinueWith(_ =>
+                    if (state.brightness != _brightness || state.contrast != _contrast)
                     {
-                        if (state.brightness!= _brightness || state.contrast!= _contrast)
-                        {
-                            return;
-                        }
-                        Application.Current.Dispatcher.Invoke(async () =>
-                        {
-                            ResultImage = _editor.AdjustBrightnessAndContrast(OriginalImage, Contrast, Brightness);
-                        });
+                        return;
+                    }
+                    Application.Current.Dispatcher.Invoke(async () =>
+                    {
+                        ResultImage = _editor.AdjustBrightnessAndContrast(OriginalImage, Contrast, Brightness);
                     });
-                }
-                else
-                {
-                    _messageBoxService.ShowMessage("Нет изображения для редактирования.", "Ошибка!", MessageBoxButton.OK, MessageBoxImage.Error);
-                }
+                });
             });
         }
     }
-    
+
     private RelayCommand _changePathImage;
     public RelayCommand ChangePathImageCommand
     {

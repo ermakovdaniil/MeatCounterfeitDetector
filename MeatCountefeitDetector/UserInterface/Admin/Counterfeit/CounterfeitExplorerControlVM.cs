@@ -129,6 +129,8 @@ public class CounterfeitExplorerControlVM : ViewModelBase
                     await _counterfeitClient.CounterfeitPutAsync(editingCounterfeitUpdateDTO);
                     result.Adapt(CounterfeitVMs.FirstOrDefault(x => x.Id == result.Id));
 
+
+
                     _messageBoxService.ShowMessage($"Запись успешно обновлена!", "Готово!", MessageBoxButton.OK, MessageBoxImage.Information);
                 }
                 else
