@@ -23,6 +23,7 @@ using MeatCounterfeitDetector.UserInterface.EntityVM;
 using ClientAPI.DTO.OriginalImage;
 using ClientAPI.DTO.ResultImage;
 using MeatCounterfeitDetector.Utils.Dialog;
+using ImageWorker.Enums;
 
 namespace MeatCounterfeitDetector.UserInterface.Technologist.Analysis;
 
@@ -42,8 +43,6 @@ public class AnalysisControlVM : ViewModelBase
     private readonly IProgressReporter _progressReporter;
     private readonly IEventAggregator _eventAggregator;
     private readonly IBitmapService _bitmapService;
-
-    public enum Algorithms { SIFT = 0, ORB, AKAZE, RANSAC, SURF, BRISK, MSER }
 
     #region Functions
 
@@ -173,7 +172,7 @@ public class AnalysisControlVM : ViewModelBase
 
                         // var counterfeitImages = counterfeitImagesDTOs.Adapt<List<CounterfeitImage>>();
 
-                        AnalysisResult = _analyzer.RunAnalysis(DisplayedImage, counterfeitImagesDTOs, PercentOfSimilarity, _userService.CurrentUserId);
+                        AnalysisResult = _analyzer.RunAnalysis(DisplayedImage, counterfeitImagesDTOs, PercentOfSimilarity, _userService.CurrentUserId, SelectedAlgorithm);
 
                         SearchResult = CreateSearchResult(AnalysisResult);
 

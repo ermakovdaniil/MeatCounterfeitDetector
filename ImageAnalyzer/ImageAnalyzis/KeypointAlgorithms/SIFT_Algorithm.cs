@@ -12,13 +12,13 @@ using System.Linq;
 
 namespace ImageWorker.ImageAnalyzis.KeypointAlgorithms
 {
-    public static class SIFTAlgorithm
+    public class SIFT_Algorithm : IImageMatchingAlgorithm
     {
-        private static Mat previousModelImage;
-        private static Mat modelDescriptors;
-        private static VectorOfKeyPoint modelKeyPoints;
+        private Mat previousModelImage;
+        private Mat modelDescriptors;
+        private VectorOfKeyPoint modelKeyPoints;
 
-        public static Mat Draw(Mat modelImage, Mat observedImage, out double matchTime, out double score, double percentOfSimilarity)
+        public Mat Draw(Mat originalImageMat, Mat grayscaleImageMat, Mat observedImageMat, out double matchTime, out double score, double percentOfSimilarity)
         {
             Stopwatch watch;
             watch = Stopwatch.StartNew();
@@ -28,26 +28,26 @@ namespace ImageWorker.ImageAnalyzis.KeypointAlgorithms
             using (VectorOfVectorOfDMatch matches = new VectorOfVectorOfDMatch())
             {
                 Mat mask;
-                FindMatch(modelImage, observedImage, out observedKeyPoints, matches, out mask, out homography);
+                FindMatch(grayscaleImageMat, observedImageMat, out observedKeyPoints, matches, out mask, out homography);
 
-                CalculateScore(matches, mask, out score, modelImage, observedImage);
+                CalculateScore(matches, mask, out score, grayscaleImageMat, observedImageMat);
 
                 Mat result = new Mat();
                 if (score > percentOfSimilarity)
                 {
-                    Features2DToolbox.DrawMatches(modelImage, modelKeyPoints, observedImage, observedKeyPoints,
+                    Features2DToolbox.DrawMatches(originalImageMat, modelKeyPoints, observedImageMat, observedKeyPoints,
                         matches, result, new MCvScalar(0, 0, 255), new MCvScalar(255, 255, 255), mask, Features2DToolbox.KeypointDrawType.NotDrawSinglePoints);
 
                     if (homography != null)
                     {
-                        Rectangle rect = new Rectangle(Point.Empty, modelImage.Size);
+                        Rectangle rect = new Rectangle(Point.Empty, originalImageMat.Size);
 
                         PointF[] pts = new PointF[]
                         {
-                        new PointF(rect.Left, rect.Bottom),
-                        new PointF(rect.Right, rect.Bottom),
-                        new PointF(rect.Right, rect.Top),
-                        new PointF(rect.Left, rect.Top)
+                            new PointF(rect.Left, rect.Bottom),
+                            new PointF(rect.Right, rect.Bottom),
+                            new PointF(rect.Right, rect.Top),
+                            new PointF(rect.Left, rect.Top)
                         };
                         pts = CvInvoke.PerspectiveTransform(pts, homography);
 
@@ -65,7 +65,7 @@ namespace ImageWorker.ImageAnalyzis.KeypointAlgorithms
             }
         }
 
-        private static void CalculateScore(VectorOfVectorOfDMatch matches, Mat mask, out double score, Mat modelImage, Mat observedImage)
+        private void CalculateScore(VectorOfVectorOfDMatch matches, Mat mask, out double score, Mat grayscaleImageMat, Mat observedImageMat)
         {
             double distMatches = 0;
             for (int i = 0; i < matches.Size; i++)
@@ -112,7 +112,7 @@ namespace ImageWorker.ImageAnalyzis.KeypointAlgorithms
             double fourthScore = double.MinValue;
             var minLoc = new Point();
             var maxLoc = new Point();
-            CvInvoke.MatchTemplate(modelImage, observedImage, scoreImg, TemplateMatchingType.CcoeffNormed);
+            CvInvoke.MatchTemplate(grayscaleImageMat, observedImageMat, scoreImg, TemplateMatchingType.CcoeffNormed);
             CvInvoke.MinMaxLoc(scoreImg, ref minVal, ref fourthScore, ref minLoc, ref maxLoc);
 
             scores.Add(fourthScore);
@@ -129,7 +129,7 @@ namespace ImageWorker.ImageAnalyzis.KeypointAlgorithms
             }
         }
 
-        private static void FindMatch(Mat modelImage, Mat observedImage, out VectorOfKeyPoint observedKeyPoints, VectorOfVectorOfDMatch matches, out Mat mask, out Mat homography)
+        private void FindMatch(Mat grayscaleImageMat, Mat observedImageMat, out VectorOfKeyPoint observedKeyPoints, VectorOfVectorOfDMatch matches, out Mat mask, out Mat homography)
         {
             int k = 2;
             double uniquenessThreshold = 0.9;
@@ -137,17 +137,17 @@ namespace ImageWorker.ImageAnalyzis.KeypointAlgorithms
 
             SIFT sift = new SIFT();
 
-            if (modelKeyPoints is null || modelKeyPoints is null || previousModelImage != modelImage)
+            if (modelKeyPoints is null || modelKeyPoints is null || previousModelImage != grayscaleImageMat)
             {
-                previousModelImage = modelImage;
+                previousModelImage = grayscaleImageMat;
                 modelDescriptors = new Mat();
                 modelKeyPoints = new VectorOfKeyPoint();
-                sift.DetectAndCompute(modelImage, null, modelKeyPoints, modelDescriptors, false);
+                sift.DetectAndCompute(grayscaleImageMat, null, modelKeyPoints, modelDescriptors, false);
             }
 
             Mat observedDescriptors = new Mat();
             observedKeyPoints = new VectorOfKeyPoint();
-            sift.DetectAndCompute(observedImage, null, observedKeyPoints, observedDescriptors, false);
+            sift.DetectAndCompute(observedImageMat, null, observedKeyPoints, observedDescriptors, false);
 
             BFMatcher matcher = new BFMatcher(DistanceType.L2);
             matcher.Add(modelDescriptors);
@@ -167,7 +167,7 @@ namespace ImageWorker.ImageAnalyzis.KeypointAlgorithms
             }
         }
 
-        private static double CountHowManyPairsExist(Mat mask)
+        private double CountHowManyPairsExist(Mat mask)
         {
             var matched = mask.GetData();
             var list = matched.OfType<byte>().ToList();

@@ -10,6 +10,9 @@ using ImageWorker.BitmapService;
 using ClientAPI.DTO.Counterfeit;
 using ClientAPI.DTO.CounterfeitImage;
 using ClientAPI.DTO.Result;
+using static Emgu.CV.XImgproc.SupperpixelSLIC;
+using ImageWorker.Enums;
+using Emgu.CV.CvEnum;
 
 namespace ImageWorker.ImageAnalyzis;
 
@@ -19,17 +22,36 @@ public class ImageAnalyzer : IImageAnalyzer
     private BitmapSource previousCounterfeitImage;
     private double previousPercent = 0;
     private Mat originalImageMat;
+    private Mat grayscaleImageMat;
+
+    private readonly Dictionary<Algorithms, IImageMatchingAlgorithm> algorithmDictionary;
+
     private readonly IBitmapService _bitmapService;
     private readonly IProgressReporter _progressReporter;
+    private readonly IImageMatchingAlgorithm _imageMatchingAlgorithm;
 
     public ImageAnalyzer(IBitmapService bitmapService, 
-                         IProgressReporter progressReporter)
+                         IProgressReporter progressReporter,
+                         IImageMatchingAlgorithm imageMatchingAlgorithm)
     {
         _bitmapService = bitmapService;
         _progressReporter = progressReporter;
+        _imageMatchingAlgorithm = imageMatchingAlgorithm;
+
+        algorithmDictionary = new Dictionary<Algorithms, IImageMatchingAlgorithm>
+        {
+            { Algorithms.SIFT, new SIFT_Algorithm() },
+            // { Algorithms.SIFT, new SIFTAlgorithm() },
+            // { Algorithms.ORB, new SIFTAlgorithm() },
+            // { Algorithms.AKAZE, new SIFTAlgorithm() },
+            // { Algorithms.RANSAC, new SIFTAlgorithm() },
+            // { Algorithms.SURF, new SIFTAlgorithm() },
+            // { Algorithms.BRISK, new SIFTAlgorithm() },
+            // { Algorithms.MSER, new SIFTAlgorithm() },
+        };
     }
 
-    public CreateResultDTO RunAnalysis(BitmapSource originalImage, List<GetCounterfeitImageDTO> counterfeitImagesDTOs, double percentOfSimilarity, Guid userId)
+    public CreateResultDTO RunAnalysis(BitmapSource originalImage, List<GetCounterfeitImageDTO> counterfeitImagesDTOs, double percentOfSimilarity, Guid userId, Algorithms algorithm)
     {
         string analysisResult = "";
         string originalImagePath = "";
@@ -43,7 +65,8 @@ public class ImageAnalyzer : IImageAnalyzer
             currentCounterfeitImage = 0;
             previousCounterfeitImage = originalImage;
             //originalImageMat = CvInvoke.Imread(originalImage, Emgu.CV.CvEnum.ImreadModes.AnyColor);
-            originalImageMat = _bitmapService.BitmapSourceToMat(originalImage);
+            originalImageMat = _bitmapService.BitmapSourceToMat(originalImage);         
+            CvInvoke.CvtColor(originalImageMat, grayscaleImageMat, ColorConversion.Bgr2Gray);
         }
 
         if (previousCounterfeitImage == originalImage && previousPercent > percentOfSimilarity)
@@ -54,7 +77,7 @@ public class ImageAnalyzer : IImageAnalyzer
 
         for (int i = 0; i < counterfeitImagesDTOs.Count; i++)
         {
-            AnalyzeImage(ref originalImagePath, counterfeitImagesDTOs[i].ImagePath, out resultImagePath, out tempTime, out score, percentOfSimilarity, originalImageMat);
+            AnalyzeImage(ref originalImagePath, counterfeitImagesDTOs[i].ImagePath, out resultImagePath, out tempTime, out score, percentOfSimilarity, algorithm);
             matchTime += tempTime;
             if (score > percentOfSimilarity)
             {
@@ -78,13 +101,15 @@ public class ImageAnalyzer : IImageAnalyzer
         return result;
     }
 
-    private void AnalyzeImage(ref string originalImagePath, string counterfeitImage, out string resultImagePath, out double matchTime, out double score, double percentOfSimilarity, Mat originalImageMat)
+    private void AnalyzeImage(ref string originalImagePath, string counterfeitImage, out string resultImagePath, out double matchTime, out double score, double percentOfSimilarity, Algorithms algorithm)
     {
         string pathToBase = Directory.GetCurrentDirectory();
         string combinedPath = Path.Combine(pathToBase, counterfeitImage);
 
         Mat counterfeitMat = CvInvoke.Imread(combinedPath, Emgu.CV.CvEnum.ImreadModes.AnyColor);
-        Mat resultImageMat = SIFTAlgorithm.Draw(originalImageMat, counterfeitMat, out matchTime, out score, percentOfSimilarity);
+        //Mat resultImageMat = SIFTAlgorithm.Draw(originalImageMat, counterfeitMat, out matchTime, out score, percentOfSimilarity);
+
+        Mat resultImageMat = algorithmDictionary[algorithm].Draw(originalImageMat, grayscaleImageMat, counterfeitMat, out matchTime, out score, percentOfSimilarity);       
 
         resultImagePath = "";
 
