@@ -12,7 +12,7 @@ using System.Linq;
 
 namespace ImageWorker.ImageAnalyzis.KeypointAlgorithms
 {
-    public class SIFT_Algorithm : IImageMatchingAlgorithm
+    public class SIFT_Algorithm : FeatureMatchingHelper, IImageMatchingAlgorithm
     {
         private Mat previousModelImage;
         private Mat modelDescriptors;
@@ -20,6 +20,9 @@ namespace ImageWorker.ImageAnalyzis.KeypointAlgorithms
 
         public Mat Draw(Mat originalImageMat, Mat grayscaleImageMat, Mat observedImageMat, out double matchTime, out double score, double percentOfSimilarity)
         {
+            Mat grayscaleObservedImageMat = new Mat();
+            CvInvoke.CvtColor(observedImageMat, grayscaleObservedImageMat, ColorConversion.Bgr2Gray);
+
             Stopwatch watch;
             watch = Stopwatch.StartNew();
 
@@ -28,14 +31,14 @@ namespace ImageWorker.ImageAnalyzis.KeypointAlgorithms
             using (VectorOfVectorOfDMatch matches = new VectorOfVectorOfDMatch())
             {
                 Mat mask;
-                FindMatch(grayscaleImageMat, observedImageMat, out observedKeyPoints, matches, out mask, out homography);
+                FindMatch(grayscaleImageMat, grayscaleObservedImageMat, out observedKeyPoints, matches, out mask, out homography);
 
-                CalculateScore(matches, mask, out score, grayscaleImageMat, observedImageMat);
+                CalculateScore(matches, mask, out score, grayscaleImageMat, grayscaleObservedImageMat);
 
                 Mat result = new Mat();
                 if (score > percentOfSimilarity)
                 {
-                    Features2DToolbox.DrawMatches(originalImageMat, modelKeyPoints, observedImageMat, observedKeyPoints,
+                    Features2DToolbox.DrawMatches(originalImageMat, modelKeyPoints, grayscaleObservedImageMat, observedKeyPoints,
                         matches, result, new MCvScalar(0, 0, 255), new MCvScalar(255, 255, 255), mask, Features2DToolbox.KeypointDrawType.NotDrawSinglePoints);
 
                     if (homography != null)
@@ -65,75 +68,15 @@ namespace ImageWorker.ImageAnalyzis.KeypointAlgorithms
             }
         }
 
-        private void CalculateScore(VectorOfVectorOfDMatch matches, Mat mask, out double score, Mat grayscaleImageMat, Mat observedImageMat)
-        {
-            double distMatches = 0;
-            for (int i = 0; i < matches.Size; i++)
-            {
-                var arrayOfMatches = matches[i].ToArray();
-                if (arrayOfMatches[0].Distance < 0.9 * arrayOfMatches[1].Distance)
-                {
-                    distMatches++;
-                }
-            }
 
-            List<double> scores = new List<double>();
-
-            double goodMatches = CountHowManyPairsExist(mask);
-
-            var temp = mask.GetData().Length - goodMatches;
-            double fisrtScore = goodMatches / temp;
-
-            scores.Add(fisrtScore);
-
-            double secondScore = goodMatches / distMatches;
-            if (goodMatches == distMatches)
-            {
-                secondScore = goodMatches / (distMatches + 3);
-            }
-            scores.Add(secondScore);
-
-            double amountOfMatches = 21;
-            double oneMatch = 0.9998 / amountOfMatches;
-            double thirdScore;
-
-            if (goodMatches > amountOfMatches)
-            {
-                thirdScore = oneMatch * amountOfMatches;
-            }
-            else
-            {
-                thirdScore = oneMatch * goodMatches;
-            }
-            scores.Add(thirdScore);
-
-            Mat scoreImg = new Mat();
-            double minVal = double.MaxValue;
-            double fourthScore = double.MinValue;
-            var minLoc = new Point();
-            var maxLoc = new Point();
-            CvInvoke.MatchTemplate(grayscaleImageMat, observedImageMat, scoreImg, TemplateMatchingType.CcoeffNormed);
-            CvInvoke.MinMaxLoc(scoreImg, ref minVal, ref fourthScore, ref minLoc, ref maxLoc);
-
-            scores.Add(fourthScore);
-            score = scores.Max();
-
-            if (double.IsInfinity(score) || score > 100.00)
-            {
-                score = 100.00;
-            }
-            else
-            {
-                score *= 100;
-                score = Math.Round(score, 2);
-            }
-        }
-
-        private void FindMatch(Mat grayscaleImageMat, Mat observedImageMat, out VectorOfKeyPoint observedKeyPoints, VectorOfVectorOfDMatch matches, out Mat mask, out Mat homography)
+        private void FindMatch(Mat grayscaleImageMat, Mat grayscaleObservedImageMat, out VectorOfKeyPoint observedKeyPoints, VectorOfVectorOfDMatch matches, out Mat mask, out Mat homography)
         {
             int k = 2;
             double uniquenessThreshold = 0.9;
             homography = null;
+
+
+
 
             SIFT sift = new SIFT();
 
@@ -147,7 +90,10 @@ namespace ImageWorker.ImageAnalyzis.KeypointAlgorithms
 
             Mat observedDescriptors = new Mat();
             observedKeyPoints = new VectorOfKeyPoint();
-            sift.DetectAndCompute(observedImageMat, null, observedKeyPoints, observedDescriptors, false);
+            sift.DetectAndCompute(grayscaleObservedImageMat, null, observedKeyPoints, observedDescriptors, false);
+
+
+
 
             BFMatcher matcher = new BFMatcher(DistanceType.L2);
             matcher.Add(modelDescriptors);
@@ -167,12 +113,5 @@ namespace ImageWorker.ImageAnalyzis.KeypointAlgorithms
             }
         }
 
-        private double CountHowManyPairsExist(Mat mask)
-        {
-            var matched = mask.GetData();
-            var list = matched.OfType<byte>().ToList();
-            var count = list.Count(a => a.Equals(1));
-            return count;
-        }
     }
 }

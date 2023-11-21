@@ -41,8 +41,7 @@ public class ImageAnalyzer : IImageAnalyzer
         algorithmDictionary = new Dictionary<Algorithms, IImageMatchingAlgorithm>
         {
             { Algorithms.SIFT, new SIFT_Algorithm() },
-            // { Algorithms.SIFT, new SIFTAlgorithm() },
-            // { Algorithms.ORB, new SIFTAlgorithm() },
+            // { Algorithms.ORB, new ORB_Algorithm() },
             // { Algorithms.AKAZE, new SIFTAlgorithm() },
             // { Algorithms.RANSAC, new SIFTAlgorithm() },
             // { Algorithms.SURF, new SIFTAlgorithm() },
@@ -106,6 +105,7 @@ public class ImageAnalyzer : IImageAnalyzer
         string pathToBase = Directory.GetCurrentDirectory();
         string combinedPath = Path.Combine(pathToBase, counterfeitImage);
 
+        //Mat counterfeitMat = CvInvoke.Imread(combinedPath, Emgu.CV.CvEnum.ImreadModes.AnyColor);
         Mat counterfeitMat = CvInvoke.Imread(combinedPath, Emgu.CV.CvEnum.ImreadModes.AnyColor);
         //Mat resultImageMat = SIFTAlgorithm.Draw(originalImageMat, counterfeitMat, out matchTime, out score, percentOfSimilarity);
 
