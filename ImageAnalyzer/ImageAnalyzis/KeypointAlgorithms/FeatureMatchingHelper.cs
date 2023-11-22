@@ -13,13 +13,13 @@ namespace ImageWorker.ImageAnalyzis.KeypointAlgorithms
 {
     public class FeatureMatchingHelper
     {
-        protected void CalculateScore(VectorOfVectorOfDMatch matches, Mat mask, out double score, Mat grayscaleImageMat, Mat grayscaleObservedImageMat)
+        protected void CalculateScore(VectorOfVectorOfDMatch matches, Mat mask, out double score, Mat grayscaleImageMat, Mat grayscaleObservedImageMat, double threshold)
         {
             double distMatches = 0;
             for (int i = 0; i < matches.Size; i++)
             {
                 var arrayOfMatches = matches[i].ToArray();
-                if (arrayOfMatches[0].Distance < 0.9 * arrayOfMatches[1].Distance)
+                if (arrayOfMatches[0].Distance < threshold * arrayOfMatches[1].Distance)
                 {
                     distMatches++;
                 }

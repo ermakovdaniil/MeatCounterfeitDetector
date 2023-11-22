@@ -22,26 +22,26 @@ public class ImageAnalyzer : IImageAnalyzer
     private BitmapSource previousCounterfeitImage;
     private double previousPercent = 0;
     private Mat originalImageMat;
-    private Mat grayscaleImageMat;
+    private Mat grayscaleImageMat = new Mat();
 
     private readonly Dictionary<Algorithms, IImageMatchingAlgorithm> algorithmDictionary;
 
     private readonly IBitmapService _bitmapService;
     private readonly IProgressReporter _progressReporter;
-    private readonly IImageMatchingAlgorithm _imageMatchingAlgorithm;
+    //private readonly IImageMatchingAlgorithm _imageMatchingAlgorithm;
 
-    public ImageAnalyzer(IBitmapService bitmapService, 
-                         IProgressReporter progressReporter,
-                         IImageMatchingAlgorithm imageMatchingAlgorithm)
+    public ImageAnalyzer(IBitmapService bitmapService,
+                         IProgressReporter progressReporter
+                         /*IImageMatchingAlgorithm imageMatchingAlgorithm*/)
     {
         _bitmapService = bitmapService;
         _progressReporter = progressReporter;
-        _imageMatchingAlgorithm = imageMatchingAlgorithm;
+        //_imageMatchingAlgorithm = imageMatchingAlgorithm;
 
         algorithmDictionary = new Dictionary<Algorithms, IImageMatchingAlgorithm>
         {
             { Algorithms.SIFT, new SIFT_Algorithm() },
-            // { Algorithms.ORB, new ORB_Algorithm() },
+            { Algorithms.ORB, new ORB_Algorithm() },
             // { Algorithms.AKAZE, new SIFTAlgorithm() },
             // { Algorithms.RANSAC, new SIFTAlgorithm() },
             // { Algorithms.SURF, new SIFTAlgorithm() },
@@ -64,7 +64,7 @@ public class ImageAnalyzer : IImageAnalyzer
             currentCounterfeitImage = 0;
             previousCounterfeitImage = originalImage;
             //originalImageMat = CvInvoke.Imread(originalImage, Emgu.CV.CvEnum.ImreadModes.AnyColor);
-            originalImageMat = _bitmapService.BitmapSourceToMat(originalImage);         
+            originalImageMat = _bitmapService.BitmapSourceToMat(originalImage);
             CvInvoke.CvtColor(originalImageMat, grayscaleImageMat, ColorConversion.Bgr2Gray);
         }
 
@@ -109,12 +109,14 @@ public class ImageAnalyzer : IImageAnalyzer
         Mat counterfeitMat = CvInvoke.Imread(combinedPath, Emgu.CV.CvEnum.ImreadModes.AnyColor);
         //Mat resultImageMat = SIFTAlgorithm.Draw(originalImageMat, counterfeitMat, out matchTime, out score, percentOfSimilarity);
 
-        Mat resultImageMat = algorithmDictionary[algorithm].Draw(originalImageMat, grayscaleImageMat, counterfeitMat, out matchTime, out score, percentOfSimilarity);       
+        Mat resultImageMat = algorithmDictionary[algorithm].Draw(originalImageMat, grayscaleImageMat, counterfeitMat, out matchTime, out score, percentOfSimilarity);
 
         resultImagePath = "";
 
         if (score > percentOfSimilarity)
         {
+            // TODO: вместо этого сделать сохранение оригинала с именем открытого изображения. И если уже такое есть то не делать копию.
+
             var date = DateTime.Now.ToString("dd.mm.yyyy_hh.mm.ss");
             var filename = "orig_" + date + ".png";
             originalImagePath = @"..\..\..\resources\origImages\" + filename;

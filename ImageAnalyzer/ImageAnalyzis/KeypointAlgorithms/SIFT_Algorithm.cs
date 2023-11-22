@@ -33,12 +33,12 @@ namespace ImageWorker.ImageAnalyzis.KeypointAlgorithms
                 Mat mask;
                 FindMatch(grayscaleImageMat, grayscaleObservedImageMat, out observedKeyPoints, matches, out mask, out homography);
 
-                CalculateScore(matches, mask, out score, grayscaleImageMat, grayscaleObservedImageMat);
+                CalculateScore(matches, mask, out score, grayscaleImageMat, grayscaleObservedImageMat, 0.9);
 
                 Mat result = new Mat();
                 if (score > percentOfSimilarity)
                 {
-                    Features2DToolbox.DrawMatches(originalImageMat, modelKeyPoints, grayscaleObservedImageMat, observedKeyPoints,
+                    Features2DToolbox.DrawMatches(originalImageMat, modelKeyPoints, observedImageMat, observedKeyPoints,
                         matches, result, new MCvScalar(0, 0, 255), new MCvScalar(255, 255, 255), mask, Features2DToolbox.KeypointDrawType.NotDrawSinglePoints);
 
                     if (homography != null)

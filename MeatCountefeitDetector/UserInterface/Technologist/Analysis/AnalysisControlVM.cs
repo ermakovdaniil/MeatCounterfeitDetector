@@ -193,17 +193,19 @@ public class AnalysisControlVM : ViewModelBase
 
                         var originalId = await _originalImageClient.OriginalImagePostAsync(originalImageDTO);
 
-
-                        var resultImageDTO = new CreateResultImageDTO
+                        if(AnalysisResult.ResultImagePath != "")
                         {
-                            OriginalImageId = originalId,
-                            ImagePath = AnalysisResult.ResultImagePath
-                        };
+                            var resultImageDTO = new CreateResultImageDTO
+                            {
+                                OriginalImageId = originalId,
+                                ImagePath = AnalysisResult.ResultImagePath
+                            };
 
-                        var resultId = await _resultImageClient.ResultImagePostAsync(resultImageDTO);
+                            var resultId = await _resultImageClient.ResultImagePostAsync(resultImageDTO);
+                            AnalysisResult.ResultImageId = resultId;
+                        }
 
-                        AnalysisResult.OriginalImageId = originalId;
-                        AnalysisResult.ResultImageId = resultId;
+                        AnalysisResult.OriginalImageId = originalId;                       
 
                         var res = await _resultClient.ResultPostAsync(AnalysisResult);
                     }

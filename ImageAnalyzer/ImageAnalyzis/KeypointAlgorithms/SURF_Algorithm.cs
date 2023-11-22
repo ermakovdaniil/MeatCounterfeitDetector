@@ -1,18 +1,18 @@
-﻿using Emgu.CV;
+﻿using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Drawing;
+using System.Runtime.InteropServices;
+using Emgu.CV;
 using Emgu.CV.CvEnum;
 using Emgu.CV.Features2D;
 using Emgu.CV.Structure;
 using Emgu.CV.Util;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Drawing;
-using System.Linq;
 
 
 namespace ImageWorker.ImageAnalyzis.KeypointAlgorithms
 {
-    public class ORB_Algorithm : FeatureMatchingHelper, IImageMatchingAlgorithm
+    public class SURF_Algorithm : FeatureMatchingHelper, IImageMatchingAlgorithm
     {
         private Mat previousModelImage;
         private Mat modelDescriptors;
@@ -33,7 +33,7 @@ namespace ImageWorker.ImageAnalyzis.KeypointAlgorithms
                 Mat mask;
                 FindMatch(grayscaleImageMat, grayscaleObservedImageMat, out observedKeyPoints, matches, out mask, out homography);
 
-                CalculateScore(matches, mask, out score, grayscaleImageMat, grayscaleObservedImageMat, 0.5);
+                CalculateScore(matches, mask, out score, grayscaleImageMat, grayscaleObservedImageMat, 0.9);
 
                 Mat result = new Mat();
                 if (score > percentOfSimilarity)
@@ -72,32 +72,30 @@ namespace ImageWorker.ImageAnalyzis.KeypointAlgorithms
         private void FindMatch(Mat grayscaleImageMat, Mat grayscaleObservedImageMat, out VectorOfKeyPoint observedKeyPoints, VectorOfVectorOfDMatch matches, out Mat mask, out Mat homography)
         {
             int k = 2;
-            double uniquenessThreshold = 0.5;
+            double uniquenessThreshold = 0.9;
             homography = null;
 
 
-            //double dist_th = 64;
-            //for (int i = 0; i < descriptors_object.rows; i++)
-            //{
-            //    if (matches[i].distance < dist_th)
-            //    { good_matches.push_back(matches[i]); }
-            //}
 
-            ORB orb = new ORB();
+
+            SIFT sift = new SIFT();
 
             if (modelKeyPoints is null || modelKeyPoints is null || previousModelImage != grayscaleImageMat)
             {
                 previousModelImage = grayscaleImageMat;
                 modelDescriptors = new Mat();
                 modelKeyPoints = new VectorOfKeyPoint();
-                orb.DetectAndCompute(grayscaleImageMat, null, modelKeyPoints, modelDescriptors, false);
+                sift.DetectAndCompute(grayscaleImageMat, null, modelKeyPoints, modelDescriptors, false);
             }
 
             Mat observedDescriptors = new Mat();
             observedKeyPoints = new VectorOfKeyPoint();
-            orb.DetectAndCompute(grayscaleObservedImageMat, null, observedKeyPoints, observedDescriptors, false);
+            sift.DetectAndCompute(grayscaleObservedImageMat, null, observedKeyPoints, observedDescriptors, false);
 
-            BFMatcher matcher = new BFMatcher(DistanceType.Hamming);
+
+
+
+            BFMatcher matcher = new BFMatcher(DistanceType.L2);
             matcher.Add(modelDescriptors);
             matcher.KnnMatch(observedDescriptors, matches, k, null);
 
@@ -117,3 +115,31 @@ namespace ImageWorker.ImageAnalyzis.KeypointAlgorithms
 
     }
 }
+
+//SURF surfCPU = new SURF(hessianThresh);
+////extract features from the object image
+//UMat modelDescriptors = new UMat();
+//surfCPU.DetectAndCompute(uModelImage, null, modelKeyPoints, modelDescriptors, false);
+
+//watch = Stopwatch.StartNew();
+
+//// extract features from the observed image
+//UMat observedDescriptors = new UMat();
+//surfCPU.DetectAndCompute(uObservedImage, null, observedKeyPoints, observedDescriptors, false);
+//BFMatcher matcher = new BFMatcher(DistanceType.L2);
+//matcher.Add(modelDescriptors);
+
+//matcher.KnnMatch(observedDescriptors, matches, k, null);
+//mask = new Mat(matches.Size, 1, DepthType.Cv8U, 1);
+//mask.SetTo(new MCvScalar(255));
+//Features2DToolbox.VoteForUniqueness(matches, uniquenessThreshold, mask);
+
+//int nonZeroCount = CvInvoke.CountNonZero(mask);
+//if (nonZeroCount >= 4)
+//{
+//    nonZeroCount = Features2DToolbox.VoteForSizeAndOrientation(modelKeyPoints, observedKeyPoints,
+//       matches, mask, 1.5, 20);
+//    if (nonZeroCount >= 4)
+//        homography = Features2DToolbox.GetHomographyMatrixFromMatchedFeatures(modelKeyPoints,
+//           observedKeyPoints, matches, mask, 2);
+//}

@@ -30,6 +30,7 @@ using ImageWorker.ProgressReporter;
 using ImageWorker.BitmapService;
 using ImageWorker.ImageEditing;
 using ImageWorker.ImageAnalyzis;
+using ImageWorker.ImageAnalyzis.KeypointAlgorithms;
 
 namespace MeatCounterfeitDetector;
 
