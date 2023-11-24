@@ -33,7 +33,26 @@ namespace ImageWorker.ImageAnalyzis.KeypointAlgorithms
                 Mat mask;
                 FindMatch(grayscaleImageMat, grayscaleObservedImageMat, out observedKeyPoints, matches, out mask, out homography);
 
-                CalculateScore(matches, mask, out score, grayscaleImageMat, grayscaleObservedImageMat, 0.5);
+                //double goodMatchesCount = 0;
+                //double distThreshold = 64;
+                //for (int i = 0; i < matches.Size; i++)
+                //{
+                //    var arrayOfMatches = matches[i].ToArray();
+                //    if (arrayOfMatches[0].Distance < distThreshold)
+                //    {
+                //        goodMatchesCount++;
+                //    }
+                //}
+
+                //double dist_th = 64;
+                //for (int i = 0; i < descriptors_object.rows; i++)
+                //{
+                //    if (matches[i].distance < dist_th)
+                //    { good_matches.push_back(matches[i]); }
+                //}
+                double goodMatchesCount = CountGoodMatches(matches, 0.9);
+
+                CalculateScore(mask, out score, grayscaleImageMat, grayscaleObservedImageMat, goodMatchesCount);
 
                 Mat result = new Mat();
                 if (score > percentOfSimilarity)
@@ -72,16 +91,9 @@ namespace ImageWorker.ImageAnalyzis.KeypointAlgorithms
         private void FindMatch(Mat grayscaleImageMat, Mat grayscaleObservedImageMat, out VectorOfKeyPoint observedKeyPoints, VectorOfVectorOfDMatch matches, out Mat mask, out Mat homography)
         {
             int k = 2;
-            double uniquenessThreshold = 0.5;
+            double uniquenessThreshold = 0.7;
             homography = null;
 
-
-            //double dist_th = 64;
-            //for (int i = 0; i < descriptors_object.rows; i++)
-            //{
-            //    if (matches[i].distance < dist_th)
-            //    { good_matches.push_back(matches[i]); }
-            //}
 
             ORB orb = new ORB();
 
@@ -98,8 +110,13 @@ namespace ImageWorker.ImageAnalyzis.KeypointAlgorithms
             orb.DetectAndCompute(grayscaleObservedImageMat, null, observedKeyPoints, observedDescriptors, false);
 
             BFMatcher matcher = new BFMatcher(DistanceType.Hamming);
-            matcher.Add(modelDescriptors);
-            matcher.KnnMatch(observedDescriptors, matches, k, null);
+            //matcher.Add(modelDescriptors);
+            //matcher.KnnMatch(observedDescriptors, matches, k, null);
+
+            VectorOfDMatch matchess = new VectorOfDMatch();
+            matcher.Match(modelDescriptors, observedDescriptors, matchess);
+
+            matcher.KnnMatch(modelDescriptors, observedDescriptors, matches, k);
 
             mask = new Mat(matches.Size, 1, DepthType.Cv8U, 1);
             mask.SetTo(new MCvScalar(255));

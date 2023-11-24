@@ -1,13 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Drawing;
-using System.Runtime.InteropServices;
-using Emgu.CV;
+﻿using Emgu.CV;
 using Emgu.CV.CvEnum;
 using Emgu.CV.Features2D;
 using Emgu.CV.Structure;
 using Emgu.CV.Util;
+using Emgu.CV.XFeatures2D;
+using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Drawing;
+using System.Linq;
 
 
 namespace ImageWorker.ImageAnalyzis.KeypointAlgorithms
@@ -33,7 +34,9 @@ namespace ImageWorker.ImageAnalyzis.KeypointAlgorithms
                 Mat mask;
                 FindMatch(grayscaleImageMat, grayscaleObservedImageMat, out observedKeyPoints, matches, out mask, out homography);
 
-                CalculateScore(matches, mask, out score, grayscaleImageMat, grayscaleObservedImageMat, 0.9);
+                double goodMatchesCount = CountGoodMatches(matches, 0.9);
+
+                CalculateScore(mask, out score, grayscaleImageMat, grayscaleObservedImageMat, goodMatchesCount);
 
                 Mat result = new Mat();
                 if (score > percentOfSimilarity)
@@ -68,7 +71,6 @@ namespace ImageWorker.ImageAnalyzis.KeypointAlgorithms
             }
         }
 
-
         private void FindMatch(Mat grayscaleImageMat, Mat grayscaleObservedImageMat, out VectorOfKeyPoint observedKeyPoints, VectorOfVectorOfDMatch matches, out Mat mask, out Mat homography)
         {
             int k = 2;
@@ -78,7 +80,7 @@ namespace ImageWorker.ImageAnalyzis.KeypointAlgorithms
 
 
 
-            SIFT sift = new SIFT();
+            SURF sift = new SURF();
 
             if (modelKeyPoints is null || modelKeyPoints is null || previousModelImage != grayscaleImageMat)
             {
@@ -91,9 +93,6 @@ namespace ImageWorker.ImageAnalyzis.KeypointAlgorithms
             Mat observedDescriptors = new Mat();
             observedKeyPoints = new VectorOfKeyPoint();
             sift.DetectAndCompute(grayscaleObservedImageMat, null, observedKeyPoints, observedDescriptors, false);
-
-
-
 
             BFMatcher matcher = new BFMatcher(DistanceType.L2);
             matcher.Add(modelDescriptors);
@@ -115,31 +114,3 @@ namespace ImageWorker.ImageAnalyzis.KeypointAlgorithms
 
     }
 }
-
-//SURF surfCPU = new SURF(hessianThresh);
-////extract features from the object image
-//UMat modelDescriptors = new UMat();
-//surfCPU.DetectAndCompute(uModelImage, null, modelKeyPoints, modelDescriptors, false);
-
-//watch = Stopwatch.StartNew();
-
-//// extract features from the observed image
-//UMat observedDescriptors = new UMat();
-//surfCPU.DetectAndCompute(uObservedImage, null, observedKeyPoints, observedDescriptors, false);
-//BFMatcher matcher = new BFMatcher(DistanceType.L2);
-//matcher.Add(modelDescriptors);
-
-//matcher.KnnMatch(observedDescriptors, matches, k, null);
-//mask = new Mat(matches.Size, 1, DepthType.Cv8U, 1);
-//mask.SetTo(new MCvScalar(255));
-//Features2DToolbox.VoteForUniqueness(matches, uniquenessThreshold, mask);
-
-//int nonZeroCount = CvInvoke.CountNonZero(mask);
-//if (nonZeroCount >= 4)
-//{
-//    nonZeroCount = Features2DToolbox.VoteForSizeAndOrientation(modelKeyPoints, observedKeyPoints,
-//       matches, mask, 1.5, 20);
-//    if (nonZeroCount >= 4)
-//        homography = Features2DToolbox.GetHomographyMatrixFromMatchedFeatures(modelKeyPoints,
-//           observedKeyPoints, matches, mask, 2);
-//}

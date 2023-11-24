@@ -13,7 +13,7 @@ namespace ImageWorker.ImageAnalyzis.KeypointAlgorithms
 {
     public class FeatureMatchingHelper
     {
-        protected void CalculateScore(VectorOfVectorOfDMatch matches, Mat mask, out double score, Mat grayscaleImageMat, Mat grayscaleObservedImageMat, double threshold)
+        protected double CountGoodMatches(VectorOfVectorOfDMatch matches, double threshold)
         {
             double distMatches = 0;
             for (int i = 0; i < matches.Size; i++)
@@ -25,6 +25,11 @@ namespace ImageWorker.ImageAnalyzis.KeypointAlgorithms
                 }
             }
 
+            return distMatches;
+        }
+
+        protected void CalculateScore(Mat mask, out double score, Mat grayscaleImageMat, Mat grayscaleObservedImageMat, double distMatches)
+        {
             List<double> scores = new List<double>();
 
             double goodMatches = CountHowManyPairsExist(mask);
@@ -77,12 +82,11 @@ namespace ImageWorker.ImageAnalyzis.KeypointAlgorithms
             }
         }
 
-
         protected double CountHowManyPairsExist(Mat mask)
         {
             var matched = mask.GetData();
             var list = matched.OfType<byte>().ToList();
-            var count = list.Count(a => a.Equals(1));
+            var count = list.Count(a => a != 0);
             return count;
         }
     }

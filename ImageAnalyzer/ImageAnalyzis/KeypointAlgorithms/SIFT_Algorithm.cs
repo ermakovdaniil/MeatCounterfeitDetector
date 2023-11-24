@@ -33,7 +33,9 @@ namespace ImageWorker.ImageAnalyzis.KeypointAlgorithms
                 Mat mask;
                 FindMatch(grayscaleImageMat, grayscaleObservedImageMat, out observedKeyPoints, matches, out mask, out homography);
 
-                CalculateScore(matches, mask, out score, grayscaleImageMat, grayscaleObservedImageMat, 0.9);
+                double goodMatchesCount = CountGoodMatches(matches, 0.9);
+
+                CalculateScore(mask, out score, grayscaleImageMat, grayscaleObservedImageMat, goodMatchesCount);
 
                 Mat result = new Mat();
                 if (score > percentOfSimilarity)
@@ -91,9 +93,6 @@ namespace ImageWorker.ImageAnalyzis.KeypointAlgorithms
             Mat observedDescriptors = new Mat();
             observedKeyPoints = new VectorOfKeyPoint();
             sift.DetectAndCompute(grayscaleObservedImageMat, null, observedKeyPoints, observedDescriptors, false);
-
-
-
 
             BFMatcher matcher = new BFMatcher(DistanceType.L2);
             matcher.Add(modelDescriptors);
