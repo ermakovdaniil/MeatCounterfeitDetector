@@ -13,7 +13,7 @@ using System.Linq;
 
 namespace ImageWorker.ImageAnalyzis.KeypointAlgorithms
 {
-    public class ORB_Algorithm : FeatureMatchingHelper, IImageMatchingAlgorithm
+    public class BRISK_Algorithm : FeatureMatchingHelper, IImageMatchingAlgorithm
     {
         private Mat previousModelImage;
         private Mat modelDescriptors;
@@ -96,19 +96,19 @@ namespace ImageWorker.ImageAnalyzis.KeypointAlgorithms
             homography = null;
 
 
-            ORB orb = new ORB();
+            Brisk brisk = new Brisk();
 
             if (modelKeyPoints is null || modelKeyPoints is null || previousModelImage != grayscaleImageMat)
             {
                 previousModelImage = grayscaleImageMat;
                 modelDescriptors = new Mat();
                 modelKeyPoints = new VectorOfKeyPoint();
-                orb.DetectAndCompute(grayscaleImageMat, null, modelKeyPoints, modelDescriptors, false);
+                brisk.DetectAndCompute(grayscaleImageMat, null, modelKeyPoints, modelDescriptors, false);
             }
 
             Mat observedDescriptors = new Mat();
             observedKeyPoints = new VectorOfKeyPoint();
-            orb.DetectAndCompute(grayscaleObservedImageMat, null, observedKeyPoints, observedDescriptors, false);
+            brisk.DetectAndCompute(grayscaleObservedImageMat, null, observedKeyPoints, observedDescriptors, false);
 
             BFMatcher matcher = new BFMatcher(DistanceType.Hamming);
             //matcher.Add(modelDescriptors);

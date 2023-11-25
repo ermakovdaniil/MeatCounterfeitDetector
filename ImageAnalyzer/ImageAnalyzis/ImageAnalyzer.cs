@@ -45,8 +45,8 @@ public class ImageAnalyzer : IImageAnalyzer
             { Algorithms.AKAZE, new AKAZE_Algorithm() },
             { Algorithms.RANSAC, new RANSAC_Algorithm() },
             { Algorithms.SURF, new SURF_Algorithm() },
-            // { Algorithms.BRISK, new SIFTAlgorithm() },
-            // { Algorithms.MSER, new SIFTAlgorithm() },
+            { Algorithms.BRISK, new BRISK_Algorithm() },
+            { Algorithms.MSER, new MSER_Algorithm() },
         };
     }
 

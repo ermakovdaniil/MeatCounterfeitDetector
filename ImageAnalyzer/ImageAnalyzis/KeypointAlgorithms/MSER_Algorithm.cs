@@ -13,7 +13,7 @@ using System.Linq;
 
 namespace ImageWorker.ImageAnalyzis.KeypointAlgorithms
 {
-    public class ORB_Algorithm : FeatureMatchingHelper, IImageMatchingAlgorithm
+    public class MSER_Algorithm : FeatureMatchingHelper, IImageMatchingAlgorithm
     {
         private Mat previousModelImage;
         private Mat modelDescriptors;
@@ -34,23 +34,6 @@ namespace ImageWorker.ImageAnalyzis.KeypointAlgorithms
                 Mat mask;
                 FindMatch(grayscaleImageMat, grayscaleObservedImageMat, out observedKeyPoints, matches, out mask, out homography);
 
-                //double goodMatchesCount = 0;
-                //double distThreshold = 64;
-                //for (int i = 0; i < matches.Size; i++)
-                //{
-                //    var arrayOfMatches = matches[i].ToArray();
-                //    if (arrayOfMatches[0].Distance < distThreshold)
-                //    {
-                //        goodMatchesCount++;
-                //    }
-                //}
-
-                //double dist_th = 64;
-                //for (int i = 0; i < descriptors_object.rows; i++)
-                //{
-                //    if (matches[i].distance < dist_th)
-                //    { good_matches.push_back(matches[i]); }
-                //}
                 double goodMatchesCount = CountGoodMatches(matches, 0.7);
 
                 CalculateScore(mask, out score, grayscaleImageMat, grayscaleObservedImageMat, goodMatchesCount);
@@ -96,19 +79,19 @@ namespace ImageWorker.ImageAnalyzis.KeypointAlgorithms
             homography = null;
 
 
-            ORB orb = new ORB();
+            MSER mser = new MSER();
 
             if (modelKeyPoints is null || modelKeyPoints is null || previousModelImage != grayscaleImageMat)
             {
                 previousModelImage = grayscaleImageMat;
                 modelDescriptors = new Mat();
                 modelKeyPoints = new VectorOfKeyPoint();
-                orb.DetectAndCompute(grayscaleImageMat, null, modelKeyPoints, modelDescriptors, false);
+                mser.DetectAndCompute(grayscaleImageMat, null, modelKeyPoints, modelDescriptors, false);
             }
 
             Mat observedDescriptors = new Mat();
             observedKeyPoints = new VectorOfKeyPoint();
-            orb.DetectAndCompute(grayscaleObservedImageMat, null, observedKeyPoints, observedDescriptors, false);
+            mser.DetectAndCompute(grayscaleObservedImageMat, null, observedKeyPoints, observedDescriptors, false);
 
             BFMatcher matcher = new BFMatcher(DistanceType.Hamming);
             //matcher.Add(modelDescriptors);
