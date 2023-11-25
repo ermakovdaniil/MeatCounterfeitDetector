@@ -10,8 +10,7 @@ namespace ImageWorker.ImageAnalyzis.KeypointAlgorithms
 {
     public class SURF : Feature2D
     {
-        public SURF(double hessianThresh, int nOctaves = 4, int nOctaveLayers = 2, bool extended = true,
-           bool upright = false)
+        public SURF(double hessianThresh, int nOctaves = 4, int nOctaveLayers = 2, bool extended = true, bool upright = false)
         {
             _ptr = XFeatures2DInvoke.cveSURFCreate(hessianThresh, nOctaves, nOctaveLayers, extended, upright, ref _feature2D, ref _sharedPtr);
         }
@@ -27,7 +26,6 @@ namespace ImageWorker.ImageAnalyzis.KeypointAlgorithms
 
     public static partial class XFeatures2DInvoke
     {
-
         [DllImport(CvInvoke.ExternLibrary, CallingConvention = CvInvoke.CvCallingConvention)]
         internal extern static IntPtr cveSURFCreate(
             double hessianThresh, int nOctaves, int nOctaveLayers,

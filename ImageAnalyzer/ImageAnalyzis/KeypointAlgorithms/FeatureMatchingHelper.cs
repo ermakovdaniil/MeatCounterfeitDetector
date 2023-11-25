@@ -18,8 +18,8 @@ namespace ImageWorker.ImageAnalyzis.KeypointAlgorithms
             double distMatches = 0;
             for (int i = 0; i < matches.Size; i++)
             {
-                var arrayOfMatches = matches[i].ToArray();
-                if (arrayOfMatches[0].Distance < threshold * arrayOfMatches[1].Distance)
+                //var arrayOfMatches = matches[i].ToArray();
+                if (matches[i][0].Distance < threshold * matches[i][1].Distance)
                 {
                     distMatches++;
                 }
@@ -67,7 +67,6 @@ namespace ImageWorker.ImageAnalyzis.KeypointAlgorithms
             var maxLoc = new Point();
             CvInvoke.MatchTemplate(grayscaleImageMat, grayscaleObservedImageMat, scoreImg, TemplateMatchingType.CcoeffNormed);
             CvInvoke.MinMaxLoc(scoreImg, ref minVal, ref fourthScore, ref minLoc, ref maxLoc);
-
             scores.Add(fourthScore);
             score = scores.Max();
 

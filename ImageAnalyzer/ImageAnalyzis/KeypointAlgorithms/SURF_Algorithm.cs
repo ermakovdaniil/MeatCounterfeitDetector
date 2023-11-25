@@ -34,7 +34,7 @@ namespace ImageWorker.ImageAnalyzis.KeypointAlgorithms
                 Mat mask;
                 FindMatch(grayscaleImageMat, grayscaleObservedImageMat, out observedKeyPoints, matches, out mask, out homography);
 
-                double goodMatchesCount = CountGoodMatches(matches, 0.9);
+                double goodMatchesCount = CountGoodMatches(matches, 0.8);
 
                 CalculateScore(mask, out score, grayscaleImageMat, grayscaleObservedImageMat, goodMatchesCount);
 
@@ -80,7 +80,7 @@ namespace ImageWorker.ImageAnalyzis.KeypointAlgorithms
 
 
 
-            SURF sift = new SURF();
+            SURF sift = new SURF(500);
 
             if (modelKeyPoints is null || modelKeyPoints is null || previousModelImage != grayscaleImageMat)
             {

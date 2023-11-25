@@ -1,5 +1,4 @@
-﻿using DataAccess.Models;
-using Emgu.CV;
+﻿using Emgu.CV;
 using Emgu.CV.CvEnum;
 using Emgu.CV.Features2D;
 using Emgu.CV.Structure;
@@ -13,7 +12,7 @@ using System.Linq;
 
 namespace ImageWorker.ImageAnalyzis.KeypointAlgorithms
 {
-    public class ORB_Algorithm : FeatureMatchingHelper, IImageMatchingAlgorithm
+    public class AKAZE_Algorithm : FeatureMatchingHelper, IImageMatchingAlgorithm
     {
         private Mat previousModelImage;
         private Mat modelDescriptors;
@@ -34,24 +33,7 @@ namespace ImageWorker.ImageAnalyzis.KeypointAlgorithms
                 Mat mask;
                 FindMatch(grayscaleImageMat, grayscaleObservedImageMat, out observedKeyPoints, matches, out mask, out homography);
 
-                //double goodMatchesCount = 0;
-                //double distThreshold = 64;
-                //for (int i = 0; i < matches.Size; i++)
-                //{
-                //    var arrayOfMatches = matches[i].ToArray();
-                //    if (arrayOfMatches[0].Distance < distThreshold)
-                //    {
-                //        goodMatchesCount++;
-                //    }
-                //}
-
-                //double dist_th = 64;
-                //for (int i = 0; i < descriptors_object.rows; i++)
-                //{
-                //    if (matches[i].distance < dist_th)
-                //    { good_matches.push_back(matches[i]); }
-                //}
-                double goodMatchesCount = CountGoodMatches(matches, 0.7);
+                double goodMatchesCount = CountGoodMatches(matches, 0.9);
 
                 CalculateScore(mask, out score, grayscaleImageMat, grayscaleObservedImageMat, goodMatchesCount);
 
@@ -92,32 +74,29 @@ namespace ImageWorker.ImageAnalyzis.KeypointAlgorithms
         private void FindMatch(Mat grayscaleImageMat, Mat grayscaleObservedImageMat, out VectorOfKeyPoint observedKeyPoints, VectorOfVectorOfDMatch matches, out Mat mask, out Mat homography)
         {
             int k = 2;
-            double uniquenessThreshold = 0.7;
+            double uniquenessThreshold = 0.9;
             homography = null;
 
 
-            MSER mser = new MSER();
+
+
+            AKAZE akaze = new AKAZE();
 
             if (modelKeyPoints is null || modelKeyPoints is null || previousModelImage != grayscaleImageMat)
             {
                 previousModelImage = grayscaleImageMat;
                 modelDescriptors = new Mat();
                 modelKeyPoints = new VectorOfKeyPoint();
-                mser.DetectAndCompute(grayscaleImageMat, null, modelKeyPoints, modelDescriptors, false);
+                akaze.DetectAndCompute(grayscaleImageMat, null, modelKeyPoints, modelDescriptors, false);
             }
 
             Mat observedDescriptors = new Mat();
             observedKeyPoints = new VectorOfKeyPoint();
-            mser.DetectAndCompute(grayscaleObservedImageMat, null, observedKeyPoints, observedDescriptors, false);
+            akaze.DetectAndCompute(grayscaleObservedImageMat, null, observedKeyPoints, observedDescriptors, false);
 
             BFMatcher matcher = new BFMatcher(DistanceType.Hamming);
-            //matcher.Add(modelDescriptors);
-            //matcher.KnnMatch(observedDescriptors, matches, k, null);
-
-            VectorOfDMatch matchess = new VectorOfDMatch();
-            matcher.Match(modelDescriptors, observedDescriptors, matchess);
-
-            matcher.KnnMatch(modelDescriptors, observedDescriptors, matches, k);
+            matcher.Add(modelDescriptors);
+            matcher.KnnMatch(observedDescriptors, matches, k, null);
 
             mask = new Mat(matches.Size, 1, DepthType.Cv8U, 1);
             mask.SetTo(new MCvScalar(255));

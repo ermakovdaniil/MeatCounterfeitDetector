@@ -1,7 +1,7 @@
-﻿using DataAccess.Models;
-using Emgu.CV;
+﻿using Emgu.CV;
 using Emgu.CV.CvEnum;
 using Emgu.CV.Features2D;
+using Emgu.CV.Stitching;
 using Emgu.CV.Structure;
 using Emgu.CV.Util;
 using System;
@@ -13,7 +13,7 @@ using System.Linq;
 
 namespace ImageWorker.ImageAnalyzis.KeypointAlgorithms
 {
-    public class ORB_Algorithm : FeatureMatchingHelper, IImageMatchingAlgorithm
+    public class RANSAC_Algorithm : FeatureMatchingHelper, IImageMatchingAlgorithm
     {
         private Mat previousModelImage;
         private Mat modelDescriptors;
@@ -96,19 +96,19 @@ namespace ImageWorker.ImageAnalyzis.KeypointAlgorithms
             homography = null;
 
 
-            MSER mser = new MSER();
+            ORB orb = new ORB();
 
             if (modelKeyPoints is null || modelKeyPoints is null || previousModelImage != grayscaleImageMat)
             {
                 previousModelImage = grayscaleImageMat;
                 modelDescriptors = new Mat();
                 modelKeyPoints = new VectorOfKeyPoint();
-                mser.DetectAndCompute(grayscaleImageMat, null, modelKeyPoints, modelDescriptors, false);
+                orb.DetectAndCompute(grayscaleImageMat, null, modelKeyPoints, modelDescriptors, false);
             }
 
             Mat observedDescriptors = new Mat();
             observedKeyPoints = new VectorOfKeyPoint();
-            mser.DetectAndCompute(grayscaleObservedImageMat, null, observedKeyPoints, observedDescriptors, false);
+            orb.DetectAndCompute(grayscaleObservedImageMat, null, observedKeyPoints, observedDescriptors, false);
 
             BFMatcher matcher = new BFMatcher(DistanceType.Hamming);
             //matcher.Add(modelDescriptors);
@@ -119,18 +119,34 @@ namespace ImageWorker.ImageAnalyzis.KeypointAlgorithms
 
             matcher.KnnMatch(modelDescriptors, observedDescriptors, matches, k);
 
-            mask = new Mat(matches.Size, 1, DepthType.Cv8U, 1);
-            mask.SetTo(new MCvScalar(255));
+            // Filter matches using RANSAC
+            Mat maskRansac = new Mat();
+            homography = CvInvoke.FindHomography(modelKeyPoints, observedKeyPoints, RobustEstimationAlgorithm.Ransac, 3, maskRansac);
 
-            Features2DToolbox.VoteForUniqueness(matches, uniquenessThreshold, mask);
+            // ИЛИ
 
-            int nonZeroCount = CvInvoke.CountNonZero(mask);
-            if (nonZeroCount >= 4)
-            {
-                nonZeroCount = Features2DToolbox.VoteForSizeAndOrientation(modelKeyPoints, observedKeyPoints, matches, mask, 1.5, 20);
-                if (nonZeroCount >= 4)
-                    homography = Features2DToolbox.GetHomographyMatrixFromMatchedFeatures(modelKeyPoints, observedKeyPoints, matches, mask, 2);
-            }
+            mask = new Mat();
+            homography = CvInvoke.FindHomography(
+                modelKeyPoints,
+                observedKeyPoints,
+                RobustEstimationAlgorithm.Ransac,
+                3.0,
+                mask
+            );
+
+
+            //mask = new Mat(matches.Size, 1, DepthType.Cv8U, 1);
+            //mask.SetTo(new MCvScalar(255));
+
+            //Features2DToolbox.VoteForUniqueness(matches, uniquenessThreshold, mask);
+
+            //int nonZeroCount = CvInvoke.CountNonZero(mask);
+            //if (nonZeroCount >= 4)
+            //{
+            //    nonZeroCount = Features2DToolbox.VoteForSizeAndOrientation(modelKeyPoints, observedKeyPoints, matches, mask, 1.5, 20);
+            //    if (nonZeroCount >= 4)
+            //        homography = Features2DToolbox.GetHomographyMatrixFromMatchedFeatures(modelKeyPoints, observedKeyPoints, matches, mask, 2);
+            //}
         }
 
     }

@@ -74,7 +74,7 @@ namespace ImageWorker.ImageAnalyzis.KeypointAlgorithms
         private void FindMatch(Mat grayscaleImageMat, Mat grayscaleObservedImageMat, out VectorOfKeyPoint observedKeyPoints, VectorOfVectorOfDMatch matches, out Mat mask, out Mat homography)
         {
             int k = 2;
-            double uniquenessThreshold = 0.9;
+            double uniquenessThreshold = 0.8;
             homography = null;
 
 

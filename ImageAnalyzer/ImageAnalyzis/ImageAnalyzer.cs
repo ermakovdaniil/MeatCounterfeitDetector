@@ -42,9 +42,9 @@ public class ImageAnalyzer : IImageAnalyzer
         {
             { Algorithms.SIFT, new SIFT_Algorithm() },
             { Algorithms.ORB, new ORB_Algorithm() },
-            // { Algorithms.AKAZE, new SIFTAlgorithm() },
-            // { Algorithms.RANSAC, new SIFTAlgorithm() },
-            // { Algorithms.SURF, new SIFTAlgorithm() },
+            { Algorithms.AKAZE, new AKAZE_Algorithm() },
+            { Algorithms.RANSAC, new RANSAC_Algorithm() },
+            { Algorithms.SURF, new SURF_Algorithm() },
             // { Algorithms.BRISK, new SIFTAlgorithm() },
             // { Algorithms.MSER, new SIFTAlgorithm() },
         };
