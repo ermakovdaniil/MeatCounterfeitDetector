@@ -15,7 +15,6 @@ namespace ImageWorker.ImageAnalyzis.KeypointAlgorithms
             double distMatches = 0;
             for (int i = 0; i < matches.Size; i++)
             {
-                //var arrayOfMatches = matches[i].ToArray();
                 if (matches[i][0].Distance < threshold * matches[i][1].Distance)
                 {
                     distMatches++;
@@ -36,12 +35,12 @@ namespace ImageWorker.ImageAnalyzis.KeypointAlgorithms
 
             scores.Add(fisrtScore);
 
-            double secondScore = goodMatches / distMatches;
-            if (goodMatches == distMatches)
-            {
-                secondScore = goodMatches / (distMatches + 3);
-            }
-            scores.Add(secondScore);
+            //double secondScore = goodMatches / distMatches;
+            //if (goodMatches == distMatches)
+            //{
+            //    secondScore = goodMatches / (distMatches + 3);
+            //}
+            //scores.Add(secondScore);
 
             double amountOfMatches = 21;
             double oneMatch = 0.9998 / amountOfMatches;

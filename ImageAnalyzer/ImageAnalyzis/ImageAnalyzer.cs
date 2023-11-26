@@ -132,7 +132,7 @@ public class ImageAnalyzer : FeatureMatchingHelper, IImageAnalyzer
 
     public Mat Draw(Mat originalImageMat, Mat grayscaleImageMat, Mat observedImageMat, out double matchTime, out double score, double percentOfSimilarity, Algorithms algorithm)
     {
-        double uniquenessThreshold = 0.7;
+        double uniquenessThreshold = 0.75;
 
         Mat grayscaleObservedImageMat = new Mat();
         CvInvoke.CvtColor(observedImageMat, grayscaleObservedImageMat, ColorConversion.Bgr2Gray);
@@ -145,7 +145,8 @@ public class ImageAnalyzer : FeatureMatchingHelper, IImageAnalyzer
         using (VectorOfVectorOfDMatch matches = new VectorOfVectorOfDMatch())
         {
             Mat mask;
-            modelKeyPoints = algorithmDictionary[algorithm].FindMatch(grayscaleImageMat, grayscaleObservedImageMat, out observedKeyPoints, matches, out mask, out homography, uniquenessThreshold);
+            modelKeyPoints = algorithmDictionary[algorithm].FindMatch(originalImageMat, observedImageMat, out observedKeyPoints, matches, out mask, out homography, uniquenessThreshold);
+            //modelKeyPoints = algorithmDictionary[algorithm].FindMatch(grayscaleImageMat, grayscaleObservedImageMat, out observedKeyPoints, matches, out mask, out homography, uniquenessThreshold);
 
             //double goodMatchesCount = 0;
             //double distThreshold = 64;
@@ -173,7 +174,7 @@ public class ImageAnalyzer : FeatureMatchingHelper, IImageAnalyzer
             if (score > percentOfSimilarity)
             {
                 Features2DToolbox.DrawMatches(originalImageMat, modelKeyPoints, observedImageMat, observedKeyPoints,
-                    matches, result, new MCvScalar(0, 0, 255), new MCvScalar(255, 255, 255), mask, Features2DToolbox.KeypointDrawType.DrawRichKeypoints);
+                    matches, result, new MCvScalar(0, 0, 255), new MCvScalar(255, 255, 255), mask, Features2DToolbox.KeypointDrawType.NotDrawSinglePoints);
 
                 if (homography != null)
                 {
