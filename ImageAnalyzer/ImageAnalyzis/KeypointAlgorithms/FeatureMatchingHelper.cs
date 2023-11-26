@@ -1,7 +1,9 @@
 ﻿using Emgu.CV;
+using Emgu.CV.CvEnum;
 using Emgu.CV.Util;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 
 namespace ImageWorker.ImageAnalyzis.KeypointAlgorithms
@@ -55,14 +57,14 @@ namespace ImageWorker.ImageAnalyzis.KeypointAlgorithms
             }
             scores.Add(thirdScore);
 
-            //Mat scoreImg = new Mat();
-            //double minVal = double.MaxValue;
-            //double fourthScore = double.MinValue;
-            //var minLoc = new Point();
-            //var maxLoc = new Point();
-            //CvInvoke.MatchTemplate(grayscaleImageMat, grayscaleObservedImageMat, scoreImg, TemplateMatchingType.CcoeffNormed);
-            //CvInvoke.MinMaxLoc(scoreImg, ref minVal, ref fourthScore, ref minLoc, ref maxLoc);
-            //scores.Add(fourthScore);
+            Mat scoreImg = new Mat();
+            double minVal = double.MaxValue;
+            double fourthScore = double.MinValue;
+            var minLoc = new Point();
+            var maxLoc = new Point();
+            CvInvoke.MatchTemplate(grayscaleImageMat, grayscaleObservedImageMat, scoreImg, TemplateMatchingType.CcoeffNormed);
+            CvInvoke.MinMaxLoc(scoreImg, ref minVal, ref fourthScore, ref minLoc, ref maxLoc);
+            scores.Add(fourthScore);
 
             score = scores.Max();
 

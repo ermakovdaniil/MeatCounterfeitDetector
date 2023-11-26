@@ -145,7 +145,7 @@ public class ImageAnalyzer : FeatureMatchingHelper, IImageAnalyzer
         using (VectorOfVectorOfDMatch matches = new VectorOfVectorOfDMatch())
         {
             Mat mask;
-            algorithmDictionary[algorithm].FindMatch(grayscaleImageMat, grayscaleObservedImageMat, out observedKeyPoints, matches, out mask, out homography, uniquenessThreshold);
+            modelKeyPoints = algorithmDictionary[algorithm].FindMatch(grayscaleImageMat, grayscaleObservedImageMat, out observedKeyPoints, matches, out mask, out homography, uniquenessThreshold);
 
             //double goodMatchesCount = 0;
             //double distThreshold = 64;
