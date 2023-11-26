@@ -1,0 +1,48 @@
+DO $$
+DECLARE
+    jid integer;
+    scid integer;
+BEGIN
+-- Creating a new job
+INSERT INTO pgagent.pga_job(
+    jobjclid, jobname, jobdesc, jobhostagent, jobenabled
+) VALUES (
+    1::integer, 'MeatServer_backup'::text, ''::text, ''::text, true
+) RETURNING jobid INTO jid;
+
+-- Steps
+-- Inserting a step (jobid: NULL)
+INSERT INTO pgagent.pga_jobstep (
+    jstjobid, jstname, jstenabled, jstkind,
+    jstconnstr, jstdbname, jstonerror,
+    jstcode, jstdesc
+) VALUES (
+    jid, 'step1'::text, true, 'b'::character(1),
+    ''::text, ''::name, 'f'::character(1),
+    E'C:\\Users\\Даня\\source\\repos\\MeatCountefeitDetector\\backup_script.bat
+
+pg_dump --username=postgres --dbname=CounterfeitKB --create --file="C:\\Users\\Даня\\source\\repos\\MeatCountefeitDetector\\Backup-$(date +%Y-%m-%d-%H-%M-%S).sql"
+pg_dump --username=postgres --dbname=ResultDB --create --file="C:\\Users\\Даня\\source\\repos\\MeatCountefeitDetector\\Backup-$(date +%Y-%m-%d-%H-%M-%S).sql"'::text, ''::text
+) ;
+
+-- Schedules
+-- Inserting a schedule
+INSERT INTO pgagent.pga_schedule(
+    jscjobid, jscname, jscdesc, jscenabled,
+    jscstart, jscend,    jscminutes, jschours, jscweekdays, jscmonthdays, jscmonths
+) VALUES (
+    jid, 'backup_schedule'::text, ''::text, true,
+    '2023-11-17 00:00:00+03'::timestamp with time zone, '2025-11-17 00:00:00+03'::timestamp with time zone,
+    -- Minutes
+    '{f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,t,f,f,f,f}'::bool[]::boolean[],
+    -- Hours
+    '{f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,t}'::bool[]::boolean[],
+    -- Week days
+    '{t,t,t,t,t,t,t}'::bool[]::boolean[],
+    -- Month days
+    '{t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t}'::bool[]::boolean[],
+    -- Months
+    '{t,t,t,t,t,t,t,t,t,t,t,t}'::bool[]::boolean[]
+) RETURNING jscid INTO scid;
+END
+$$;
