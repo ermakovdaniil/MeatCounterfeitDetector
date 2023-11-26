@@ -173,7 +173,7 @@ public class ImageAnalyzer : FeatureMatchingHelper, IImageAnalyzer
             if (score > percentOfSimilarity)
             {
                 Features2DToolbox.DrawMatches(originalImageMat, modelKeyPoints, observedImageMat, observedKeyPoints,
-                    matches, result, new MCvScalar(0, 0, 255), new MCvScalar(255, 255, 255), mask, Features2DToolbox.KeypointDrawType.NotDrawSinglePoints);
+                    matches, result, new MCvScalar(0, 0, 255), new MCvScalar(255, 255, 255), mask, Features2DToolbox.KeypointDrawType.DrawRichKeypoints);
 
                 if (homography != null)
                 {
