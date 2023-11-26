@@ -1,4 +1,5 @@
 ﻿using Emgu.CV;
+using Emgu.CV.Util;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,6 +10,6 @@ namespace ImageWorker.ImageAnalyzis.KeypointAlgorithms
 {
     public interface IImageMatchingAlgorithm
     {
-        Mat Draw(Mat originalImageMat, Mat grayscaleImageMat, Mat observedImageMat, out double matchTime, out double score, double percentOfSimilarity);
+        VectorOfKeyPoint FindMatch(Mat grayscaleImageMat, Mat grayscaleObservedImageMat, out VectorOfKeyPoint observedKeyPoints, VectorOfVectorOfDMatch matches, out Mat mask, out Mat homography, double uniquenessThreshold);
     }
 }

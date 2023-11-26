@@ -1,5 +1,4 @@
-﻿using DataAccess.Models;
-using Emgu.CV;
+﻿using Emgu.CV;
 using ImageWorker.ProgressReporter;
 using ImageWorker.ImageAnalyzis.KeypointAlgorithms;
 using System;
@@ -7,22 +6,27 @@ using System.Collections.Generic;
 using System.IO;
 using System.Windows.Media.Imaging;
 using ImageWorker.BitmapService;
-using ClientAPI.DTO.Counterfeit;
 using ClientAPI.DTO.CounterfeitImage;
 using ClientAPI.DTO.Result;
-using static Emgu.CV.XImgproc.SupperpixelSLIC;
 using ImageWorker.Enums;
 using Emgu.CV.CvEnum;
+using Emgu.CV.Features2D;
+using Emgu.CV.Structure;
+using Emgu.CV.Util;
+using System.Diagnostics;
+using System.Drawing;
 
 namespace ImageWorker.ImageAnalyzis;
 
-public class ImageAnalyzer : IImageAnalyzer
+public class ImageAnalyzer : FeatureMatchingHelper, IImageAnalyzer
 {
     private int currentCounterfeitImage = 0;
     private BitmapSource previousCounterfeitImage;
     private double previousPercent = 0;
     private Mat originalImageMat;
     private Mat grayscaleImageMat = new Mat();
+
+    private VectorOfKeyPoint modelKeyPoints;
 
     private readonly Dictionary<Algorithms, IImageMatchingAlgorithm> algorithmDictionary;
 
@@ -105,18 +109,16 @@ public class ImageAnalyzer : IImageAnalyzer
         string pathToBase = Directory.GetCurrentDirectory();
         string combinedPath = Path.Combine(pathToBase, counterfeitImage);
 
-        //Mat counterfeitMat = CvInvoke.Imread(combinedPath, Emgu.CV.CvEnum.ImreadModes.AnyColor);
         Mat counterfeitMat = CvInvoke.Imread(combinedPath, Emgu.CV.CvEnum.ImreadModes.AnyColor);
-        //Mat resultImageMat = SIFTAlgorithm.Draw(originalImageMat, counterfeitMat, out matchTime, out score, percentOfSimilarity);
 
-        Mat resultImageMat = algorithmDictionary[algorithm].Draw(originalImageMat, grayscaleImageMat, counterfeitMat, out matchTime, out score, percentOfSimilarity);
+        //Mat resultImageMat = algorithmDictionary[algorithm].Draw(originalImageMat, grayscaleImageMat, counterfeitMat, out matchTime, out score, percentOfSimilarity);
+        Mat resultImageMat = Draw(originalImageMat, grayscaleImageMat, counterfeitMat, out matchTime, out score, percentOfSimilarity, algorithm);
 
         resultImagePath = "";
 
         if (score > percentOfSimilarity)
         {
             // TODO: вместо этого сделать сохранение оригинала с именем открытого изображения. И если уже такое есть то не делать копию.
-
             var date = DateTime.Now.ToString("dd.mm.yyyy_hh.mm.ss");
             var filename = "orig_" + date + ".png";
             originalImagePath = @"..\..\..\resources\origImages\" + filename;
@@ -125,6 +127,78 @@ public class ImageAnalyzer : IImageAnalyzer
             filename = "res_" + date + ".png";
             resultImagePath = @"..\..\..\resources\resImages\" + filename;
             resultImageMat.Save(resultImagePath);
+        }
+    }
+
+    public Mat Draw(Mat originalImageMat, Mat grayscaleImageMat, Mat observedImageMat, out double matchTime, out double score, double percentOfSimilarity, Algorithms algorithm)
+    {
+        double uniquenessThreshold = 0.7;
+
+        Mat grayscaleObservedImageMat = new Mat();
+        CvInvoke.CvtColor(observedImageMat, grayscaleObservedImageMat, ColorConversion.Bgr2Gray);
+
+        Stopwatch watch;
+        watch = Stopwatch.StartNew();
+
+        Mat homography;
+        VectorOfKeyPoint observedKeyPoints;
+        using (VectorOfVectorOfDMatch matches = new VectorOfVectorOfDMatch())
+        {
+            Mat mask;
+            algorithmDictionary[algorithm].FindMatch(grayscaleImageMat, grayscaleObservedImageMat, out observedKeyPoints, matches, out mask, out homography, uniquenessThreshold);
+
+            //double goodMatchesCount = 0;
+            //double distThreshold = 64;
+            //for (int i = 0; i < matches.Size; i++)
+            //{
+            //    var arrayOfMatches = matches[i].ToArray();
+            //    if (arrayOfMatches[0].Distance < distThreshold)
+            //    {
+            //        goodMatchesCount++;
+            //    }
+            //}
+
+            //double dist_th = 64;
+            //for (int i = 0; i < descriptors_object.rows; i++)
+            //{
+            //    if (matches[i].distance < dist_th)
+            //    { good_matches.push_back(matches[i]); }
+            //}
+
+            double goodMatchesCount = CountGoodMatches(matches, uniquenessThreshold);
+
+            CalculateScore(mask, out score, grayscaleImageMat, grayscaleObservedImageMat, goodMatchesCount);
+
+            Mat result = new Mat();
+            if (score > percentOfSimilarity)
+            {
+                Features2DToolbox.DrawMatches(originalImageMat, modelKeyPoints, observedImageMat, observedKeyPoints,
+                    matches, result, new MCvScalar(0, 0, 255), new MCvScalar(255, 255, 255), mask, Features2DToolbox.KeypointDrawType.NotDrawSinglePoints);
+
+                if (homography != null)
+                {
+                    Rectangle rect = new Rectangle(Point.Empty, originalImageMat.Size);
+
+                    PointF[] pts = new PointF[]
+                    {
+                            new PointF(rect.Left, rect.Bottom),
+                            new PointF(rect.Right, rect.Bottom),
+                            new PointF(rect.Right, rect.Top),
+                            new PointF(rect.Left, rect.Top)
+                    };
+                    pts = CvInvoke.PerspectiveTransform(pts, homography);
+
+                    Point[] points = Array.ConvertAll(pts, Point.Round);
+                    using (VectorOfPoint vp = new VectorOfPoint(points))
+                    {
+                        CvInvoke.Polylines(result, vp, true, new MCvScalar(255, 0, 0, 255), 0, LineType.EightConnected, 0);
+                    }
+                }
+            }
+
+            watch.Stop();
+            matchTime = watch.Elapsed.TotalSeconds;
+            return result;
         }
     }
 

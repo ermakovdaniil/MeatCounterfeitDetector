@@ -19,66 +19,10 @@ namespace ImageWorker.ImageAnalyzis.KeypointAlgorithms
         private Mat modelDescriptors;
         private VectorOfKeyPoint modelKeyPoints;
 
-        public Mat Draw(Mat originalImageMat, Mat grayscaleImageMat, Mat observedImageMat, out double matchTime, out double score, double percentOfSimilarity)
-        {
-            Mat grayscaleObservedImageMat = new Mat();
-            CvInvoke.CvtColor(observedImageMat, grayscaleObservedImageMat, ColorConversion.Bgr2Gray);
-
-            Stopwatch watch;
-            watch = Stopwatch.StartNew();
-
-            Mat homography;
-            VectorOfKeyPoint observedKeyPoints;
-            using (VectorOfVectorOfDMatch matches = new VectorOfVectorOfDMatch())
-            {
-                Mat mask;
-                FindMatch(grayscaleImageMat, grayscaleObservedImageMat, out observedKeyPoints, matches, out mask, out homography);
-
-                double goodMatchesCount = CountGoodMatches(matches, 0.8);
-
-                CalculateScore(mask, out score, grayscaleImageMat, grayscaleObservedImageMat, goodMatchesCount);
-
-                Mat result = new Mat();
-                if (score > percentOfSimilarity)
-                {
-                    Features2DToolbox.DrawMatches(originalImageMat, modelKeyPoints, observedImageMat, observedKeyPoints,
-                        matches, result, new MCvScalar(0, 0, 255), new MCvScalar(255, 255, 255), mask, Features2DToolbox.KeypointDrawType.NotDrawSinglePoints);
-
-                    if (homography != null)
-                    {
-                        Rectangle rect = new Rectangle(Point.Empty, originalImageMat.Size);
-
-                        PointF[] pts = new PointF[]
-                        {
-                            new PointF(rect.Left, rect.Bottom),
-                            new PointF(rect.Right, rect.Bottom),
-                            new PointF(rect.Right, rect.Top),
-                            new PointF(rect.Left, rect.Top)
-                        };
-                        pts = CvInvoke.PerspectiveTransform(pts, homography);
-
-                        Point[] points = Array.ConvertAll(pts, Point.Round);
-                        using (VectorOfPoint vp = new VectorOfPoint(points))
-                        {
-                            CvInvoke.Polylines(result, vp, true, new MCvScalar(255, 0, 0, 255), 0, LineType.EightConnected, 0);
-                        }
-                    }
-                }
-
-                watch.Stop();
-                matchTime = watch.Elapsed.TotalSeconds;
-                return result;
-            }
-        }
-
-        private void FindMatch(Mat grayscaleImageMat, Mat grayscaleObservedImageMat, out VectorOfKeyPoint observedKeyPoints, VectorOfVectorOfDMatch matches, out Mat mask, out Mat homography)
+        public VectorOfKeyPoint FindMatch(Mat grayscaleImageMat, Mat grayscaleObservedImageMat, out VectorOfKeyPoint observedKeyPoints, VectorOfVectorOfDMatch matches, out Mat mask, out Mat homography, double uniquenessThreshold)
         {
             int k = 2;
-            double uniquenessThreshold = 0.9;
             homography = null;
-
-
-
 
             SURF sift = new SURF(500);
 
@@ -110,6 +54,8 @@ namespace ImageWorker.ImageAnalyzis.KeypointAlgorithms
                 if (nonZeroCount >= 4)
                     homography = Features2DToolbox.GetHomographyMatrixFromMatchedFeatures(modelKeyPoints, observedKeyPoints, matches, mask, 2);
             }
+
+            return modelKeyPoints;
         }
 
     }
