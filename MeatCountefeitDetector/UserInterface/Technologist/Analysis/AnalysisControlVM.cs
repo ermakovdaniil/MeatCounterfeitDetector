@@ -43,6 +43,7 @@ public class AnalysisControlVM : ViewModelBase
     private readonly IProgressReporter _progressReporter;
     private readonly IEventAggregator _eventAggregator;
     private readonly IBitmapService _bitmapService;
+    private readonly IImageLoader _imageLoader;
 
     #region Functions
 
@@ -59,7 +60,8 @@ public class AnalysisControlVM : ViewModelBase
                                  IUserService userService,
                                  IProgressReporter progressReporter,
                                  IEventAggregator eventAggregator,
-                                 IBitmapService bitmapService)
+                                 IBitmapService bitmapService,
+                                 IImageLoader imageLoader)
     {
         _counterfeitClient = counterfeitClient;
         _counterfeitImageClient = counterfeitImageClient;
@@ -75,6 +77,7 @@ public class AnalysisControlVM : ViewModelBase
         _progressReporter = progressReporter;
         _eventAggregator = eventAggregator;
         _bitmapService = bitmapService;
+        _imageLoader = imageLoader;
         _eventAggregator.Subscribe<EventImageData>(OnDataReceived);
 
         _counterfeitClient.CounterfeitGetAsync()
@@ -119,7 +122,7 @@ public class AnalysisControlVM : ViewModelBase
     public string SearchResult { get; set; }
     public CreateResultDTO AnalysisResult { get; set; }
     public int Progress { get; set; }
-
+    private string _fileName { get; set; }
     #endregion
 
 
@@ -139,6 +142,8 @@ public class AnalysisControlVM : ViewModelBase
                 {
                     DisplayedImage = _bitmapService.LoadBitmapSource(path);
                     ResultImage = "";
+
+                    _fileName = _imageLoader.GetFileName(Path.GetFileName(path));
                 }
             });
         }
@@ -172,7 +177,7 @@ public class AnalysisControlVM : ViewModelBase
 
                         // var counterfeitImages = counterfeitImagesDTOs.Adapt<List<CounterfeitImage>>();
 
-                        AnalysisResult = _analyzer.RunAnalysis(DisplayedImage, counterfeitImagesDTOs, PercentOfSimilarity, _userService.CurrentUserId, SelectedAlgorithm);
+                        AnalysisResult = _analyzer.RunAnalysis(DisplayedImage, counterfeitImagesDTOs, PercentOfSimilarity, _userService.CurrentUserId, SelectedAlgorithm, _fileName);
 
                         SearchResult = CreateSearchResult(AnalysisResult);
 

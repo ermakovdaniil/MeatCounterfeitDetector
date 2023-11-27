@@ -9,5 +9,5 @@ namespace ImageWorker.ImageAnalyzis;
 
 public interface IImageAnalyzer
 {
-    public CreateResultDTO RunAnalysis(BitmapSource originalImage, List<GetCounterfeitImageDTO> counterfeitImages, double percentOfSimilarity, Guid userId, Algorithms algorithm);
+    public CreateResultDTO RunAnalysis(BitmapSource originalImage, List<GetCounterfeitImageDTO> counterfeitImages, double percentOfSimilarity, Guid userId, Algorithms algorithm, string fileName);
 }

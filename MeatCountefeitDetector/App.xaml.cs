@@ -31,6 +31,7 @@ using ImageWorker.BitmapService;
 using ImageWorker.ImageEditing;
 using ImageWorker.ImageAnalyzis;
 using ImageWorker.ImageAnalyzis.KeypointAlgorithms;
+using MeatCountefeitDetector.Utils.ImageLoader;
 
 namespace MeatCounterfeitDetector;
 
@@ -126,6 +127,7 @@ public partial class App : Application
         builder.RegisterType<ImageEditor>().As<IImageEditor>();
         builder.RegisterType<FileDialogService>().As<IFileDialogService>();
         builder.RegisterType<BitmapService>().As<IBitmapService>();
+        builder.RegisterType<ImageLoader>().As<IImageLoader>();
         builder.RegisterType<HandyMessageBoxService>().As<IMessageBoxService>();
         builder.RegisterType<UserService>().As<IUserService>().SingleInstance();
         builder.RegisterType<EventAggregator>().As<IEventAggregator>().SingleInstance();

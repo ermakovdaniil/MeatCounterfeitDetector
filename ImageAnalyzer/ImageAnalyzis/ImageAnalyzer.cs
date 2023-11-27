@@ -35,7 +35,7 @@ public class ImageAnalyzer : FeatureMatchingHelper, IImageAnalyzer
     //private readonly IImageMatchingAlgorithm _imageMatchingAlgorithm;
 
     public ImageAnalyzer(IBitmapService bitmapService,
-                         IProgressReporter progressReporter
+                         IProgressReporter progressReporter         
                          /*IImageMatchingAlgorithm imageMatchingAlgorithm*/)
     {
         _bitmapService = bitmapService;
@@ -54,7 +54,8 @@ public class ImageAnalyzer : FeatureMatchingHelper, IImageAnalyzer
         };
     }
 
-    public CreateResultDTO RunAnalysis(BitmapSource originalImage, List<GetCounterfeitImageDTO> counterfeitImagesDTOs, double percentOfSimilarity, Guid userId, Algorithms algorithm)
+    public CreateResultDTO RunAnalysis(BitmapSource originalImage, List<GetCounterfeitImageDTO> counterfeitImagesDTOs,
+                                       double percentOfSimilarity, Guid userId, Algorithms algorithm, string fileName)
     {
         string analysisResult = "";
         string originalImagePath = "";
@@ -80,7 +81,7 @@ public class ImageAnalyzer : FeatureMatchingHelper, IImageAnalyzer
 
         for (int i = 0; i < counterfeitImagesDTOs.Count; i++)
         {
-            AnalyzeImage(ref originalImagePath, counterfeitImagesDTOs[i].ImagePath, out resultImagePath, out tempTime, out score, percentOfSimilarity, algorithm);
+            AnalyzeImage(ref originalImagePath, counterfeitImagesDTOs[i].ImagePath, out resultImagePath, out tempTime, out score, percentOfSimilarity, algorithm, fileName);
             matchTime += tempTime;
             if (score > percentOfSimilarity)
             {
@@ -104,7 +105,8 @@ public class ImageAnalyzer : FeatureMatchingHelper, IImageAnalyzer
         return result;
     }
 
-    private void AnalyzeImage(ref string originalImagePath, string counterfeitImage, out string resultImagePath, out double matchTime, out double score, double percentOfSimilarity, Algorithms algorithm)
+    private void AnalyzeImage(ref string originalImagePath, string counterfeitImage, out string resultImagePath, out double matchTime,
+                              out double score, double percentOfSimilarity, Algorithms algorithm, string fileName)
     {
         string pathToBase = Directory.GetCurrentDirectory();
         string combinedPath = Path.Combine(pathToBase, counterfeitImage);
@@ -120,12 +122,12 @@ public class ImageAnalyzer : FeatureMatchingHelper, IImageAnalyzer
         {
             // TODO: вместо этого сделать сохранение оригинала с именем открытого изображения. И если уже такое есть то не делать копию.
             var date = DateTime.Now.ToString("dd.mm.yyyy_hh.mm.ss");
-            var filename = "orig_" + date + ".png";
-            originalImagePath = @"..\..\..\resources\origImages\" + filename;
+            //var filename = "orig_" + date + ".png";
+            originalImagePath = @"..\..\..\resources\origImages\" + fileName;
             originalImageMat.Save(originalImagePath);
 
-            filename = "res_" + date + ".png";
-            resultImagePath = @"..\..\..\resources\resImages\" + filename;
+            var resFilename = "res_" + date + ".png";
+            resultImagePath = @"..\..\..\resources\resImages\" + resFilename;
             resultImageMat.Save(resultImagePath);
         }
     }
