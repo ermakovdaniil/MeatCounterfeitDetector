@@ -39,7 +39,8 @@ namespace ImageWorker.ImageAnalyzis.KeypointAlgorithms
             orb.DetectAndCompute(grayscaleObservedImageMat, null, observedKeyPoints, observedDescriptors, false);
 
             BFMatcher matcher = new BFMatcher(DistanceType.Hamming);
-            matcher.KnnMatch(modelDescriptors, observedDescriptors, matches, k);
+            matcher.Add(modelDescriptors);
+            matcher.KnnMatch(observedDescriptors, matches, k, null);
 
             // Filter matches using RANSAC
             Mat maskRansac = new Mat();

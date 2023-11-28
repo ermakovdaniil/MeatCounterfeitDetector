@@ -39,8 +39,19 @@ namespace MeatAPI.Features.CounterfeitImage
         public async Task<ActionResult<IReadOnlyCollection<GetCounterfeitImageDTO>>> GetAllByCounterfeitId(Guid counterfeitId)
         {
             var counterfeitImages = await _counterfeitImageService.GetPathsByCounterfeitId(counterfeitId);
-            var counterfeitImagesDTO = counterfeitImages.Adapt<List<GetCounterfeitImageDTO>>();
-            return Ok(counterfeitImagesDTO);
+            var getCounterfeitImageDTOs = new List<GetCounterfeitImageDTO>();
+            foreach (var ci in counterfeitImages)
+            {
+                var dto = new GetCounterfeitImageDTO();
+                dto.Id = ci.Id;
+                dto.CounterfeitId = ci.CounterfeitId;
+                dto.ImagePath = ci.ImagePath;
+                dto.CounterfeitName = ci.Counterfeit.Name;
+                getCounterfeitImageDTOs.Add(dto);
+            }
+
+            //var counterfeitImagesDTO = counterfeitImages.Adapt<List<GetCounterfeitImageDTO>>();
+            return Ok(getCounterfeitImageDTOs);
         }
 
 

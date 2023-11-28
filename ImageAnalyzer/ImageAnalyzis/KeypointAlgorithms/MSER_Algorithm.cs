@@ -41,7 +41,8 @@ namespace ImageWorker.ImageAnalyzis.KeypointAlgorithms
             DepthType depthType = modelDescriptors.Depth;
 
             BFMatcher matcher = new BFMatcher(DistanceType.Hamming);
-            matcher.KnnMatch(modelDescriptors, observedDescriptors, matches, k);
+            matcher.Add(modelDescriptors);
+            matcher.KnnMatch(observedDescriptors, matches, k, null);
 
             mask = new Mat(matches.Size, 1, DepthType.Cv8U, 1);
             mask.SetTo(new MCvScalar(255));

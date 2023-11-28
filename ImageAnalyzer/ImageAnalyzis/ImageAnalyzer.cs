@@ -174,28 +174,31 @@ public class ImageAnalyzer : FeatureMatchingHelper, IImageAnalyzer
             Mat result = new Mat();
             if (score > percentOfSimilarity)
             {
-                Features2DToolbox.DrawMatches(originalImageMat, modelKeyPoints, observedImageMat, observedKeyPoints,
-                    matches, result, new MCvScalar(0, 0, 255), new MCvScalar(255, 255, 255), mask, Features2DToolbox.KeypointDrawType.NotDrawSinglePoints);
+                //Features2DToolbox.DrawMatches(originalImageMat, modelKeyPoints, observedImageMat, observedKeyPoints,
+                //    matches, result, new MCvScalar(0, 0, 255), new MCvScalar(255, 255, 255), mask, Features2DToolbox.KeypointDrawType.NotDrawSinglePoints);
 
-                if (homography != null)
-                {
-                    Rectangle rect = new Rectangle(Point.Empty, originalImageMat.Size);
+                Features2DToolbox.DrawMatches(originalImageMat, modelKeyPoints, observedImageMat, observedKeyPoints, matches, result, new MCvScalar(0, 0, 255), new MCvScalar(255, 255, 255), null/*, Features2DToolbox.KeypointDrawType.NotDrawSinglePoints*/);
+                CvInvoke.Imshow("Matches", result);
 
-                    PointF[] pts = new PointF[]
-                    {
-                            new PointF(rect.Left, rect.Bottom),
-                            new PointF(rect.Right, rect.Bottom),
-                            new PointF(rect.Right, rect.Top),
-                            new PointF(rect.Left, rect.Top)
-                    };
-                    pts = CvInvoke.PerspectiveTransform(pts, homography);
+                //if (homography != null)
+                //{
+                //    Rectangle rect = new Rectangle(Point.Empty, originalImageMat.Size);
 
-                    Point[] points = Array.ConvertAll(pts, Point.Round);
-                    using (VectorOfPoint vp = new VectorOfPoint(points))
-                    {
-                        CvInvoke.Polylines(result, vp, true, new MCvScalar(255, 0, 0, 255), 5, LineType.EightConnected, 0);
-                    }
-                }
+                //    PointF[] pts = new PointF[]
+                //    {
+                //            new PointF(rect.Left, rect.Bottom),
+                //            new PointF(rect.Right, rect.Bottom),
+                //            new PointF(rect.Right, rect.Top),
+                //            new PointF(rect.Left, rect.Top)
+                //    };
+                //    pts = CvInvoke.PerspectiveTransform(pts, homography);
+
+                //    Point[] points = Array.ConvertAll(pts, Point.Round);
+                //    using (VectorOfPoint vp = new VectorOfPoint(points))
+                //    {
+                //        CvInvoke.Polylines(result, vp, true, new MCvScalar(255, 0, 0, 255), 5, LineType.EightConnected, 0);
+                //    }
+                //}
             }
 
             watch.Stop();
