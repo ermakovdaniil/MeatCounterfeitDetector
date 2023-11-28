@@ -36,18 +36,18 @@ namespace ImageWorker.ImageAnalyzis.KeypointAlgorithms
             matcher.Add(modelDescriptors);
             matcher.KnnMatch(observedDescriptors, matches, k, null);
 
-            mask = new Mat(matches.Size, 1, DepthType.Cv8U, 1); // Cv32F
+            mask = new Mat(matches.Size, 1, DepthType.Cv8U, 1);
             mask.SetTo(new MCvScalar(255));
 
             Features2DToolbox.VoteForUniqueness(matches, uniquenessThreshold, mask);
 
-            int nonZeroCount = CvInvoke.CountNonZero(mask);
-            if (nonZeroCount >= 4)
-            {
-                nonZeroCount = Features2DToolbox.VoteForSizeAndOrientation(modelKeyPoints, observedKeyPoints, matches, mask, 1.5, 20);
-                if (nonZeroCount >= 4)
-                    homography = Features2DToolbox.GetHomographyMatrixFromMatchedFeatures(modelKeyPoints, observedKeyPoints, matches, mask, 2);
-            }
+            //int nonZeroCount = CvInvoke.CountNonZero(mask);
+            //if (nonZeroCount >= 4)
+            //{
+            //    nonZeroCount = Features2DToolbox.VoteForSizeAndOrientation(modelKeyPoints, observedKeyPoints, matches, mask, 1.5, 20);
+            //    if (nonZeroCount >= 4)
+            //        homography = Features2DToolbox.GetHomographyMatrixFromMatchedFeatures(modelKeyPoints, observedKeyPoints, matches, mask, 2);
+            //}
 
             return modelKeyPoints;
         }

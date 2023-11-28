@@ -133,7 +133,7 @@ public class ImageAnalyzer : FeatureMatchingHelper, IImageAnalyzer
 
     public Mat Draw(Mat originalImageMat, Mat grayscaleImageMat, Mat observedImageMat, out double matchTime, out double score, double percentOfSimilarity, Algorithms algorithm)
     {
-        double uniquenessThreshold = 0.75;
+        double uniquenessThreshold = 0.85;
 
         Mat grayscaleObservedImageMat = new Mat();
         CvInvoke.CvtColor(observedImageMat, grayscaleObservedImageMat, ColorConversion.Bgr2Gray);
@@ -174,16 +174,15 @@ public class ImageAnalyzer : FeatureMatchingHelper, IImageAnalyzer
             Mat result = new Mat();
             if (score > percentOfSimilarity)
             {
+                Features2DToolbox.DrawMatches(originalImageMat, modelKeyPoints, observedImageMat, observedKeyPoints, matches, result, 
+                    new MCvScalar(0, 0, 255), new MCvScalar(255, 255, 255), mask, Features2DToolbox.KeypointDrawType.DrawRichKeypoints);
+
                 //Features2DToolbox.DrawMatches(originalImageMat, modelKeyPoints, observedImageMat, observedKeyPoints,
                 //    matches, result, new MCvScalar(0, 0, 255), new MCvScalar(255, 255, 255), mask, Features2DToolbox.KeypointDrawType.NotDrawSinglePoints);
-
-                Features2DToolbox.DrawMatches(originalImageMat, modelKeyPoints, observedImageMat, observedKeyPoints, matches, result, new MCvScalar(0, 0, 255), new MCvScalar(255, 255, 255), null/*, Features2DToolbox.KeypointDrawType.NotDrawSinglePoints*/);
-                CvInvoke.Imshow("Matches", result);
-
+                //CvInvoke.Imshow("Matches", result);
                 //if (homography != null)
                 //{
                 //    Rectangle rect = new Rectangle(Point.Empty, originalImageMat.Size);
-
                 //    PointF[] pts = new PointF[]
                 //    {
                 //            new PointF(rect.Left, rect.Bottom),
@@ -192,7 +191,6 @@ public class ImageAnalyzer : FeatureMatchingHelper, IImageAnalyzer
                 //            new PointF(rect.Left, rect.Top)
                 //    };
                 //    pts = CvInvoke.PerspectiveTransform(pts, homography);
-
                 //    Point[] points = Array.ConvertAll(pts, Point.Round);
                 //    using (VectorOfPoint vp = new VectorOfPoint(points))
                 //    {

@@ -16,7 +16,7 @@ namespace MeatAPI.Features.CounterfeitImage
 
         public Task<List<DataAccess.Models.CounterfeitImage>> GetPathsByCounterfeitId(Guid conterfeitId)
         {
-            return _dbSet.AsNoTracking().Where(c => c.CounterfeitId == conterfeitId).ToListAsync();
+            return _dbSet.AsNoTracking().Include(c => c.Counterfeit).Where(c => c.CounterfeitId  == conterfeitId).ToListAsync();
         }
     }
 }

@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.Drawing;
 using System.IO;
 using System.Linq;
 
@@ -9,12 +7,14 @@ namespace MeatCountefeitDetector.Utils.ImageLoader
 {
     public class ImageLoader : IImageLoader
     {
-        public string GetFileName(string fileName)
+        public string GetFileName(string fileName, string extraPartOfPath)
         {
             string baseFileName = Path.GetFileNameWithoutExtension(fileName);
             string extension = Path.GetExtension(fileName);
 
-            List<string> loadedFiles = Directory.GetFiles(Directory.GetCurrentDirectory(), baseFileName + "*" + extension).ToList();
+            var a = Directory.GetCurrentDirectory() + extraPartOfPath + baseFileName + "*" + extension;
+
+            List<string> loadedFiles = Directory.GetFiles(Directory.GetCurrentDirectory(), extraPartOfPath + baseFileName + "*" + extension).ToList();
 
             if (loadedFiles.Count > 0)
             {
@@ -30,11 +30,6 @@ namespace MeatCountefeitDetector.Utils.ImageLoader
                 }
 
                 string newFileName = $"{baseFileName}({count}){extension}";
-                Debug.WriteLine($"Loading: {newFileName}");
-            }
-            else
-            {
-                Debug.WriteLine($"Loading: {fileName}");
             }
 
             return fileName;

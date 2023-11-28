@@ -46,13 +46,13 @@ namespace ImageWorker.ImageAnalyzis.KeypointAlgorithms
 
             Features2DToolbox.VoteForUniqueness(matches, uniquenessThreshold, mask);
 
-            int nonZeroCount = CvInvoke.CountNonZero(mask);
-            if (nonZeroCount >= 4)
-            {
-                nonZeroCount = Features2DToolbox.VoteForSizeAndOrientation(modelKeyPoints, observedKeyPoints, matches, mask, 1.5, 20);
-                if (nonZeroCount >= 4)
-                    homography = Features2DToolbox.GetHomographyMatrixFromMatchedFeatures(modelKeyPoints, observedKeyPoints, matches, mask, 2);
-            }
+            //int nonZeroCount = CvInvoke.CountNonZero(mask);
+            //if (nonZeroCount >= 4)
+            //{
+            //    nonZeroCount = Features2DToolbox.VoteForSizeAndOrientation(modelKeyPoints, observedKeyPoints, matches, mask, 1.5, 20);
+            //    if (nonZeroCount >= 4)
+            //        homography = Features2DToolbox.GetHomographyMatrixFromMatchedFeatures(modelKeyPoints, observedKeyPoints, matches, mask, 2);
+            //}
 
             return modelKeyPoints;
         }

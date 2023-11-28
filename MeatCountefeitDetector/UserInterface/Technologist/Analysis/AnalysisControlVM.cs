@@ -144,7 +144,7 @@ public class AnalysisControlVM : ViewModelBase
                     DisplayedImage = _bitmapService.LoadBitmapSource(path);
                     ResultImage = "";
 
-                    _fileName = _imageLoader.GetFileName(Path.GetFileName(path));
+                    _fileName = _imageLoader.GetFileName(Path.GetFileName(path), @"..\..\..\resources\origImages\");
                 }
             });
         }
