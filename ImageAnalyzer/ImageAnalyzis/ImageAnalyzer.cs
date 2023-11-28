@@ -119,7 +119,6 @@ public class ImageAnalyzer : FeatureMatchingHelper, IImageAnalyzer
 
         if (score > percentOfSimilarity)
         {
-            // TODO: вместо этого сделать сохранение оригинала с именем открытого изображения. И если уже такое есть то не делать копию.
             var date = DateTime.Now.ToString("dd.mm.yyyy_hh.mm.ss");
             //var filename = "orig_" + date + ".png";
             originalImagePath = @"..\..\..\resources\origImages\" + fileName;
@@ -147,25 +146,6 @@ public class ImageAnalyzer : FeatureMatchingHelper, IImageAnalyzer
         {
             Mat mask;
             modelKeyPoints = algorithmDictionary[algorithm].FindMatch(originalImageMat, observedImageMat, out observedKeyPoints, matches, out mask, out homography, uniquenessThreshold);
-            //modelKeyPoints = algorithmDictionary[algorithm].FindMatch(grayscaleImageMat, grayscaleObservedImageMat, out observedKeyPoints, matches, out mask, out homography, uniquenessThreshold);
-
-            //double goodMatchesCount = 0;
-            //double distThreshold = 64;
-            //for (int i = 0; i < matches.Size; i++)
-            //{
-            //    var arrayOfMatches = matches[i].ToArray();
-            //    if (arrayOfMatches[0].Distance < distThreshold)
-            //    {
-            //        goodMatchesCount++;
-            //    }
-            //}
-
-            //double dist_th = 64;
-            //for (int i = 0; i < descriptors_object.rows; i++)
-            //{
-            //    if (matches[i].distance < dist_th)
-            //    { good_matches.push_back(matches[i]); }
-            //}
 
             double goodMatchesCount = CountGoodMatches(matches, uniquenessThreshold);
 

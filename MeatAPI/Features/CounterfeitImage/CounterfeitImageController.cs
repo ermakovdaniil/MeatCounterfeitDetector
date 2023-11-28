@@ -29,7 +29,6 @@ namespace MeatAPI.Features.CounterfeitImage
                 getCounterfeitImageDTOs.Add(dto);
             }
 
-            //var counterfeitImagesDTO = counterfeitImages.Adapt<List<GetCounterfeitImageDTO>>();
             return Ok(getCounterfeitImageDTOs);
         }
 
@@ -50,7 +49,6 @@ namespace MeatAPI.Features.CounterfeitImage
                 getCounterfeitImageDTOs.Add(dto);
             }
 
-            //var counterfeitImagesDTO = counterfeitImages.Adapt<List<GetCounterfeitImageDTO>>();
             return Ok(getCounterfeitImageDTOs);
         }
 
