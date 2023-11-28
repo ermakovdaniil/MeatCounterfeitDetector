@@ -26,7 +26,7 @@ namespace ImageWorker.ImageAnalyzis.KeypointAlgorithms
 
             ORB orb = new ORB();
 
-            if (modelKeyPoints is null || modelKeyPoints is null || previousModelImage != grayscaleImageMat)
+            if (modelDescriptors is null || modelKeyPoints is null || previousModelImage != grayscaleImageMat)
             {
                 previousModelImage = grayscaleImageMat;
                 modelDescriptors = new Mat();
@@ -39,12 +39,6 @@ namespace ImageWorker.ImageAnalyzis.KeypointAlgorithms
             orb.DetectAndCompute(grayscaleObservedImageMat, null, observedKeyPoints, observedDescriptors, false);
 
             BFMatcher matcher = new BFMatcher(DistanceType.Hamming);
-            //matcher.Add(modelDescriptors);
-            //matcher.KnnMatch(observedDescriptors, matches, k, null);
-
-            VectorOfDMatch matchess = new VectorOfDMatch();
-            matcher.Match(modelDescriptors, observedDescriptors, matchess);
-
             matcher.KnnMatch(modelDescriptors, observedDescriptors, matches, k);
 
             // Filter matches using RANSAC

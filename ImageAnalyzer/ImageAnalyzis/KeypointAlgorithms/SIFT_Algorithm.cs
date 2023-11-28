@@ -25,7 +25,7 @@ namespace ImageWorker.ImageAnalyzis.KeypointAlgorithms
 
             SIFT sift = new SIFT();
 
-            if (modelKeyPoints is null || modelKeyPoints is null || previousModelImage != grayscaleImageMat)
+            if (modelDescriptors is null || modelKeyPoints is null || previousModelImage != grayscaleImageMat)
             {
                 previousModelImage = grayscaleImageMat;
                 modelDescriptors = new Mat();
@@ -38,8 +38,7 @@ namespace ImageWorker.ImageAnalyzis.KeypointAlgorithms
             sift.DetectAndCompute(grayscaleObservedImageMat, null, observedKeyPoints, observedDescriptors, false);
 
             BFMatcher matcher = new BFMatcher(DistanceType.L2);
-            matcher.Add(modelDescriptors);
-            matcher.KnnMatch(observedDescriptors, matches, k, null);
+            matcher.KnnMatch(modelDescriptors, observedDescriptors, matches, k, null);
 
             mask = new Mat(matches.Size, 1, DepthType.Cv8U, 1);
             mask.SetTo(new MCvScalar(255));

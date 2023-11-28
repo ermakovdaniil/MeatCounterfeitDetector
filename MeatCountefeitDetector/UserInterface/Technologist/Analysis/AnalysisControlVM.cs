@@ -24,6 +24,7 @@ using ClientAPI.DTO.OriginalImage;
 using ClientAPI.DTO.ResultImage;
 using MeatCounterfeitDetector.Utils.Dialog;
 using ImageWorker.Enums;
+using MeatCountefeitDetector.Utils.ImageLoader;
 
 namespace MeatCounterfeitDetector.UserInterface.Technologist.Analysis;
 
@@ -218,10 +219,10 @@ public class AnalysisControlVM : ViewModelBase
                     {
                         _messageBoxService.ShowMessage("Данные в базе фальсификатов были удалены или повреждены.\nПеред запуском анализа устраните проблему.", "Ошибка!", MessageBoxButton.OK, MessageBoxImage.Error);
                     }
-                    catch (Emgu.CV.Util.CvException)
-                    {
-                        _messageBoxService.ShowMessage("Данное изображение не удаётся обработать. Попробуйте изменить разрешение изображения.", "Ошибка!", MessageBoxButton.OK, MessageBoxImage.Error);
-                    }
+                    //catch (Emgu.CV.Util.CvException)
+                    //{
+                    //    _messageBoxService.ShowMessage("Данное изображение не удаётся обработать. Попробуйте изменить разрешение изображения.", "Ошибка!", MessageBoxButton.OK, MessageBoxImage.Error);
+                    //}
                 }
             });
         }

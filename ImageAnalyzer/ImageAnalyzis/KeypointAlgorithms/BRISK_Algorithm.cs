@@ -30,15 +30,8 @@ namespace ImageWorker.ImageAnalyzis.KeypointAlgorithms
 
             Mat observedDescriptors = new Mat();
             observedKeyPoints = new VectorOfKeyPoint();
-            brisk.DetectAndCompute(grayscaleObservedImageMat, null, observedKeyPoints, observedDescriptors, false);
 
             BFMatcher matcher = new BFMatcher(DistanceType.Hamming);
-            //matcher.Add(modelDescriptors);
-            //matcher.KnnMatch(observedDescriptors, matches, k, null);
-
-            VectorOfDMatch matchess = new VectorOfDMatch();
-            matcher.Match(modelDescriptors, observedDescriptors, matchess);
-
             matcher.KnnMatch(modelDescriptors, observedDescriptors, matches, k);
 
             mask = new Mat(matches.Size, 1, DepthType.Cv8U, 1);

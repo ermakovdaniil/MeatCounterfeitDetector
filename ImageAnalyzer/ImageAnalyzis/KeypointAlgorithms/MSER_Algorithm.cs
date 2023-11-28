@@ -24,9 +24,9 @@ namespace ImageWorker.ImageAnalyzis.KeypointAlgorithms
             int k = 2;
             homography = null;
 
-            MSER mser = new MSER();
+            MSER mser = new MSER(); // ЭТО ТОЛЬКО ДЕТЕКТОР РЕГИОНОВ. СЮДА ДОБАВИТЬ ДЕСКРИПТОР
 
-            if (modelKeyPoints is null || modelKeyPoints is null || previousModelImage != grayscaleImageMat)
+            if (modelDescriptors is null || modelKeyPoints is null || previousModelImage != grayscaleImageMat)
             {
                 previousModelImage = grayscaleImageMat;
                 modelDescriptors = new Mat();
@@ -38,13 +38,9 @@ namespace ImageWorker.ImageAnalyzis.KeypointAlgorithms
             observedKeyPoints = new VectorOfKeyPoint();
             mser.DetectAndCompute(grayscaleObservedImageMat, null, observedKeyPoints, observedDescriptors, false);
 
+            DepthType depthType = modelDescriptors.Depth;
+
             BFMatcher matcher = new BFMatcher(DistanceType.Hamming);
-            //matcher.Add(modelDescriptors);
-            //matcher.KnnMatch(observedDescriptors, matches, k, null);
-
-            VectorOfDMatch matchess = new VectorOfDMatch();
-            matcher.Match(modelDescriptors, observedDescriptors, matchess);
-
             matcher.KnnMatch(modelDescriptors, observedDescriptors, matches, k);
 
             mask = new Mat(matches.Size, 1, DepthType.Cv8U, 1);

@@ -37,9 +37,8 @@ namespace ImageWorker.ImageAnalyzis.KeypointAlgorithms
             observedKeyPoints = new VectorOfKeyPoint();
             akaze.DetectAndCompute(grayscaleObservedImageMat, null, observedKeyPoints, observedDescriptors, false);
 
-            BFMatcher matcher = new BFMatcher(DistanceType.Hamming);
-            matcher.Add(modelDescriptors);
-            matcher.KnnMatch(observedDescriptors, matches, k, null);
+            BFMatcher matcher = new BFMatcher(DistanceType.L2);
+            matcher.KnnMatch(modelDescriptors, observedDescriptors, matches, k);
 
             mask = new Mat(matches.Size, 1, DepthType.Cv8U, 1);
             mask.SetTo(new MCvScalar(255));
