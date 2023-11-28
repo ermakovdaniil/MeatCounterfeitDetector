@@ -48,7 +48,6 @@ public class ImageAnalyzer : FeatureMatchingHelper, IImageAnalyzer
             { Algorithms.ORB, new ORB_Algorithm() },
             { Algorithms.AKAZE, new AKAZE_Algorithm() },
             { Algorithms.RANSAC, new RANSAC_Algorithm() },
-            { Algorithms.SURF, new SURF_Algorithm() },
             { Algorithms.BRISK, new BRISK_Algorithm() },
             { Algorithms.MSER, new MSER_Algorithm() },
         };
@@ -194,7 +193,7 @@ public class ImageAnalyzer : FeatureMatchingHelper, IImageAnalyzer
                     Point[] points = Array.ConvertAll(pts, Point.Round);
                     using (VectorOfPoint vp = new VectorOfPoint(points))
                     {
-                        CvInvoke.Polylines(result, vp, true, new MCvScalar(255, 0, 0, 255), 0, LineType.EightConnected, 0);
+                        CvInvoke.Polylines(result, vp, true, new MCvScalar(255, 0, 0, 255), 5, LineType.EightConnected, 0);
                     }
                 }
             }

@@ -38,7 +38,8 @@ namespace ImageWorker.ImageAnalyzis.KeypointAlgorithms
             sift.DetectAndCompute(grayscaleObservedImageMat, null, observedKeyPoints, observedDescriptors, false);
 
             BFMatcher matcher = new BFMatcher(DistanceType.L2);
-            matcher.KnnMatch(modelDescriptors, observedDescriptors, matches, k, null);
+            matcher.Add(modelDescriptors);
+            matcher.KnnMatch(observedDescriptors, matches, k, null);
 
             mask = new Mat(matches.Size, 1, DepthType.Cv8U, 1);
             mask.SetTo(new MCvScalar(255));

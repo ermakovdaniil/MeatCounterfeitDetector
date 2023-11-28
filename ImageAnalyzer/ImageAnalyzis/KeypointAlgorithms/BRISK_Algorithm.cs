@@ -30,11 +30,12 @@ namespace ImageWorker.ImageAnalyzis.KeypointAlgorithms
 
             Mat observedDescriptors = new Mat();
             observedKeyPoints = new VectorOfKeyPoint();
+            brisk.DetectAndCompute(grayscaleObservedImageMat, null, observedKeyPoints, observedDescriptors, false);
 
             BFMatcher matcher = new BFMatcher(DistanceType.Hamming);
             matcher.KnnMatch(modelDescriptors, observedDescriptors, matches, k);
 
-            mask = new Mat(matches.Size, 1, DepthType.Cv8U, 1);
+            mask = new Mat(matches.Size, 1, DepthType.Cv8U, 1); // Cv32F
             mask.SetTo(new MCvScalar(255));
 
             Features2DToolbox.VoteForUniqueness(matches, uniquenessThreshold, mask);
