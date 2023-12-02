@@ -15,6 +15,8 @@ using Emgu.CV.Structure;
 using Emgu.CV.Util;
 using System.Diagnostics;
 using System.Drawing;
+using Autofac.Features.Indexed;
+using System.Windows;
 
 namespace ImageWorker.ImageAnalyzis;
 
@@ -28,29 +30,31 @@ public class ImageAnalyzer : FeatureMatchingHelper, IImageAnalyzer
 
     private VectorOfKeyPoint modelKeyPoints;
 
-    private readonly Dictionary<Algorithms, IImageMatchingAlgorithm> algorithmDictionary;
-
+    private IImageMatchingAlgorithm _algorithm;
+    private readonly IIndex<Algorithms, IImageMatchingAlgorithm> _algorithms;
     private readonly IBitmapService _bitmapService;
     private readonly IProgressReporter _progressReporter;
     //private readonly IImageMatchingAlgorithm _imageMatchingAlgorithm;
 
     public ImageAnalyzer(IBitmapService bitmapService,
-                         IProgressReporter progressReporter         
+                         IProgressReporter progressReporter,
+                         IIndex<Algorithms, IImageMatchingAlgorithm> algorithms
                          /*IImageMatchingAlgorithm imageMatchingAlgorithm*/)
     {
         _bitmapService = bitmapService;
         _progressReporter = progressReporter;
+        _algorithms = algorithms;
         //_imageMatchingAlgorithm = imageMatchingAlgorithm;
 
-        algorithmDictionary = new Dictionary<Algorithms, IImageMatchingAlgorithm>
-        {
-            { Algorithms.SIFT, new SIFT_Algorithm() },
-            { Algorithms.ORB, new ORB_Algorithm() },
-            { Algorithms.AKAZE, new AKAZE_Algorithm() },
-            { Algorithms.RANSAC, new RANSAC_Algorithm() },
-            { Algorithms.BRISK, new BRISK_Algorithm() },
-            { Algorithms.MSER, new MSER_Algorithm() },
-        };
+        //algorithmDictionary = new Dictionary<Algorithms, IImageMatchingAlgorithm>
+        //{
+        //    { Algorithms.SIFT, new SIFT_Algorithm() },
+        //    { Algorithms.ORB, new ORB_Algorithm() },
+        //    { Algorithms.AKAZE, new AKAZE_Algorithm() },
+        //    { Algorithms.RANSAC, new RANSAC_Algorithm() },
+        //    { Algorithms.BRISK, new BRISK_Algorithm() },
+        //    { Algorithms.MSER, new MSER_Algorithm() },
+        //};
     }
 
     public CreateResultDTO RunAnalysis(BitmapSource originalImage, List<GetCounterfeitImageDTO> counterfeitImagesDTOs,
@@ -62,6 +66,39 @@ public class ImageAnalyzer : FeatureMatchingHelper, IImageAnalyzer
         double matchTime = 0;
         double score = 0;
         double tempTime = 0;
+
+
+        _algorithm = null;
+
+        switch (algorithm)
+        {
+            case Algorithms.SIFT:
+                _algorithm = _algorithms[Algorithms.SIFT];
+                break;
+
+            case Algorithms.ORB:
+                _algorithm = _algorithms[Algorithms.ORB];
+                break;
+
+            case Algorithms.AKAZE:
+                _algorithm = _algorithms[Algorithms.AKAZE];
+                break;
+
+            case Algorithms.RANSAC:
+                _algorithm = _algorithms[Algorithms.RANSAC];
+                break;
+
+            case Algorithms.BRISK:
+                _algorithm = _algorithms[Algorithms.BRISK];
+                break;
+
+            case Algorithms.MSER:
+                _algorithm = _algorithms[Algorithms.MSER];
+                break;
+
+            default:
+                break;
+        }
 
         if (previousCounterfeitImage is null || previousCounterfeitImage != originalImage)
         {
@@ -112,7 +149,6 @@ public class ImageAnalyzer : FeatureMatchingHelper, IImageAnalyzer
 
         Mat counterfeitMat = CvInvoke.Imread(combinedPath, Emgu.CV.CvEnum.ImreadModes.AnyColor);
 
-        //Mat resultImageMat = algorithmDictionary[algorithm].Draw(originalImageMat, grayscaleImageMat, counterfeitMat, out matchTime, out score, percentOfSimilarity);
         Mat resultImageMat = Draw(originalImageMat, grayscaleImageMat, counterfeitMat, out matchTime, out score, percentOfSimilarity, algorithm);
 
         resultImagePath = "";
@@ -145,7 +181,7 @@ public class ImageAnalyzer : FeatureMatchingHelper, IImageAnalyzer
         using (VectorOfVectorOfDMatch matches = new VectorOfVectorOfDMatch())
         {
             Mat mask;
-            modelKeyPoints = algorithmDictionary[algorithm].FindMatch(originalImageMat, observedImageMat, out observedKeyPoints, matches, out mask, out homography, uniquenessThreshold);
+            modelKeyPoints = _algorithm.FindMatch(originalImageMat, observedImageMat, out observedKeyPoints, matches, out mask, out homography, uniquenessThreshold);
 
             double goodMatchesCount = CountGoodMatches(matches, uniquenessThreshold);
 

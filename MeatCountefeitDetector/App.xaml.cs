@@ -32,6 +32,7 @@ using ImageWorker.ImageEditing;
 using ImageWorker.ImageAnalyzis;
 using ImageWorker.ImageAnalyzis.KeypointAlgorithms;
 using MeatCountefeitDetector.Utils.ImageLoader;
+using ImageWorker.Enums;
 
 namespace MeatCounterfeitDetector;
 
@@ -116,6 +117,14 @@ public partial class App : Application
                 return httpClient;
             })
             .As<HttpClient>();
+
+
+        builder.RegisterType<SIFT_Algorithm>().Keyed<IImageMatchingAlgorithm>(Algorithms.SIFT);
+        builder.RegisterType<ORB_Algorithm>().Keyed<IImageMatchingAlgorithm>(Algorithms.ORB);
+        builder.RegisterType<AKAZE_Algorithm>().Keyed<IImageMatchingAlgorithm>(Algorithms.AKAZE);
+        builder.RegisterType<RANSAC_Algorithm>().Keyed<IImageMatchingAlgorithm>(Algorithms.RANSAC);
+        builder.RegisterType<BRISK_Algorithm>().Keyed<IImageMatchingAlgorithm>(Algorithms.BRISK);
+        builder.RegisterType<MSER_Algorithm>().Keyed<IImageMatchingAlgorithm>(Algorithms.MSER);
 
         builder.RegisterType<MainWindow>().AsSelf().SingleInstance();
         builder.RegisterType<MainWindowVM>().AsSelf().SingleInstance();
