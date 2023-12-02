@@ -9,9 +9,18 @@ namespace MeatAPI.Features.OriginalImage
         {
         }
 
-        public Task<DataAccess.Models.OriginalImage> GetIdByName(string imagePath)
+        public async Task<Guid?> GetIdByName(string imagePath)
         {
-            return _dbSet.AsNoTracking().FirstAsync(oi => oi.ImagePath == imagePath);
+            var entity = await _dbSet.AsNoTracking().FirstOrDefaultAsync(oi => oi.ImagePath == imagePath);
+
+            if (entity is not null)
+            {
+                return entity.Id;
+            }
+            else
+            {
+                return null;
+            }
         }
     }
 }

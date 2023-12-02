@@ -35,12 +35,22 @@ namespace MeatAPI.Features.OriginalImage
         }
 
         [HttpGet]
-        [Route("GetAllByCounterfeitId/{counterfeitId}")]
-        public async Task<ActionResult<IReadOnlyCollection<GetCounterfeitImageDTO>>> GetIdByName(string imagePath)
+        [Route("GetIdByName/{imagePath}")]
+        public async Task<ActionResult<Guid?>> GetIdByName(string imagePath)
         {
             var oi = await _originalImageService.GetIdByName(imagePath);
-            var oiDto = oi.Adapt<GetOriginalImageDTO>();
-            return Ok(oiDto);
+            //var oiDto = oi.Adapt<GetOriginalImageDTO>();
+
+            return Ok(oi);
+
+            //if (oi is not null)
+            //{
+            //    return Ok(oi);
+            //}
+            //else
+            //{
+            //    return Ok(null);
+            //}
         }
 
         [HttpPost]

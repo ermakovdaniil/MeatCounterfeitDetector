@@ -11,6 +11,7 @@ using Microsoft.IdentityModel.Tokens;
 using MeatAPI.Features.Result;
 using MeatAPI.Features.User;
 using MeatAPI.Features.UserRole;
+using MeatAPI.Features.OriginalImage;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -30,7 +31,7 @@ builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(EFGenericReposit
 builder.Services.AddTransient<EntityAccessServiceBase<CounterfeitKBContext, Counterfeit>>();
 builder.Services.AddTransient<CounterfeitImageService>();
 builder.Services.AddTransient<ResultService>();
-builder.Services.AddTransient<EntityAccessServiceBase<ResultDBContext, OriginalImage>>();
+builder.Services.AddTransient<OriginalImageService>();
 builder.Services.AddTransient<EntityAccessServiceBase<ResultDBContext, ResultImage>>();
 builder.Services.AddTransient<UserService>();
 builder.Services.AddTransient<UserRoleService>();

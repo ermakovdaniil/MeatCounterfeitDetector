@@ -8,6 +8,6 @@ namespace MeatCountefeitDetector.Utils.ImageLoader
 {
     public interface IImageLoader
     {
-        string GetFileName(string fileName, string extraPartOfPath);
+        string GetFileName(string fileName, string extraPartOfPath, string pathToInitialImage);
     }
 }

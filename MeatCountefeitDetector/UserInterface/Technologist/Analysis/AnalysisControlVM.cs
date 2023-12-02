@@ -132,6 +132,8 @@ public class AnalysisControlVM : ViewModelBase
     public CreateResultDTO AnalysisResult { get; set; }
     public int Progress { get; set; }
     private string _fileName { get; set; }
+    private Guid noId { get; set; } = Guid.Parse("00000000-0000-0000-0000-000000000000");
+
     #endregion
 
 
@@ -152,7 +154,7 @@ public class AnalysisControlVM : ViewModelBase
                     DisplayedImage = _bitmapService.LoadBitmapSource(path);
                     ResultImage = "";
 
-                    _fileName = _imageLoader.GetFileName(Path.GetFileName(path), @"..\..\..\resources\origImages\");
+                    _fileName = _imageLoader.GetFileName(Path.GetFileName(path), @"..\..\..\resources\origImages\", path);
                 }
             });
         }
@@ -200,24 +202,24 @@ public class AnalysisControlVM : ViewModelBase
 
                         //var analysisResultDTO = AnalysisResult.Adapt<CreateResultDTO>();
 
-                        // var originalId = _originalImageClient.GetIdByName(AnalysisResult.OriginalImagePath);
+                        Guid? originalId = (await _originalImageClient.GetIdByNameAsync(AnalysisResult.OriginalImagePath));
 
-                        //if (id is not null)
-                        //{
-                        var originalImageDTO = new CreateOriginalImageDTO
+                        if (originalId is not null) // is not null
+                        {
+                            var originalImageDTO = new CreateOriginalImageDTO
                             {
                                 ImagePath = AnalysisResult.OriginalImagePath
                             };
 
-                            var originalId = await _originalImageClient.OriginalImagePostAsync(originalImageDTO);
-                        //}
+                            originalId = await _originalImageClient.OriginalImagePostAsync(originalImageDTO);
+                        }
 
 
-                        if(AnalysisResult.ResultImagePath != "")
+                        if (AnalysisResult.ResultImagePath != "")
                         {
                             var resultImageDTO = new CreateResultImageDTO
                             {
-                                OriginalImageId = originalId,
+                                OriginalImageId = (Guid)originalId,
                                 ImagePath = AnalysisResult.ResultImagePath
                             };
 
@@ -225,7 +227,7 @@ public class AnalysisControlVM : ViewModelBase
                             AnalysisResult.ResultImageId = resultId;
                         }
 
-                        AnalysisResult.OriginalImageId = originalId;                       
+                        AnalysisResult.OriginalImageId = (Guid)originalId;                       
 
                         var res = await _resultClient.ResultPostAsync(AnalysisResult);
                     }

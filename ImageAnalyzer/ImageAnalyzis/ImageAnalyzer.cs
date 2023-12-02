@@ -153,11 +153,16 @@ public class ImageAnalyzer : FeatureMatchingHelper, IImageAnalyzer
 
         resultImagePath = "";
 
+        var date = DateTime.Now.ToString("dd.mm.yyyy_hh.mm.ss");
 
-            var date = DateTime.Now.ToString("dd.mm.yyyy_hh.mm.ss");
-            //var filename = "orig_" + date + ".png";
-            originalImagePath = @"..\..\..\resources\origImages\" + fileName;
-            originalImageMat.Save(originalImagePath);
+        if (fileName is null)
+        {
+            fileName = "orig_" + date + ".png";
+        }
+
+        //var filename = "orig_" + date + ".png";
+        originalImagePath = @"..\..\..\resources\origImages\" + fileName;
+        originalImageMat.Save(originalImagePath);
 
         if (score > percentOfSimilarity)
         {
@@ -191,7 +196,7 @@ public class ImageAnalyzer : FeatureMatchingHelper, IImageAnalyzer
             Mat result = new Mat();
             if (score > percentOfSimilarity)
             {
-                Features2DToolbox.DrawMatches(originalImageMat, modelKeyPoints, observedImageMat, observedKeyPoints, matches, result, 
+                Features2DToolbox.DrawMatches(originalImageMat, modelKeyPoints, observedImageMat, observedKeyPoints, matches, result,
                     new MCvScalar(0, 0, 255), new MCvScalar(255, 255, 255), mask, Features2DToolbox.KeypointDrawType.DrawRichKeypoints);
 
                 //Features2DToolbox.DrawMatches(originalImageMat, modelKeyPoints, observedImageMat, observedKeyPoints,
