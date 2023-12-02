@@ -5,8 +5,13 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:analysis="clr-namespace:MeatCounterfeitDetector.UserInterface.Technologist.Analysis"
+             xmlns:utils="clr-namespace:MeatCountefeitDetector.Utils"
              mc:Ignorable="d"
              d:DataContext="{d:DesignInstance analysis:AnalysisControlVM}">
+
+    <UserControl.Resources>
+        <utils:EnumToDisplayNameConverter x:Key="EnumToDisplayNameConverter"/>
+    </UserControl.Resources>
 
     <Grid>
         <Grid.RowDefinitions>
@@ -51,7 +56,7 @@
                             Text="Любой"
                             ItemsSource="{Binding CounterfeitVMs}"
                             hc:InfoElement.TitlePlacement="Top"
-                            SelectedItem="{Binding SelectedCounterfeit}"
+                            SelectedItem="{Binding SelectedCounterfeit, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                             DisplayMemberPath="Name"
                             Background="{StaticResource Style3}"
                             Margin="10 5" />
@@ -60,9 +65,23 @@
                             FontSize="17"                   
                             ItemsSource="{Binding EnumAlgorithms}"
                             hc:InfoElement.TitlePlacement="Top"
-                            SelectedItem="{Binding SelectedAlgorithm}"
+                            SelectedItem="{Binding SelectedAlgorithm, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                             Background="{StaticResource Style3}"
                             Margin="10 5" />
+
+                <hc:ComboBox hc:InfoElement.Title="Приоритет"
+                            FontSize="17" Width="240"                   
+                            ItemsSource="{Binding EnumPriorities}"
+                            hc:InfoElement.TitlePlacement="Top"
+                            SelectedItem="{Binding SelectedPriority, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                            Background="{StaticResource Style3}"
+                            Margin="10 5" >
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Converter={StaticResource EnumToDisplayNameConverter}}" />
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                </hc:ComboBox>
 
                 <Button Background="{StaticResource Style3}" Command="{Binding ShowAlgInfo}"
                     ToolTip="Справка о программе" Height="35" Margin="0,40,0,0" VerticalAlignment="Top">

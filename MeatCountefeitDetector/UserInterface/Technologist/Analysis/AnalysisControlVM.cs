@@ -112,11 +112,19 @@ public class AnalysisControlVM : ViewModelBase
 
     public ObservableCollection<CounterfeitVM> CounterfeitVMs { get; set; }
     public CounterfeitVM SelectedCounterfeit { get; set; }
+
     public Algorithms SelectedAlgorithm { get; set; } = Algorithms.SIFT;
     public List<Algorithms> EnumAlgorithms
     {
         get { return Enum.GetValues(typeof(Algorithms)).Cast<Algorithms>().ToList(); }
     }
+
+    public Priorities SelectedPriority { get; set; } = Priorities.Accuracy;
+    public List<Priorities> EnumPriorities
+    {
+        get { return Enum.GetValues(typeof(Priorities)).Cast<Priorities>().ToList(); }
+    }
+
     public double PercentOfSimilarity { get; set; }
     public BitmapSource DisplayedImage { get; set; }
     public string ResultImage { get; set; }
@@ -192,12 +200,18 @@ public class AnalysisControlVM : ViewModelBase
 
                         //var analysisResultDTO = AnalysisResult.Adapt<CreateResultDTO>();
 
-                        var originalImageDTO = new CreateOriginalImageDTO
-                        {
-                            ImagePath = AnalysisResult.OriginalImagePath
-                        };
+                        // var originalId = _originalImageClient.GetIdByName(AnalysisResult.OriginalImagePath);
 
-                        var originalId = await _originalImageClient.OriginalImagePostAsync(originalImageDTO);
+                        //if (id is not null)
+                        //{
+                        var originalImageDTO = new CreateOriginalImageDTO
+                            {
+                                ImagePath = AnalysisResult.OriginalImagePath
+                            };
+
+                            var originalId = await _originalImageClient.OriginalImagePostAsync(originalImageDTO);
+                        //}
+
 
                         if(AnalysisResult.ResultImagePath != "")
                         {

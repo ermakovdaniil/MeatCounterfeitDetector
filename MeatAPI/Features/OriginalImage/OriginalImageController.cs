@@ -1,6 +1,8 @@
-﻿using ClientAPI.DTO.OriginalImage;
+﻿using ClientAPI.DTO.CounterfeitImage;
+using ClientAPI.DTO.OriginalImage;
 using DataAccess.Data;
 using Mapster;
+using MeatAPI.Features.CounterfeitImage;
 using Microsoft.AspNetCore.Mvc;
 using WebAppWithReact.Controllers;
 
@@ -8,9 +10,9 @@ namespace MeatAPI.Features.OriginalImage
 {
     public class OriginalImageController : BaseAuthorizedController
     {
-        private readonly EntityAccessServiceBase<ResultDBContext, DataAccess.Models.OriginalImage> _originalImageService;
+        private readonly OriginalImageService _originalImageService;
 
-        public OriginalImageController(EntityAccessServiceBase<ResultDBContext, DataAccess.Models.OriginalImage> originalImageService)
+        public OriginalImageController(OriginalImageService originalImageService)
         {
             _originalImageService = originalImageService;
         }
@@ -28,6 +30,15 @@ namespace MeatAPI.Features.OriginalImage
         public async Task<ActionResult<GetOriginalImageDTO>> Get(Guid id)
         {
             var oi = await _originalImageService.Get(id);
+            var oiDto = oi.Adapt<GetOriginalImageDTO>();
+            return Ok(oiDto);
+        }
+
+        [HttpGet]
+        [Route("GetAllByCounterfeitId/{counterfeitId}")]
+        public async Task<ActionResult<IReadOnlyCollection<GetCounterfeitImageDTO>>> GetIdByName(string imagePath)
+        {
+            var oi = await _originalImageService.GetIdByName(imagePath);
             var oiDto = oi.Adapt<GetOriginalImageDTO>();
             return Ok(oiDto);
         }

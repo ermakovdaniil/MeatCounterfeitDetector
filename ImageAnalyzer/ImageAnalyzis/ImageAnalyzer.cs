@@ -153,13 +153,14 @@ public class ImageAnalyzer : FeatureMatchingHelper, IImageAnalyzer
 
         resultImagePath = "";
 
-        if (score > percentOfSimilarity)
-        {
+
             var date = DateTime.Now.ToString("dd.mm.yyyy_hh.mm.ss");
             //var filename = "orig_" + date + ".png";
             originalImagePath = @"..\..\..\resources\origImages\" + fileName;
             originalImageMat.Save(originalImagePath);
 
+        if (score > percentOfSimilarity)
+        {
             var resFilename = "res_" + date + ".png";
             resultImagePath = @"..\..\..\resources\resImages\" + resFilename;
             resultImageMat.Save(resultImagePath);
