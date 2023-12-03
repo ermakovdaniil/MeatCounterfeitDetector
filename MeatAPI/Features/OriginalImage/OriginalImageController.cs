@@ -36,21 +36,10 @@ namespace MeatAPI.Features.OriginalImage
 
         [HttpGet]
         [Route("GetIdByName/{imagePath}")]
-        public async Task<ActionResult<Guid?>> GetIdByName(string imagePath)
+        public async Task<ActionResult<Guid>> GetIdByName(string imagePath)
         {
             var oi = await _originalImageService.GetIdByName(imagePath);
-            //var oiDto = oi.Adapt<GetOriginalImageDTO>();
-
             return Ok(oi);
-
-            //if (oi is not null)
-            //{
-            //    return Ok(oi);
-            //}
-            //else
-            //{
-            //    return Ok(null);
-            //}
         }
 
         [HttpPost]

@@ -202,9 +202,9 @@ public class AnalysisControlVM : ViewModelBase
 
                         //var analysisResultDTO = AnalysisResult.Adapt<CreateResultDTO>();
 
-                        Guid? originalId = (await _originalImageClient.GetIdByNameAsync(AnalysisResult.OriginalImagePath));
+                        Guid originalId = (await _originalImageClient.GetIdByNameAsync(AnalysisResult.OriginalImagePath));
 
-                        if (originalId is not null) // is not null
+                        if (originalId == noId)
                         {
                             var originalImageDTO = new CreateOriginalImageDTO
                             {
@@ -219,7 +219,7 @@ public class AnalysisControlVM : ViewModelBase
                         {
                             var resultImageDTO = new CreateResultImageDTO
                             {
-                                OriginalImageId = (Guid)originalId,
+                                OriginalImageId = originalId,
                                 ImagePath = AnalysisResult.ResultImagePath
                             };
 
@@ -227,7 +227,7 @@ public class AnalysisControlVM : ViewModelBase
                             AnalysisResult.ResultImageId = resultId;
                         }
 
-                        AnalysisResult.OriginalImageId = (Guid)originalId;                       
+                        AnalysisResult.OriginalImageId = originalId;                       
 
                         var res = await _resultClient.ResultPostAsync(AnalysisResult);
                     }

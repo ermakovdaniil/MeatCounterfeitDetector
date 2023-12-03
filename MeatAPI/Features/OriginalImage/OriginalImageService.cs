@@ -9,7 +9,7 @@ namespace MeatAPI.Features.OriginalImage
         {
         }
 
-        public async Task<Guid?> GetIdByName(string imagePath)
+        public async Task<Guid> GetIdByName(string imagePath)
         {
             var entity = await _dbSet.AsNoTracking().FirstOrDefaultAsync(oi => oi.ImagePath == imagePath);
 
@@ -19,7 +19,7 @@ namespace MeatAPI.Features.OriginalImage
             }
             else
             {
-                return null;
+                return Guid.Parse("00000000-0000-0000-0000-000000000000");
             }
         }
     }

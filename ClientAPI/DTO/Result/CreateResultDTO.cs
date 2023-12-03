@@ -25,9 +25,9 @@ namespace ClientAPI.DTO.Result
         [Required(ErrorMessage = "OriginalImageId is required")]
         public Guid OriginalImageId { get; set; }
 
-        public Guid ResultImageId { get; set; }
+        public Guid? ResultImageId { get; set; }
 
         public string OriginalImagePath { get; set; }
-        public string ResultImagePath { get; set; }
+        public string? ResultImagePath { get; set; }
     }
 }
