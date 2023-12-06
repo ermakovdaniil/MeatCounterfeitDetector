@@ -123,6 +123,9 @@ public partial class App : Application
         builder.RegisterType<ORB_Algorithm>().Keyed<IImageMatchingAlgorithm>(Algorithms.ORB);
         builder.RegisterType<AKAZE_Algorithm>().Keyed<IImageMatchingAlgorithm>(Algorithms.AKAZE);
         builder.RegisterType<BRISK_Algorithm>().Keyed<IImageMatchingAlgorithm>(Algorithms.BRISK);
+        builder.RegisterType<LATCH_Algorithm>().Keyed<IImageMatchingAlgorithm>(Algorithms.LATCH);
+        builder.RegisterType<FREAK_Algorithm>().Keyed<IImageMatchingAlgorithm>(Algorithms.FREAK);
+        builder.RegisterType<DAISY_Algorithm>().Keyed<IImageMatchingAlgorithm>(Algorithms.DAISY);
 
         builder.RegisterType<MainWindow>().AsSelf().SingleInstance();
         builder.RegisterType<MainWindowVM>().AsSelf().SingleInstance();

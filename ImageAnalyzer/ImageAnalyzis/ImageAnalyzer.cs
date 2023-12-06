@@ -84,16 +84,20 @@ public class ImageAnalyzer : FeatureMatchingHelper, IImageAnalyzer
                 _algorithm = _algorithms[Algorithms.AKAZE];
                 break;
 
-            case Algorithms.RANSAC:
-                _algorithm = _algorithms[Algorithms.RANSAC];
-                break;
-
             case Algorithms.BRISK:
                 _algorithm = _algorithms[Algorithms.BRISK];
                 break;
 
-            case Algorithms.MSER:
-                _algorithm = _algorithms[Algorithms.MSER];
+            case Algorithms.LATCH:
+                _algorithm = _algorithms[Algorithms.LATCH];
+                break;
+
+            case Algorithms.FREAK:
+                _algorithm = _algorithms[Algorithms.FREAK];
+                break;
+
+            case Algorithms.DAISY:
+                _algorithm = _algorithms[Algorithms.DAISY];
                 break;
 
             default:
@@ -174,7 +178,7 @@ public class ImageAnalyzer : FeatureMatchingHelper, IImageAnalyzer
 
     public Mat Draw(Mat originalImageMat, Mat grayscaleImageMat, Mat observedImageMat, out double matchTime, out double score, double percentOfSimilarity, Algorithms algorithm)
     {
-        double uniquenessThreshold = 0.85;
+        double uniquenessThreshold = 0.8;
 
         Mat grayscaleObservedImageMat = new Mat();
         CvInvoke.CvtColor(observedImageMat, grayscaleObservedImageMat, ColorConversion.Bgr2Gray);
@@ -194,14 +198,20 @@ public class ImageAnalyzer : FeatureMatchingHelper, IImageAnalyzer
             CalculateScore(mask, out score, grayscaleImageMat, grayscaleObservedImageMat, goodMatchesCount);
 
             Mat result = new Mat();
+
+            //Features2DToolbox.DrawMatches(originalImageMat, modelKeyPoints, observedImageMat, observedKeyPoints, matches, result,
+            //    new MCvScalar(0, 0, 255), new MCvScalar(255, 255, 255), mask, Features2DToolbox.KeypointDrawType.NotDrawSinglePoints);
+
             if (score > percentOfSimilarity)
             {
-                Features2DToolbox.DrawMatches(originalImageMat, modelKeyPoints, observedImageMat, observedKeyPoints, matches, result,
-                    new MCvScalar(0, 0, 255), new MCvScalar(255, 255, 255), mask, Features2DToolbox.KeypointDrawType.DrawRichKeypoints);
+                //Features2DToolbox.DrawMatches(originalImageMat, modelKeyPoints, observedImageMat, observedKeyPoints, matches, result,
+                //    new MCvScalar(0, 0, 255), new MCvScalar(255, 255, 255), null, Features2DToolbox.KeypointDrawType.DrawRichKeypoints);
 
-                //Features2DToolbox.DrawMatches(originalImageMat, modelKeyPoints, observedImageMat, observedKeyPoints,
-                //    matches, result, new MCvScalar(0, 0, 255), new MCvScalar(255, 255, 255), mask, Features2DToolbox.KeypointDrawType.NotDrawSinglePoints);
+                Features2DToolbox.DrawMatches(originalImageMat, modelKeyPoints, observedImageMat, observedKeyPoints,
+                    matches, result, new MCvScalar(0, 0, 255), new MCvScalar(255, 255, 255), mask, Features2DToolbox.KeypointDrawType.NotDrawSinglePoints);
+                
                 //CvInvoke.Imshow("Matches", result);
+
                 //if (homography != null)
                 //{
                 //    Rectangle rect = new Rectangle(Point.Empty, originalImageMat.Size);
