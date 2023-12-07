@@ -24,18 +24,22 @@ namespace ImageWorker.ImageAnalyzis.KeypointAlgorithms
             return distMatches;
         }
 
-        protected void CalculateScore(Mat mask, out double score, Mat grayscaleImageMat, Mat grayscaleObservedImageMat, double distMatches)
+        protected void CalculateScore(VectorOfVectorOfDMatch matches, Mat mask, double threshold, out double score)
         {
             if (!mask.IsEmpty)
             {
                 List<double> scores = new List<double>();
 
+                double distMatches = CountGoodMatches(matches, threshold);
+                double distMatchesForHigherThreshold = CountGoodMatches(matches, threshold + 0.06);
                 double goodMatches = CountHowManyPairsExist(mask);
 
                 //var temp = mask.GetData().Length - goodMatches;
                 //double fisrtScore = goodMatches / temp;
-
                 //scores.Add(fisrtScore);
+
+                double fisrtScore = distMatches / (distMatchesForHigherThreshold + 1);
+                scores.Add(fisrtScore);
 
                 double secondScore = goodMatches / distMatches;
                 if (goodMatches >= distMatches)
@@ -90,7 +94,6 @@ namespace ImageWorker.ImageAnalyzis.KeypointAlgorithms
             var matched = mask.GetData();
             var list = matched.OfType<byte>().ToList();
             var count = list.Count(a => a != 0);
-
             return count;
         }
     }

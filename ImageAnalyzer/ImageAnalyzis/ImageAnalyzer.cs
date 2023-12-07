@@ -34,31 +34,18 @@ public class ImageAnalyzer : FeatureMatchingHelper, IImageAnalyzer
     private readonly IIndex<Algorithms, IImageMatchingAlgorithm> _algorithms;
     private readonly IBitmapService _bitmapService;
     private readonly IProgressReporter _progressReporter;
-    //private readonly IImageMatchingAlgorithm _imageMatchingAlgorithm;
 
     public ImageAnalyzer(IBitmapService bitmapService,
                          IProgressReporter progressReporter,
-                         IIndex<Algorithms, IImageMatchingAlgorithm> algorithms
-                         /*IImageMatchingAlgorithm imageMatchingAlgorithm*/)
+                         IIndex<Algorithms, IImageMatchingAlgorithm> algorithms)
     {
         _bitmapService = bitmapService;
         _progressReporter = progressReporter;
         _algorithms = algorithms;
-        //_imageMatchingAlgorithm = imageMatchingAlgorithm;
-
-        //algorithmDictionary = new Dictionary<Algorithms, IImageMatchingAlgorithm>
-        //{
-        //    { Algorithms.SIFT, new SIFT_Algorithm() },
-        //    { Algorithms.ORB, new ORB_Algorithm() },
-        //    { Algorithms.AKAZE, new AKAZE_Algorithm() },
-        //    { Algorithms.RANSAC, new RANSAC_Algorithm() },
-        //    { Algorithms.BRISK, new BRISK_Algorithm() },
-        //    { Algorithms.MSER, new MSER_Algorithm() },
-        //};
     }
 
     public CreateResultDTO RunAnalysis(BitmapSource originalImage, List<GetCounterfeitImageDTO> counterfeitImagesDTOs,
-                                       double percentOfSimilarity, Guid userId, Algorithms algorithm, string fileName)
+                                       double percentOfSimilarity, Guid userId, Algorithms algorithm, string fileName, string pathToInitialImage)
     {
         string analysisResult = "";
         string originalImagePath = "";
@@ -66,7 +53,6 @@ public class ImageAnalyzer : FeatureMatchingHelper, IImageAnalyzer
         double matchTime = 0;
         double score = 0;
         double tempTime = 0;
-
 
         _algorithm = null;
 
@@ -121,7 +107,7 @@ public class ImageAnalyzer : FeatureMatchingHelper, IImageAnalyzer
 
         for (int i = 0; i < counterfeitImagesDTOs.Count; i++)
         {
-            AnalyzeImage(ref originalImagePath, counterfeitImagesDTOs[i].ImagePath, out resultImagePath, out tempTime, out score, percentOfSimilarity, algorithm, fileName);
+            AnalyzeImage(ref originalImagePath, counterfeitImagesDTOs[i].ImagePath, out resultImagePath, out tempTime, out score, percentOfSimilarity, algorithm, fileName, pathToInitialImage);
             matchTime += tempTime;
             if (score > percentOfSimilarity)
             {
@@ -146,7 +132,7 @@ public class ImageAnalyzer : FeatureMatchingHelper, IImageAnalyzer
     }
 
     private void AnalyzeImage(ref string originalImagePath, string counterfeitImage, out string resultImagePath, out double matchTime,
-                              out double score, double percentOfSimilarity, Algorithms algorithm, string fileName)
+                              out double score, double percentOfSimilarity, Algorithms algorithm, string fileName, string pathToInitialImage)
     {
         string pathToBase = Directory.GetCurrentDirectory();
         string combinedPath = Path.Combine(pathToBase, counterfeitImage);
@@ -165,8 +151,11 @@ public class ImageAnalyzer : FeatureMatchingHelper, IImageAnalyzer
         }
 
         //var filename = "orig_" + date + ".png";
+
         originalImagePath = @"..\..\..\resources\origImages\" + fileName;
-        originalImageMat.Save(originalImagePath);
+        File.Copy(pathToInitialImage, originalImagePath, true);
+
+        //originalImageMat.Save(originalImagePath);
 
         if (score > percentOfSimilarity)
         {
@@ -191,11 +180,10 @@ public class ImageAnalyzer : FeatureMatchingHelper, IImageAnalyzer
         using (VectorOfVectorOfDMatch matches = new VectorOfVectorOfDMatch())
         {
             Mat mask;
-            modelKeyPoints = _algorithm.FindMatch(originalImageMat, observedImageMat, out observedKeyPoints, matches, out mask, out homography, uniquenessThreshold);
+            modelKeyPoints = _algorithm.FindMatch(originalImageMat, observedImageMat, out observedKeyPoints, matches, 
+                                                  out mask, out homography, uniquenessThreshold);
 
-            double goodMatchesCount = CountGoodMatches(matches, uniquenessThreshold);
-
-            CalculateScore(mask, out score, grayscaleImageMat, grayscaleObservedImageMat, goodMatchesCount);
+            CalculateScore(matches, mask, uniquenessThreshold, out score);
 
             Mat result = new Mat();
 
@@ -204,12 +192,12 @@ public class ImageAnalyzer : FeatureMatchingHelper, IImageAnalyzer
 
             if (score > percentOfSimilarity)
             {
-                //Features2DToolbox.DrawMatches(originalImageMat, modelKeyPoints, observedImageMat, observedKeyPoints, matches, result,
-                //    new MCvScalar(0, 0, 255), new MCvScalar(255, 255, 255), null, Features2DToolbox.KeypointDrawType.DrawRichKeypoints);
+                Features2DToolbox.DrawMatches(originalImageMat, modelKeyPoints, observedImageMat, observedKeyPoints, matches, result,
+                    new MCvScalar(0, 0, 255), new MCvScalar(255, 255, 255), mask, Features2DToolbox.KeypointDrawType.NotDrawSinglePoints);
 
-                Features2DToolbox.DrawMatches(originalImageMat, modelKeyPoints, observedImageMat, observedKeyPoints,
-                    matches, result, new MCvScalar(0, 0, 255), new MCvScalar(255, 255, 255), mask, Features2DToolbox.KeypointDrawType.NotDrawSinglePoints);
-                
+                //Features2DToolbox.DrawMatches(originalImageMat, modelKeyPoints, observedImageMat, observedKeyPoints,
+                //    matches, result, new MCvScalar(0, 0, 255), new MCvScalar(255, 255, 255), mask, Features2DToolbox.KeypointDrawType.NotDrawSinglePoints);
+
                 //CvInvoke.Imshow("Matches", result);
 
                 //if (homography != null)

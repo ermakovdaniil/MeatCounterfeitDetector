@@ -17,7 +17,7 @@ namespace ImageWorker.ImageAnalyzis.KeypointAlgorithms
         {
             int k = 2;
             homography = null;
-
+            
             ORB orb = new ORB();
 
             if (modelDescriptors is null || modelKeyPoints is null || previousModelImage != grayscaleImageMat)

@@ -132,6 +132,7 @@ public class AnalysisControlVM : ViewModelBase
     public CreateResultDTO AnalysisResult { get; set; }
     public int Progress { get; set; }
     private string _fileName { get; set; }
+    private string _pathToInitialImage { get; set; }
     private Guid noId { get; set; } = Guid.Parse("00000000-0000-0000-0000-000000000000");
 
     #endregion
@@ -155,6 +156,7 @@ public class AnalysisControlVM : ViewModelBase
                     ResultImage = "";
 
                     _fileName = _imageLoader.GetFileName(Path.GetFileName(path), @"..\..\..\resources\origImages\", path);
+                    _pathToInitialImage = path;
                 }
             });
         }
@@ -188,7 +190,7 @@ public class AnalysisControlVM : ViewModelBase
 
                         // var counterfeitImages = counterfeitImagesDTOs.Adapt<List<CounterfeitImage>>();
 
-                        AnalysisResult = _analyzer.RunAnalysis(DisplayedImage, counterfeitImagesDTOs, PercentOfSimilarity, _userService.CurrentUserId, SelectedAlgorithm, _fileName);
+                        AnalysisResult = _analyzer.RunAnalysis(DisplayedImage, counterfeitImagesDTOs, PercentOfSimilarity, _userService.CurrentUserId, SelectedAlgorithm, _fileName, _pathToInitialImage);
 
                         SearchResult = CreateSearchResult(AnalysisResult);
 

@@ -3,7 +3,7 @@ using Emgu.CV.CvEnum;
 using Emgu.CV.Features2D;
 using Emgu.CV.Structure;
 using Emgu.CV.Util;
-
+using Emgu.CV.XFeatures2D;
 
 namespace ImageWorker.ImageAnalyzis.KeypointAlgorithms
 {
@@ -17,7 +17,7 @@ namespace ImageWorker.ImageAnalyzis.KeypointAlgorithms
         {
             int k = 2;
             homography = null;
-            
+
             AKAZE akaze = new AKAZE();
 
             if (modelDescriptors is null || modelKeyPoints is null || previousModelImage != grayscaleImageMat)
