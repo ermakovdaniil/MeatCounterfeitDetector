@@ -17,11 +17,8 @@
     <ItemGroup>
         <None Remove="resources\algExamples\AKAZE.jpg" />
         <None Remove="resources\algExamples\BRISK.jpg" />
-        <None Remove="resources\algExamples\MSER.jpg" />
         <None Remove="resources\algExamples\ORB.jpg" />
-        <None Remove="resources\algExamples\RANSAC.jpg" />
         <None Remove="resources\algExamples\SIFT.jpg" />
-        <None Remove="resources\algExamples\SURF.jpg" />
         <None Remove="resources\icons\admin.png" />
         <None Remove="resources\icons\cancel.png" />
         <None Remove="resources\icons\delete.png" />
@@ -78,19 +75,10 @@
         <Resource Include="resources\algExamples\BRISK.jpg">
           <CopyToOutputDirectory>Never</CopyToOutputDirectory>
         </Resource>
-        <Resource Include="resources\algExamples\MSER.jpg">
-          <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-        </Resource>
         <Resource Include="resources\algExamples\ORB.jpg">
           <CopyToOutputDirectory>Never</CopyToOutputDirectory>
         </Resource>
-        <Resource Include="resources\algExamples\RANSAC.jpg">
-          <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-        </Resource>
         <Resource Include="resources\algExamples\SIFT.jpg">
-          <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-        </Resource>
-        <Resource Include="resources\algExamples\SURF.jpg">
           <CopyToOutputDirectory>Never</CopyToOutputDirectory>
         </Resource>
         <Resource Include="resources\icons\admin.png">

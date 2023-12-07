@@ -41,84 +41,7 @@
                 </Grid.ColumnDefinitions>
 
 
-
                 <TextBlock Grid.Row="1" Grid.Column="0"  
-                       VerticalAlignment="Center" HorizontalAlignment="Stretch"
-                       FontSize="16" Margin="5 10" Padding="5"
-                       Background="{StaticResource Style3}" TextWrapping="Wrap"> 
-                <Bold>Алгоритм ORB</Bold> хорошо работает с изображениями с низкой яркостью, резкими изображениями,
-                изображениями с низким уровнем шума. ORB работает быстро, но проигрывает в точности другим алгоритмам.
-                </TextBlock>
-
-                <Border Grid.Row="1" Grid.Column="1" BorderThickness="2" Margin="10" Width="400" Height="200"  BorderBrush="{StaticResource Style4}" Background="{StaticResource Style3}">
-                    <Image Source="pack://application:,,,/resources/algExamples/ORB.jpg" Stretch="Fill"/>
-                </Border>
-
-
-                <TextBlock Grid.Row="2" Grid.Column="0"  
-                       VerticalAlignment="Center" HorizontalAlignment="Stretch"
-                       FontSize="16" Margin="5 10" Padding="5"
-                       Background="{StaticResource Style3}" TextWrapping="Wrap"> 
-                <Bold>Алгоритм AKAZE</Bold> подходит для резких изображений. AKAZE способен обрабатывать блики на изображениях и 
-                успешно справляется с аффиными искажениями. AKAZE имеет высокую точность за счёт более сложных рассчётов.
-                </TextBlock>
-
-                <Border Grid.Row="2" Grid.Column="1" BorderThickness="2" Margin="10" Width="400" Height="200"  BorderBrush="{StaticResource Style4}" Background="{StaticResource Style3}">
-                    <Image Source="pack://application:,,,/resources/algExamples/AKAZE.jpg" Stretch="Fill"/>
-                </Border>
-
-
-                <TextBlock Grid.Row="3" Grid.Column="0"  
-                       VerticalAlignment="Center" HorizontalAlignment="Stretch"
-                       FontSize="16" Margin="5 10" Padding="5"
-                       Background="{StaticResource Style3}" TextWrapping="Wrap"> 
-                <Bold>Алгоритм BRISK</Bold> работает с изображениями с высоким уровнем яркости и резкости. BRISK имеет высокую скорость работы.
-                </TextBlock>
-
-                <Border Grid.Row="3" Grid.Column="1" BorderThickness="2" Margin="10" Width="400" Height="180"  BorderBrush="{StaticResource Style4}" Background="{StaticResource Style3}">
-                    <Image Source="pack://application:,,,/resources/algExamples/BRISK.jpg" Stretch="Fill"/>
-                </Border>
-
-
-                <TextBlock Grid.Row="4" Grid.Column="0"  
-                       VerticalAlignment="Center" HorizontalAlignment="Stretch"
-                       FontSize="16" Margin="5 10" Padding="5"
-                       Background="{StaticResource Style3}" TextWrapping="Wrap"> 
-                <Bold>Алгоритм MSER</Bold> хорошо справляется с изменениями яркости, так как он ориентирован на выделение устойчивых областей<LineBreak></LineBreak>
-                 Хорошо работает при низком уровне шума и устойчив к искажениям. Обеспечивает хорошую точность.
-                </TextBlock>
-
-                <Border Grid.Row="4" Grid.Column="1" BorderThickness="2" Margin="10" Width="400" Height="250"  BorderBrush="{StaticResource Style4}" Background="{StaticResource Style3}">
-                    <Image Source="pack://application:,,,/resources/algExamples/MSER.jpg" Stretch="Fill"/>
-                </Border>
-
-
-                <TextBlock Grid.Row="5" Grid.Column="0"  
-                       VerticalAlignment="Center" HorizontalAlignment="Stretch"
-                       FontSize="16" Margin="5 10" Padding="5"
-                       Background="{StaticResource Style3}" TextWrapping="Wrap">  
-                <Bold>Алгоритм RANSAC</Bold> устойчив к шуму на изображениях. Обладает высокой точностью работы.
-                </TextBlock>
-
-                <Border Grid.Row="5" Grid.Column="1" BorderThickness="2" Margin="10" Width="400" Height="200"  BorderBrush="{StaticResource Style4}" Background="{StaticResource Style3}">
-                    <Image Source="pack://application:,,,/resources/algExamples/RANSAC.jpg" Stretch="Fill"/>
-                </Border>
-
-
-                <TextBlock Grid.Row="6" Grid.Column="0"  
-                       VerticalAlignment="Center" HorizontalAlignment="Stretch"
-                       FontSize="16" Margin="5 10" Padding="5"
-                       Background="{StaticResource Style3}" TextWrapping="Wrap">  
-                <Bold>Алгоритм SURF</Bold> эффективный при анализе изображений с высокой яркостью. SURF справляется с низким уровнем шума.<LineBreak></LineBreak>
-                Устойчив к бликам. Имеет высокую точность, но работает медленнее большинства алгоритмов.
-                </TextBlock>
-
-                <Border Grid.Row="6" Grid.Column="1" BorderThickness="2" Margin="10" Width="400" Height="200"  BorderBrush="{StaticResource Style4}" Background="{StaticResource Style3}">
-                    <Image Source="pack://application:,,,/resources/algExamples/SURF.jpg" Stretch="Fill"/>
-                </Border>
-
-
-                <TextBlock Grid.Row="7" Grid.Column="0"  
                        VerticalAlignment="Center" HorizontalAlignment="Stretch"
                        FontSize="16" Margin="5 10" Padding="5"
                        Background="{StaticResource Style3}" TextWrapping="Wrap">  
@@ -126,10 +49,83 @@
                 повороту и нелинейным искажениям. Обладает высокой точностью. Требует много ресурсов и времени.
                 </TextBlock>
 
-                <Border Grid.Row="7" Grid.Column="1" BorderThickness="2" Margin="10" Width="400" Height="300"  BorderBrush="{StaticResource Style4}" Background="{StaticResource Style3}">
+                <Border Grid.Row="1" Grid.Column="1" BorderThickness="2" Margin="10" Width="400" Height="300"  BorderBrush="{StaticResource Style4}" Background="{StaticResource Style3}">
                     <Image Source="pack://application:,,,/resources/algExamples/SIFT.jpg" Stretch="Fill"/>
                 </Border>
 
+                <TextBlock Grid.Row="2" Grid.Column="0"  
+                       VerticalAlignment="Center" HorizontalAlignment="Stretch"
+                       FontSize="16" Margin="5 10" Padding="5"
+                       Background="{StaticResource Style3}" TextWrapping="Wrap"> 
+                <Bold>Алгоритм ORB</Bold> хорошо работает с изображениями с низкой яркостью, резкими изображениями,
+                изображениями с низким уровнем шума. ORB работает быстро, но проигрывает в точности другим алгоритмам.
+                </TextBlock>
+
+                <Border Grid.Row="2" Grid.Column="1" BorderThickness="2" Margin="10" Width="400" Height="200"  BorderBrush="{StaticResource Style4}" Background="{StaticResource Style3}">
+                    <Image Source="pack://application:,,,/resources/algExamples/ORB.jpg" Stretch="Fill"/>
+                </Border>
+
+
+                <TextBlock Grid.Row="3" Grid.Column="0"  
+                       VerticalAlignment="Center" HorizontalAlignment="Stretch"
+                       FontSize="16" Margin="5 10" Padding="5"
+                       Background="{StaticResource Style3}" TextWrapping="Wrap"> 
+                <Bold>Алгоритм AKAZE</Bold> подходит для резких изображений. AKAZE способен обрабатывать блики на изображениях и 
+                успешно справляется с аффиными искажениями. AKAZE имеет высокую точность за счёт более сложных рассчётов.
+                </TextBlock>
+
+                <Border Grid.Row="3" Grid.Column="1" BorderThickness="2" Margin="10" Width="400" Height="200"  BorderBrush="{StaticResource Style4}" Background="{StaticResource Style3}">
+                    <Image Source="pack://application:,,,/resources/algExamples/AKAZE.jpg" Stretch="Fill"/>
+                </Border>
+
+
+                <TextBlock Grid.Row="4" Grid.Column="0"  
+                       VerticalAlignment="Center" HorizontalAlignment="Stretch"
+                       FontSize="16" Margin="5 10" Padding="5"
+                       Background="{StaticResource Style3}" TextWrapping="Wrap"> 
+                <Bold>Алгоритм BRISK</Bold> работает с изображениями с высоким уровнем яркости и резкости. BRISK имеет высокую скорость работы.
+                </TextBlock>
+
+                <Border Grid.Row="4" Grid.Column="1" BorderThickness="2" Margin="10" Width="400" Height="180"  BorderBrush="{StaticResource Style4}" Background="{StaticResource Style3}">
+                    <Image Source="pack://application:,,,/resources/algExamples/BRISK.jpg" Stretch="Fill"/>
+                </Border>
+
+
+                <TextBlock Grid.Row="5" Grid.Column="0"  
+                       VerticalAlignment="Center" HorizontalAlignment="Stretch"
+                       FontSize="16" Margin="5 10" Padding="5"
+                       Background="{StaticResource Style3}" TextWrapping="Wrap"> 
+                <Bold>Алгоритм LATCH</Bold> текст <LineBreak></LineBreak>
+                 текст
+                </TextBlock>
+
+                <Border Grid.Row="5" Grid.Column="1" BorderThickness="2" Margin="10" Width="400" Height="250"  BorderBrush="{StaticResource Style4}" Background="{StaticResource Style3}">
+                    <Image Source="pack://application:,,,/resources/algExamples/LATCH.jpg" Stretch="Fill"/>
+                </Border>
+
+
+                <TextBlock Grid.Row="6" Grid.Column="0"  
+                       VerticalAlignment="Center" HorizontalAlignment="Stretch"
+                       FontSize="16" Margin="5 10" Padding="5"
+                       Background="{StaticResource Style3}" TextWrapping="Wrap">  
+                <Bold>Алгоритм FREAK</Bold> текст
+                </TextBlock>
+
+                <Border Grid.Row="6" Grid.Column="1" BorderThickness="2" Margin="10" Width="400" Height="200"  BorderBrush="{StaticResource Style4}" Background="{StaticResource Style3}">
+                    <Image Source="pack://application:,,,/resources/algExamples/FREAK.jpg" Stretch="Fill"/>
+                </Border>
+
+
+                <TextBlock Grid.Row="7" Grid.Column="0"  
+                       VerticalAlignment="Center" HorizontalAlignment="Stretch"
+                       FontSize="16" Margin="5 10" Padding="5"
+                       Background="{StaticResource Style3}" TextWrapping="Wrap">  
+                <Bold>Алгоритм DAISY</Bold> текст
+                </TextBlock>
+
+                <Border Grid.Row="7" Grid.Column="1" BorderThickness="2" Margin="10" Width="400" Height="200"  BorderBrush="{StaticResource Style4}" Background="{StaticResource Style3}">
+                    <Image Source="pack://application:,,,/resources/algExamples/DAISY.jpg" Stretch="Fill"/>
+                </Border>
 
             </Grid>
         </hc:ScrollViewer>

@@ -39,6 +39,7 @@ public class AnalysisControlVM : ViewModelBase
     private readonly OriginalImageClient _originalImageClient;
     private readonly ResultImageClient _resultImageClient;
     private readonly ResultClient _resultClient;
+    private readonly UserClient _userClient;
     private readonly NavigationManager _navigationManager;
     private readonly IUserService _userService;
     private readonly IProgressReporter _progressReporter;
@@ -53,6 +54,7 @@ public class AnalysisControlVM : ViewModelBase
                                  OriginalImageClient originalImageClient,
                                  ResultImageClient resultImageClient,
                                  ResultClient resultClient,
+                                 UserClient userClient,
                                  NavigationManager navigationManager,
                                  IImageAnalyzer analyzer,
                                  IFileDialogService fileDialogService,
@@ -74,6 +76,7 @@ public class AnalysisControlVM : ViewModelBase
         _fileDialogService = fileDialogService;
         _dialogService = dialogService;
         _messageBoxService = messageBoxService;
+        _userClient = userClient;
         _userService = userService;
         _progressReporter = progressReporter;
         _eventAggregator = eventAggregator;
@@ -188,8 +191,6 @@ public class AnalysisControlVM : ViewModelBase
                             counterfeitImagesDTOs = (await _counterfeitImageClient.GetAllByCounterfeitIdAsync(SelectedCounterfeit.Id)).ToList();
                         }
 
-                        // var counterfeitImages = counterfeitImagesDTOs.Adapt<List<CounterfeitImage>>();
-
                         AnalysisResult = _analyzer.RunAnalysis(DisplayedImage, counterfeitImagesDTOs, PercentOfSimilarity, _userService.CurrentUserId, SelectedAlgorithm, _fileName, _pathToInitialImage);
 
                         SearchResult = CreateSearchResult(AnalysisResult);
@@ -202,8 +203,6 @@ public class AnalysisControlVM : ViewModelBase
                             ResultImage = combinedPath;
                         }
 
-                        //var analysisResultDTO = AnalysisResult.Adapt<CreateResultDTO>();
-
                         Guid originalId = (await _originalImageClient.GetIdByNameAsync(AnalysisResult.OriginalImagePath));
 
                         if (originalId == noId)
@@ -215,7 +214,6 @@ public class AnalysisControlVM : ViewModelBase
 
                             originalId = await _originalImageClient.OriginalImagePostAsync(originalImageDTO);
                         }
-
 
                         if (AnalysisResult.ResultImagePath != "")
                         {
@@ -237,10 +235,10 @@ public class AnalysisControlVM : ViewModelBase
                     {
                         _messageBoxService.ShowMessage("Данные в базе фальсификатов были удалены или повреждены.\nПеред запуском анализа устраните проблему.", "Ошибка!", MessageBoxButton.OK, MessageBoxImage.Error);
                     }
-                    //catch (Emgu.CV.Util.CvException)
-                    //{
-                    //    _messageBoxService.ShowMessage("Данное изображение не удаётся обработать. Попробуйте изменить разрешение изображения.", "Ошибка!", MessageBoxButton.OK, MessageBoxImage.Error);
-                    //}
+                    catch (Emgu.CV.Util.CvException)
+                    {
+                        _messageBoxService.ShowMessage("Данное изображение не удаётся обработать. Попробуйте изменить разрешение изображения.", "Ошибка!", MessageBoxButton.OK, MessageBoxImage.Error);
+                    }
                 }
             });
         }
@@ -252,7 +250,7 @@ public class AnalysisControlVM : ViewModelBase
     {
         get
         {
-            return _createFile ??= new RelayCommand(_ =>
+            return _createFile ??= new RelayCommand(async _ =>
             {
                 if (AnalysisResult is null)
                 {
@@ -264,7 +262,8 @@ public class AnalysisControlVM : ViewModelBase
                     var filePath = _fileDialogService.SaveFileDialog(filename, ext: ".pdf");
                     if (!string.IsNullOrEmpty(filePath))
                     {
-                        //FileSystem.ExportPdf(filePath, AnalysisResult, _userService.User);
+                        var user = await _userClient.UserGetAsync(_userService.CurrentUserId);
+                        FileSystem.ExportPdf(filePath, AnalysisResult, user);
                     }
                 }
             });

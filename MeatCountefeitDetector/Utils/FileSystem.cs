@@ -1,4 +1,6 @@
-﻿using DataAccess.Models;
+﻿using ClientAPI.DTO.Result;
+using ClientAPI.DTO.User;
+using DataAccess.Models;
 using iText.IO.Font;
 using iText.IO.Image;
 using iText.Kernel.Font;
@@ -49,7 +51,7 @@ internal static class FileSystem
         image.Scale(scaler, scaler);
     }
 
-    public static void ExportPdf(string path, Result result, User user)
+    public static void ExportPdf(string path, CreateResultDTO result, GetUserDTO user)
     {
         var writer = new PdfWriter(path);
         var pdf = new PdfDocument(writer);
@@ -64,14 +66,14 @@ internal static class FileSystem
         document.Add(header);
         document.Add(new Paragraph("Исходное изображение:"));
 
-        var initialImage = CreateAndFitImage(result.OriginalImage.ImagePath, document);
+        var initialImage = CreateAndFitImage(result.OriginalImagePath, document);
         document.Add(initialImage);
         document.Add(new AreaBreak());
 
-        if (result.ResultImage.ImagePath is not null)
+        if (result.ResultImagePath is not null)
         {
             document.Add(new Paragraph("Обработанное изображение:"));
-            var resImage = CreateAndFitImage(result.ResultImage.ImagePath, document);
+            var resImage = CreateAndFitImage(result.ResultImagePath, document);
             document.Add(resImage);
         }
 
