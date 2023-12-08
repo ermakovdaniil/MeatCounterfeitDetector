@@ -49,8 +49,6 @@ public class ImageEditingControlVM : ViewModelBase
     public void GetImageData(BitmapSource source)
     {
         Brightness = _editor.GetBrightness(source);
-
-        originalBrightness = _editor.GetBrightness(source);
     }
 
     private void SaveBitmapSourceAsImage(BitmapSource source, string filePath)
@@ -97,6 +95,19 @@ public class ImageEditingControlVM : ViewModelBase
     }
 
 
+    private int _noise;
+    public int Noise
+    {
+        get => _noise;
+        set
+        {
+            if (value == _noise) return;
+            _noise = value;
+            AdjustNoise.Execute(null);
+            OnPropertyChanged();
+        }
+    }
+
     public BitmapSource OriginalImage { get; set; }
     public BitmapSource ResultImage { get; set; }
     public string OriginalImagePath { get; set; }
@@ -119,8 +130,6 @@ public class ImageEditingControlVM : ViewModelBase
     }
     public Visibility CompareVisibility { get; set; } = Visibility.Hidden;
 
-    private int originalBrightness { get; set; }
-
     #endregion
 
 
@@ -142,12 +151,36 @@ public class ImageEditingControlVM : ViewModelBase
                     }
                     Application.Current.Dispatcher.Invoke(async () =>
                     {
-                        ResultImage = _editor.AdjustBrightnessAndContrast(OriginalImage, Contrast, Brightness);
+                        ResultImage = _editor.AdjustBrightnessAndContrast(ResultImage, Contrast, Brightness);
                     });
                 });
             });
         }
     }
+
+    private RelayCommand _adjustNoise;
+    public RelayCommand AdjustNoise
+    {
+        get
+        {
+            return _adjustNoise ??= new RelayCommand(_ =>
+            {
+                var state = new { noise = _noise };
+                Task.Delay(200).ContinueWith(_ =>
+                {
+                    if (state.noise != _noise)
+                    {
+                        return;
+                    }
+                    Application.Current.Dispatcher.Invoke(async () =>
+                    {
+                        ResultImage = _editor.AdjustNoise(ResultImage, Noise);
+                    });
+                });
+            });
+        }
+    }
+
 
     private RelayCommand _changePathImage;
     public RelayCommand ChangePathImageCommand

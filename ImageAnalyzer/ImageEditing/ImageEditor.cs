@@ -19,5 +19,10 @@ namespace ImageWorker.ImageEditing
         {
             return new BrightnessAndContrastCorrector().GetContrast(source);
         }
+
+        public BitmapSource AdjustNoise(BitmapSource source, int noise)
+        {
+            return new NoiseCorrector().AdjustNoise(source, noise);
+        }
     }
 }

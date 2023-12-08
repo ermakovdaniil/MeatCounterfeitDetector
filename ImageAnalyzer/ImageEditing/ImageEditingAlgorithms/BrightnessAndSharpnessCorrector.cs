@@ -27,7 +27,6 @@ namespace ImageWorker.ImageEditing.ImageEditingAlgorithms
             //BitmapSource bitmapSource = adjustedImage.ToImage<Bgr, byte>().ToBitmapSource();
             //return adjustedImage.ToBitmapSource();
 
-            Mat newImage = new Mat(inputImageMat.Size, DepthType.Cv8U, inputImageMat.NumberOfChannels);
             CvInvoke.AddWeighted(inputImageMat, scaledContrast, new Mat(inputImageMat.Size, inputImageMat.Depth, inputImageMat.NumberOfChannels), 0, scaledBrightness, inputImageMat);
             return inputImageMat.ToBitmapSource();
         }
@@ -77,7 +76,7 @@ namespace ImageWorker.ImageEditing.ImageEditingAlgorithms
 
             double contrast = stdDev.V0;
 
-              int mappedContrast = (int)((contrast / 255) * 100);
+            int mappedContrast = (int)((contrast / 255) * 100);
 
             return mappedContrast;
         }

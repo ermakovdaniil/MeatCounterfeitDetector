@@ -8,6 +8,8 @@ public interface IImageEditor
 {
     public BitmapSource AdjustBrightnessAndContrast(BitmapSource source, int brightness, int contrast);
 
+    public BitmapSource AdjustNoise(BitmapSource source, int noise);
+
     public int GetBrightness(BitmapSource source);
 
     public int GetContrast(BitmapSource source);
