@@ -61,7 +61,7 @@
                 изображениями с низким уровнем шума. ORB работает быстро, но проигрывает в точности другим алгоритмам.
                 </TextBlock>
 
-                <Border Grid.Row="2" Grid.Column="1" BorderThickness="2" Margin="10" Width="400" Height="200"  BorderBrush="{StaticResource Style4}" Background="{StaticResource Style3}">
+                <Border Grid.Row="2" Grid.Column="1" BorderThickness="2" Margin="10" Width="400" Height="230"  BorderBrush="{StaticResource Style4}" Background="{StaticResource Style3}">
                     <Image Source="pack://application:,,,/resources/algExamples/ORB.jpg" Stretch="Fill"/>
                 </Border>
 
@@ -95,11 +95,10 @@
                        VerticalAlignment="Center" HorizontalAlignment="Stretch"
                        FontSize="16" Margin="5 10" Padding="5"
                        Background="{StaticResource Style3}" TextWrapping="Wrap"> 
-                <Bold>Алгоритм LATCH</Bold> текст <LineBreak></LineBreak>
-                 текст
+                <Bold>Алгоритм LATCH</Bold> используется, чтобы создавать компактные и вычислительно эффективные дескрипторы, что делает его подходящим для ситуаций с ограниченными вычислительными ресурсами и изменениями в перспективе изображения. 
                 </TextBlock>
 
-                <Border Grid.Row="5" Grid.Column="1" BorderThickness="2" Margin="10" Width="400" Height="250"  BorderBrush="{StaticResource Style4}" Background="{StaticResource Style3}">
+                <Border Grid.Row="5" Grid.Column="1" BorderThickness="2" Margin="10" Width="400" Height="200"  BorderBrush="{StaticResource Style4}" Background="{StaticResource Style3}">
                     <Image Source="pack://application:,,,/resources/algExamples/LATCH.jpg" Stretch="Fill"/>
                 </Border>
 
@@ -108,10 +107,10 @@
                        VerticalAlignment="Center" HorizontalAlignment="Stretch"
                        FontSize="16" Margin="5 10" Padding="5"
                        Background="{StaticResource Style3}" TextWrapping="Wrap">  
-                <Bold>Алгоритм FREAK</Bold> текст
+                <Bold>Алгоритм FREAK</Bold> подходит для реального времени и ресурсоэффективного использования. Быстро проводит поиск, но не является самым точным из алгоритмов.
                 </TextBlock>
 
-                <Border Grid.Row="6" Grid.Column="1" BorderThickness="2" Margin="10" Width="400" Height="200"  BorderBrush="{StaticResource Style4}" Background="{StaticResource Style3}">
+                <Border Grid.Row="6" Grid.Column="1" BorderThickness="2" Margin="10" Width="400" Height="190"  BorderBrush="{StaticResource Style4}" Background="{StaticResource Style3}">
                     <Image Source="pack://application:,,,/resources/algExamples/FREAK.jpg" Stretch="Fill"/>
                 </Border>
 
@@ -120,10 +119,10 @@
                        VerticalAlignment="Center" HorizontalAlignment="Stretch"
                        FontSize="16" Margin="5 10" Padding="5"
                        Background="{StaticResource Style3}" TextWrapping="Wrap">  
-                <Bold>Алгоритм DAISY</Bold> текст
+                <Bold>Алгоритм DAISY</Bold> строит дескрипторы, устойчивые к изменениям масштаба и поворотам, что делает его подходящим для работы с изображенияит высокого разрешения и разнообразными углами обзора.
                 </TextBlock>
 
-                <Border Grid.Row="7" Grid.Column="1" BorderThickness="2" Margin="10" Width="400" Height="200"  BorderBrush="{StaticResource Style4}" Background="{StaticResource Style3}">
+                <Border Grid.Row="7" Grid.Column="1" BorderThickness="2" Margin="10" Width="400" Height="230"  BorderBrush="{StaticResource Style4}" Background="{StaticResource Style3}">
                     <Image Source="pack://application:,,,/resources/algExamples/DAISY.jpg" Stretch="Fill"/>
                 </Border>
 

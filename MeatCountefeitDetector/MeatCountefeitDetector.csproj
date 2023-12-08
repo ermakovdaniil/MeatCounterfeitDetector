@@ -17,6 +17,9 @@
     <ItemGroup>
         <None Remove="resources\algExamples\AKAZE.jpg" />
         <None Remove="resources\algExamples\BRISK.jpg" />
+        <None Remove="resources\algExamples\DAISY.jpg" />
+        <None Remove="resources\algExamples\FREAK.jpg" />
+        <None Remove="resources\algExamples\LATCH.jpg" />
         <None Remove="resources\algExamples\ORB.jpg" />
         <None Remove="resources\algExamples\SIFT.jpg" />
         <None Remove="resources\icons\admin.png" />
@@ -73,6 +76,15 @@
           <CopyToOutputDirectory>Never</CopyToOutputDirectory>
         </Resource>
         <Resource Include="resources\algExamples\BRISK.jpg">
+          <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+        </Resource>
+        <Resource Include="resources\algExamples\DAISY.jpg">
+          <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+        </Resource>
+        <Resource Include="resources\algExamples\FREAK.jpg">
+          <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+        </Resource>
+        <Resource Include="resources\algExamples\LATCH.jpg">
           <CopyToOutputDirectory>Never</CopyToOutputDirectory>
         </Resource>
         <Resource Include="resources\algExamples\ORB.jpg">
