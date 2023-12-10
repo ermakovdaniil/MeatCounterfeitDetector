@@ -5,10 +5,13 @@ namespace ImageWorker.ImageEditing
 {
     public class ImageEditor : IImageEditor
     {
-        public BitmapSource AdjustBrightnessAndContrast(BitmapSource source, int brightness, int contrast)
+        public BitmapSource AdjustFilter(BitmapSource source, int brightness, int contrast, int noise, int sharpness, int focalLengthX, int focalLengthY, double width, double height, int rotation)
         {
-            return new BrightnessAndContrastCorrector().AdjustBrightnessAndContrast(source, brightness, contrast);
+            return new Corrector().AdjustFilter(source, brightness, contrast, noise, sharpness, focalLengthX, focalLengthY, width, height, rotation);
         }
+
+
+        // TODO: получение значений
 
         public int GetBrightness(BitmapSource source)
         {
@@ -18,11 +21,6 @@ namespace ImageWorker.ImageEditing
         public int GetContrast(BitmapSource source)
         {
             return new BrightnessAndContrastCorrector().GetContrast(source);
-        }
-
-        public BitmapSource AdjustNoise(BitmapSource source, int noise)
-        {
-            return new NoiseCorrector().AdjustNoise(source, noise);
         }
     }
 }

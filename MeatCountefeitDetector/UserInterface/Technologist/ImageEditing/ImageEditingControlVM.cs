@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 using System.Windows.Media.Imaging;
 using ImageWorker.BitmapService;
 using ImageWorker.ImageEditing;
+using System.Diagnostics.Contracts;
 
 namespace MeatCounterfeitDetector.UserInterface.Technologist.Edit;
 
@@ -43,18 +44,13 @@ public class ImageEditingControlVM : ViewModelBase
         Contrast = 50;
         FocalLengthX = 50;
         FocalLengthY = 50;
-        Height = 1;
         Width = 1;
+        Height = 1;
     }
 
     public void PublishData()
     {
         _eventAggregator.Publish(new EventImageData(ResultImage));
-    }
-
-    public void GetImageData(BitmapSource source)
-    {
-        Brightness = _editor.GetBrightness(source);
     }
 
     private void SaveBitmapSourceAsImage(BitmapSource source, string filePath)
@@ -82,7 +78,7 @@ public class ImageEditingControlVM : ViewModelBase
         {
             if (value == _brightness) return;
             _brightness = value;
-            AdjustBrightnessAndContrast.Execute(null);
+            AdjustFilter.Execute(null);
             OnPropertyChanged();
         }
     }
@@ -95,11 +91,10 @@ public class ImageEditingControlVM : ViewModelBase
         {
             if (value == _contrast) return;
             _contrast = value;
-            AdjustBrightnessAndContrast.Execute(null);
+            AdjustFilter.Execute(null);
             OnPropertyChanged();
         }
     }
-
 
     private int _noise;
     public int Noise
@@ -109,7 +104,7 @@ public class ImageEditingControlVM : ViewModelBase
         {
             if (value == _noise) return;
             _noise = value;
-            AdjustNoise.Execute(null);
+            AdjustFilter.Execute(null);
             OnPropertyChanged();
         }
     }
@@ -122,7 +117,7 @@ public class ImageEditingControlVM : ViewModelBase
         {
             if (value == _sharpness) return;
             _sharpness = value;
-            //AdjustSharpness.Execute(null);
+            AdjustFilter.Execute(null);
             OnPropertyChanged();
         }
     }
@@ -135,7 +130,7 @@ public class ImageEditingControlVM : ViewModelBase
         {
             if (value == _focalLengthX) return;
             _focalLengthX = value;
-            //AdjustFocalLengthX.Execute(null);
+            AdjustFilter.Execute(null);
             OnPropertyChanged();
         }
     }
@@ -148,7 +143,7 @@ public class ImageEditingControlVM : ViewModelBase
         {
             if (value == _focalLengthY) return;
             _focalLengthY = value;
-            //AdjustFocalLengthY.Execute(null);
+            AdjustFilter.Execute(null);
             OnPropertyChanged();
         }
     }
@@ -161,7 +156,7 @@ public class ImageEditingControlVM : ViewModelBase
         {
             if (value == _height) return;
             _height = value;
-            //AdjustHeight.Execute(null);
+            AdjustFilter.Execute(null);
             OnPropertyChanged();
         }
     }
@@ -174,7 +169,7 @@ public class ImageEditingControlVM : ViewModelBase
         {
             if (value == _width) return;
             _width = value;
-            //AdjustWidth.Execute(null);
+            AdjustFilter.Execute(null);
             OnPropertyChanged();
         }
     }
@@ -187,7 +182,7 @@ public class ImageEditingControlVM : ViewModelBase
         {
             if (value == _rotation) return;
             _rotation = value;
-            //AdjustWidth.Execute(null);
+            AdjustFilter.Execute(null);
             OnPropertyChanged();
         }
     }
@@ -195,9 +190,7 @@ public class ImageEditingControlVM : ViewModelBase
     public BitmapSource OriginalImage { get; set; }
     public BitmapSource ResultImage { get; set; }
     public string OriginalImagePath { get; set; }
-
     public int Progress { get; set; }
-
 
     private bool _compareIsChecked;
     public bool CompareIsChecked
@@ -219,52 +212,45 @@ public class ImageEditingControlVM : ViewModelBase
 
     #region Commands
 
-    private RelayCommand _adjustBrightnessAndContrast;
-    public RelayCommand AdjustBrightnessAndContrast
+    private RelayCommand _adjustFilter;
+    public RelayCommand AdjustFilter
     {
         get
         {
-            return _adjustBrightnessAndContrast ??= new RelayCommand(_ =>
+            return _adjustFilter ??= new RelayCommand(_ =>
             {
-                var state = new { brightness = _brightness, contrast = _contrast };
+                var state = new { brightness = _brightness,
+                                  contrast = _contrast, 
+                                  noise = _noise,
+                                  sharpness = _sharpness, 
+                                  focalLengthX = _focalLengthX, 
+                                  focalLengthY = _focalLengthY,
+                                  width = _width,
+                                  height = _height, 
+                                  rotation = _rotation };
+
                 Task.Delay(200).ContinueWith(_ =>
                 {
-                    if (state.brightness != _brightness || state.contrast != _contrast)
+                    if (state.brightness != _brightness || 
+                        state.contrast != _contrast || 
+                        state.noise != _noise || 
+                        state.sharpness != _sharpness || 
+                        state.focalLengthX != _focalLengthX || 
+                        state.focalLengthY != _focalLengthY ||
+                        state.width != _width ||
+                        state.height != _height || 
+                        state.rotation != _rotation)
                     {
                         return;
                     }
                     Application.Current.Dispatcher.Invoke(async () =>
                     {
-                        ResultImage = _editor.AdjustBrightnessAndContrast(OriginalImage, Contrast, Brightness);
+                        ResultImage = _editor.AdjustFilter(OriginalImage, Brightness, Contrast, Noise, Sharpness, FocalLengthX, FocalLengthY, Width, Height, Rotation);
                     });
                 });
             });
         }
     }
-
-    private RelayCommand _adjustNoise;
-    public RelayCommand AdjustNoise
-    {
-        get
-        {
-            return _adjustNoise ??= new RelayCommand(_ =>
-            {
-                var state = new { noise = _noise };
-                Task.Delay(200).ContinueWith(_ =>
-                {
-                    if (state.noise != _noise)
-                    {
-                        return;
-                    }
-                    Application.Current.Dispatcher.Invoke(async () =>
-                    {
-                        ResultImage = _editor.AdjustNoise(OriginalImage, Noise);
-                    });
-                });
-            });
-        }
-    }
-
 
     private RelayCommand _changePathImage;
     public RelayCommand ChangePathImageCommand
@@ -287,8 +273,8 @@ public class ImageEditingControlVM : ViewModelBase
                     Sharpness = 0;
                     FocalLengthX = 50;
                     FocalLengthY = 50;
-                    Height = 1;
                     Width = 1;
+                    Height = 1;
                     Rotation = 0;
                 }
             });

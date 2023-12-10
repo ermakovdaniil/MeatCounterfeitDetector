@@ -12,13 +12,17 @@ namespace ImageWorker.ImageEditing.ImageEditingAlgorithms
 {
     public class NoiseCorrector
     {
-        public BitmapSource AdjustNoise(BitmapSource source, int noise)
+        public Mat AdjustNoise(Mat source, int noise)
         {
-            var bitmapService = new BitmapService.BitmapService();
-            Mat inputImageMat = bitmapService.BitmapSourceToMat(source);
+            CvInvoke.GaussianBlur(source, source, new Size(2 * ((int)(Math.Ceiling(noise / 2.0))) + 1, 2 * ((int)(Math.Ceiling(noise / 2.0))) + 1), 0);
 
-            CvInvoke.GaussianBlur(inputImageMat, inputImageMat, new Size(2 * ((int)(Math.Ceiling(noise / 2.0))) + 1, 2 * ((int)(Math.Ceiling(noise / 2.0))) + 1), 0);
-            return inputImageMat.ToBitmapSource();
+            return source;
+        }
+
+        public Mat AdjustSharpness(Mat source, int sharpness)
+        {
+
+            return source;
         }
     }
 }

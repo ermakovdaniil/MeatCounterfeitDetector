@@ -11,24 +11,21 @@ namespace ImageWorker.ImageEditing.ImageEditingAlgorithms
 {
     public class BrightnessAndContrastCorrector
     {
-        public BitmapSource AdjustBrightnessAndContrast(BitmapSource source, int brightness, int contrast)
+        public Mat AdjustBrightnessAndContrast(Mat source, int brightness, int contrast)
         {
-            var bitmapService = new BitmapService.BitmapService();
-            Mat inputImageMat = bitmapService.BitmapSourceToMat(source);
-
             //double scaledBrightness = (brightness - 50) * 2; // Scale from -100 to 100
             //double scaledContrast = contrast / 50.0; // Scale from 0 to 2
 
             double scaledBrightness = ((brightness - 50) / 50.0) * 255;
-            double scaledContrast = contrast * 0.05;
+            double scaledContrast = contrast / 50.0;
 
             //Mat adjustedImage = new Mat();
             //inputImageMat.ConvertTo(adjustedImage, DepthType.Cv8U, scaledContrast, scaledBrightness);
             //BitmapSource bitmapSource = adjustedImage.ToImage<Bgr, byte>().ToBitmapSource();
             //return adjustedImage.ToBitmapSource();
 
-            CvInvoke.AddWeighted(inputImageMat, scaledContrast, new Mat(inputImageMat.Size, inputImageMat.Depth, inputImageMat.NumberOfChannels), 0, scaledBrightness, inputImageMat);
-            return inputImageMat.ToBitmapSource();
+            CvInvoke.AddWeighted(source, scaledContrast, new Mat(source.Size, source.Depth, source.NumberOfChannels), 0, scaledBrightness, inputImageMat);
+            return source;
         }
 
         public int GetBrightness(BitmapSource source)
