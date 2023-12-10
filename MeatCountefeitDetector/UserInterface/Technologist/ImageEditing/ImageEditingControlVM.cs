@@ -38,7 +38,13 @@ public class ImageEditingControlVM : ViewModelBase
         _progressReporter = progressReporter;
         _eventAggregator = eventAggregator;
         _bitmapService = bitmapService;
+
+        Brightness = 50;
         Contrast = 50;
+        FocalLengthX = 50;
+        FocalLengthY = 50;
+        Height = 1;
+        Width = 1;
     }
 
     public void PublishData()
@@ -108,6 +114,84 @@ public class ImageEditingControlVM : ViewModelBase
         }
     }
 
+    private int _sharpness;
+    public int Sharpness
+    {
+        get => _sharpness;
+        set
+        {
+            if (value == _sharpness) return;
+            _sharpness = value;
+            //AdjustSharpness.Execute(null);
+            OnPropertyChanged();
+        }
+    }
+
+    private int _focalLengthX;
+    public int FocalLengthX
+    {
+        get => _focalLengthX;
+        set
+        {
+            if (value == _focalLengthX) return;
+            _focalLengthX = value;
+            //AdjustFocalLengthX.Execute(null);
+            OnPropertyChanged();
+        }
+    }
+
+    private int _focalLengthY;
+    public int FocalLengthY
+    {
+        get => _focalLengthY;
+        set
+        {
+            if (value == _focalLengthY) return;
+            _focalLengthY = value;
+            //AdjustFocalLengthY.Execute(null);
+            OnPropertyChanged();
+        }
+    }
+
+    private double _height;
+    public double Height
+    {
+        get => _height;
+        set
+        {
+            if (value == _height) return;
+            _height = value;
+            //AdjustHeight.Execute(null);
+            OnPropertyChanged();
+        }
+    }
+
+    private double _width;
+    public double Width
+    {
+        get => _width;
+        set
+        {
+            if (value == _width) return;
+            _width = value;
+            //AdjustWidth.Execute(null);
+            OnPropertyChanged();
+        }
+    }
+
+    private int _rotation;
+    public int Rotation
+    {
+        get => _rotation;
+        set
+        {
+            if (value == _rotation) return;
+            _rotation = value;
+            //AdjustWidth.Execute(null);
+            OnPropertyChanged();
+        }
+    }
+
     public BitmapSource OriginalImage { get; set; }
     public BitmapSource ResultImage { get; set; }
     public string OriginalImagePath { get; set; }
@@ -151,7 +235,7 @@ public class ImageEditingControlVM : ViewModelBase
                     }
                     Application.Current.Dispatcher.Invoke(async () =>
                     {
-                        ResultImage = _editor.AdjustBrightnessAndContrast(ResultImage, Contrast, Brightness);
+                        ResultImage = _editor.AdjustBrightnessAndContrast(OriginalImage, Contrast, Brightness);
                     });
                 });
             });
@@ -174,7 +258,7 @@ public class ImageEditingControlVM : ViewModelBase
                     }
                     Application.Current.Dispatcher.Invoke(async () =>
                     {
-                        ResultImage = _editor.AdjustNoise(ResultImage, Noise);
+                        ResultImage = _editor.AdjustNoise(OriginalImage, Noise);
                     });
                 });
             });
@@ -197,7 +281,15 @@ public class ImageEditingControlVM : ViewModelBase
                     OriginalImage = _bitmapService.LoadBitmapSource(path);
                     ResultImage = _bitmapService.LoadBitmapSource(path);
 
-                    GetImageData(ResultImage);
+                    Brightness = 50;
+                    Contrast = 50;
+                    Noise = 0;
+                    Sharpness = 0;
+                    FocalLengthX = 50;
+                    FocalLengthY = 50;
+                    Height = 1;
+                    Width = 1;
+                    Rotation = 0;
                 }
             });
         }

@@ -80,7 +80,7 @@
 
                                     <!--https://stackoverflow.com/questions/25138695/how-to-handle-the-slider-valuechanged-event-in-a-view-model-->
                                     <!--https://prismlibrary.com/docs/wpf/interactivity/event-to-command.html-->
-                                    <hc:PreviewSlider Grid.Row="0" Grid.Column="1" VerticalAlignment="Center"
+                                    <hc:PreviewSlider Grid.Row="0" Grid.Column="1" VerticalAlignment="Center" Margin="0 0 20 0"
                                                       Value="{Binding Brightness, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Maximum="100" 
                                                       hc:TipElement.Visibility="Visible" hc:TipElement.Placement="BottomRight" Orientation="Horizontal" >
                                         <hc:PreviewSlider.PreviewContent>
@@ -90,7 +90,8 @@
 
                                     <Label Grid.Row="1" Grid.Column="0" FontSize="14" Content="Контрастность" Background="{StaticResource Style3}" VerticalAlignment="Center" HorizontalAlignment="Left" BorderThickness="0" />
 
-                                    <hc:PreviewSlider Grid.Row="1" Grid.Column="1" VerticalAlignment="Center" Value="{Binding Contrast, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Maximum="100" 
+                                    <hc:PreviewSlider Grid.Row="1" Grid.Column="1" VerticalAlignment="Center" Margin="0 0 20 0"
+                                                      Value="{Binding Contrast, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Maximum="100" 
                                                       hc:TipElement.Visibility="Visible" hc:TipElement.Placement="BottomRight" Orientation="Horizontal" >
                                         <hc:PreviewSlider.PreviewContent>
                                             <Label Style="{StaticResource LabelPrimary}" Content="{Binding Path=(hc:PreviewSlider.PreviewPosition),RelativeSource={RelativeSource Self}}" ContentStringFormat="#0" />
@@ -107,7 +108,7 @@
                         </Expander>
 
                         <Expander ExpandDirection="Down" Header="Удаление шума" IsExpanded="True" HeaderTemplate="{StaticResource expanderHeader}" Background="{StaticResource Style1}">
-                            <hc:ElementGroup MinHeight="75">
+                            <hc:ElementGroup MinHeight="150">
                                 <Grid Background="{StaticResource Style3}">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition />
@@ -116,19 +117,29 @@
 
                                     <Grid.RowDefinitions>
                                         <RowDefinition />
+                                        <RowDefinition />
                                     </Grid.RowDefinitions>
 
                                     <Label Grid.Row="0" Grid.Column="0" FontSize="14"  Content="Степень удаления шума" Background="{StaticResource Style3}" VerticalAlignment="Center" HorizontalAlignment="Left" BorderThickness="0" />
-
-                                    <!--https://stackoverflow.com/questions/25138695/how-to-handle-the-slider-valuechanged-event-in-a-view-model-->
-                                    <!--https://prismlibrary.com/docs/wpf/interactivity/event-to-command.html-->
-                                    <hc:PreviewSlider Grid.Row="0" Grid.Column="1" VerticalAlignment="Center"
+                                    
+                                    <hc:PreviewSlider Grid.Row="0" Grid.Column="1" VerticalAlignment="Center" Margin="0 0 20 0"
                                                       Value="{Binding Noise, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Maximum="100" 
                                                       hc:TipElement.Visibility="Visible" hc:TipElement.Placement="BottomRight" Orientation="Horizontal" >
                                         <hc:PreviewSlider.PreviewContent>
                                             <Label Style="{StaticResource LabelPrimary}" Content="{Binding Path=(hc:PreviewSlider.PreviewPosition),RelativeSource={RelativeSource Self}}" ContentStringFormat="#0" />
                                         </hc:PreviewSlider.PreviewContent>
                                     </hc:PreviewSlider>
+
+                                    <Label Grid.Row="1" Grid.Column="0" FontSize="14"  Content="Резкость" Background="{StaticResource Style3}" VerticalAlignment="Center" HorizontalAlignment="Left" BorderThickness="0" />
+
+                                    <hc:PreviewSlider Grid.Row="1" Grid.Column="1" VerticalAlignment="Center" Margin="0 0 20 0"
+                                                      Value="{Binding Sharpness, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Maximum="100" 
+                                                      hc:TipElement.Visibility="Visible" hc:TipElement.Placement="BottomRight" Orientation="Horizontal" >
+                                        <hc:PreviewSlider.PreviewContent>
+                                            <Label Style="{StaticResource LabelPrimary}" Content="{Binding Path=(hc:PreviewSlider.PreviewPosition),RelativeSource={RelativeSource Self}}" ContentStringFormat="#0" />
+                                        </hc:PreviewSlider.PreviewContent>
+                                    </hc:PreviewSlider>
+
 
                                 </Grid>
                             </hc:ElementGroup>
@@ -155,7 +166,7 @@
                         </Expander>
 
                         <Expander ExpandDirection="Down" Header="Коррекция искажений" IsExpanded="True" HeaderTemplate="{StaticResource expanderHeader}" Background="{StaticResource Style1}">
-                            <hc:ElementGroup MinHeight="200">
+                            <hc:ElementGroup MinHeight="150">
                                 <Grid Background="{StaticResource Style3}">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition />
@@ -165,33 +176,34 @@
                                     <Grid.RowDefinitions>
                                         <RowDefinition />
                                         <RowDefinition />
-                                        <RowDefinition />
-                                        <RowDefinition />
                                     </Grid.RowDefinitions>
 
-                                    <Label Grid.Row="0" Grid.Column="0" FontSize="14" Content="Что-то" Background="{StaticResource Style3}" VerticalAlignment="Center" HorizontalAlignment="Left" BorderThickness="0" />
+                                    <Label Grid.Row="0" Grid.Column="0" FontSize="14" Content="Фокусное расстояние Fx" Background="{StaticResource Style3}" VerticalAlignment="Center" HorizontalAlignment="Left" BorderThickness="0" />
 
-                                    <hc:PreviewSlider Grid.Row="0" Grid.Column="1" VerticalAlignment="Center" Value="50" Maximum="100" hc:TipElement.Visibility="Visible" hc:TipElement.Placement="BottomRight" Orientation="Horizontal">
-
+                                    <hc:PreviewSlider Grid.Row="0" Grid.Column="1" VerticalAlignment="Center" Margin="0 0 20 0"
+                                                      Value="{Binding FocalLengthX, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Maximum="100" 
+                                                      hc:TipElement.Visibility="Visible" hc:TipElement.Placement="BottomRight" Orientation="Horizontal" >
                                         <hc:PreviewSlider.PreviewContent>
                                             <Label Style="{StaticResource LabelPrimary}" Content="{Binding Path=(hc:PreviewSlider.PreviewPosition),RelativeSource={RelativeSource Self}}" ContentStringFormat="#0" />
                                         </hc:PreviewSlider.PreviewContent>
                                     </hc:PreviewSlider>
 
-                                    <Label Grid.Row="1" Grid.Column="0" FontSize="14" Content="Что-то" Background="{StaticResource Style3}" VerticalAlignment="Center" HorizontalAlignment="Left" BorderThickness="0" />
+                                    <Label Grid.Row="1" Grid.Column="0" FontSize="14" Content="Фокусное расстояние Fy" Background="{StaticResource Style3}" VerticalAlignment="Center" HorizontalAlignment="Left" BorderThickness="0" />
 
-                                    <hc:PreviewSlider Grid.Row="1" Grid.Column="1" VerticalAlignment="Center" Value="50" Maximum="100" hc:TipElement.Visibility="Visible" hc:TipElement.Placement="BottomRight" Orientation="Horizontal">
-
+                                    <hc:PreviewSlider Grid.Row="1" Grid.Column="1" VerticalAlignment="Center" Margin="0 0 20 0"
+                                                      Value="{Binding FocalLengthY, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Maximum="100" 
+                                                      hc:TipElement.Visibility="Visible" hc:TipElement.Placement="BottomRight" Orientation="Horizontal" >
                                         <hc:PreviewSlider.PreviewContent>
                                             <Label Style="{StaticResource LabelPrimary}" Content="{Binding Path=(hc:PreviewSlider.PreviewPosition),RelativeSource={RelativeSource Self}}" ContentStringFormat="#0" />
                                         </hc:PreviewSlider.PreviewContent>
                                     </hc:PreviewSlider>
+                                    
                                 </Grid>
                             </hc:ElementGroup>
                         </Expander>
 
                         <Expander ExpandDirection="Down" Header="Масштаб и поворот" IsExpanded="True" HeaderTemplate="{StaticResource expanderHeader}" Background="{StaticResource Style1}">
-                            <hc:ElementGroup MinHeight="200">
+                            <hc:ElementGroup MinHeight="225">
                                 <Grid Background="{StaticResource Style3}">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition />
@@ -202,44 +214,38 @@
                                         <RowDefinition />
                                         <RowDefinition />
                                         <RowDefinition />
-                                        <RowDefinition />
                                     </Grid.RowDefinitions>
 
-                                    <Label Grid.Row="0" Grid.Column="0" FontSize="14" Content="Что-то" Background="{StaticResource Style3}" VerticalAlignment="Center" HorizontalAlignment="Left" BorderThickness="0" />
+                                    <Label Grid.Row="0" Grid.Column="0" FontSize="14" Content="Высота" Background="{StaticResource Style3}" VerticalAlignment="Center" HorizontalAlignment="Left" BorderThickness="0" />
 
-                                    <hc:PreviewSlider Grid.Row="0" Grid.Column="1" VerticalAlignment="Center" Value="50" Maximum="100" hc:TipElement.Visibility="Visible" hc:TipElement.Placement="BottomRight" Orientation="Horizontal">
-
+                                    <hc:PreviewSlider Grid.Row="0" Grid.Column="1" VerticalAlignment="Center" Margin="0 0 20 0"
+                                                      Value="{Binding Height, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Minimum="0.1" Maximum="3" 
+                                                      hc:TipElement.Visibility="Visible" hc:TipElement.Placement="BottomRight" Orientation="Horizontal" >
                                         <hc:PreviewSlider.PreviewContent>
-                                            <Label Style="{StaticResource LabelPrimary}" Content="{Binding Path=(hc:PreviewSlider.PreviewPosition),RelativeSource={RelativeSource Self}}" ContentStringFormat="#0" />
+                                            <Label Style="{StaticResource LabelPrimary}" Content="{Binding Path=(hc:PreviewSlider.PreviewPosition),RelativeSource={RelativeSource Self}}" ContentStringFormat="#0.0" />
                                         </hc:PreviewSlider.PreviewContent>
                                     </hc:PreviewSlider>
 
-                                    <Label Grid.Row="1" Grid.Column="0" FontSize="14" Content="Что-то" Background="{StaticResource Style3}" VerticalAlignment="Center" HorizontalAlignment="Left" BorderThickness="0" />
+                                    <Label Grid.Row="1" Grid.Column="0" FontSize="14" Content="Ширина" Background="{StaticResource Style3}" VerticalAlignment="Center" HorizontalAlignment="Left" BorderThickness="0" />
 
-                                    <hc:PreviewSlider Grid.Row="1" Grid.Column="1" VerticalAlignment="Center" Value="50" Maximum="100" hc:TipElement.Visibility="Visible" hc:TipElement.Placement="BottomRight" Orientation="Horizontal">
-
+                                    <hc:PreviewSlider Grid.Row="1" Grid.Column="1" VerticalAlignment="Center" Margin="0 0 20 0"
+                                                      Value="{Binding Width, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Minimum="0.1" Maximum="3" 
+                                                      hc:TipElement.Visibility="Visible" hc:TipElement.Placement="BottomRight" Orientation="Horizontal" >
                                         <hc:PreviewSlider.PreviewContent>
-                                            <Label Style="{StaticResource LabelPrimary}" Content="{Binding Path=(hc:PreviewSlider.PreviewPosition),RelativeSource={RelativeSource Self}}" ContentStringFormat="#0" />
+                                            <Label Style="{StaticResource LabelPrimary}" Content="{Binding Path=(hc:PreviewSlider.PreviewPosition),RelativeSource={RelativeSource Self}}" ContentStringFormat="#0.0" />
                                         </hc:PreviewSlider.PreviewContent>
                                     </hc:PreviewSlider>
 
-                                    <Label Grid.Row="2" Grid.Column="0" FontSize="14" Content="Что-то" Background="{StaticResource Style3}" VerticalAlignment="Center" HorizontalAlignment="Left" BorderThickness="0" />
+                                    <Label Grid.Row="2" Grid.Column="0" FontSize="14" Content="Поворот" Background="{StaticResource Style3}" VerticalAlignment="Center" HorizontalAlignment="Left" BorderThickness="0" />
 
-                                    <hc:PreviewSlider Grid.Row="2" Grid.Column="1" VerticalAlignment="Center" Value="50" Maximum="100" hc:TipElement.Visibility="Visible" hc:TipElement.Placement="BottomRight" Orientation="Horizontal">
-
+                                    <hc:PreviewSlider Grid.Row="2" Grid.Column="1" VerticalAlignment="Center" Margin="0 0 20 0"
+                                                      Value="{Binding Rotation, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Maximum="360" 
+                                                      hc:TipElement.Visibility="Visible" hc:TipElement.Placement="BottomRight" Orientation="Horizontal" >
                                         <hc:PreviewSlider.PreviewContent>
-                                            <Label Style="{StaticResource LabelPrimary}" Content="{Binding Path=(hc:PreviewSlider.PreviewPosition),RelativeSource={RelativeSource Self}}" ContentStringFormat="#0" />
+                                            <Label Style="{StaticResource LabelPrimary}" Content="{Binding Path=(hc:PreviewSlider.PreviewPosition),RelativeSource={RelativeSource Self}}" ContentStringFormat="#0°" />
                                         </hc:PreviewSlider.PreviewContent>
                                     </hc:PreviewSlider>
 
-                                    <Label Grid.Row="3" Grid.Column="0" FontSize="14" Content="Что-то" Background="{StaticResource Style3}" VerticalAlignment="Center" HorizontalAlignment="Left" BorderThickness="0" />
-
-                                    <hc:PreviewSlider Grid.Row="3" Grid.Column="1" VerticalAlignment="Center" Value="50" Maximum="100" hc:TipElement.Visibility="Visible" hc:TipElement.Placement="BottomRight" Orientation="Horizontal">
-
-                                        <hc:PreviewSlider.PreviewContent>
-                                            <Label Style="{StaticResource LabelPrimary}" Content="{Binding Path=(hc:PreviewSlider.PreviewPosition),RelativeSource={RelativeSource Self}}" ContentStringFormat="#0" />
-                                        </hc:PreviewSlider.PreviewContent>
-                                    </hc:PreviewSlider>
                                 </Grid>
                             </hc:ElementGroup>
                         </Expander>
