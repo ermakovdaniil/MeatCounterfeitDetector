@@ -1,12 +1,7 @@
 ﻿using Emgu.CV;
 using Emgu.CV.CvEnum;
 using Emgu.CV.Structure;
-using Emgu.CV.Util;
-using System;
 using System.Drawing;
-using System.Linq;
-using System.Runtime.InteropServices;
-using System.Windows.Media.Imaging;
 
 namespace ImageWorker.ImageEditing.ImageEditingAlgorithms
 {
@@ -25,7 +20,6 @@ namespace ImageWorker.ImageEditing.ImageEditingAlgorithms
             var rotationMatrix = new Mat();
             CvInvoke.GetRotationMatrix2D(center, rotation, 1.0, rotationMatrix);
 
-            //CvInvoke.WarpAffine(image, rotatedImage, rotationMatrix, image.Size, Inter.Linear, Warp.Default, BorderType.Constant, new MCvScalar(255, 255, 255));
             CvInvoke.WarpAffine(source, source, rotationMatrix, source.Size, Inter.Linear, Warp.Default, BorderType.Constant, new MCvScalar(255, 255, 255));
             
             return source;

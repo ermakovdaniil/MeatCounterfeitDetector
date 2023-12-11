@@ -1,10 +1,6 @@
 ﻿using Emgu.CV;
 using Emgu.CV.CvEnum;
 using Emgu.CV.Structure;
-using Emgu.CV.Util;
-using System;
-using System.Drawing;
-using System.Runtime.InteropServices;
 using System.Windows.Media.Imaging;
 
 namespace ImageWorker.ImageEditing.ImageEditingAlgorithms
@@ -24,7 +20,7 @@ namespace ImageWorker.ImageEditing.ImageEditingAlgorithms
             //BitmapSource bitmapSource = adjustedImage.ToImage<Bgr, byte>().ToBitmapSource();
             //return adjustedImage.ToBitmapSource();
 
-            CvInvoke.AddWeighted(source, scaledContrast, new Mat(source.Size, source.Depth, source.NumberOfChannels), 0, scaledBrightness, inputImageMat);
+            CvInvoke.AddWeighted(source, scaledContrast, new Mat(source.Size, source.Depth, source.NumberOfChannels), 0, scaledBrightness, source);
             return source;
         }
 
