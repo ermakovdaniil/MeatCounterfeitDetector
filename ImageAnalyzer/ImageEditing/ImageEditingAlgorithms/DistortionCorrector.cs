@@ -39,9 +39,9 @@ namespace ImageWorker.ImageEditing.ImageEditingAlgorithms
 
             Matrix<double> distortionCoefficients = new Matrix<double>(1, 5);
 
-            CvInvoke.Undistort(source, source, cameraMatrix, distortionCoefficients);
+            CvInvoke.Undistort(source, result, cameraMatrix, distortionCoefficients);
 
-            return source;
+            return result;
         }
     }
 }
