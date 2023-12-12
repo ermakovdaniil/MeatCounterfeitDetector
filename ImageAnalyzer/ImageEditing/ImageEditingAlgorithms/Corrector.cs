@@ -5,7 +5,7 @@ namespace ImageWorker.ImageEditing.ImageEditingAlgorithms
 {
     public class Corrector
     {
-        public BitmapSource AdjustFilter(BitmapSource source, int brightness, int contrast, int noise, int sharpness, int focalLengthX, int focalLengthY, double width, double height, int rotation)
+        public BitmapSource AdjustFilter(BitmapSource source, int brightness, int contrast, int noise, int sharpness, int glare, int focalLengthX, int focalLengthY, double width, double height, int rotation)
         {
             var bitmapService = new BitmapService.BitmapService();
             Mat inputImageMat = bitmapService.BitmapSourceToMat(source);
@@ -16,15 +16,19 @@ namespace ImageWorker.ImageEditing.ImageEditingAlgorithms
 
             // Шум
 
-            new NoiseCorrector().AdjustNoise(inputImageMat, noise);
+            new NoiseAndSharpnessCorrector().AdjustNoise(inputImageMat, noise);
 
-            // Резкость TODO
+            // Резкость
 
-            new NoiseCorrector().AdjustSharpness(inputImageMat, sharpness);
+            new NoiseAndSharpnessCorrector().AdjustSharpness(inputImageMat, sharpness);
+
+            // Блики
+
+            inputImageMat = new GlareCorrector().AdjustGlare(inputImageMat, glare);
 
             // Искажение TODO
 
-            new DistortionCorrector().AdjustDistortion(inputImageMat, focalLengthX, focalLengthY);
+            //new DistortionCorrector().AdjustDistortion(inputImageMat, focalLengthX, focalLengthY);
 
             // Высота и ширина
 

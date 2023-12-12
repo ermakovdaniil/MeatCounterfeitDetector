@@ -42,6 +42,7 @@ public class ImageEditingControlVM : ViewModelBase
 
         Brightness = 50;
         Contrast = 50;
+        Sharpness = 50;
         FocalLengthX = 50;
         FocalLengthY = 50;
         Width = 1;
@@ -117,6 +118,19 @@ public class ImageEditingControlVM : ViewModelBase
         {
             if (value == _sharpness) return;
             _sharpness = value;
+            AdjustFilter.Execute(null);
+            OnPropertyChanged();
+        }
+    }
+
+    private int _glare;
+    public int Glare
+    {
+        get => _glare;
+        set
+        {
+            if (value == _glare) return;
+            _glare = value;
             AdjustFilter.Execute(null);
             OnPropertyChanged();
         }
@@ -223,6 +237,7 @@ public class ImageEditingControlVM : ViewModelBase
                                   contrast = _contrast, 
                                   noise = _noise,
                                   sharpness = _sharpness, 
+                                  glare = _glare,
                                   focalLengthX = _focalLengthX, 
                                   focalLengthY = _focalLengthY,
                                   width = _width,
@@ -235,6 +250,7 @@ public class ImageEditingControlVM : ViewModelBase
                         state.contrast != _contrast || 
                         state.noise != _noise || 
                         state.sharpness != _sharpness || 
+                        state.glare != _glare ||
                         state.focalLengthX != _focalLengthX || 
                         state.focalLengthY != _focalLengthY ||
                         state.width != _width ||
@@ -245,7 +261,7 @@ public class ImageEditingControlVM : ViewModelBase
                     }
                     Application.Current.Dispatcher.Invoke(async () =>
                     {
-                        ResultImage = _editor.AdjustFilter(OriginalImage, Brightness, Contrast, Noise, Sharpness, FocalLengthX, FocalLengthY, Width, Height, Rotation);
+                        ResultImage = _editor.AdjustFilter(OriginalImage, Brightness, Contrast, Noise, Sharpness, Glare, FocalLengthX, FocalLengthY, Width, Height, Rotation);
                     });
                 });
             });
@@ -270,7 +286,7 @@ public class ImageEditingControlVM : ViewModelBase
                     Brightness = 50;
                     Contrast = 50;
                     Noise = 0;
-                    Sharpness = 0;
+                    Sharpness = 50;
                     FocalLengthX = 50;
                     FocalLengthY = 50;
                     Width = 1;
