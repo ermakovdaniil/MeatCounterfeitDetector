@@ -36,7 +36,7 @@ namespace ImageWorker.ImageEditing.ImageEditingAlgorithms
 
             // Поврот
 
-            new SizeCorrector().AdjustRoatation(inputImageMat, rotation);
+            inputImageMat = new SizeCorrector().AdjustRoatation(inputImageMat, rotation);
 
             return inputImageMat.ToBitmapSource();
         }
