@@ -17,90 +17,44 @@ namespace ImageWorker.ImageEditing.ImageEditingAlgorithms
 {
     public class DistortionCorrector
     {
+        // https://learnopencv.com/understanding-lens-distortion/
+        // https://github.com/kaustubh-sadekar/VirtualCam
+
         public Mat AdjustDistortion(Mat source, int focalLengthX, int focalLengthY)
         {
-            double correctionStrengthX = focalLengthX ;
-            double correctionStrengthY = focalLengthY ;
-
             Mat result = new Mat();
 
-            // vers. 4
-
             Mat cameraMatrix = new Mat(3, 3, DepthType.Cv64F, 1);
-            Mat distortionCoefficients = new Mat(5, 1, DepthType.Cv64F, 1);
 
-            // Set camera matrix with focal lengths
-            cameraMatrix.SetValue(0, 0, correctionStrengthX);
+            cameraMatrix.SetValue(0, 0, focalLengthX);
             cameraMatrix.SetValue(0, 1, 0.0);
             cameraMatrix.SetValue(0, 2, source.Width / 2.0);
 
             cameraMatrix.SetValue(1, 0, 0.0);
-            cameraMatrix.SetValue(1, 1, correctionStrengthY);
+            cameraMatrix.SetValue(1, 1, focalLengthY);
             cameraMatrix.SetValue(1, 2, source.Height / 2.0);
 
             cameraMatrix.SetValue(2, 0, 0.0);
             cameraMatrix.SetValue(2, 1, 0.0);
             cameraMatrix.SetValue(2, 2, 1.0);
 
-            // Set distortion coefficients
-            distortionCoefficients.SetValue(0, 0, 0.17352);
-            distortionCoefficients.SetValue(0, 1, -0.484226);
-            distortionCoefficients.SetValue(0, 2, 0.344761);
-            distortionCoefficients.SetValue(0, 3, 0.00075256);
-            distortionCoefficients.SetValue(0, 4, -0.000269617);
+            // k1, k2, p1, p2, k3
+            Mat distortionCoefficients = new Mat(1, 5, DepthType.Cv64F, 1);
+
+            //double k1 = 9.1041365324307497e-002;
+            //double k2 = -4.0485507081497402e-001;
+            //double p1 = 3.4409596859645629e-004;
+            //double p2 = -3.9472652058529605e-005;
+            //double k3 = 3.3943759073230600e-001;
+
+            //distortionCoefficients.SetValue(0, 0, k1);
+            //distortionCoefficients.SetValue(0, 1, k2);
+            //distortionCoefficients.SetValue(0, 2, p1);
+            //distortionCoefficients.SetValue(0, 3, p2);
+            //distortionCoefficients.SetValue(0, 4, k3);
 
             // Apply distortion correction
             CvInvoke.Undistort(source, result, cameraMatrix, distortionCoefficients);
-
-            // vers. 1
-
-            //Mat mapX = new Mat(source.Size, DepthType.Cv32F, 1);
-            //Mat mapY = new Mat(source.Size, DepthType.Cv32F, 1);
-
-            //Size size = new Size(source.Size.Width, source.Size.Height);
-            //CvInvoke.InitUndistortRectifyMap(Mat.Eye(3, 3, DepthType.Cv32F, 1), Mat.Eye(3, 3, DepthType.Cv32F, 1), size, focalLengthX, focalLengthY, mapX, mapY, DepthType.Cv32F, 1);
-
-            //CvInvoke.Remap(source, result, mapX, mapY, Inter.Linear, BorderType.Constant, new MCvScalar(0, 0, 0));
-
-            ///////////////
-
-            // vers. 2
-
-            //Mat cameraMatrix = new Mat(3, 3, DepthType.Cv64F, 1);
-            //Mat distCoeffs = new Mat(5, 1, DepthType.Cv64F, 1);
-
-            //Matrix<double> cameraMatrix = new Matrix<double>(new double[,]
-            //{
-            //    { focalLengthX, 0, source.Width / 2 },
-            //    { 0, focalLengthY, source.Height / 2 },
-            //    { 0, 0, 1 }
-            //});
-
-            //Matrix<double> distortionCoefficients = new Matrix<double>(1, 5);
-
-            //CvInvoke.Undistort(source, result, cameraMatrix, distortionCoefficients);
-
-            // vers. 3
-
-            //// Fisheye distortion correction
-            //Mat cameraMatrix = new Mat(3, 3, DepthType.Cv32F, 1);
-            //Mat distortionCoefficients = new Mat(1, 5, DepthType.Cv32F, 1);
-
-            //CvInvoke.Undistort(source, result, cameraMatrix, distortionCoefficients);
-
-            //// Pillow distortion correction
-            //Mat mapX = new Mat();
-            //Mat mapY = new Mat();
-            //CvInvoke.InitUndistortRectifyMap(cameraMatrix, distortionCoefficients, new Mat(), cameraMatrix, source.Size, DepthType.Cv32F, 1, mapX, mapY);
-
-            //// Adjust mapX and mapY based on strengthX and strengthY
-            //mapX = mapX * (float)correctionStrengthX;
-            //mapY = mapY * (float)correctionStrengthY;
-
-            //// Perform distortion correction
-            //CvInvoke.Remap(source, result, mapX, mapY, Inter.Linear);
-
-
 
             return result;
         }

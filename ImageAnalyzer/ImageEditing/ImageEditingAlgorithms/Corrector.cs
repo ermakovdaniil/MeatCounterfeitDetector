@@ -24,9 +24,9 @@ namespace ImageWorker.ImageEditing.ImageEditingAlgorithms
 
             // Блики
 
-            //inputImageMat = new GlareCorrector().AdjustGlare(inputImageMat, glare);
+            inputImageMat = new GlareCorrector().AdjustGlare(inputImageMat, glare);
 
-            // Искажение TODO
+            // Искажение
 
             inputImageMat = new DistortionCorrector().AdjustDistortion(inputImageMat, focalLengthX, focalLengthY);
 
