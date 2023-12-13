@@ -42,11 +42,14 @@ public class ImageEditingControlVM : ViewModelBase
 
         Brightness = 50;
         Contrast = 50;
+        Noise = 0;
         Sharpness = 50;
-        FocalLengthX = 50;
-        FocalLengthY = 50;
+        Glare = 0;
+        FocalLengthX = 500;
+        FocalLengthY = 500;
         Width = 1;
         Height = 1;
+        Rotation = 0;
     }
 
     public void PublishData()
@@ -287,8 +290,9 @@ public class ImageEditingControlVM : ViewModelBase
                     Contrast = 50;
                     Noise = 0;
                     Sharpness = 50;
-                    FocalLengthX = 50;
-                    FocalLengthY = 50;
+                    Glare = 0;
+                    FocalLengthX = 500;
+                    FocalLengthY = 500;
                     Width = 1;
                     Height = 1;
                     Rotation = 0;

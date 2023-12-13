@@ -1,11 +1,5 @@
 ﻿using Emgu.CV;
-using System;
-using System.Drawing;
-using AForge.Imaging;
-using AForge.Imaging.Filters;
 using Emgu.CV.CvEnum;
-using Emgu.CV.Reg;
-using Emgu.CV.Structure;
 
 namespace ImageWorker.ImageEditing.ImageEditingAlgorithms
 {
@@ -51,7 +45,7 @@ namespace ImageWorker.ImageEditing.ImageEditingAlgorithms
 
             // Perform thresholding to identify glare regions
             Mat thresholdImage = new Mat();
-            CvInvoke.Threshold(grayImage, thresholdImage, (glare * 255)/100, 255, ThresholdType.Binary);
+            CvInvoke.Threshold(grayImage, thresholdImage, (255 - (glare / 100) * 255), 255, ThresholdType.Binary);
 
             // Inpainting to remove glare
             CvInvoke.Inpaint(source, thresholdImage, result, 3, InpaintType.Telea);

@@ -8,8 +8,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="AForge" Version="2.2.5" />
-    <PackageReference Include="AForge.Imaging" Version="2.2.5" />
     <PackageReference Include="Autofac" Version="7.1.0" />
     <PackageReference Include="Emgu.CV" Version="4.8.0.5324" />
     <PackageReference Include="Emgu.CV.Bitmap" Version="4.8.0.5324" />
