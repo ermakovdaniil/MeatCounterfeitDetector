@@ -25,12 +25,14 @@ using ClientAPI.DTO.ResultImage;
 using MeatCounterfeitDetector.Utils.Dialog;
 using ImageWorker.Enums;
 using MeatCountefeitDetector.Utils.ImageLoader;
+using ImageWorker.ImageEditing;
 
 namespace MeatCounterfeitDetector.UserInterface.Technologist.Analysis;
 
 public class AnalysisControlVM : ViewModelBase
 {
     private readonly IImageAnalyzer _analyzer;
+    private readonly IImageEditor _editor;
     private readonly IFileDialogService _fileDialogService;
     private readonly DialogService _dialogService;
     private readonly IMessageBoxService _messageBoxService;
@@ -64,7 +66,8 @@ public class AnalysisControlVM : ViewModelBase
                                  IProgressReporter progressReporter,
                                  IEventAggregator eventAggregator,
                                  IBitmapService bitmapService,
-                                 IImageLoader imageLoader)
+                                 IImageLoader imageLoader,
+                                 IImageEditor editor)
     {
         _counterfeitClient = counterfeitClient;
         _counterfeitImageClient = counterfeitImageClient;
@@ -73,6 +76,7 @@ public class AnalysisControlVM : ViewModelBase
         _resultClient = resultClient;
         _navigationManager = navigationManager;
         _analyzer = analyzer;
+        _editor = editor;
         _fileDialogService = fileDialogService;
         _dialogService = dialogService;
         _messageBoxService = messageBoxService;
@@ -108,6 +112,27 @@ public class AnalysisControlVM : ViewModelBase
         return searchResult;
     }
 
+    private void ChooseAlgorithm(double brightness, double contrast, double noise, double glare)
+    {
+        switch (SelectedPriority)
+        {
+            case Priorities.Accuracy:
+
+
+                break;
+
+            case Priorities.Performance:
+
+                break;
+
+            default:
+                break;
+        }
+
+
+        // SelectedAlgorithm =  
+    }
+
     #endregion
 
 
@@ -138,13 +163,17 @@ public class AnalysisControlVM : ViewModelBase
     private string _pathToInitialImage { get; set; }
     private Guid noId { get; set; } = Guid.Parse("00000000-0000-0000-0000-000000000000");
 
+    private double _brightness;
+    private double _contrast;
+    private double _noise;
+    private double _glare;
+
     #endregion
 
 
     #region Commands
 
     private RelayCommand _changePathImage;
-
     public RelayCommand ChangePathImageCommand
     {
         get
@@ -160,13 +189,15 @@ public class AnalysisControlVM : ViewModelBase
 
                     _fileName = _imageLoader.GetFileName(Path.GetFileName(path), @"..\..\..\resources\origImages\", path);
                     _pathToInitialImage = path;
+
+                    _editor.EstimateImageCharacteristics(DisplayedImage, out _brightness, out _contrast, out _noise, out _glare);
+                    ChooseAlgorithm(_brightness, _contrast, _noise, _glare);
                 }
             });
         }
     }
 
     private RelayCommand _scanImage;
-
     public RelayCommand ScanImage
     {
         get
@@ -245,7 +276,6 @@ public class AnalysisControlVM : ViewModelBase
     }
 
     private RelayCommand _createFile;
-
     public RelayCommand CreateFile
     {
         get
@@ -271,7 +301,6 @@ public class AnalysisControlVM : ViewModelBase
     }
 
     private RelayCommand _showAlgInfo;
-
     public RelayCommand ShowAlgInfo
     {
         get

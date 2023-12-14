@@ -1,6 +1,7 @@
 ﻿using Emgu.CV;
 using Emgu.CV.CvEnum;
 using Emgu.CV.Structure;
+using ImageWorker.BitmapService;
 using System;
 using System.Drawing;
 using System.Windows.Media.Imaging;
@@ -20,12 +21,18 @@ namespace ImageWorker.ImageEditing
         private double _prevHeight = 1;
         private int _prevRotation = 0;
 
+        private readonly IBitmapService _bitmapService;
+
+        public ImageEditor(IBitmapService bitmapService)
+        {
+            _bitmapService = bitmapService;
+        }
+
         #region Adjustment 
 
         public BitmapSource AdjustFilter(BitmapSource source, int brightness, int contrast, int noise, int sharpness, int glare, int focalLengthX, int focalLengthY, double width, double height, int rotation)
         {
-            var bitmapService = new BitmapService.BitmapService();
-            Mat inputImageMat = bitmapService.BitmapSourceToMat(source);
+            Mat inputImageMat = _bitmapService.BitmapSourceToMat(source);
 
             // Яркость и контраст
             if (brightness != _prevBrightness || brightness != _prevContrast)
@@ -249,6 +256,28 @@ namespace ImageWorker.ImageEditing
 
         #region Estimation
 
+        public void EstimateImageCharacteristics(BitmapSource source, out double brightness, out double contrast, out double noise, out double glare)
+        {
+            var originalMat = _bitmapService.BitmapSourceToMat(source);
+
+            Mat grayMat = new Mat();
+            CvInvoke.CvtColor(originalMat, grayMat, ColorConversion.Bgr2Gray);
+
+            MCvScalar stdDev = new MCvScalar();
+            MCvScalar mean = new MCvScalar();
+
+            CvInvoke.MeanStdDev(grayMat, ref mean, ref stdDev);
+
+            brightness = Math.Min(Math.Max(mean.V0 / 255 * 100, 0), 100);
+            contrast = Math.Min(Math.Max(stdDev.V0 / 255 * 100, 0), 100);
+            noise = Math.Min(Math.Max(stdDev.V0 / 255 * 100, 0), 100);
+
+            Mat glareMask = new Mat();
+            CvInvoke.Threshold(grayMat, glareMask, 200, 255, ThresholdType.Binary);
+            double ratio = CvInvoke.CountNonZero(glareMask) / (double)(grayMat.Width * grayMat.Height);
+            glare = Math.Min(Math.Max(ratio * 100, 0), 100);
+        }
+
         public int GetBrightness(BitmapSource source)
         {
             //var bitmapService = new BitmapService.BitmapService();
@@ -265,8 +294,7 @@ namespace ImageWorker.ImageEditing
 
             //return mappedBrightness;
 
-            var bitmapService = new BitmapService.BitmapService();
-            var originalMat = bitmapService.BitmapSourceToMat(source);
+            var originalMat = _bitmapService.BitmapSourceToMat(source);
 
             Mat grayMat = new Mat();
             CvInvoke.CvtColor(originalMat, grayMat, ColorConversion.Bgr2Gray);
@@ -282,15 +310,14 @@ namespace ImageWorker.ImageEditing
 
         public int GetContrast(BitmapSource source)
         {
-            var bitmapService = new BitmapService.BitmapService();
-            var originalMat = bitmapService.BitmapSourceToMat(source);
+            var originalMat = _bitmapService.BitmapSourceToMat(source);
 
             Mat grayMat = new Mat();
             CvInvoke.CvtColor(originalMat, grayMat, ColorConversion.Bgr2Gray);
 
             MCvScalar stdDev = new MCvScalar();
             MCvScalar mean = CvInvoke.Mean(originalMat);
-            CvInvoke.MeanStdDev(originalMat, ref mean, ref stdDev);
+            CvInvoke.MeanStdDev(grayMat, ref mean, ref stdDev);
 
             double contrast = stdDev.V0;
 

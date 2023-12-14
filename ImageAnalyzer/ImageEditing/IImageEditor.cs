@@ -15,8 +15,9 @@ namespace ImageWorker.ImageEditing
         public Mat AdjustWidthAndHeight(Mat imageMat, double width, double height);
         public Mat AdjustRoatation(Mat imageMat, int rotation);
 
-        public int GetBrightness(BitmapSource source);
-        public int GetContrast(BitmapSource source);
+        public void EstimateImageCharacteristics(BitmapSource source, out double brightness, out double contrast, out double noise, out double glare);
+        //public int GetBrightness(BitmapSource source);
+        //public int GetContrast(BitmapSource source);
         //public int GetNoise(BitmapSource source);
         //public int GetGlare(BitmapSource source);
         //public int GetDistortion(BitmapSource source);
