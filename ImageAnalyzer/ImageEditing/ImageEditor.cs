@@ -256,21 +256,31 @@ namespace ImageWorker.ImageEditing
 
         #region Estimation
 
-        public void EstimateImageCharacteristics(BitmapSource source, out double brightness, out double contrast, out double noise, out double glare)
+        public void EstimateImageCharacteristics(BitmapSource source, out double brightness, out double noise, out double blur, out double glare)
         {
             var originalMat = _bitmapService.BitmapSourceToMat(source);
 
             Mat grayMat = new Mat();
             CvInvoke.CvtColor(originalMat, grayMat, ColorConversion.Bgr2Gray);
 
-            MCvScalar stdDev = new MCvScalar();
-            MCvScalar mean = new MCvScalar();
+            MCvScalar stdDevOfGrayMat = new MCvScalar();
+            MCvScalar meanOfGrayMat = new MCvScalar();
 
-            CvInvoke.MeanStdDev(grayMat, ref mean, ref stdDev);
+            CvInvoke.MeanStdDev(grayMat, ref meanOfGrayMat, ref stdDevOfGrayMat);
 
-            brightness = Math.Min(Math.Max(mean.V0 / 255 * 100, 0), 100);
-            contrast = Math.Min(Math.Max(stdDev.V0 / 255 * 100, 0), 100);
-            noise = Math.Min(Math.Max(stdDev.V0 / 255 * 100, 0), 100);
+            brightness = Math.Min(Math.Max(meanOfGrayMat.V0 / 255 * 100, 0), 100);
+            noise = Math.Min(Math.Max(stdDevOfGrayMat.V0 / 255 * 100, 0), 100);
+
+            Mat laplacian = new Mat();
+            CvInvoke.Laplacian(grayMat, laplacian, DepthType.Cv64F);
+
+            MCvScalar stdDevOfLaplacian = new MCvScalar();
+            MCvScalar meanOfLaplacian = new MCvScalar();
+
+            CvInvoke.MeanStdDev(laplacian, ref meanOfLaplacian, ref stdDevOfLaplacian);
+
+            double blurScore = Math.Pow(stdDevOfLaplacian.ToArray()[0], 2);
+            blur = Math.Min(Math.Max(blurScore, 0), 100);
 
             Mat glareMask = new Mat();
             CvInvoke.Threshold(grayMat, glareMask, 200, 255, ThresholdType.Binary);

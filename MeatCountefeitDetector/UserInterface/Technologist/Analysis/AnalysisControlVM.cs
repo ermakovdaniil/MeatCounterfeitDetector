@@ -112,25 +112,51 @@ public class AnalysisControlVM : ViewModelBase
         return searchResult;
     }
 
-    private void ChooseAlgorithm(double brightness, double contrast, double noise, double glare)
+    private void ChooseAlgorithm(double brightness, double noise, double blur, double glare)
     {
         switch (SelectedPriority)
         {
-            case Priorities.Accuracy:
-
-
+            case Priorities.Accuracy: // AKAZE SIFT  DAISY
+                if (brightness < 50.0)
+                {
+                    SelectedAlgorithm = Algorithms.AKAZE;
+                }
+                else if (noise > 50.0 || blur > 50.0)
+                {
+                    SelectedAlgorithm = Algorithms.SIFT;
+                }
+                else if (glare > 50.0)
+                {
+                    SelectedAlgorithm = Algorithms.ORB;
+                }
+                else
+                {
+                    SelectedAlgorithm = Algorithms.SIFT;
+                }
                 break;
 
-            case Priorities.Performance:
-
+            case Priorities.Performance: // ORB BRISK FREAK LATCH
+                if (brightness < 50.0 || glare > 50.0)
+                {
+                    SelectedAlgorithm = Algorithms.LATCH; 
+                }
+                else if (noise > 50.0)
+                {
+                    SelectedAlgorithm = Algorithms.BRISK;
+                }
+                else if (blur > 50.0)
+                {
+                    SelectedAlgorithm = Algorithms.ORB;
+                }
+                else
+                {
+                    SelectedAlgorithm = Algorithms.FREAK;
+                }
                 break;
 
             default:
                 break;
         }
-
-
-        // SelectedAlgorithm =  
     }
 
     #endregion
