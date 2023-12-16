@@ -90,6 +90,10 @@ public class AnalysisControlVM : ViewModelBase
 
         _counterfeitClient.CounterfeitGetAsync()
                                  .ContinueWith(c => { CounterfeitVMs = c.Result.ToList().Adapt<ObservableCollection<CounterfeitVM>>(); });
+
+        SelectedAlgorithm = Algorithms.SIFT;
+        SelectedPriority = Priorities.Accuracy;
+        PercentOfSimilarity = 70.0;
     }
 
     private void OnDataReceived(EventImageData eventData)
@@ -116,7 +120,7 @@ public class AnalysisControlVM : ViewModelBase
     {
         switch (SelectedPriority)
         {
-            case Priorities.Accuracy: // AKAZE SIFT  DAISY
+            case Priorities.Accuracy: // AKAZE SIFT DAISY
                 if (brightness < 50.0)
                 {
                     SelectedAlgorithm = Algorithms.AKAZE;
@@ -167,19 +171,34 @@ public class AnalysisControlVM : ViewModelBase
     public ObservableCollection<CounterfeitVM> CounterfeitVMs { get; set; }
     public CounterfeitVM SelectedCounterfeit { get; set; }
 
-    public Algorithms SelectedAlgorithm { get; set; } = Algorithms.SIFT;
+    public Algorithms SelectedAlgorithm { get; set; }
     public List<Algorithms> EnumAlgorithms
     {
         get { return Enum.GetValues(typeof(Algorithms)).Cast<Algorithms>().ToList(); }
     }
 
-    public Priorities SelectedPriority { get; set; } = Priorities.Accuracy;
+    private Priorities _selectedPriority;
+    public Priorities SelectedPriority
+    {
+        get => _selectedPriority;
+        set
+        {
+            _selectedPriority = value;
+
+            if (DisplayedImage is not null)
+            {
+                ChooseAlgorithm(_brightness, _contrast, _noise, _glare);
+            }
+            OnPropertyChanged();
+        }
+    }
     public List<Priorities> EnumPriorities
     {
         get { return Enum.GetValues(typeof(Priorities)).Cast<Priorities>().ToList(); }
     }
 
     public double PercentOfSimilarity { get; set; }
+
     public BitmapSource DisplayedImage { get; set; }
     public string ResultImage { get; set; }
     public string SearchResult { get; set; }

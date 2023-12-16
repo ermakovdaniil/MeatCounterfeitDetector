@@ -271,16 +271,33 @@ namespace ImageWorker.ImageEditing
             brightness = Math.Min(Math.Max(meanOfGrayMat.V0 / 255 * 100, 0), 100);
             noise = Math.Min(Math.Max(stdDevOfGrayMat.V0 / 255 * 100, 0), 100);
 
-            Mat laplacian = new Mat();
-            CvInvoke.Laplacian(grayMat, laplacian, DepthType.Cv64F);
+            //Mat laplacian = new Mat();
+            //CvInvoke.Laplacian(grayMat, laplacian, DepthType.Cv64F);
+            //MCvScalar stdDevOfLaplacian = new MCvScalar();
+            //MCvScalar meanOfLaplacian = new MCvScalar();
+            //CvInvoke.MeanStdDev(laplacian, ref meanOfLaplacian, ref stdDevOfLaplacian);
+            //double blurScore = Math.Pow(stdDevOfLaplacian.ToArray()[0], 2);
 
-            MCvScalar stdDevOfLaplacian = new MCvScalar();
-            MCvScalar meanOfLaplacian = new MCvScalar();
+            Mat blurredImage = new Mat();
+            CvInvoke.GaussianBlur(grayMat, blurredImage, new Size(5, 5), 0);
 
-            CvInvoke.MeanStdDev(laplacian, ref meanOfLaplacian, ref stdDevOfLaplacian);
+            Mat gradientX = new Mat();
+            Mat gradientY = new Mat();
+            CvInvoke.Sobel(blurredImage, gradientX, DepthType.Cv64F, 1, 0);
+            CvInvoke.Sobel(blurredImage, gradientY, DepthType.Cv64F, 0, 1);
 
-            double blurScore = Math.Pow(stdDevOfLaplacian.ToArray()[0], 2);
-            blur = Math.Min(Math.Max(blurScore, 0), 100);
+            Mat magnitude = new Mat();
+            CvInvoke.CartToPolar(gradientX, gradientY, magnitude, new Mat());
+
+            MCvScalar mean = new MCvScalar();
+            MCvScalar stdDev = new MCvScalar();
+            CvInvoke.MeanStdDev(magnitude, ref mean, ref stdDev);
+
+            double blurLevel = mean.ToArray()[0];
+
+            blur = Math.Min(Math.Max(blurLevel, 0), 100);
+
+
 
             Mat glareMask = new Mat();
             CvInvoke.Threshold(grayMat, glareMask, 200, 255, ThresholdType.Binary);
@@ -334,6 +351,68 @@ namespace ImageWorker.ImageEditing
             int mappedContrast = (int)(contrast / 255 * 100);
 
             return mappedContrast;
+        }
+
+        static double GetNoiseLevel(Bitmap grayImage)
+        {
+            int width = grayImage.Width;
+            int height = grayImage.Height;
+
+            // Calculate the histogram of the grayscale image
+            int[] histogram = CalculateHistogram(grayImage);
+
+            // Estimate the noise level based on the histogram
+            double noiseLevel = EstimateNoiseFromHistogram(histogram);
+
+            return noiseLevel;
+        }
+
+        static int[] CalculateHistogram(Bitmap image)
+        {
+            int width = image.Width;
+            int height = image.Height;
+
+            int[] histogram = new int[256];
+
+            for (int y = 0; y < height; y++)
+            {
+                for (int x = 0; x < width; x++)
+                {
+                    Color pixel = image.GetPixel(x, y);
+                    int intensity = pixel.R; // Assuming grayscale, so using the red channel
+                    histogram[intensity]++;
+                }
+            }
+
+            return histogram;
+        }
+
+        static double EstimateNoiseFromHistogram(int[] histogram)
+        {
+            // Find the peak in the histogram
+            int peakIndex = Array.IndexOf(histogram, MaxValue(histogram));
+
+            // Calculate the noise level as the standard deviation of a region around the peak
+            int windowSize = 10;
+            double sum = 0;
+            for (int i = Math.Max(0, peakIndex - windowSize); i <= Math.Min(255, peakIndex + windowSize); i++)
+            {
+                sum += Math.Pow(i - peakIndex, 2) * histogram[i];
+            }
+
+            double noiseLevel = Math.Sqrt(sum / histogram[peakIndex]);
+            return noiseLevel;
+        }
+
+        static int MaxValue(int[] array)
+        {
+            int max = array[0];
+            foreach (int value in array)
+            {
+                if (value > max)
+                    max = value;
+            }
+            return max;
         }
 
         #endregion
