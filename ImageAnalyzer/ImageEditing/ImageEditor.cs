@@ -1,12 +1,15 @@
 ﻿using DataAccess.Models;
 using Emgu.CV;
 using Emgu.CV.CvEnum;
+using Emgu.CV.Reg;
 using Emgu.CV.Structure;
 using ImageWorker.BitmapService;
 using System;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
+using System.Security.Cryptography;
+using System.Windows.Controls;
 using System.Windows.Media.Imaging;
 
 namespace ImageWorker.ImageEditing
@@ -37,57 +40,59 @@ namespace ImageWorker.ImageEditing
         {
             Mat inputImageMat = _bitmapService.BitmapSourceToMat(source);
 
-            // Яркость и контраст
-            if (brightness != _prevBrightness || brightness != _prevContrast)
-            {
-                inputImageMat = AdjustBrightnessAndContrast(inputImageMat, brightness, contrast);
-                _prevBrightness = brightness;
-                _prevContrast = contrast;
-            }
+            inputImageMat = AdjustBrightnessAndContrast(inputImageMat, brightness, contrast);
+            inputImageMat = AdjustNoise(inputImageMat, noise);
+            inputImageMat = AdjustSharpness(inputImageMat, sharpness);
+            inputImageMat = AdjustGlare(inputImageMat, glare);
+            inputImageMat = AdjustDistortion(inputImageMat, focalLengthX, focalLengthY);
+            inputImageMat = AdjustWidthAndHeight(inputImageMat, width, height);
+            inputImageMat = AdjustRoatation(inputImageMat, rotation);
 
-            // Шум
-            if (noise != _prevNoise)
-            {
-                inputImageMat = AdjustNoise(inputImageMat, noise);
-                _prevNoise = noise;
-            }
-
-            // Резкость
-            if (sharpness != _prevSharpness)
-            {
-                inputImageMat = AdjustSharpness(inputImageMat, sharpness);
-                _prevSharpness = sharpness;
-            }
-
-            // Блики
-            if (glare != _prevGlare)
-            {
-                inputImageMat = AdjustGlare(inputImageMat, glare);
-                _prevGlare = glare;
-            }
-
-            // Искажение
-            if (focalLengthX != _prevFocalLengthX || focalLengthY != _prevFocalLengthY)
-            {
-                inputImageMat = AdjustDistortion(inputImageMat, focalLengthX, focalLengthY);
-                _prevFocalLengthX = focalLengthX;
-                _prevFocalLengthY = focalLengthY;
-            }
-
-            // Высота и ширина
-            if (width != _prevWidth || height != _prevHeight)
-            {
-                inputImageMat = AdjustWidthAndHeight(inputImageMat, width, height);
-                _prevWidth = width;
-                _prevHeight = height;
-            }
-
-            // Поврот
-            if (rotation != _prevRotation)
-            {
-                inputImageMat = AdjustRoatation(inputImageMat, rotation);
-                _prevRotation = rotation;
-            }
+            //// Яркость и контраст
+            //if (brightness != _prevBrightness || contrast != _prevContrast)
+            //{
+            //    inputImageMat = AdjustBrightnessAndContrast(inputImageMat, brightness, contrast);
+            //    _prevBrightness = brightness;
+            //    _prevContrast = contrast;
+            //}
+            //// Шум
+            //if (noise != _prevNoise)
+            //{
+            //    inputImageMat = AdjustNoise(inputImageMat, noise);
+            //    _prevNoise = noise;
+            //}
+            //// Резкость
+            //if (sharpness != _prevSharpness)
+            //{
+            //    inputImageMat = AdjustSharpness(inputImageMat, sharpness);
+            //    _prevSharpness = sharpness;
+            //}
+            //// Блики
+            //if (glare != _prevGlare)
+            //{
+            //    inputImageMat = AdjustGlare(inputImageMat, glare);
+            //    _prevGlare = glare;
+            //}
+            //// Искажение
+            //if (focalLengthX != _prevFocalLengthX || focalLengthY != _prevFocalLengthY)
+            //{
+            //    inputImageMat = AdjustDistortion(inputImageMat, focalLengthX, focalLengthY);
+            //    _prevFocalLengthX = focalLengthX;
+            //    _prevFocalLengthY = focalLengthY;
+            //}
+            //// Высота и ширина
+            //if (width != _prevWidth || height != _prevHeight)
+            //{
+            //    inputImageMat = AdjustWidthAndHeight(inputImageMat, width, height);
+            //    _prevWidth = width;
+            //    _prevHeight = height;
+            //}
+            //// Поврот
+            //if (rotation != _prevRotation)
+            //{
+            //    inputImageMat = AdjustRoatation(inputImageMat, rotation);
+            //    _prevRotation = rotation;
+            //}
 
             return inputImageMat.ToBitmapSource();
         }
@@ -198,10 +203,11 @@ namespace ImageWorker.ImageEditing
 
         // https://learnopencv.com/understanding-lens-distortion/
         // https://github.com/kaustubh-sadekar/VirtualCam
+        // https://github.com/kaustubh-sadekar/VirtualCam/blob/master/GUI.py
         public Mat AdjustDistortion(Mat source, int focalLengthX, int focalLengthY)
         {
             Mat result = new Mat();
-
+            
             Mat cameraMatrix = new Mat(3, 3, DepthType.Cv64F, 1);
 
             cameraMatrix.SetValue(0, 0, focalLengthX);
@@ -225,13 +231,18 @@ namespace ImageWorker.ImageEditing
             //double p2 = -3.9472652058529605e-005;
             //double k3 = 3.3943759073230600e-001;
 
-            //distortionCoefficients.SetValue(0, 0, k1);
-            //distortionCoefficients.SetValue(0, 1, k2);
-            //distortionCoefficients.SetValue(0, 2, p1);
-            //distortionCoefficients.SetValue(0, 3, p2);
-            //distortionCoefficients.SetValue(0, 4, k3);
+            double k1 = 9.1041365324307497e-002;
+            double k2 = -4.0485507081497402e-001;
+            double p1 = -3.4409596859645629e-004;
+            double p2 = -3.9472652058529605e-005;
+            double k3 = -3.3943759073230600e-001;
 
-            // Apply distortion correction
+            distortionCoefficients.SetValue(0, 0, k1);
+            distortionCoefficients.SetValue(0, 1, k2);
+            distortionCoefficients.SetValue(0, 2, p1);
+            distortionCoefficients.SetValue(0, 3, p2);
+            distortionCoefficients.SetValue(0, 4, k3);
+            
             CvInvoke.Undistort(source, result, cameraMatrix, distortionCoefficients);
 
             return result;
@@ -369,68 +380,6 @@ namespace ImageWorker.ImageEditing
             int mappedContrast = (int)(contrast / 255 * 100);
 
             return mappedContrast;
-        }
-
-        static double GetNoiseLevel(Bitmap grayImage)
-        {
-            int width = grayImage.Width;
-            int height = grayImage.Height;
-
-            // Calculate the histogram of the grayscale image
-            int[] histogram = CalculateHistogram(grayImage);
-
-            // Estimate the noise level based on the histogram
-            double noiseLevel = EstimateNoiseFromHistogram(histogram);
-
-            return noiseLevel;
-        }
-
-        static int[] CalculateHistogram(Bitmap image)
-        {
-            int width = image.Width;
-            int height = image.Height;
-
-            int[] histogram = new int[256];
-
-            for (int y = 0; y < height; y++)
-            {
-                for (int x = 0; x < width; x++)
-                {
-                    Color pixel = image.GetPixel(x, y);
-                    int intensity = pixel.R; // Assuming grayscale, so using the red channel
-                    histogram[intensity]++;
-                }
-            }
-
-            return histogram;
-        }
-
-        static double EstimateNoiseFromHistogram(int[] histogram)
-        {
-            // Find the peak in the histogram
-            int peakIndex = Array.IndexOf(histogram, MaxValue(histogram));
-
-            // Calculate the noise level as the standard deviation of a region around the peak
-            int windowSize = 10;
-            double sum = 0;
-            for (int i = Math.Max(0, peakIndex - windowSize); i <= Math.Min(255, peakIndex + windowSize); i++)
-            {
-                sum += Math.Pow(i - peakIndex, 2) * histogram[i];
-            }
-
-            double noiseLevel = Math.Sqrt(sum / histogram[peakIndex]);
-            return noiseLevel;
-        }
-
-        static int MaxValue(int[] array)
-        {
-            int max = array[0];
-            foreach (int value in array)
-            {
-                if (value > max)
-                    max = value;
-            }
-            return max;
         }
 
         #endregion

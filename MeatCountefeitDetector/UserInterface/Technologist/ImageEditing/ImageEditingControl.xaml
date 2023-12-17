@@ -186,7 +186,7 @@
 
                                     <Label Grid.Row="0" Grid.Column="0" FontSize="14" Margin="0 20 0 0" Content="Фокусное расстояние Fx" Background="{StaticResource Style3}" VerticalAlignment="Center" HorizontalAlignment="Left" BorderThickness="0" />
 
-                                    <hc:PreviewSlider Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" VerticalAlignment="Center" Margin="10 40 0 30"
+                                    <hc:PreviewSlider Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" VerticalAlignment="Center" Margin="10 40 20 30"
                                                       Value="{Binding FocalLengthX, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Maximum="3000" 
                                                       hc:TipElement.Visibility="Visible" hc:TipElement.Placement="BottomRight" Orientation="Horizontal" >
                                         <hc:PreviewSlider.PreviewContent>
@@ -196,7 +196,7 @@
 
                                     <Label Grid.Row="2" Grid.Column="0" FontSize="14" Content="Фокусное расстояние Fy" Background="{StaticResource Style3}" VerticalAlignment="Center" HorizontalAlignment="Left" BorderThickness="0" />
 
-                                    <hc:PreviewSlider Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2"  VerticalAlignment="Center" Margin="10 40 0 30"
+                                    <hc:PreviewSlider Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2"  VerticalAlignment="Center" Margin="10 40 20 30"
                                                       Value="{Binding FocalLengthY, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Maximum="3000" 
                                                       hc:TipElement.Visibility="Visible" hc:TipElement.Placement="BottomRight" Orientation="Horizontal" >
                                         <hc:PreviewSlider.PreviewContent>
