@@ -1,9 +1,12 @@
-﻿using Emgu.CV;
+﻿using DataAccess.Models;
+using Emgu.CV;
 using Emgu.CV.CvEnum;
 using Emgu.CV.Structure;
 using ImageWorker.BitmapService;
 using System;
 using System.Drawing;
+using System.Drawing.Drawing2D;
+using System.Drawing.Imaging;
 using System.Windows.Media.Imaging;
 
 namespace ImageWorker.ImageEditing
@@ -242,14 +245,29 @@ namespace ImageWorker.ImageEditing
 
         public Mat AdjustRoatation(Mat source, int rotation)
         {
-            PointF center = new PointF(source.Width / 2.0f, source.Height / 2.0f);
+            //int size = source.Width < source.Height ? source.Height : source.Width;
 
-            var rotationMatrix = new Mat();
-            CvInvoke.GetRotationMatrix2D(center, rotation, 1.0, rotationMatrix);
+            //PointF center = new PointF(source.Width / 2.0f, source.Height / 2.0f);
+            //var rotationMatrix = new Mat();
+            //CvInvoke.GetRotationMatrix2D(center, rotation, 1.0, rotationMatrix);
 
-            CvInvoke.WarpAffine(source, source, rotationMatrix, source.Size, Inter.Linear, Warp.Default, BorderType.Constant, new MCvScalar(255, 255, 255));
+            //CvInvoke.WarpAffine(source, source, rotationMatrix, new Size(size, size), Inter.Linear, Warp.Default, BorderType.Constant, new MCvScalar(255, 255, 255));
 
-            return source;
+            int maxDim = (int)Math.Ceiling(Math.Sqrt(source.Width * source.Width + source.Height * source.Height));
+            Bitmap rotatedImage = new Bitmap(maxDim, maxDim, PixelFormat.Format32bppArgb);
+
+            rotatedImage.MakeTransparent();
+
+            using (Graphics g = Graphics.FromImage(rotatedImage))
+            {
+                g.TranslateTransform(rotatedImage.Width / 2, rotatedImage.Height / 2);
+                g.RotateTransform(rotation);
+                g.TranslateTransform(-source.Width / 2, -source.Height / 2);
+                g.InterpolationMode = InterpolationMode.HighQualityBicubic;
+                g.DrawImage(source.ToBitmap(), new Point(0, 0));
+            }
+         
+            return rotatedImage.ToMat();
         }
 
         #endregion
