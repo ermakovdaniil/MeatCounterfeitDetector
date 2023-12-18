@@ -1,6 +1,5 @@
 ﻿<UserControl x:Class="MeatCounterfeitDetector.UserInterface.Technologist.Edit.ImageEditingControl" 
              xmlns:hc="https://handyorg.github.io/handycontrol" 
-             xmlns:bi="https://github.com/moh3ngolshani/BusyIndicator"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
@@ -27,13 +26,6 @@
                 <TextBlock Text="Режим сравнения" FontSize="16" />
             </CheckBox>
 
-            <!--https://github.com/Moh3nGolshani/BusyIndicator-->
-            <bi:BusyMask IsBusy="False" 
-                         IndicatorType="Dashes" 
-                         BusyContent="Please wait..." 
-                         BusyContentMargin="0,20,0,0" 
-                         IsBusyAtStartup="False" />
-
             <Border Grid.Row="1" BorderThickness="1" Margin="10" BorderBrush="{StaticResource Style4}" Background="{StaticResource Style3}">
                 <Image Source="{Binding ResultImage, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
             </Border>
@@ -58,7 +50,12 @@
                 </hc:CompareSlider>
             </Border>
 
-
+            <hc:CircleProgressBar Grid.Row="1" Width="100" Height="100" ArcThickness="5" 
+                                  ShowText="False" IsIndeterminate="True"
+                                  Visibility="{Binding ProgressVisibility, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                  Foreground="{StaticResource Style4}" 
+                                  Style="{StaticResource ProgressBarCircleBaseStyle}"/>
+            
         </Grid>
 
         <Expander Grid.Column="1" ExpandDirection="Left" Background="{StaticResource Style1}" IsExpanded="True">

@@ -40,6 +40,9 @@ public class ImageEditingControlVM : ViewModelBase
         _eventAggregator = eventAggregator;
         _bitmapService = bitmapService;
 
+        CompareVisibility = Visibility.Hidden;
+        ProgressVisibility = Visibility.Hidden;
+
         Brightness = 50;
         Contrast = 50;
         Noise = 0;
@@ -222,7 +225,8 @@ public class ImageEditingControlVM : ViewModelBase
             }
         }
     }
-    public Visibility CompareVisibility { get; set; } = Visibility.Hidden;
+    public Visibility CompareVisibility { get; set; }
+    public Visibility ProgressVisibility { get; set; } 
 
     #endregion
 
@@ -236,8 +240,6 @@ public class ImageEditingControlVM : ViewModelBase
         {
             return _adjustFilter ??= new RelayCommand(_ =>
             {
-
-
                 var state = new { brightness = _brightness,
                                   contrast = _contrast, 
                                   noise = _noise,
@@ -248,7 +250,7 @@ public class ImageEditingControlVM : ViewModelBase
                                   width = _width,
                                   height = _height, 
                                   rotation = _rotation };
-
+                
                 Task.Delay(200).ContinueWith(_ =>
                 {
                     if (state.brightness != _brightness || 
@@ -264,14 +266,14 @@ public class ImageEditingControlVM : ViewModelBase
                     {
                         return;
                     }
+                    ProgressVisibility = Visibility.Visible;
                     Application.Current.Dispatcher.Invoke(async () =>
                     {
                         ResultImage = _editor.AdjustFilter(OriginalImage, Brightness, Contrast, Noise, Sharpness, Glare, FocalLengthX, FocalLengthY, Width, Height, Rotation);
                     });
+                    ProgressVisibility = Visibility.Hidden;
                 });
-
-
-
+                
             });
         }
     }

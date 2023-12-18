@@ -274,7 +274,7 @@ public class AnalysisControlVM : ViewModelBase
                         {
                             counterfeitImagesDTOs = (await _counterfeitImageClient.GetAllByCounterfeitIdAsync(SelectedCounterfeit.Id)).ToList();
                         }
-
+                        // https://dottutorials.net/wpf-loading-animation-in-net-core-3/
                         AnalysisResult = _analyzer.RunAnalysis(DisplayedImage, counterfeitImagesDTOs, PercentOfSimilarity, _userService.CurrentUserId, SelectedAlgorithm, _fileName, _pathToInitialImage);
 
                         SearchResult = CreateSearchResult(AnalysisResult);
