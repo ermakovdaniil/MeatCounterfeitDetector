@@ -11,6 +11,7 @@ using System.Drawing.Imaging;
 using System.Security.Cryptography;
 using System.Windows.Controls;
 using System.Windows.Media.Imaging;
+using ZedGraph;
 
 namespace ImageWorker.ImageEditing
 {
@@ -206,8 +207,11 @@ namespace ImageWorker.ImageEditing
         // https://github.com/kaustubh-sadekar/VirtualCam/blob/master/GUI.py
         public Mat AdjustDistortion(Mat source, int focalLengthX, int focalLengthY)
         {
+            focalLengthX *= 10;
+            focalLengthY *= 10;
+
             Mat result = new Mat();
-            
+
             Mat cameraMatrix = new Mat(3, 3, DepthType.Cv64F, 1);
 
             cameraMatrix.SetValue(0, 0, focalLengthX);
@@ -242,8 +246,19 @@ namespace ImageWorker.ImageEditing
             distortionCoefficients.SetValue(0, 2, p1);
             distortionCoefficients.SetValue(0, 3, p2);
             distortionCoefficients.SetValue(0, 4, k3);
-            
+
             CvInvoke.Undistort(source, result, cameraMatrix, distortionCoefficients);
+
+            Mat mask = new Mat();
+            CvInvoke.CvtColor(result, mask, ColorConversion.Bgr2Gray);
+            CvInvoke.Threshold(mask, mask, 1, 255, ThresholdType.Binary);
+
+            Mat resultWithAlpha = new Mat(result.Size, DepthType.Cv8U, 4);
+
+            CvInvoke.CvtColor(result, resultWithAlpha, ColorConversion.Bgr2Bgra);
+
+            MCvScalar transparentScalar = new MCvScalar(0, 0, 0, 0);
+            resultWithAlpha.SetTo(transparentScalar, mask);
 
             return result;
         }
@@ -264,8 +279,13 @@ namespace ImageWorker.ImageEditing
 
             //CvInvoke.WarpAffine(source, source, rotationMatrix, new Size(size, size), Inter.Linear, Warp.Default, BorderType.Constant, new MCvScalar(255, 255, 255));
 
-            int maxDim = (int)Math.Ceiling(Math.Sqrt(source.Width * source.Width + source.Height * source.Height));
-            Bitmap rotatedImage = new Bitmap(maxDim, maxDim, PixelFormat.Format32bppArgb);
+            var rotatedImage = new Bitmap(source.Width, source.Height, PixelFormat.Format32bppArgb);
+
+            if (rotation != 0 && rotation != 360)
+            {
+                int maxDim = (int)Math.Ceiling(Math.Sqrt(source.Width * source.Width + source.Height * source.Height));
+                rotatedImage = new Bitmap(maxDim, maxDim, PixelFormat.Format32bppArgb);
+            }
 
             rotatedImage.MakeTransparent();
 

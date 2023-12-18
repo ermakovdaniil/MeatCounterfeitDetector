@@ -114,7 +114,7 @@
                 <Image Source="{Binding ResultImage, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Stretch="Fill"/>
             </Border>
 
-            <!--<hc:CircleProgressBar Grid.Column="1" Value="{Binding Progress}" ArcThickness="10" FontSize="30" Margin="16" Minimum="0" Maximum="100"/>-->
+            <hc:CircleProgressBar Grid.Column="1" Value="{Binding Progress}" ArcThickness="10" FontSize="30" Margin="16" Minimum="0" Maximum="100"/>
 
         </Grid>
 

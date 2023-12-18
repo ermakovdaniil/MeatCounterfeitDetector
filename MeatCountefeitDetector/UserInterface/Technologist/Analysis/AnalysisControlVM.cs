@@ -26,6 +26,7 @@ using MeatCounterfeitDetector.Utils.Dialog;
 using ImageWorker.Enums;
 using MeatCountefeitDetector.Utils.ImageLoader;
 using ImageWorker.ImageEditing;
+using System.Threading.Tasks;
 
 namespace MeatCounterfeitDetector.UserInterface.Technologist.Analysis;
 
@@ -88,6 +89,8 @@ public class AnalysisControlVM : ViewModelBase
         _imageLoader = imageLoader;
         _eventAggregator.Subscribe<EventImageData>(OnDataReceived);
 
+        _progressReporter.ProgressUpdated += OnProgressUpdated;
+
         _counterfeitClient.CounterfeitGetAsync()
                                  .ContinueWith(c => { CounterfeitVMs = c.Result.ToList().Adapt<ObservableCollection<CounterfeitVM>>(); });
 
@@ -104,6 +107,11 @@ public class AnalysisControlVM : ViewModelBase
     public void PublishData()
     {
         _eventAggregator.Publish(new Event());
+    }
+
+    private void OnProgressUpdated(object sender, ProgressEventArgs e)
+    {
+        Progress = e.Progress;
     }
 
     private string CreateSearchResult(CreateResultDTO AnalysisResult)

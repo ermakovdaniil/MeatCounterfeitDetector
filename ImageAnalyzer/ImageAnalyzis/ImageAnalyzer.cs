@@ -123,8 +123,9 @@ public class ImageAnalyzer : FeatureMatchingHelper, IImageAnalyzer
                 analysisResult = "Фальсификат не обнаружен";
             }
 
-            _progressReporter.ReportProgress(i / counterfeitImagesDTOs.Count);
+            _progressReporter.ReportProgress((int)((i + 1) * 100.0 / counterfeitImagesDTOs.Count));
         }
+
         matchTime = Math.Round(matchTime, 2);
         var result = CreateResult(originalImagePath, resultImagePath, analysisResult, matchTime, score, userId);
         _progressReporter.ReportProgress(100);

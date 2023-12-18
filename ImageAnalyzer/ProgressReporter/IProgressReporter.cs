@@ -1,7 +1,11 @@
-﻿namespace ImageWorker.ProgressReporter
+﻿using System;
+
+namespace ImageWorker.ProgressReporter
 {
     public interface IProgressReporter
     {
-        void ReportProgress(int progress);
+        event ProgressEventHandler ProgressUpdated;
+        void ReportProgress(int newProgress);
+        int GetProgress();
     }
 }

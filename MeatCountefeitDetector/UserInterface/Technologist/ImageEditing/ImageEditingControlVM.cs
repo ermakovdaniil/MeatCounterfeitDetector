@@ -45,8 +45,8 @@ public class ImageEditingControlVM : ViewModelBase
         Noise = 0;
         Sharpness = 50;
         Glare = 0;
-        FocalLengthX = 500;
-        FocalLengthY = 500;
+        FocalLengthX = 300;
+        FocalLengthY = 200;
         Width = 1;
         Height = 1;
         Rotation = 0;
@@ -236,6 +236,8 @@ public class ImageEditingControlVM : ViewModelBase
         {
             return _adjustFilter ??= new RelayCommand(_ =>
             {
+
+
                 var state = new { brightness = _brightness,
                                   contrast = _contrast, 
                                   noise = _noise,
@@ -267,6 +269,9 @@ public class ImageEditingControlVM : ViewModelBase
                         ResultImage = _editor.AdjustFilter(OriginalImage, Brightness, Contrast, Noise, Sharpness, Glare, FocalLengthX, FocalLengthY, Width, Height, Rotation);
                     });
                 });
+
+
+
             });
         }
     }
@@ -291,8 +296,8 @@ public class ImageEditingControlVM : ViewModelBase
                     Noise = 0;
                     Sharpness = 50;
                     Glare = 0;
-                    FocalLengthX = 500;
-                    FocalLengthY = 500;
+                    FocalLengthX = 300;
+                    FocalLengthY = 200;
                     Width = 1;
                     Height = 1;
                     Rotation = 0;
