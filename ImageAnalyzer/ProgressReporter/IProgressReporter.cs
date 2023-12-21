@@ -4,8 +4,7 @@ namespace ImageWorker.ProgressReporter
 {
     public interface IProgressReporter
     {
-        event ProgressEventHandler ProgressUpdated;
-        void ReportProgress(int newProgress);
-        int GetProgress();
+        public void Subscribe<TEvent>(Action<TEvent> action);
+        public void Publish<TEvent>(TEvent eventToPublish);
     }
 }

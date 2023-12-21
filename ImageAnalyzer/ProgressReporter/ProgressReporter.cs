@@ -1,24 +1,32 @@
 ﻿using System;
-using System.Diagnostics;
+using System.Collections.Generic;
 
 namespace ImageWorker.ProgressReporter
 {
-    public delegate void ProgressEventHandler(object sender, ProgressEventArgs e);
-
     public class ProgressReporter : IProgressReporter
     {
-        private int _progress;
+        private Dictionary<Type, List<Action<object>>> _subscribers = new Dictionary<Type, List<Action<object>>>();
 
-        public event ProgressEventHandler ProgressUpdated;
-
-        public void ReportProgress(int newProgress)
+        public void Subscribe<TEvent>(Action<TEvent> action)
         {
-            ProgressUpdated?.Invoke(this, new ProgressEventArgs { Progress = newProgress });
+            var eventType = typeof(TEvent);
+            if (!_subscribers.ContainsKey(eventType))
+            {
+                _subscribers[eventType] = new List<Action<object>>();
+            }
+            _subscribers[eventType].Add(obj => action((TEvent)obj));
         }
 
-        public int GetProgress()
+        public void Publish<TEvent>(TEvent eventToPublish)
         {
-            return _progress;
+            var eventType = typeof(TEvent);
+            if (_subscribers.ContainsKey(eventType))
+            {
+                foreach (var subscriber in _subscribers[eventType])
+                {
+                    subscriber(eventToPublish);
+                }
+            }
         }
     }
 }

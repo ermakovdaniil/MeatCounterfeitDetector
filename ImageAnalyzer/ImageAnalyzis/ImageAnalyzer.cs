@@ -14,9 +14,10 @@ using Emgu.CV.Features2D;
 using Emgu.CV.Structure;
 using Emgu.CV.Util;
 using System.Diagnostics;
-using System.Drawing;
 using Autofac.Features.Indexed;
+using System.Threading.Tasks;
 using System.Windows;
+using DataAccess.Models;
 
 namespace ImageWorker.ImageAnalyzis;
 
@@ -44,7 +45,12 @@ public class ImageAnalyzer : FeatureMatchingHelper, IImageAnalyzer
         _algorithms = algorithms;
     }
 
-    public CreateResultDTO RunAnalysis(BitmapSource originalImage, List<GetCounterfeitImageDTO> counterfeitImagesDTOs,
+    public void PublishData(int progress)
+    {
+        _progressReporter.Publish(new ProgressData(progress));
+    }
+
+    public async Task<CreateResultDTO> RunAnalysisAsync(BitmapSource originalImage, List<GetCounterfeitImageDTO> counterfeitImagesDTOs,
                                        double percentOfSimilarity, Guid userId, Algorithms algorithm, string fileName, string pathToInitialImage)
     {
         string analysisResult = "";
@@ -123,12 +129,17 @@ public class ImageAnalyzer : FeatureMatchingHelper, IImageAnalyzer
                 analysisResult = "Фальсификат не обнаружен";
             }
 
-            _progressReporter.ReportProgress((int)((i + 1) * 100.0 / counterfeitImagesDTOs.Count));
+            await Application.Current.Dispatcher.Invoke(async () =>
+            {
+                PublishData((int)((i + 1) * 100.0 / counterfeitImagesDTOs.Count));
+            });
+
+            //_progressReporter.ReportProgress((int)((i + 1) * 100.0 / counterfeitImagesDTOs.Count));
         }
 
         matchTime = Math.Round(matchTime, 2);
         var result = CreateResult(originalImagePath, resultImagePath, analysisResult, matchTime, score, userId);
-        _progressReporter.ReportProgress(100);
+        PublishData(100);
         return result;
     }
 

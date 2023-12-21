@@ -1,17 +1,12 @@
-﻿using DataAccess.Models;
-using Emgu.CV;
+﻿using Emgu.CV;
 using Emgu.CV.CvEnum;
-using Emgu.CV.Reg;
 using Emgu.CV.Structure;
 using ImageWorker.BitmapService;
 using System;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
-using System.Security.Cryptography;
-using System.Windows.Controls;
 using System.Windows.Media.Imaging;
-using ZedGraph;
 
 namespace ImageWorker.ImageEditing
 {

@@ -89,7 +89,7 @@ public class AnalysisControlVM : ViewModelBase
         _imageLoader = imageLoader;
         _eventAggregator.Subscribe<EventImageData>(OnDataReceived);
 
-        _progressReporter.ProgressUpdated += OnProgressUpdated;
+        _progressReporter.Subscribe<ProgressData>(OnProgressReceived);
 
         _counterfeitClient.CounterfeitGetAsync()
                                  .ContinueWith(c => { CounterfeitVMs = c.Result.ToList().Adapt<ObservableCollection<CounterfeitVM>>(); });
@@ -109,9 +109,9 @@ public class AnalysisControlVM : ViewModelBase
         _eventAggregator.Publish(new Event());
     }
 
-    private void OnProgressUpdated(object sender, ProgressEventArgs e)
+    private void OnProgressReceived(ProgressData progressData)
     {
-        Progress = e.Progress;
+        Progress = progressData.Progress;
     }
 
     private string CreateSearchResult(CreateResultDTO AnalysisResult)
@@ -275,7 +275,11 @@ public class AnalysisControlVM : ViewModelBase
                             counterfeitImagesDTOs = (await _counterfeitImageClient.GetAllByCounterfeitIdAsync(SelectedCounterfeit.Id)).ToList();
                         }
                         // https://dottutorials.net/wpf-loading-animation-in-net-core-3/
-                        AnalysisResult = _analyzer.RunAnalysis(DisplayedImage, counterfeitImagesDTOs, PercentOfSimilarity, _userService.CurrentUserId, SelectedAlgorithm, _fileName, _pathToInitialImage);
+
+                        //await Application.Current.Dispatcher.Invoke(async () =>
+                        //{
+                            AnalysisResult = (await _analyzer.RunAnalysisAsync(DisplayedImage, counterfeitImagesDTOs, PercentOfSimilarity, _userService.CurrentUserId, SelectedAlgorithm, _fileName, _pathToInitialImage));
+                        //});
 
                         SearchResult = CreateSearchResult(AnalysisResult);
 
